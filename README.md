@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project description
+
+It is a platform that allows to inform employees of the Company about offers/discounts available to them, provides employees with ability to efficiently use those offers/discounts and provides management with ability to collect statistics about employees preferences and platform usage.
+
 ## Available Scripts
 
 In the project directory, you can run:
