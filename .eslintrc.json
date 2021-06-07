@@ -4,8 +4,9 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react" // react/recommended
-        // "airbnb"
+        "airbnb/hooks",
+        //"plugin:react/hooks", // react/recommended
+        "airbnb/base"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -19,6 +20,7 @@
     ],
     "rules": {
     "no-console": "off",
+    "linebreak-style": ["error", "windows"],
     "no-extra-parens": ["error", "all"],
     "array-callback-return": "error",
     "curly": "error",
