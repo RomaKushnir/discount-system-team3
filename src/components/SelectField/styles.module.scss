@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+.container {
+  width: 200px;
+}
+.label {
+  display: flex;
+  justify-content: flex-start;
+  color: $color--primary-black;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
