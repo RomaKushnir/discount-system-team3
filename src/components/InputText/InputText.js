@@ -2,16 +2,17 @@ import styles from './InputText.module.scss';
 
 export default function InputText(
   {
-    label,
     className = '',
+    onInput,
     placeholder,
-    onInput
+    label
   }
 ) {
   return (
-    <div className={ `${styles['input-wrap']} ${className}` }>
+    <div className={ styles.wrap }>
       { label != null && <label>{ label }</label> }
       <input
+        className={ `${styles.input} ${styles[className]}` }
         type='text'
         placeholder={ placeholder }
         onInput={ onInput }

@@ -1,15 +1,18 @@
-.input-wrap {
+.wrap {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   label {
     font-size: 16px;
   }
-  input {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #C4C4C4;
-    border-radius: 10px;
-    background-color: chartreuse;
-  }
+}
+.input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #C4C4C4;
+  border-radius: 10px;
+}
+
+.input-search {
+  width: 200px;
 }
