@@ -1,6 +1,7 @@
 module.exports = {
   env: {
-    browser: true, es2021: true
+    browser: true,
+    es2021: true
   },
   extends: [
     'airbnb/hooks', // "plugin:react/hooks", // react/recommended
@@ -53,6 +54,8 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'no-var': 'warn',
     'no-unused-vars': ['error', { vars: 'local' }],
-    'no-magic-numbers': ['warn', { ignore: [0, 1] }]
+    'no-magic-numbers': ['warn', { ignore: [0, 1] }],
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error'
   }
 };
