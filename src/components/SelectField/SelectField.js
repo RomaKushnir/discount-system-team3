@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import './SelectField.styles.scss';
+import style from './SelectField.module.scss';
 import customStyles from './SelectField.styles';
 
 function SelectField({
@@ -17,8 +17,8 @@ function SelectField({
   isMulti = false
 }) {
   return (
-    <div className = "container-select-field">
-      {label && <label className = "label-select-field">{label}</label>}
+    <div className = {style.container}>
+      {label != null && <label className = {style.label}>{label}</label>}
       <Select
         styles = {customStyles}
         className = {className}

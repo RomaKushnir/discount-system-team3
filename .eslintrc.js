@@ -26,7 +26,7 @@ module.exports = {
     'array-callback-return': 'error',
     curly: 'error',
     'default-case': 'warn',
-    eqeqeq: ['error', 'always'],
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'guard-for-in': 'warn',
     'no-caller': 'error',
     'no-empty-function': 'error',

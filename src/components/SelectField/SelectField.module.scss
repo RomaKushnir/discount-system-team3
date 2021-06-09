@@ -1,8 +1,9 @@
 @import '../../variables.scss';
-.container-select-field {
+
+.container {
   width: 200px;
 }
-.label-select-field {
+.label {
   display: flex;
   justify-content: flex-start;
   color: $color--primary-black;
