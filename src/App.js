@@ -1,4 +1,10 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import './App.scss';
 import Routes from './routes';
 import Login from './pages/Login';
@@ -7,11 +13,14 @@ import Vendor from './pages/Vendor';
 import Vendors from './pages/Vendors';
 
 function App() {
+  const [isLoggedIn] = useState(false);
+
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route exact path="/">
+          <Redirect exact from = '/' to = { isLoggedIn ? Routes.DISCOUNTS : Routes.LOGIN } />
+          <Route path = {Routes.LOGIN}>
             <Login />
           </Route>
           <Route path = {Routes.DISCOUNTS}>
