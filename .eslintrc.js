@@ -5,7 +5,8 @@ module.exports = {
   },
   extends: [
     'airbnb/hooks', // "plugin:react/hooks", // react/recommended
-    'airbnb/base'
+    'airbnb/base',
+    'plugin:jest/recommended'
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -15,7 +16,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react'
+    'react',
+    'jest'
   ],
   rules: {
     'no-console': 'off',
@@ -56,6 +58,11 @@ module.exports = {
     'no-unused-vars': ['error', { vars: 'local' }],
     'no-magic-numbers': ['warn', { ignore: [0, 1] }],
     'react/jsx-uses-react': 'error',
-    'react/jsx-uses-vars': 'error'
+    'react/jsx-uses-vars': 'error',
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error'
   }
 };
