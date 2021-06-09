@@ -1,10 +1,12 @@
 module.exports = {
   env: {
-    browser: true, es2021: true
+    browser: true,
+    es2021: true
   },
   extends: [
     'airbnb/hooks', // "plugin:react/hooks", // react/recommended
-    'airbnb/base'
+    'airbnb/base',
+    'plugin:jest/recommended'
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -14,7 +16,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react'
+    'react',
+    'jest'
   ],
   rules: {
     'no-console': 'off',
@@ -23,7 +26,7 @@ module.exports = {
     'array-callback-return': 'error',
     curly: 'error',
     'default-case': 'warn',
-    eqeqeq: ['error', 'always'],
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'guard-for-in': 'warn',
     'no-caller': 'error',
     'no-empty-function': 'error',
@@ -53,6 +56,13 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'no-var': 'warn',
     'no-unused-vars': ['error', { vars: 'local' }],
-    'no-magic-numbers': ['warn', { ignore: [0, 1] }]
+    'no-magic-numbers': ['warn', { ignore: [0, 1] }],
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error'
   }
 };
