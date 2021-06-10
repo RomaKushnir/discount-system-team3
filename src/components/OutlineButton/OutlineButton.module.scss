@@ -1,0 +1,25 @@
+$gray: #a0a0a0;
+$color--primary-white: #FFFFFF;
+$color--blue-light: #40BFEF;
+$color--blue-dark: #0082CA;
+$color--gray: #C0C0C0;
+.btn {
+  background-color: $color--blue-light;
+  color: $color--primary-white;
+  border-radius: .3rem;
+  border: none;
+  padding: .8rem 2rem;
+  transition: all .5s;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.btn_bordered {
+  background-color: transparent;
+  border: 1px solid $gray;
+  color: $gray;
+  &:hover {
+    background-color: $gray;
+    color: #fff;
+    cursor: pointer;
+  }
+}
