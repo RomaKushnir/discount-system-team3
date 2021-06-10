@@ -1,0 +1,42 @@
+.overlay{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(51,51,51,0.8);
+
+  .contentContainer {
+    background-color: white;
+    border-radius: 7px;
+    margin: 5% auto;
+    padding: 10px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    width: fit-content;
+  }
+
+  .closeButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+
+      .closeButton {
+        border-radius: 5px;
+        position: fixed;
+        z-index: 1;
+
+          &:hover {
+            background-color: rgba(51,51,51,0.5);
+          }
+      }
+  }
+
+}
+
+.showModal {
+  display: block;
+}
