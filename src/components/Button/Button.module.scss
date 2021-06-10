@@ -11,6 +11,7 @@ $color--gray: #C0C0C0;
   transition: all .5s;
   font-size: 1rem;
   text-transform: uppercase;
+  margin: 0 10px;
   &:hover {
     background-color: $color--blue-dark;
     cursor: pointer;
