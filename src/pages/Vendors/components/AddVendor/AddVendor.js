@@ -6,6 +6,10 @@ import SelectField from '../../../../components/SelectField';
 import countriesList from '../../../../mockData/countriesList';
 import citiesList from '../../../../mockData/citiesList';
 
+const inputStyles = {
+  width: '300px'
+};
+
 function AddVendorModal() {
   const [title, setTitle] = useState('');
   const [country, setCountry] = useState(null);
@@ -51,21 +55,21 @@ function AddVendorModal() {
         <TextInput
           onValueChange = {onNameChange}
           placeholder = "Company name"
-          style = { { width: '300px' } }
+          style = {inputStyles}
           name = "companyName"
           type = "text"
         />
         <TextInput
           onValueChange = {onEmailChange}
           placeholder = "Email"
-          style = { { width: '300px' } }
+          style = {inputStyles}
           name = "email"
           type="email"
         />
         <TextInput
           onValueChange = {onImageUrlChange}
           placeholder = "Image URL"
-          style = { { width: '300px' } }
+          style = {inputStyles}
           name = "imageUrl"
           type = "text"
         />
