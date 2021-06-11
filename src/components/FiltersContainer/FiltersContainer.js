@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
+import TextInput from '../TextInput';
 
 function FiltersContainer({
   onApplyButtonClick,
@@ -48,13 +49,13 @@ function FiltersContainer({
           <SelectField
             initialValue = {countriesList[0]}
             options = {countriesList}
-            label = 'Country'
+            label = "Country"
             onChange = {onChangeCountries}
           />
           <SelectField
             initialValue = {citiesList[0]}
             options = {citiesList}
-            label = 'City'
+            label = "City"
             onChange = {onChangeCities}
           />
         </div>
@@ -62,23 +63,28 @@ function FiltersContainer({
             <SelectField
               initialValue = {categoriesList[0]}
               options = {categoriesList}
-              label = 'Category'
+              label = "Category"
               onChange = {onChangeCategories}
             />
             <SelectField
               initialValue = {vendorsList[0]}
               options = {vendorsList}
-              label = 'Vendor'
+              label = "Vendor"
               onChange = {onChangeVendor}
             />
         </div>
       </div>
       <div className = {styles.inputContainer}>
-        <input onChange = {onChangeInput}/>
+        <TextInput
+          onValueChange = {onChangeInput}
+          label = "Search"
+          name = "Search"
+          placeholder = "Search..."
+        />
       </div>
       <div className = {styles.buttonContainer}>
       <Button
-        btnText = 'Apply'
+        btnText = "Apply"
         onClick = {() => onApplyButtonClick(
           {
             searchWord,
