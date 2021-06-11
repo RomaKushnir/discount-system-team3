@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styles from './FiltersContainer.module.scss';
-import Button from '../Button';
-import SelectField from '../SelectField';
+import React, { useState } from "react";
+import styles from "./FiltersContainer.module.scss";
+import Button from "../Button";
+import SelectField from "../SelectField";
 
 function FiltersContainer({
   onApplyButtonClick,
@@ -10,7 +10,7 @@ function FiltersContainer({
   categoriesList,
   vendorsList
 }) {
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState("");
   const [countries, setCountries] = useState(countriesList[0]);
   const [cities, setCities] = useState(citiesList[0]);
   const [categories, setCategories] = useState(categoriesList[0]);
@@ -48,13 +48,13 @@ function FiltersContainer({
           <SelectField
             initialValue = {countriesList[0]}
             options = {countriesList}
-            label = 'Country'
+            label = "Country"
             onChange = {onChangeCountries}
           />
           <SelectField
             initialValue = {citiesList[0]}
             options = {citiesList}
-            label = 'City'
+            label = "City"
             onChange = {onChangeCities}
           />
         </div>
@@ -62,13 +62,13 @@ function FiltersContainer({
             <SelectField
               initialValue = {categoriesList[0]}
               options = {categoriesList}
-              label = 'Category'
+              label = "Category"
               onChange = {onChangeCategories}
             />
             <SelectField
               initialValue = {vendorsList[0]}
               options = {vendorsList}
-              label = 'Vendor'
+              label = "Vendor"
               onChange = {onChangeVendor}
             />
         </div>
@@ -78,7 +78,7 @@ function FiltersContainer({
       </div>
       <div className = {styles.buttonContainer}>
       <Button
-        btnText = 'Apply'
+        btnText = "Apply"
         onClick = {() => onApplyButtonClick(
           {
             searchWord,

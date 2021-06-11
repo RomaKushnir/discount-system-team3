@@ -1,7 +1,4 @@
-$color--primary-white: #FFFFFF;
-$color--blue-light: #40BFEF;
-$color--blue-dark: #0082CA;
-$color--gray: #C0C0C0;
+@import '../../variables.scss';
 .btn {
   background-color: $color--blue-light;
   color: $color--primary-white;
