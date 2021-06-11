@@ -46,32 +46,40 @@ function FiltersContainer({
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
         <div className = {styles.smallColumn}>
-          <SelectField
-            initialValue = {countriesList[0]}
-            options = {countriesList}
-            label = "Country"
-            onChange = {onChangeCountries}
-          />
-          <SelectField
-            initialValue = {citiesList[0]}
-            options = {citiesList}
-            label = "City"
-            onChange = {onChangeCities}
-          />
+          <div className = {styles.filter}>
+            <SelectField
+              initialValue = {countriesList[0]}
+              options = {countriesList}
+              label = "Country"
+              onChange = {onChangeCountries}
+            />
+            </div>
+            <div className = {styles.filter}>
+              <SelectField
+                initialValue = {citiesList[0]}
+                options = {citiesList}
+                label = "City"
+                onChange = {onChangeCities}
+              />
+            </div>
         </div>
         <div className = {styles.smallColumn}>
+          <div className = {styles.filter}>
             <SelectField
               initialValue = {categoriesList[0]}
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
             />
+          </div>
+          <div className = {styles.filter}>
             <SelectField
               initialValue = {vendorsList[0]}
               options = {vendorsList}
               label = "Vendor"
               onChange = {onChangeVendor}
             />
+          </div>
         </div>
       </div>
       <div className = {styles.inputContainer}>
@@ -80,6 +88,7 @@ function FiltersContainer({
           label = "Search"
           name = "Search"
           placeholder = "Search..."
+          type = "text"
         />
       </div>
       <div className = {styles.buttonContainer}>

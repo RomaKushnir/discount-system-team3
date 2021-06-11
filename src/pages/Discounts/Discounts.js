@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
-import {
-  countriesList,
-  citiesList,
-  categoriesList,
-  vendorsList
-} from '../../mockData';
+import countriesList from '../../mockData/countriesList';
+import citiesList from '../../mockData/citiesList';
+import categoriesList from '../../mockData/categoriesList';
+import vendorsList from '../../mockData/vendorsList';
 
 function Discounts() {
   const onApplyButtonClick = (parameters) => {
