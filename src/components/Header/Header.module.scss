@@ -12,19 +12,20 @@
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1rem;
-  &_item {
+  text-align: center;
+  &Item {
     display: block;
     font-size: 2em;
   }
 }
 .nav {
-  &_list {
+  &List {
     display: flex;
     list-style: none;
   }
-  &_item {
+  &Item {
     text-transform: uppercase;
-    &_link {
+    &Link {
       color: $color--gray-dark;
       text-decoration: none;
       transition: all .5s;
@@ -34,6 +35,6 @@
     }
   }
 }
-.nav_item + .nav_item {
+.navItem + .navItem {
   margin-left: 2rem;
 }

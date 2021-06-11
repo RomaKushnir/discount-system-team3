@@ -7,7 +7,7 @@ function OutlineButton({
 }) {
   return (
     <button
-      className = {`${styles.btn} ${styles.btn_bordered}`}
+      className = {`${styles.btn} ${styles.btnBordered}`}
       onClick = {onClick}
       disabled = {isDisabled}
     >{btnText}</button>

@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.scss";
 import OutlineButton from "../OutlineButton";
 
-export default function Header({
+function Header({
   mainLink,
   categoriesLink,
   statisticsLink = "#",
@@ -13,56 +13,57 @@ export default function Header({
   const onClick = () => {
     console.log("click");
   };
-
+  const linkStyles = styles.navItemLink;
+  const navItemStyles = styles.navItem;
   return (
     <header className={styles.header}>
-      <Link className={styles.logo} to={mainLink}>Discount<span className={styles.logo_item}>App</span></Link>
+      <Link className={styles.logo} to={mainLink}>Discount<span className={styles.logoItem}>App</span></Link>
       <nav className={styles.nav}>
-        <ul className={styles.nav_list}>
-          <li className = {styles.nav_item} data-admin="true">
+        <ul className={styles.navList}>
+          <li className = {navItemStyles} data-admin="true">
           <NavLink
             to={categoriesLink}
-            className={styles.nav_item_link}
+            className={linkStyles}
             activestyles={{
               borderBottom: "2px solid #40BFEF",
               padding: "0 0 5px 0"
             }}
           >Categories</NavLink>
           </li>
-          <li className = {styles.nav_item} data-admin="true">
+          <li className = {navItemStyles} data-admin="true">
           <NavLink
             to={statisticsLink}
-            className={styles.nav_item_link}
+            className={linkStyles}
             activestyles={{
               borderBottom: "2px solid #40BFEF",
               padding: "0 0 5px 0"
             }}
           >Statistics</NavLink>
           </li>
-          <li className = {styles.nav_item} data-admin="false">
+          <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={vendorsLink}
-            className={styles.nav_item_link}
+            className={linkStyles}
             activestyles={{
               borderBottom: "2px solid #40BFEF",
               padding: "0 0 5px 0"
             }}
           >Vendors</NavLink>
           </li>
-          <li className = {styles.nav_item} data-admin="false">
+          <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={discountsLink}
-            className={styles.nav_item_link}
+            className={linkStyles}
             activestyles={{
               borderBottom: "2px solid #40BFEF",
               padding: "0 0 5px 0"
             }}
           >My discounts</NavLink>
           </li>
-          <li className = {styles.nav_item} data-admin="false">
+          <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={favouritesLink}
-            className={styles.nav_item_link}
+            className={linkStyles}
             activestyles={{
               borderBottom: "2px solid #40BFEF",
               padding: "0 0 5px 0"
@@ -78,3 +79,5 @@ export default function Header({
     </header>
   );
 }
+
+export default Header;
