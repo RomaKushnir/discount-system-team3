@@ -8,12 +8,14 @@
   transition: all .5s;
   font-size: 1rem;
   text-transform: uppercase;
-  margin: 0 10px;
+}
+.btn_bordered {
+  background-color: transparent;
+  border: 1px solid $color--gray-dark;
+  color: $color--gray-dark;
   &:hover {
-    background-color: $color--blue-dark;
+    background-color: $color--gray-dark;
+    color: #fff;
     cursor: pointer;
-  }
-  &[disabled="true"] {
-    background-color: $color--gray;
   }
 }
