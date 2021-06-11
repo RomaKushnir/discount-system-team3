@@ -2,12 +2,11 @@
 
 .container {
   width: 200px;
-  padding: 0 10px;
 }
 .label {
   display: flex;
   justify-content: flex-start;
   color: $color--primary-black;
-  font-size: 14px;
+  font-size: 1rem;
   padding-bottom: 5px;
 }

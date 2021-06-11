@@ -22,13 +22,17 @@
           display: flex;
           justify-content: space-around;
 
-          @media(max-width: 1100px) {
-            justify-content: space-between;
-          }
+            .filter {
+              padding: 0 10px;
+            }
 
-          @media(max-width: 450px) {
-            flex-direction: column;
-          }
+            @media(max-width: 1100px) {
+              justify-content: space-between;
+            }
+
+            @media(max-width: 450px) {
+              flex-direction: column;
+            }
 
         }
     
