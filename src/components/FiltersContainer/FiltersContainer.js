@@ -48,13 +48,13 @@ function FiltersContainer({
           <SelectField
             initialValue = {countriesList[0]}
             options = {countriesList}
-            label = 'Country'
+            label = "Country"
             onChange = {onChangeCountries}
           />
           <SelectField
             initialValue = {citiesList[0]}
             options = {citiesList}
-            label = 'City'
+            label = "City"
             onChange = {onChangeCities}
           />
         </div>
@@ -62,13 +62,13 @@ function FiltersContainer({
             <SelectField
               initialValue = {categoriesList[0]}
               options = {categoriesList}
-              label = 'Category'
+              label = "Category"
               onChange = {onChangeCategories}
             />
             <SelectField
               initialValue = {vendorsList[0]}
               options = {vendorsList}
-              label = 'Vendor'
+              label = "Vendor"
               onChange = {onChangeVendor}
             />
         </div>
@@ -78,7 +78,7 @@ function FiltersContainer({
       </div>
       <div className = {styles.buttonContainer}>
       <Button
-        btnText = 'Apply'
+        btnText = "Apply"
         onClick = {() => onApplyButtonClick(
           {
             searchWord,
