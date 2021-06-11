@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styles from './FiltersContainer.module.scss';
-import Button from '../Button';
-import SelectField from '../SelectField';
+import React, { useState } from "react";
+import styles from "./FiltersContainer.module.scss";
+import Button from "../Button";
+import SelectField from "../SelectField";
 
 function FiltersContainer({
   onApplyButtonClick,
@@ -10,7 +10,7 @@ function FiltersContainer({
   categoriesList,
   vendorsList
 }) {
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState("");
   const [countries, setCountries] = useState(countriesList[0]);
   const [cities, setCities] = useState(citiesList[0]);
   const [categories, setCategories] = useState(categoriesList[0]);
