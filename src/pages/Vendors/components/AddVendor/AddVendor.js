@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import SelectField from '../../../../components/SelectField';
-import countriesList from '../../../../mockData/countriesList';
-import citiesList from '../../../../mockData/citiesList';
+import * as actions from '../../../../store/actions';
 
 const inputStyles = {
   width: '300px'
 };
 
-function AddVendorModal() {
+function AddVendorModal({ onSave }) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
@@ -18,17 +19,22 @@ function AddVendorModal() {
   const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
 
+  const currentUserCountryId = 1; // temporary
+
+  const countriesList = useSelector((state) => state.locationReducer.countriesList);
+  const selectedCitiesList = useSelector((state) => state.locationReducer.selectedCities);
+  const userCountry = countriesList.find((el) => el.id === currentUserCountryId);
+
   const onNameChange = (e) => {
     setTitle(e.target.value);
   };
 
   const onChangeCountry = (selectedOption) => {
-    console.log(selectedOption);
     setCountry(selectedOption);
+    dispatch(actions.locationActions.getSelectedCitiesList(selectedOption.id));
   };
 
   const onChangeCity = (selectedOption) => {
-    console.log(selectedOption);
     setCity(selectedOption);
   };
 
@@ -46,7 +52,15 @@ function AddVendorModal() {
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();
-    console.log(title, email, description, imageUrl, country, city);
+    dispatch(actions.vendorActions.addVendor({
+      title,
+      email,
+      description,
+      imageUrl,
+      country,
+      city
+    }));
+    onSave();
   };
 
   return (
@@ -75,12 +89,13 @@ function AddVendorModal() {
         />
         <SelectField
           options = {countriesList}
+          initialValue = {userCountry}
           label = "Country"
           placeholder = "Select country"
           onChange = {onChangeCountry}
         />
         <SelectField
-          options = {citiesList}
+          options = {selectedCitiesList}
           label = "City"
           placeholder = "Select city"
           onChange = {onChangeCity}
