@@ -5,11 +5,11 @@ import './index.css';
 import 'normalize.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import appStore from './store';
+import appStorage from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={appStore}>
+    <Provider store={appStorage}>
       <App />
     </Provider>
   </React.StrictMode>,
