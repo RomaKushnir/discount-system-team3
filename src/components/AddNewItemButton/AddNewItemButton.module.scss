@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color--blue-dark;
+  border-radius: 10px;
+  padding: 0 15px 0 5px;
+  transition: 0.2s;
+  &:hover {
+    background-color: $color--blue-dark;
+    color: $color--primary-white;
+  }
+}

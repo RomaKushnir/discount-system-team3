@@ -1,0 +1,22 @@
+@import '../../variables.scss';
+
+.action-btn {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+ &.edit {
+   background-color: $color--blue-light;
+   color: $color--primary-white;
+   margin-right: 10px;
+   &:hover {
+    background-color: $color--blue-dark;
+   }
+ } 
+ &.delete {
+  background-color: $color--gray-faded;
+  &:hover {
+    background-color: $color--gray-light;
+   }
+ }
+}

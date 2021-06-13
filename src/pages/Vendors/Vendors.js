@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import styles from './Vendors.module.scss';
-import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import AddVendor from './components/AddVendor/AddVendor';
+import VendorsList from './components/VendorsList';
+import AddNewItemButton from '../../components/AddNewItemButton';
 
 function Vendors() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
       <div className = {styles.container}>Vendors page</div>
-      <Button
-        btnText = "Add"
-        onClick = {() => setIsOpen(true)}
+      <AddNewItemButton
+        btnTitle="Add new vendor"
+        onAddNewItem={() => setIsOpen(true)}
       />
       <Modal
         isOpen = {isOpen}
@@ -19,6 +20,7 @@ function Vendors() {
       >
         <AddVendor />
       </Modal>
+      <VendorsList />
     </div>
   );
 }
