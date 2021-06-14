@@ -12,7 +12,7 @@ function AddNewItemButton({
       onClick={onAddNewItem}
     >
       <AddIcon fontSize="large" />
-      {btnTitle}
+      <span>{btnTitle}</span>
     </button>
   );
 }

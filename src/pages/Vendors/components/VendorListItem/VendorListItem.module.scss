@@ -64,7 +64,7 @@
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    button {
+    .action-btn {
       width: 100%;
       &:first-child {
         margin-bottom: 5px;

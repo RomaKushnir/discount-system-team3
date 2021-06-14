@@ -23,12 +23,13 @@ function VendorListItem({ vendor }) {
       <div className={styles.buttons}>
         <ItemActionButton
           title="Edit"
-          className="edit"
+          className={styles['action-btn']}
           onActionClick={onEdit}
         />
         <ItemActionButton
           title="Delete"
-          className="delete"
+          type="delete"
+          className={styles['action-btn']}
           onActionClick={onDelete}
         />
       </div>

@@ -2,14 +2,14 @@ import styles from './ItemActionButton.module.scss';
 
 function ItemActionButton({
   title,
-  className = 'edit',
+  type = 'normal',
   isDisabled = false,
   onActionClick
 }) {
   return (
     <button
       type="button"
-      className={`${styles['action-btn']} ${styles[className]}`}
+      className={`${styles['action-btn']} ${styles[type]}`}
       disabled={isDisabled}
       onClick={onActionClick}
     >
