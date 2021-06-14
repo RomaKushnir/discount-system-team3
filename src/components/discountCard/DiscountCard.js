@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './customStyles.module.scss';
-// import logo from './logo.png';
 
 function DiscountCard({
   title,
