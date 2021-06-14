@@ -18,7 +18,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: $color--blue-light;
+      background-color: $color--blue-dark;
       opacity: 0.05;
       z-index: -1;
     }
@@ -64,7 +64,7 @@
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    .action-btn {
+    button {
       width: 100%;
       &:first-child {
         margin-bottom: 5px;

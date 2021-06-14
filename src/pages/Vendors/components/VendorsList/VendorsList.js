@@ -1,11 +1,10 @@
 import VendorListItem from '../VendorListItem';
-import VendorsListPage from '../../../../mockData/VendorsListPage';
 
-function VendorsList() {
+function VendorsList({ vendors }) {
   return (
     <div>
-      {VendorsListPage.length
-        ? VendorsListPage.map(
+      {vendors.length
+        ? vendors.map(
           (vendor, i) => <VendorListItem vendor={vendor} key={i} />
         )
         : <p style={ { textAlign: 'center', marginTop: '10vh' } }>There are no vendors yet!</p>
