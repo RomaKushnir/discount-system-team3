@@ -1,0 +1,49 @@
+.borderCard {
+    width: 420px;
+    height: 180px;
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    font-family: 'Reem Kufi', sans-serif;
+}
+
+.row {
+    flex-direction: row;
+    height: 30px;
+    margin: 10px 0 8px 0;
+}
+
+.description {
+    color: rgba(139, 139, 139, 1);
+}
+
+
+.col1 {
+ width: 25%;
+ flex-direction: column;
+}
+
+.col2 {
+ width: 75%;
+ flex-direction: column;
+ margin-left: 10px;
+}
+
+.col3 {
+    width: 30%;
+    flex-direction: column;
+    display: inline-block;
+    margin: 0;
+    white-space: nowrap;
+}
+
+img {
+    border-radius: 100px;
+    margin: 10px;
+}
+
+.disc {
+    text-align: right;
+    margin-right: 10px;
+}
+
