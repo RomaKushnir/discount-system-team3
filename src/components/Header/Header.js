@@ -15,6 +15,10 @@ function Header({
   };
   const linkStyles = styles.navItemLink;
   const navItemStyles = styles.navItem;
+  const activeLinkStyles = {
+    borderBottom: "2px solid #40BFEF",
+    padding: "0 0 5px 0"
+  };
   return (
     <header className={styles.header}>
       <Link className={styles.logo} to={mainLink}>Discount<span className={styles.logoItem}>App</span></Link>
@@ -24,50 +28,35 @@ function Header({
           <NavLink
             to={categoriesLink}
             className={linkStyles}
-            activestyles={{
-              borderBottom: "2px solid #40BFEF",
-              padding: "0 0 5px 0"
-            }}
+            activestyles={activeLinkStyles}
           >Categories</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="true">
           <NavLink
             to={statisticsLink}
             className={linkStyles}
-            activestyles={{
-              borderBottom: "2px solid #40BFEF",
-              padding: "0 0 5px 0"
-            }}
+            activestyles={activeLinkStyles}
           >Statistics</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={vendorsLink}
             className={linkStyles}
-            activestyles={{
-              borderBottom: "2px solid #40BFEF",
-              padding: "0 0 5px 0"
-            }}
+            activestyles={activeLinkStyles}
           >Vendors</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={discountsLink}
             className={linkStyles}
-            activestyles={{
-              borderBottom: "2px solid #40BFEF",
-              padding: "0 0 5px 0"
-            }}
+            activestyles={activeLinkStyles}
           >My discounts</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={favouritesLink}
             className={linkStyles}
-            activestyles={{
-              borderBottom: "2px solid #40BFEF",
-              padding: "0 0 5px 0"
-            }}
+            activestyles={activeLinkStyles}
           >Favourites</NavLink>
           </li>
         </ul>
