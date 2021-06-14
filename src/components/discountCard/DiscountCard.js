@@ -13,7 +13,7 @@ function DiscountCard({
   return (
         <div className={style.borderCard}>
         <div className={style.col1}>
-          <img src={img} alt={'vendor'} width='90' height='90'/>
+          <img src={img} alt={'vendor'} width="90" height="90"/>
         </div>
         <div className={style.col2}>
           <div className={style.row}><h2>{title}</h2></div>
