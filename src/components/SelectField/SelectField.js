@@ -14,7 +14,9 @@ function SelectField({
   className,
   placeholder = '',
   isDisabled = false,
-  isMulti = false
+  isMulti = false,
+  error = '',
+  onBlur
 }) {
   return (
     <div className = {style.container}>
@@ -32,7 +34,9 @@ function SelectField({
         placeholder = {placeholder}
         isDisabled = {isDisabled}
         isMulti = {isMulti}
+        onBlur = {onBlur}
       />
+      <div className = {style.error}>{error}</div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
+const emailMaxLength = 255;
+
 const emailValidation = (email) => {
   if (
-    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+    /[-.\w]+@([\w-]+\.)+[\w-]+/g.test(
       email
     )
   ) {
@@ -8,6 +10,9 @@ const emailValidation = (email) => {
   }
   if (email.trim() === '') {
     return 'Email is required';
+  }
+  if (email.trim().length > emailMaxLength) {
+    return 'Email is too long';
   }
   return 'Please enter a valid email';
 };

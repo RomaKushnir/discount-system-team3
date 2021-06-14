@@ -8,7 +8,10 @@ function TextInput(
     style,
     name,
     type,
-    value
+    value,
+    onBlur,
+    error,
+    required = false
   }
 ) {
   return (
@@ -23,7 +26,10 @@ function TextInput(
         placeholder={placeholder}
         onChange={onValueChange}
         value = {value}
+        onBlur = {onBlur}
+        required = {required}
       />
+      {error && <div className = {styles.error}>{error}</div>}
     </div>
   );
 }

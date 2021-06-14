@@ -1,12 +1,15 @@
-const titleValidation = (fieldName, fieldValue) => {
-  if (fieldValue.trim() === '') {
-    return `${fieldName} is required`;
+const titleMaxLength = 50;
+const titleMinLength = 3;
+
+const titleValidation = (title) => {
+  if (title.trim() === '') {
+    return `${title} is required`;
   }
-  if (/[^a-zA-Z -]/.test(fieldValue)) {
-    return 'Invalid characters';
+  if (title.trim().length < titleMinLength) {
+    return `${title} needs to be at least three characters`;
   }
-  if (fieldValue.trim().length < 3) {
-    return `${fieldName} needs to be at least three characters`;
+  if (title.trim().length > titleMaxLength) {
+    return 'Title is too long';
   }
   return null;
 };
