@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap');
+
 .borderCard {
     width: 420px;
     height: 180px;
@@ -7,16 +9,15 @@
     font-family: 'Reem Kufi', sans-serif;
 }
 
+img {
+    border-radius: 100px;
+    margin: 10px;
+}
+
 .row {
     flex-direction: row;
     height: 30px;
-    margin: 10px 0 8px 0;
 }
-
-.description {
-    color: rgba(139, 139, 139, 1);
-}
-
 
 .col1 {
  width: 25%;
@@ -37,13 +38,11 @@
     white-space: nowrap;
 }
 
-img {
-    border-radius: 100px;
-    margin: 10px;
+.description {
+    color: rgba(139, 139, 139, 1);
 }
 
 .disc {
     text-align: right;
     margin-right: 10px;
 }
-
