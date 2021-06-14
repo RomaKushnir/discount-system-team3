@@ -2,6 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.scss";
 import OutlineButton from "../OutlineButton";
 
+const linkStyles = styles.navItemLink;
+const navItemStyles = styles.navItem;
+const activeLinkStyles = {
+  borderBottom: "2px solid #40BFEF",
+  padding: "0 0 5px 0"
+};
+const onClick = () => {
+  console.log("click");
+};
+
 function Header({
   mainLink,
   categoriesLink,
@@ -10,15 +20,6 @@ function Header({
   discountsLink,
   favouritesLink = "#"
 }) {
-  const onClick = () => {
-    console.log("click");
-  };
-  const linkStyles = styles.navItemLink;
-  const navItemStyles = styles.navItem;
-  const activeLinkStyles = {
-    borderBottom: "2px solid #40BFEF",
-    padding: "0 0 5px 0"
-  };
   return (
     <header className={styles.header}>
       <Link className={styles.logo} to={mainLink}>Discount<span className={styles.logoItem}>App</span></Link>
