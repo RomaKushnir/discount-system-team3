@@ -1,6 +1,6 @@
 import { call, takeEvery, all } from 'redux-saga/effects';
 import * as types from '../actionTypes';
-import * as services from '../services';
+import * as services from '../../services';
 
 export function* addVendor({ payload }) {
   console.log(payload);

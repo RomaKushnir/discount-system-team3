@@ -6,7 +6,7 @@ import {
 } from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import * as actions from '../actions';
-import * as services from '../services';
+import * as services from '../../services';
 
 export function* getCountries() {
   try {

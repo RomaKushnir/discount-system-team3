@@ -1,6 +1,6 @@
 // import axios from 'axios';
-import countriesList from '../../mockData/countriesList';
-import citiesList from '../../mockData/citiesList';
+import countriesList from '../mockData/countriesList';
+import citiesList from '../mockData/citiesList';
 
 export const getCountries = () => {
   console.log('Get countries!'); // temporary to check flow
