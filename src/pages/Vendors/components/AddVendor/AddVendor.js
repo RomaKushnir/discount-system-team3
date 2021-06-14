@@ -139,13 +139,6 @@ function AddVendorModal({ onSave, selectedVendor }) {
     const existingErrors = Object.values(formValidation.errors).filter((error) => error !== '');
     const emptyFields = Object.values(formValidation.touched).filter((field) => field === '');
 
-    console.log(existingErrors);
-    console.log(emptyFields);
-
-    console.log(existingErrors.length === 0);
-    console.log(emptyFields.length === 0);
-    console.log(Object.values(formValidation.touched).every((t) => t === true));
-
     if (
       existingErrors.length === 0 // no errors
       && emptyFields.length === 0 // no empty fields
@@ -162,10 +155,6 @@ function AddVendorModal({ onSave, selectedVendor }) {
     }
   };
 
-  console.log(vendor);
-  console.log(touched);
-  console.log(errors);
-
   return (
     <form className = {styles.container}>
       <div className = {styles.inputs}>
@@ -179,7 +168,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           value = {vendor.title}
           onBlur={onBlur}
           required
-          touched
+          touched = {touched.title}
           error = {errors.title}
         />
         <TextInput
@@ -192,7 +181,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           value = {vendor.email}
           onBlur={onBlur}
           required
-          touched
+          touched = {touched.email}
           error = {errors.email}
         />
         <TextInput
@@ -205,7 +194,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           value = {vendor.imageUrl}
           onBlur={onBlur}
           required
-          touched
+          touched = {touched.imageUrl}
           error = {errors.imageUrl}
         />
         <SelectField
@@ -233,7 +222,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
         name = "description"
         onBlur={onBlur}
         required
-        touched
+        touched = {touched.description}
       />
       <div className = {styles.error}>{errors.description}</div>
       <div className = {styles.buttonContainer}>
