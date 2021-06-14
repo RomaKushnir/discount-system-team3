@@ -13,7 +13,7 @@ import Vendor from './pages/Vendor';
 import Vendors from './pages/Vendors';
 
 function App() {
-  const [isLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(true);
 
   return (
     <BrowserRouter>
