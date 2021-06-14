@@ -7,7 +7,8 @@ function TextInput(
     placeholder,
     style,
     name,
-    type
+    type,
+    value
   }
 ) {
   return (
@@ -20,7 +21,8 @@ function TextInput(
         id={name}
         name={name}
         placeholder={placeholder}
-        onInput={onValueChange}
+        onChange={onValueChange}
+        value = {value}
       />
     </div>
   );

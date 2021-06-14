@@ -5,61 +5,53 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import SelectField from '../../../../components/SelectField';
 import * as actions from '../../../../store/actions';
+// import titleValidation from '../../../../utilities/titleValidation';
+// import emailValidation from '../../../../utilities/emailValidation';
 
 const inputStyles = {
   width: '300px'
 };
 
-function AddVendorModal({ onSave }) {
-  const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [country, setCountry] = useState(null);
-  const [city, setCity] = useState(null);
-  const [email, setEmail] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [description, setDescription] = useState('');
+// const validate = {
+//   title: titleValidation,
+//   email: emailValidation
+// };
 
-  const currentUserCountryId = 1; // temporary
+function AddVendorModal({ onSave, selectedVendor }) {
+  const dispatch = useDispatch();
+
+  const [vendor, setVendor] = useState(selectedVendor);
 
   const countriesList = useSelector((state) => state.locationReducer.countriesList);
   const selectedCitiesList = useSelector((state) => state.locationReducer.selectedCities);
-  const userCountry = countriesList.find((el) => el.id === currentUserCountryId);
+  const country = countriesList.find((el) => el.id === selectedVendor.countryId);
+  const city = selectedCitiesList.find((el) => el.id === selectedVendor.cityId);
 
-  const onNameChange = (e) => {
-    setTitle(e.target.value);
+  const onValueChange = (e) => {
+    setVendor({
+      ...vendor,
+      [e.target.name]: e.target.value
+    });
   };
 
   const onChangeCountry = (selectedOption) => {
-    setCountry(selectedOption);
+    setVendor({
+      ...vendor,
+      countryId: selectedOption.id
+    });
     dispatch(actions.locationActions.getSelectedCitiesList(selectedOption.id));
   };
 
   const onChangeCity = (selectedOption) => {
-    setCity(selectedOption);
-  };
-
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onImageUrlChange = (e) => {
-    setImageUrl(e.target.value);
-  };
-
-  const onDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    setVendor({
+      ...vendor,
+      cityId: selectedOption.id
+    });
   };
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();
-    dispatch(actions.vendorActions.addVendor({
-      title,
-      email,
-      description,
-      imageUrl,
-      country,
-      city
-    }));
+    dispatch(actions.vendorActions.addVendor(vendor));
     onSave();
   };
 
@@ -67,44 +59,50 @@ function AddVendorModal({ onSave }) {
     <form className = {styles.container}>
       <div className = {styles.inputs}>
         <TextInput
-          onValueChange = {onNameChange}
+          onValueChange = {onValueChange}
           placeholder = "Company name"
           style = {inputStyles}
-          name = "companyName"
+          name = "title"
           type = "text"
+          value = {vendor.title}
         />
         <TextInput
-          onValueChange = {onEmailChange}
+          onValueChange = {onValueChange}
           placeholder = "Email"
           style = {inputStyles}
           name = "email"
           type="email"
+          value = {vendor.email}
         />
         <TextInput
-          onValueChange = {onImageUrlChange}
+          onValueChange = {onValueChange}
           placeholder = "Image URL"
           style = {inputStyles}
           name = "imageUrl"
           type = "text"
+          value = {vendor.imageUrl}
         />
         <SelectField
           options = {countriesList}
-          initialValue = {userCountry}
+          initialValue = {country}
           label = "Country"
           placeholder = "Select country"
           onChange = {onChangeCountry}
         />
         <SelectField
           options = {selectedCitiesList}
+          initialValue = {city || ''}
           label = "City"
           placeholder = "Select city"
           onChange = {onChangeCity}
         />
       </div>
       <textarea
-        onChange = {onDescriptionChange}
+        onChange = {onValueChange}
         className = {styles.description}
         placeholder = "Description"
+        value = {vendor.description}
+        name = "description"
       />
       <div className = {styles.buttonContainer}>
         <Button
