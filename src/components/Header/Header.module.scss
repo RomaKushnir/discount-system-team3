@@ -1,0 +1,40 @@
+@import '../../variables.scss';
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $color--primary-white;
+  padding: .5rem 0;
+}
+.logo {
+  color: $color--blue-dark;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1rem;
+  text-align: center;
+  &Item {
+    display: block;
+    font-size: 2em;
+  }
+}
+.nav {
+  &List {
+    display: flex;
+    list-style: none;
+  }
+  &Item {
+    text-transform: uppercase;
+    &Link {
+      color: $color--gray-dark;
+      text-decoration: none;
+      transition: all .5s;
+      &:hover {
+        font-weight: bold;
+      }
+    }
+  }
+}
+.navItem + .navItem {
+  margin-left: 2rem;
+}
