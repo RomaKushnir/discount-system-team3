@@ -7,9 +7,9 @@ import AddVendor from './components/AddVendor/AddVendor';
 import * as actions from '../../store/actions';
 
 const selectedVendor = {
+  id: 1,
   title: 'Rozetka',
-  countryId: 1,
-  cityId: 2,
+  locationId: 1,
   email: 'test@rozetka.com',
   imageUrl: 'https://i.picsum.photos/id/548/200/200.jpg',
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt'
@@ -20,20 +20,17 @@ function Vendors() {
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
 
-  const currentUserCountryId = 1; // temporary
-
   const onModalOpen = (e) => {
     setIsOpen(true);
-    dispatch(actions.locationActions.getCountriesList());
-    dispatch(actions.locationActions.getSelectedCitiesList(currentUserCountryId));
+    dispatch(actions.locationActions.getLocationsList());
 
     if (e.target.name === 'edit') {
       setVendor(selectedVendor);
     } else {
       setVendor({
+        id: '',
         title: '',
-        countryId: currentUserCountryId,
-        cityId: null,
+        locationId: null,
         email: '',
         imageUrl: '',
         description: ''

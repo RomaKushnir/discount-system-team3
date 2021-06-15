@@ -10,18 +10,19 @@ import emailValidation from '../../../../utilities/emailValidation';
 import imageUrlValidation from '../../../../utilities/imageUrlValidation';
 import selectValidation from '../../../../utilities/selectValidation';
 import companyDescriptionValidation from '../../../../utilities/compDescriptionValidation';
+import idValidation from '../../../../utilities/idValidation';
 
 const inputStyles = {
   width: '300px'
 };
 
 const validate = {
+  id: idValidation,
   title: titleValidation,
   email: emailValidation,
   imageUrl: imageUrlValidation,
   description: companyDescriptionValidation,
-  countryId: selectValidation,
-  cityId: selectValidation
+  locationId: selectValidation
 };
 
 function AddVendorModal({ onSave, selectedVendor }) {
@@ -29,20 +30,41 @@ function AddVendorModal({ onSave, selectedVendor }) {
 
   const [vendor, setVendor] = useState(selectedVendor);
   const [errors, setErrors] = useState({
+    id: '',
     title: '',
-    countryId: '',
-    cityId: '',
+    locationId: '',
     email: '',
     imageUrl: '',
     description: ''
   });
-  const [touched, setTouched] = useState({});
+  const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const countriesList = useSelector((state) => state.locationReducer.countriesList);
-  const selectedCitiesList = useSelector((state) => state.locationReducer.selectedCities);
-  const country = countriesList.find((el) => el.id === selectedVendor.countryId);
-  const city = selectedCitiesList.find((el) => el.id === selectedVendor.cityId);
+  const locationsList = useSelector((state) => state.locationReducer.locationsList);
+  const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
+  const transformedInitialLocation = {
+    id: initialLocation?.id,
+    value: initialLocation?.city,
+    label: initialLocation?.city
+  };
+
+  console.log(transformedInitialLocation);
+
+  const locationsObject = locationsList.reduce((acc, location) => {
+    acc[location.country] = [].concat(acc[location.country] || [], {
+      id: location.id,
+      value: location.city,
+      label: location.city
+    });
+
+    return acc;
+  }, {});
+
+  const locationOptions = Object.keys(locationsObject).reduce((acc, key) => {
+    const obj = { label: key, options: locationsObject[key] };
+    acc.push(obj);
+    return acc;
+  }, []);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -78,30 +100,15 @@ function AddVendorModal({ onSave, selectedVendor }) {
     setIsDisabled(false);
   };
 
-  const onChangeCountry = (selectedOption) => {
+  const onChangeLocation = (selectedOption) => {
     setVendor({
       ...vendor,
-      countryId: selectedOption.id
-    });
-    dispatch(actions.locationActions.getSelectedCitiesList(selectedOption.id));
-
-    setErrors({
-      ...errors,
-      countryId: ''
-    });
-
-    setIsDisabled(false);
-  };
-
-  const onChangeCity = (selectedOption) => {
-    setVendor({
-      ...vendor,
-      cityId: selectedOption.id
+      locationId: selectedOption?.id
     });
 
     setErrors({
       ...errors,
-      cityId: ''
+      locationId: ''
     });
 
     setIsDisabled(false);
@@ -109,8 +116,6 @@ function AddVendorModal({ onSave, selectedVendor }) {
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();
-
-    console.log('hello');
 
     const formValidation = Object.keys(vendor).reduce(
       (acc, key) => {
@@ -145,13 +150,10 @@ function AddVendorModal({ onSave, selectedVendor }) {
       && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       setIsDisabled(false);
-      console.log('all clear');
       dispatch(actions.vendorActions.addVendor(vendor));
       onSave();
     } else {
       setIsDisabled(true);
-      console.log('not ok');
-      console.log();
     }
   };
 
@@ -198,20 +200,12 @@ function AddVendorModal({ onSave, selectedVendor }) {
           error = {errors.imageUrl}
         />
         <SelectField
-          options = {countriesList}
-          initialValue = {country}
-          label = "Country"
-          placeholder = "Select country"
-          onChange = {onChangeCountry}
-          error = {errors.countryId}
-        />
-        <SelectField
-          options = {selectedCitiesList}
-          initialValue = {city || ''}
-          label = "City"
-          placeholder = "Select city"
-          onChange = {onChangeCity}
-          error = {errors.cityId}
+          options = {locationOptions}
+          initialValue = {transformedInitialLocation}
+          label = "Location"
+          placeholder = "Select location"
+          onChange = {onChangeLocation}
+          error = {errors.locationId}
         />
       </div>
       <textarea
@@ -222,7 +216,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
         name = "description"
         onBlur={onBlur}
         required
-        touched = {touched.description}
+        touched = {touched.description ? 1 : 0}
       />
       <div className = {styles.error}>{errors.description}</div>
       <div className = {styles.buttonContainer}>

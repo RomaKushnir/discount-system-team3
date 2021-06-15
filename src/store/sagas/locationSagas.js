@@ -8,31 +8,21 @@ import * as types from '../actionTypes';
 import * as actions from '../actions';
 import * as services from '../../services';
 
-export function* getCountries() {
+export function* getLocations() {
   try {
-    const response = yield call(services.locationService.getCountries);
+    const response = yield call(services.locationService.getLocations);
 
-    yield put(actions.locationActions.getCountriesListSuccess(response));
+    yield put(actions.locationActions.getLocationsListSuccess(response));
   } catch (error) {
     console.error(error);
   }
 }
 
-export function* getAllCities() {
+export function* getLocationById({ payload }) {
   try {
-    const response = yield call(services.locationService.getAllCities);
+    const response = yield call(services.locationService.getLocationById, payload);
 
-    yield put(actions.locationActions.getAllCitiesListSuccess(response));
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export function* getSelectedCities({ payload }) {
-  try {
-    const response = yield call(services.locationService.getSelectedCities, payload);
-
-    yield put(actions.locationActions.getSelectedCitiesListSuccess(response));
+    yield put(actions.locationActions.getLocationByIdSuccess(response));
   } catch (error) {
     console.error(error);
   }
@@ -40,8 +30,7 @@ export function* getSelectedCities({ payload }) {
 
 export default function* watch() {
   yield all([
-    takeEvery(types.GET_COUNTRIES_LIST, getCountries),
-    takeEvery(types.GET_ALL_CITIES_LIST, getAllCities),
-    takeEvery(types.GET_SELECTED_CITIES_LIST, getSelectedCities)
+    takeEvery(types.GET_LOCATIONS_LIST, getLocations),
+    takeEvery(types.GET_LOCATION_BY_ID, getLocationById)
   ]);
 }

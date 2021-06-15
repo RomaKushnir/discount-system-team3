@@ -1,41 +1,28 @@
 import * as types from '../actionTypes';
 
-export function getCountriesList() {
+export function getLocationsList() {
   return {
-    type: types.GET_COUNTRIES_LIST
+    type: types.GET_LOCATIONS_LIST
   };
 }
 
-export function getCountriesListSuccess(payload) {
+export function getLocationsListSuccess(payload) {
   return {
-    type: types.GET_COUNTRIES_LIST_SUCCESS,
+    type: types.GET_LOCATIONS_LIST_SUCCESS,
     payload
   };
 }
 
-export function getAllCitiesList() {
+export function getLocationById(payload) {
   return {
-    type: types.GET_ALL_CITIES_LIST
-  };
-}
-
-export function getAllCitiesListSuccess(payload) {
-  return {
-    type: types.GET_ALL_CITIES_LIST_SUCCESS,
+    type: types.GET_LOCATION_BY_ID,
     payload
   };
 }
 
-export function getSelectedCitiesList(payload) {
+export function getLocationByIdSuccess(payload) {
   return {
-    type: types.GET_SELECTED_CITIES_LIST,
-    payload
-  };
-}
-
-export function getSelectedCitiesListSuccess(payload) {
-  return {
-    type: types.GET_SELECTED_CITIES_LIST_SUCCESS,
+    type: types.GET_LOCATION_BY_ID_SUCCESS,
     payload
   };
 }
