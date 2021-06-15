@@ -1,4 +1,4 @@
-// import axios from 'axios';
+// import axios from 'API';
 import locationsList from '../mockData/locationsList';
 
 export const getLocations = () => {

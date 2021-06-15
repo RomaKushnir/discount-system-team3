@@ -5,8 +5,14 @@ import * as services from '../../services';
 export function* addVendor({ payload }) {
   console.log(payload);
 
+  let response;
+
   try {
-    const response = yield call(services.vendorService.addVendor, payload);
+    if (payload.id === '') {
+      response = yield call(services.vendorService.addVendor, payload);
+    } else {
+      response = yield call(services.vendorService.updateVendor, payload);
+    }
 
     console.log(response);
   } catch (error) {
