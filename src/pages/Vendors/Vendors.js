@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
@@ -49,7 +49,7 @@ function Vendors() {
     console.log(id);
   };
 
-  const CloseModal = () => {
+  const closeModal = () => {
     setIsOpen(false);
   };
 
@@ -90,9 +90,9 @@ function Vendors() {
               isClearable={false}
               />
           </div>
-          <Modal isOpen={isOpen} onClose={CloseModal}>
+          <Modal isOpen={isOpen} onClose={closeModal}>
             <AddVendorModal
-              onSave={CloseModal}
+              onSave={closeModal}
               selectedVendor = {vendor}
             />
           </Modal>
