@@ -53,11 +53,11 @@ function AddVendorModal({ onSave, selectedVendor }) {
   console.log(transformedInitialLocation);
 
   const locationsObject = locationsList.reduce((acc, location) => {
-    acc[location.country] = [].concat(acc[location.country] || [], {
+    acc[location.country] = [...acc[location.country] || [], {
       id: location.id,
       value: location.city,
       label: location.city
-    });
+    }];
 
     return acc;
   }, {});
