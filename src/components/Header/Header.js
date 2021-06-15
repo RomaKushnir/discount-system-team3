@@ -1,63 +1,54 @@
-import { Link, NavLink } from "react-router-dom";
-import styles from "./Header.module.scss";
-import OutlineButton from "../OutlineButton";
+import { Link, NavLink } from 'react-router-dom';
+import Routes from '../../routes';
+import styles from './Header.module.scss';
+import OutlineButton from '../OutlineButton';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
-const activeLinkStyles = {
-  borderBottom: "2px solid #40BFEF",
-  padding: "0 0 5px 0"
-};
+
 const onClick = () => {
-  console.log("click");
+  console.log('click');
 };
 
-function Header({
-  mainLink,
-  categoriesLink,
-  statisticsLink = "#",
-  vendorsLink,
-  discountsLink,
-  favouritesLink = "#"
-}) {
+function Header() {
   return (
     <header className={styles.header}>
-      <Link className={styles.logo} to={mainLink}>Discount<span className={styles.logoItem}>App</span></Link>
+      <Link className={styles.logo} to="/">Discount<span className={styles.logoItem}>App</span></Link>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className = {navItemStyles} data-admin="true">
           <NavLink
-            to={categoriesLink}
+            to={Routes.CATEGORIES}
             className={linkStyles}
-            activestyles={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Categories</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="true">
           <NavLink
-            to={statisticsLink}
+            to={Routes.STATISTICS}
             className={linkStyles}
-            activestyles={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Statistics</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
-            to={vendorsLink}
+            to={Routes.VENDORS}
             className={linkStyles}
-            activestyles={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Vendors</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
-            to={discountsLink}
+            to={Routes.DISCOUNTS}
             className={linkStyles}
-            activestyles={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >My discounts</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
-            to={favouritesLink}
+            to={Routes.FAVOURITES}
             className={linkStyles}
-            activestyles={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Favourites</NavLink>
           </li>
         </ul>

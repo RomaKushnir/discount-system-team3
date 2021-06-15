@@ -1,12 +1,16 @@
 @import '../../variables.scss';
 
-.footer-wrapper {
-  max-width: 1300px;
+.footerWrapper {
+  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  padding: 10px 15px;
-  padding-right: 15px;
-  border-top: 1px solid $color--gray-light;
+  padding: 0 15px;
   text-align: center;
+
+  .footerContent {
+    padding: 10px 0;
+    border-top: 1px solid $color--gray-light;
+  }
 
   .slogan {
     font-size: 1.5rem;

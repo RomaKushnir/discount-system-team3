@@ -4,7 +4,10 @@
   justify-content: space-between;
   align-items: center;
   background-color: $color--primary-white;
-  padding: .5rem 0;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 15px;
 }
 .logo {
   color: $color--blue-dark;
@@ -23,18 +26,22 @@
     display: flex;
     list-style: none;
   }
-  &Item {
-    text-transform: uppercase;
-    &Link {
-      color: $color--gray-dark;
-      text-decoration: none;
-      transition: all .5s;
-      &:hover {
-        font-weight: bold;
-      }
-    }
-  }
 }
 .navItem + .navItem {
   margin-left: 2rem;
+}
+.navItemLink {
+  text-transform: uppercase;
+  color: $color--gray-dark;
+  text-decoration: none;
+  transition: all .1s;
+  display: inline-block;
+  &:hover {
+    color: $color--primary-black;
+    transform: scale(1.05);
+  }
+}
+.activeClassName {
+  border-bottom: 2px solid $color--blue-light;
+  padding: 0 0 5px 0;
 }
