@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './Vendors.module.scss';
-import Button from '../../components/Button';
 import Modal from '../../components/Modal';
-import AddVendor from './components/AddVendor/AddVendor';
+import AddVendorModal from './components/AddVendor';
+import VendorsList from './components/VendorsList';
 import * as actions from '../../store/actions';
-
-const selectedVendor = {
-  id: 1,
-  title: 'Rozetka',
-  locationId: 1,
-  email: 'test@rozetka.com',
-  imageUrl: 'https://i.picsum.photos/id/548/200/200.jpg',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt'
-};
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import FiltersContainer from '../../components/FiltersContainer';
+import AddNewItemButton from '../../components/AddNewItemButton';
+import SelectField from '../../components/SelectField';
+import sortList from '../../mockData/sortList';// mock data to render select list
+import VendorsListPage from '../../mockData/VendorsListPage';// mock data to render select list
+import countriesList from '../../mockData/countriesList';// mock data to render select list
+import citiesList from '../../mockData/citiesList';// mock data to render select list
+import vendorsList from '../../mockData/vendorsList';// mock data to render select list
+import Pagination from '../../components/Pagination/Pagination';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
 
-  const onModalOpen = (e) => {
+  const onModalOpen = (e, id) => {
     setIsOpen(true);
     dispatch(actions.locationActions.getLocationsList());
 
+    console.log(e, id);
+
     if (e.target.name === 'edit') {
+      const selectedVendor = VendorsListPage.find((el) => el.id === id);
+
       setVendor(selectedVendor);
     } else {
       setVendor({
@@ -38,28 +44,67 @@ function Vendors() {
     }
   };
 
+  const onDelete = (id) => {
+    // do code to delete item
+    console.log(id);
+  };
+
+  const CloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const onApplyButtonClick = () => {
+    // apply filters
+  };
+
+  const onSortFilter = () => {
+    // apply sort filter
+  };
+
+  const onShowMoreClick = () => {
+    // do request to get more items
+  };
+
   return (
-    <div>
-      <div className = {styles.container}>Vendors page</div>
-      <Button
-        btnText = "Add"
-        onClick = {onModalOpen}
-        name = "add"
-      />
-      <Button
-        btnText = "Edit"
-        onClick = {onModalOpen}
-        name = "edit"
-      />
-      <Modal
-        isOpen = {isOpen}
-        onClose = {() => setIsOpen(false)}
-      >
-        <AddVendor
-          onSave = {() => setIsOpen(false)}
-          selectedVendor = {vendor}
-        />
-      </Modal>
+    <div className={styles.container}>
+      <div>
+        <Header />
+        <main className={styles.contentWrapper}>
+          <FiltersContainer
+            onApplyButtonClick={onApplyButtonClick}
+            countriesList={countriesList}
+            citiesList={citiesList}
+            categoriesList={[]}
+            vendorsList={vendorsList}
+          />
+          <div className={styles.vendorsActionsBlock}>
+            <AddNewItemButton
+              btnTitle="Add new vendor"
+              onAddNewItem={onModalOpen}
+              name = "add"
+            />
+            <SelectField
+              initialValue={[sortList[0]]}
+              options={sortList}
+              onChange={onSortFilter}
+              isClearable={false}
+              />
+          </div>
+          <Modal isOpen={isOpen} onClose={CloseModal}>
+            <AddVendorModal
+              onSave={CloseModal}
+              selectedVendor = {vendor}
+            />
+          </Modal>
+          <VendorsList
+            vendors={VendorsListPage}
+            onEdit = {onModalOpen}
+            onDelete = {onDelete}
+          />
+          <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 }

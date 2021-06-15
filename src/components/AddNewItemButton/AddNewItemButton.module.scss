@@ -1,0 +1,21 @@
+@import '../../variables.scss';
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color--blue-dark;
+  font-size: 1.15rem;
+  border-radius: 7px;
+  padding: 2px 15px 2px 5px;
+  transition: 0.2s;
+  &:hover {
+    background-color: $color--blue-dark;
+    color: $color--primary-white;
+  }
+  span {
+    margin-left: 5px;
+  }
+}

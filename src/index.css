@@ -9,7 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-p {
+:not(i) {
+  box-sizing: border-box;
+}
+
+p, 
+figure {
   margin: 0;
 }
 
