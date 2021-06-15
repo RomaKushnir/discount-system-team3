@@ -1,3 +1,4 @@
+import styles from './VendorsList.module.scss';
 import VendorListItem from '../VendorListItem';
 
 function VendorsList({ vendors }) {
@@ -7,7 +8,7 @@ function VendorsList({ vendors }) {
         ? vendors.map(
           (vendor) => <VendorListItem vendor={vendor} key={vendor.id} />
         )
-        : <p style={ { textAlign: 'center', marginTop: '10vh' } }>There are no vendors yet!</p>
+        : <p className={styles.noContentPlaceholder}>There are no vendors yet!</p>
       }
     </div>
   );

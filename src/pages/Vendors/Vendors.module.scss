@@ -7,21 +7,16 @@
   width: 100%;
   min-height: 100vh;
 }
-.content-wrapper {
+.contentWrapper {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 0 15px;
 }
-.vendors-actions-block {
+.vendorsActionsBlock {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid $color--gray-light;
   padding: 15px 0;
-}
-.show-more-btn-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 15px;
 }

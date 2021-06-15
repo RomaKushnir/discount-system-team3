@@ -2,8 +2,8 @@ import styles from './Footer.module.scss';
 
 function Footer() {
   return (
-    <footer className={styles['footer-wrapper']}>
-      <div className={styles['footer-content']}>
+    <footer className={styles.footerWrapper}>
+      <div className={styles.footerContent}>
         <p className={styles.slogan}>Save your money with Exadel</p>
         <p className={styles.copyright}>Copyright &copy; 2021 All rights reserved.</p>
       </div>

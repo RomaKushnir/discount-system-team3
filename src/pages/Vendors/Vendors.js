@@ -15,7 +15,7 @@ import VendorsListPage from '../../mockData/VendorsListPage';// mock data to ren
 import countriesList from '../../mockData/countriesList';// mock data to render select list
 import citiesList from '../../mockData/citiesList';// mock data to render select list
 import vendorsList from '../../mockData/vendorsList';// mock data to render select list
-import OutlineButton from '../../components/OutlineButton';
+import Pagination from '../../components/Pagination/Pagination';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function Vendors() {
     // apply sort filter
   };
 
-  const onShowMore = () => {
+  const onShowMoreClick = () => {
     // do request to get more items
   };
 
@@ -47,7 +47,7 @@ function Vendors() {
     <div className={styles.container}>
       <div>
         <Header />
-        <main className={styles['content-wrapper']}>
+        <main className={styles.contentWrapper}>
           <FiltersContainer
             onApplyButtonClick={onApplyButtonClick}
             countriesList={countriesList}
@@ -55,7 +55,7 @@ function Vendors() {
             categoriesList={[]}
             vendorsList={vendorsList}
           />
-          <div className={styles['vendors-actions-block']}>
+          <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
               btnTitle="Add new vendor"
               onAddNewItem={onModalOpen}
@@ -71,12 +71,7 @@ function Vendors() {
             <AddVendorModal onSave={() => setIsOpen(false)} />
           </Modal>
           <VendorsList vendors={VendorsListPage} />
-          <div className={styles['show-more-btn-wrap']}>
-            <OutlineButton
-              btnText="Show more"
-              onClick={onShowMore}
-              />
-          </div>
+          <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
         </main>
       </div>
       <Footer />

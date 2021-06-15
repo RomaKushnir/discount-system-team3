@@ -10,7 +10,7 @@ function ItemActionButton({
   return (
     <button
       type="button"
-      className={`${styles['action-btn']} ${styles[type]} ${className}`}
+      className={`${styles.actionBtn} ${styles[type]} ${className}`}
       disabled={isDisabled}
       onClick={onActionClick}
     >

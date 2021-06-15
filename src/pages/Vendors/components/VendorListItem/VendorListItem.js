@@ -11,20 +11,20 @@ function VendorListItem({ vendor }) {
   };
 
   return (
-    <div className={styles['item-wrapper']}>
-      <figure className={styles['img-wrapper']}>
+    <div className={styles.itemWrapper}>
+      <figure className={styles.imgWrapper}>
         <img src={vendor.imageUrl} alt={vendor.title} />
       </figure>
-      <div className={styles['text-wrapper']}>
-        <p className={styles['vendor-title']}>{vendor.title}</p>
-        <p className={styles['vendor-location']}>{vendor.location}</p>
-        <p className={styles['vendor-description']}>{vendor.description}</p>
+      <div className={styles.textWrapper}>
+        <p className={styles.vendorTitle}>{vendor.title}</p>
+        <p className={styles.vendorLocation}>{vendor.location}</p>
+        <p className={styles.vendorDescription}>{vendor.description}</p>
       </div>
       <div className={styles.buttons}>
         <ItemActionButton
           title="Edit"
           onActionClick={onEdit}
-          className={styles['edit-btn']}
+          className={styles.editBtn}
         />
         <ItemActionButton
           title="Delete"

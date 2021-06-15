@@ -8,7 +8,7 @@ function AddNewItemButton({
   return (
     <button
       type="button"
-      className={styles['add-btn']}
+      className={styles.addBtn}
       onClick={onAddNewItem}
     >
       <AddIcon fontSize="large" />
