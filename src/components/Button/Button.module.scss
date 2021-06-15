@@ -13,7 +13,7 @@
     background-color: $color--blue-dark;
     cursor: pointer;
   }
-  &[disabled="true"] {
+  &:disabled {
     background-color: $color--gray;
   }
 }

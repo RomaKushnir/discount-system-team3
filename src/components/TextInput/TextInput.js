@@ -7,7 +7,11 @@ function TextInput(
     placeholder,
     style,
     name,
-    type
+    type,
+    value,
+    onBlur,
+    error,
+    required = false
   }
 ) {
   return (
@@ -20,8 +24,12 @@ function TextInput(
         id={name}
         name={name}
         placeholder={placeholder}
-        onInput={onValueChange}
+        onChange={onValueChange}
+        value = {value}
+        onBlur = {onBlur}
+        required = {required}
       />
+      {error && <div className = {styles.error}>{error}</div>}
     </div>
   );
 }

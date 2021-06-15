@@ -1,23 +1,16 @@
-// import axios from 'axios';
-import countriesList from '../mockData/countriesList';
-import citiesList from '../mockData/citiesList';
+// import axios from 'API';
+import locationsList from '../mockData/locationsList';
 
-export const getCountries = () => {
-  console.log('Get countries!'); // temporary to check flow
+export const getLocations = () => {
+  console.log('Get locations!'); // temporary to check flow
 
-  return countriesList; // temporary to check flow
+  return locationsList; // temporary to check flow
 };
 
-export const getAllCities = () => {
-  console.log('Get all cities!'); // temporary to check flow
+export const getLocationById = (locationId) => {
+  console.log(locationId); // temporary to check flow
 
-  return citiesList; // temporary to check flow
-};
-
-export const getSelectedCities = (countryId) => {
-  console.log(countryId); // temporary to check flow
-
-  const response = citiesList.filter((el) => el.countryId === countryId);
+  const response = locationsList.filter((el) => el.countryId === locationId);
 
   return response; // temporary to check flow
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
@@ -20,16 +20,38 @@ import Pagination from '../../components/Pagination/Pagination';
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [vendor, setVendor] = useState(null);
 
-  const currentUserCountryId = 1; // temporary
-
-  const onModalOpen = () => {
+  const onModalOpen = (e, id) => {
     setIsOpen(true);
-    dispatch(actions.locationActions.getCountriesList());
-    dispatch(
-      actions.locationActions.getSelectedCitiesList(currentUserCountryId)
-    );
+    dispatch(actions.locationActions.getLocationsList());
+
+    console.log(e, id);
+
+    if (e.target.name === 'edit') {
+      const selectedVendor = VendorsListPage.find((el) => el.id === id);
+
+      setVendor(selectedVendor);
+    } else {
+      setVendor({
+        id: '',
+        title: '',
+        locationId: null,
+        email: '',
+        imageUrl: '',
+        description: ''
+      });
+    }
   };
+
+  const onDelete = (id) => {
+    // do code to delete item
+    console.log(id);
+  };
+
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   const onApplyButtonClick = () => {
     // apply filters
@@ -59,6 +81,7 @@ function Vendors() {
             <AddNewItemButton
               btnTitle="Add new vendor"
               onAddNewItem={onModalOpen}
+              name = "add"
             />
             <SelectField
               initialValue={[sortList[0]]}
@@ -67,10 +90,17 @@ function Vendors() {
               isClearable={false}
               />
           </div>
-          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <AddVendorModal onSave={() => setIsOpen(false)} />
+          <Modal isOpen={isOpen} onClose={closeModal}>
+            <AddVendorModal
+              onSave={closeModal}
+              selectedVendor = {vendor}
+            />
           </Modal>
-          <VendorsList vendors={VendorsListPage} />
+          <VendorsList
+            vendors={VendorsListPage}
+            onEdit = {onModalOpen}
+            onDelete = {onDelete}
+          />
           <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
         </main>
       </div>

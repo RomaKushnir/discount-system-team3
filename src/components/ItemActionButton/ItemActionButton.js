@@ -5,7 +5,8 @@ function ItemActionButton({
   type = 'normal',
   isDisabled = false,
   className = '',
-  onActionClick
+  onActionClick,
+  name
 }) {
   return (
     <button
@@ -13,6 +14,7 @@ function ItemActionButton({
       className={`${styles.actionBtn} ${styles[type]} ${className}`}
       disabled={isDisabled}
       onClick={onActionClick}
+      name = {name}
     >
       {title}
     </button>

@@ -3,10 +3,16 @@ import * as types from '../actionTypes';
 import * as services from '../../services';
 
 export function* addVendor({ payload }) {
-  console.log(payload);
+  const { id, ...data } = payload;
+
+  let response;
 
   try {
-    const response = yield call(services.vendorService.addVendor, payload);
+    if (id === '') {
+      response = yield call(services.vendorService.addVendor, data);
+    } else {
+      response = yield call(services.vendorService.updateVendor, payload);
+    }
 
     console.log(response);
   } catch (error) {

@@ -2,6 +2,10 @@
 
 .container {
   width: 200px;
+
+  .error {
+    color: red;
+  }
 }
 .label {
   display: flex;

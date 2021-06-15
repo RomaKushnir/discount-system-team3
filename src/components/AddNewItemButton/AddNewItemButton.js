@@ -3,13 +3,15 @@ import styles from './AddNewItemButton.module.scss';
 
 function AddNewItemButton({
   btnTitle,
-  onAddNewItem
+  onAddNewItem,
+  name
 }) {
   return (
     <button
       type="button"
       className={styles.addBtn}
       onClick={onAddNewItem}
+      name = {name}
     >
       <AddIcon fontSize="large" />
       <span>{btnTitle}</span>

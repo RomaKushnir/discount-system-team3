@@ -1,15 +1,7 @@
 import styles from './VendorListItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 
-function VendorListItem({ vendor }) {
-  const onEdit = () => {
-    // do code to edit item
-  };
-
-  const onDelete = () => {
-    // do code to delete item
-  };
-
+function VendorListItem({ vendor, onEdit, onDelete }) {
   return (
     <div className={styles.itemWrapper}>
       <figure className={styles.imgWrapper}>
@@ -23,13 +15,15 @@ function VendorListItem({ vendor }) {
       <div className={styles.buttons}>
         <ItemActionButton
           title="Edit"
-          onActionClick={onEdit}
+          onActionClick={(e) => onEdit(e, vendor.id)}
           className={styles.editBtn}
+          name = "edit"
         />
         <ItemActionButton
           title="Delete"
           type="delete"
-          onActionClick={onDelete}
+          onActionClick={() => onDelete(vendor.id)}
+          name = "delete"
         />
       </div>
     </div>

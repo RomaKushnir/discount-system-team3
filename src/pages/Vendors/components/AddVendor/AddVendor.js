@@ -5,111 +5,227 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import SelectField from '../../../../components/SelectField';
 import * as actions from '../../../../store/actions';
+import {
+  idValidation,
+  titleValidation,
+  emailValidation,
+  imageUrlValidation,
+  companyDescriptionValidation,
+  selectValidation
+} from '../../../../utilities/validation';
 
 const inputStyles = {
   width: '300px'
 };
 
-function AddVendorModal({ onSave }) {
+const validate = {
+  id: idValidation,
+  title: titleValidation,
+  email: emailValidation,
+  imageUrl: imageUrlValidation,
+  description: companyDescriptionValidation,
+  locationId: selectValidation
+};
+
+function AddVendorModal({ onSave, selectedVendor }) {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [country, setCountry] = useState(null);
-  const [city, setCity] = useState(null);
-  const [email, setEmail] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [description, setDescription] = useState('');
 
-  const currentUserCountryId = 1; // temporary
+  const [vendor, setVendor] = useState(selectedVendor);
+  const [errors, setErrors] = useState({
+    id: '',
+    title: '',
+    locationId: '',
+    email: '',
+    imageUrl: '',
+    description: ''
+  });
+  const [touched, setTouched] = useState({ id: true });
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const countriesList = useSelector((state) => state.locationReducer.countriesList);
-  const selectedCitiesList = useSelector((state) => state.locationReducer.selectedCities);
-  const userCountry = countriesList.find((el) => el.id === currentUserCountryId);
-
-  const onNameChange = (e) => {
-    setTitle(e.target.value);
+  const locationsList = useSelector((state) => state.locationReducer.locationsList);
+  const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
+  const transformedInitialLocation = {
+    id: initialLocation?.id,
+    value: initialLocation?.city,
+    label: initialLocation?.city
   };
 
-  const onChangeCountry = (selectedOption) => {
-    setCountry(selectedOption);
-    dispatch(actions.locationActions.getSelectedCitiesList(selectedOption.id));
+  console.log(transformedInitialLocation);
+
+  const locationsObject = locationsList.reduce((acc, location) => {
+    acc[location.country] = [...acc[location.country] || [], {
+      id: location.id,
+      value: location.city,
+      label: location.city
+    }];
+
+    return acc;
+  }, {});
+
+  const locationOptions = Object.keys(locationsObject).reduce((acc, key) => {
+    const obj = { label: key, options: locationsObject[key] };
+    acc.push(obj);
+    return acc;
+  }, []);
+
+  const onValueChange = (e) => {
+    const { name, value } = e.target;
+
+    setErrors({
+      ...errors,
+      [name]: ''
+    }); // remove whatever error was there previously
+
+    setIsDisabled(false);
+
+    setVendor({
+      ...vendor,
+      [name]: value
+    });
+
+    setTouched({
+      ...touched,
+      [name]: true
+    });
   };
 
-  const onChangeCity = (selectedOption) => {
-    setCity(selectedOption);
+  const onBlur = (e) => {
+    const { name, value } = e.target;
+
+    const error = validate[name](value);
+
+    setErrors({
+      ...errors,
+      ...error && { [name]: touched[name] && error }
+    });
+
+    setIsDisabled(false);
   };
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const onChangeLocation = (selectedOption) => {
+    setVendor({
+      ...vendor,
+      locationId: selectedOption?.id
+    });
 
-  const onImageUrlChange = (e) => {
-    setImageUrl(e.target.value);
-  };
+    setErrors({
+      ...errors,
+      locationId: ''
+    });
 
-  const onDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    setIsDisabled(false);
   };
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();
-    dispatch(actions.vendorActions.addVendor({
-      title,
-      email,
-      description,
-      imageUrl,
-      country,
-      city
-    }));
-    onSave();
+
+    const formValidation = Object.keys(vendor).reduce(
+      (acc, key) => {
+        const newError = validate[key](vendor[key]);
+        const newTouched = { [key]: true };
+        return {
+          errors: {
+            ...acc.errors,
+            ...newError && { [key]: newError }
+          },
+          touched: {
+            ...acc.touched,
+            ...newTouched
+          }
+        };
+      },
+      {
+        errors: { ...errors },
+        touched: { ...touched }
+      }
+    );
+
+    setErrors(formValidation.errors);
+    setTouched(formValidation.touched);
+
+    const existingErrors = Object.values(formValidation.errors).filter((error) => error !== '');
+    const emptyFields = Object.values(formValidation.touched).filter((field) => field === '');
+
+    if (
+      existingErrors.length === 0 // no errors
+      && emptyFields.length === 0 // no empty fields
+      && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+    ) {
+      setIsDisabled(false);
+      dispatch(actions.vendorActions.addVendor(vendor));
+      onSave();
+    } else {
+      setIsDisabled(true);
+    }
   };
 
   return (
     <form className = {styles.container}>
       <div className = {styles.inputs}>
         <TextInput
-          onValueChange = {onNameChange}
+          onValueChange = {onValueChange}
           placeholder = "Company name"
+          label = "Company name"
           style = {inputStyles}
-          name = "companyName"
+          name = "title"
           type = "text"
+          value = {vendor.title}
+          onBlur={onBlur}
+          required
+          touched = {touched.title}
+          error = {errors.title}
         />
         <TextInput
-          onValueChange = {onEmailChange}
+          onValueChange = {onValueChange}
           placeholder = "Email"
+          label = "Email"
           style = {inputStyles}
           name = "email"
           type="email"
+          value = {vendor.email}
+          onBlur={onBlur}
+          required
+          touched = {touched.email}
+          error = {errors.email}
         />
         <TextInput
-          onValueChange = {onImageUrlChange}
-          placeholder = "Image URL"
+          onValueChange = {onValueChange}
+          placeholder = "Image Url"
+          label = "Image Url"
           style = {inputStyles}
           name = "imageUrl"
-          type = "text"
+          type = "url"
+          value = {vendor.imageUrl}
+          onBlur={onBlur}
+          required
+          touched = {touched.imageUrl}
+          error = {errors.imageUrl}
         />
         <SelectField
-          options = {countriesList}
-          initialValue = {userCountry}
-          label = "Country"
-          placeholder = "Select country"
-          onChange = {onChangeCountry}
-        />
-        <SelectField
-          options = {selectedCitiesList}
-          label = "City"
-          placeholder = "Select city"
-          onChange = {onChangeCity}
+          options = {locationOptions}
+          initialValue = {transformedInitialLocation}
+          label = "Location"
+          placeholder = "Select location"
+          onChange = {onChangeLocation}
+          error = {errors.locationId}
         />
       </div>
       <textarea
-        onChange = {onDescriptionChange}
+        onChange = {onValueChange}
         className = {styles.description}
         placeholder = "Description"
+        value = {vendor.description}
+        name = "description"
+        onBlur={onBlur}
+        required
+        touched = {touched.description ? 1 : 0}
       />
+      <div className = {styles.error}>{errors.description}</div>
       <div className = {styles.buttonContainer}>
         <Button
           btnText = "Save"
           onClick = {onSaveButtonClick}
+          isDisabled = {isDisabled}
         />
       </div>
     </form>
