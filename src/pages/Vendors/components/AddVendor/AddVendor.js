@@ -5,12 +5,14 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import SelectField from '../../../../components/SelectField';
 import * as actions from '../../../../store/actions';
-import titleValidation from '../../../../utilities/titleValidation';
-import emailValidation from '../../../../utilities/emailValidation';
-import imageUrlValidation from '../../../../utilities/imageUrlValidation';
-import selectValidation from '../../../../utilities/selectValidation';
-import companyDescriptionValidation from '../../../../utilities/compDescriptionValidation';
-import idValidation from '../../../../utilities/idValidation';
+import {
+  idValidation,
+  titleValidation,
+  emailValidation,
+  imageUrlValidation,
+  companyDescriptionValidation,
+  selectValidation
+} from '../../../../utilities/validation';
 
 const inputStyles = {
   width: '300px'
