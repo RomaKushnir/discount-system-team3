@@ -5,10 +5,7 @@ import OutlineButton from '../OutlineButton';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
-const activeLinkStyles = {
-  borderBottom: '2px solid #40BFEF',
-  padding: '0 0 5px 0'
-};
+
 const onClick = () => {
   console.log('click');
 };
@@ -23,35 +20,35 @@ function Header() {
           <NavLink
             to={Routes.CATEGORIES}
             className={linkStyles}
-            activeStyle={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Categories</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="true">
           <NavLink
             to={Routes.STATISTICS}
             className={linkStyles}
-            activeStyle={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Statistics</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={Routes.VENDORS}
             className={linkStyles}
-            activeStyle={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Vendors</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={Routes.DISCOUNTS}
             className={linkStyles}
-            activeStyle={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >My discounts</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={Routes.FAVOURITES}
             className={linkStyles}
-            activeStyle={activeLinkStyles}
+            activeClassName={styles.activeClassName}
           >Favourites</NavLink>
           </li>
         </ul>

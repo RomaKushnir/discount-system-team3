@@ -64,11 +64,9 @@
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    button {
+    .edit-btn {
       width: 100%;
-      &:first-child {
-        margin-bottom: 5px;
-      }
+      margin-bottom: 5px;
     }
   }
 }

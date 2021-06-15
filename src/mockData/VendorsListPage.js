@@ -1,45 +1,45 @@
 const VendorsListPage = [
   {
-    vn_id: 1,
-    vn_title: 'Rozetka',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Kyiv',
-    vn_description: 'Popular UA internet shop'
+    id: 1,
+    title: 'Rozetka',
+    imageUrl: '/logo192.png',
+    location: 'Kyiv',
+    description: 'Popular UA internet shop'
   },
   {
-    vn_id: 2,
-    vn_title: 'Cinema City',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Kyiv',
-    vn_description: 'The moderm cinema industry Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    id: 2,
+    title: 'Cinema City',
+    imageUrl: '/logo192.png',
+    location: 'Kyiv',
+    description: 'The moderm cinema industry Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   },
   {
-    vn_id: 3,
-    vn_title: 'Velohouse',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Vinnytsa',
-    vn_description: 'Bike shop'
+    id: 3,
+    title: 'Velohouse',
+    imageUrl: '/logo192.png',
+    location: 'Vinnytsa',
+    description: 'Bike shop'
   },
   {
-    vn_id: 4,
-    vn_title: 'Rozetka',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Kyiv',
-    vn_description: 'Popular UA internet shop'
+    id: 4,
+    title: 'Rozetka',
+    imageUrl: '/logo192.png',
+    location: 'Kyiv',
+    description: 'Popular UA internet shop'
   },
   {
-    vn_id: 5,
-    vn_title: 'Cinema City',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Kyiv',
-    vn_description: 'The moderm cinema industry Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    id: 5,
+    title: 'Cinema City',
+    imageUrl: '/logo192.png',
+    location: 'Kyiv',
+    description: 'The moderm cinema industry Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   },
   {
-    vn_id: 6,
-    vn_title: 'Velohouse',
-    vn_image_url: '/logo192.png',
-    vn_loc: 'Vinnytsa',
-    vn_description: 'Bike shop'
+    id: 6,
+    title: 'Velohouse',
+    imageUrl: '/logo192.png',
+    location: 'Vinnytsa',
+    description: 'Bike shop'
   }
 ];
 
