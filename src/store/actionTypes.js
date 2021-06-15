@@ -6,3 +6,5 @@ export const GET_LOCATION_BY_ID_SUCCESS = 'GET_LOCATION_BY_ID_SUCCESS';
 // vendor
 export const ADD_VENDOR = 'ADD_VENDOR';
 export const DELETE_VENDOR = 'DELETE_VENDOR';
+export const GET_VENDORS = 'GET_VENDORS';
+export const GET_VENDORS_SUCCESS = 'GET_VENDORS_SUCCESS';

@@ -13,6 +13,7 @@ import {
   companyDescriptionValidation,
   selectValidation
 } from '../../../../utilities/validation';
+import { getCitiesGroupedByCountryOptions } from '../../../../store/reselect';
 
 const inputStyles = {
   width: '300px'
@@ -42,6 +43,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const citiesOptions = useSelector((state) => getCitiesGroupedByCountryOptions(state));
   const locationsList = useSelector((state) => state.locationReducer.locationsList);
   const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
   const transformedInitialLocation = {
@@ -51,22 +53,6 @@ function AddVendorModal({ onSave, selectedVendor }) {
   };
 
   console.log(transformedInitialLocation);
-
-  const locationsObject = locationsList.reduce((acc, location) => {
-    acc[location.country] = [...acc[location.country] || [], {
-      id: location.id,
-      value: location.city,
-      label: location.city
-    }];
-
-    return acc;
-  }, {});
-
-  const locationOptions = Object.keys(locationsObject).reduce((acc, key) => {
-    const obj = { label: key, options: locationsObject[key] };
-    acc.push(obj);
-    return acc;
-  }, []);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -202,7 +188,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           error = {errors.imageUrl}
         />
         <SelectField
-          options = {locationOptions}
+          options = {citiesOptions}
           initialValue = {transformedInitialLocation}
           label = "Location"
           placeholder = "Select location"
