@@ -6,8 +6,7 @@ export const addVendor = (data) => {
   return 'Vendor successfully added'; // temporary to check flow
 };
 
-export const updateVendor = ({ id, ...data }) => {
-  console.log(id); // temporary to check flow
+export const updateVendor = (data) => {
   console.log(data); // temporary to check flow
 
   return 'Vendor successfully updated'; // temporary to check flow
