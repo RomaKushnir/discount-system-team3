@@ -49,9 +49,9 @@ function Vendors() {
     console.log(id);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsOpen(false);
-  };
+  }, []);
 
   const onApplyButtonClick = () => {
     // apply filters
