@@ -1,4 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useMemo
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
@@ -15,8 +20,10 @@ import Pagination from '../../components/Pagination/Pagination';
 import {
   getVendorsOptions,
   getCountriesOptions,
-  getCitiesGroupedByCountryOptions
-} from '../../store/reselect';
+  getCitiesGroupedByCountryOptions,
+  getLocationsList,
+  getVendorsList
+} from '../../store/selectors';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -28,18 +35,21 @@ function Vendors() {
     dispatch(actions.locationActions.getLocationsList());
   }, [dispatch]);
 
-  const vendors = useSelector((state) => state.vendorReducer.vendors);
-  const locations = useSelector((state) => state.locationReducer.locationsList);
-  const vendorsOptions = useSelector((state) => getVendorsOptions(state));
-  const countriesOptions = useSelector((state) => getCountriesOptions(state));
-  const citiesOptions = useSelector((state) => getCitiesGroupedByCountryOptions(state));
+  const vendors = useSelector(getVendorsList);
+  const locations = useSelector(getLocationsList);
+  const vendorsOptions = useSelector(getVendorsOptions);
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
 
-  const vendorsWithCities = vendors.map((el) => {
-    const vendorLocation = locations.find((location) => location.id === el.locationId);
-    return { ...el, location: vendorLocation.city };
-  });
+  const vendorsWithCities = useMemo(() => {
+    const getVendorsWithCities = vendors.map((el) => {
+      const vendorLocation = locations.find((location) => location.id === el.locationId);
+      return { ...el, location: vendorLocation.city };
+    });
+    return getVendorsWithCities;
+  }, [locations, vendors]);
 
-  const onModalOpen = (e, id) => {
+  const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
     dispatch(actions.locationActions.getLocationsList());
 
@@ -57,11 +67,11 @@ function Vendors() {
         description: ''
       });
     }
-  };
+  }, [dispatch, vendors]);
 
-  const onDelete = (id) => {
+  const onDelete = useCallback((id) => {
     dispatch(actions.vendorActions.deleteVendor(id));
-  };
+  }, [dispatch]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);

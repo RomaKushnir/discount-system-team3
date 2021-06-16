@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
-const vendorsList = (state) => state.vendorReducer.vendors;
+export const getVendorsList = (state) => state.vendorReducer.vendors;
 
-const getVendorsOptions = createSelector(
-  vendorsList,
+export const getVendorsOptions = createSelector(
+  getVendorsList,
   (items) => items.reduce((acc, item) => {
     const obj = {
       id: item.id,
@@ -14,5 +14,3 @@ const getVendorsOptions = createSelector(
     return acc;
   }, [])
 );
-
-export default getVendorsOptions;

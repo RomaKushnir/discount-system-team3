@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
@@ -13,7 +13,7 @@ import {
   companyDescriptionValidation,
   selectValidation
 } from '../../../../utilities/validation';
-import { getCitiesGroupedByCountryOptions } from '../../../../store/reselect';
+import { getCitiesGroupedByCountryOptions } from '../../../../store/selectors';
 
 const inputStyles = {
   width: '300px'
@@ -43,16 +43,17 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const citiesOptions = useSelector((state) => getCitiesGroupedByCountryOptions(state));
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const locationsList = useSelector((state) => state.locationReducer.locationsList);
-  const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
-  const transformedInitialLocation = {
-    id: initialLocation?.id,
-    value: initialLocation?.city,
-    label: initialLocation?.city
-  };
 
-  console.log(transformedInitialLocation);
+  const transformedInitialLocation = useMemo(() => {
+    const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
+    return {
+      id: initialLocation?.id,
+      value: initialLocation?.city,
+      label: initialLocation?.city
+    };
+  }, [locationsList, selectedVendor]);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
