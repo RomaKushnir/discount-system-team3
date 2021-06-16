@@ -1,6 +1,12 @@
-import { call, takeEvery, all } from 'redux-saga/effects';
+import {
+  put,
+  call,
+  takeEvery,
+  all
+} from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import * as services from '../../services';
+import * as actions from '../actions';
 
 export function* addVendor({ payload }) {
   const { id, ...data } = payload;
@@ -15,8 +21,11 @@ export function* addVendor({ payload }) {
     }
 
     console.log(response);
+    yield put(actions.vendorActions.addVendorSuccess(response));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.addVendorFailure(error));
   }
 }
 

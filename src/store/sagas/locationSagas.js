@@ -15,6 +15,8 @@ export function* getLocations() {
     yield put(actions.locationActions.getLocationsListSuccess(response));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.locationActions.getLocationsListFailure(error));
   }
 }
 
@@ -25,6 +27,8 @@ export function* getLocationById({ payload }) {
     yield put(actions.locationActions.getLocationByIdSuccess(response));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.locationActions.getLocationByIdFailure(error));
   }
 }
 

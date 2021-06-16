@@ -13,6 +13,13 @@ export function getLocationsListSuccess(payload) {
   };
 }
 
+export function getLocationsListFailure(payload) {
+  return {
+    type: types.GET_LOCATIONS_LIST_FAILURE,
+    payload
+  };
+}
+
 export function getLocationById(payload) {
   return {
     type: types.GET_LOCATION_BY_ID,
@@ -23,6 +30,13 @@ export function getLocationById(payload) {
 export function getLocationByIdSuccess(payload) {
   return {
     type: types.GET_LOCATION_BY_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getLocationByIdFailure(payload) {
+  return {
+    type: types.GET_LOCATION_BY_ID_FAILURE,
     payload
   };
 }
