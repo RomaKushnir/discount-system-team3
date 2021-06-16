@@ -1,4 +1,4 @@
-// import axios from 'API';
+// import axios from './axiosClient';
 import vendorsList from '../mockData/VendorsListPage';
 
 export const addVendor = (data) => {
@@ -21,6 +21,7 @@ export const deleteVendor = (id) => {
 
 export const getVendors = () => {
   console.log('Get Vendors!'); // temporary to check flow
-
+  console.log('getVendors AXIOS', Date.now());
+  // return axios.get('vendors');
   return vendorsList; // temporary to check flow
 };
