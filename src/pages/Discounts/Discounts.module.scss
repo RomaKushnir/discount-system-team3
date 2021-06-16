@@ -1,3 +1,11 @@
-.container {
+.containerFluid {
   width: 100%;
+}
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+.discountsFilter {
+  padding: 10px 0;
+  flex-wrap: nowrap;
 }
