@@ -6,11 +6,11 @@ import {
 } from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import * as actions from '../actions';
-import * as services from '../../services';
+import * as api from '../../api';
 
 export function* getLocations() {
   try {
-    const response = yield call(services.locationService.getLocations);
+    const response = yield call(api.locations.getLocations);
 
     yield put(actions.locationActions.getLocationsListSuccess(response));
   } catch (error) {
@@ -22,7 +22,7 @@ export function* getLocations() {
 
 export function* getLocationById({ payload }) {
   try {
-    const response = yield call(services.locationService.getLocationById, payload);
+    const response = yield call(api.locations.getLocationById, payload);
 
     yield put(actions.locationActions.getLocationByIdSuccess(response));
   } catch (error) {
