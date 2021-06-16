@@ -1,5 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useMemo
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
@@ -11,25 +16,45 @@ import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import SelectField from '../../components/SelectField';
 import sortList from '../../mockData/sortList';// mock data to render select list
-import VendorsListPage from '../../mockData/VendorsListPage';// mock data to render select list
-import countriesList from '../../mockData/countriesList';// mock data to render select list
-import citiesList from '../../mockData/citiesList';// mock data to render select list
-import vendorsList from '../../mockData/vendorsList';// mock data to render select list
 import Pagination from '../../components/Pagination/Pagination';
+import {
+  getVendorsOptions,
+  getCountriesOptions,
+  getCitiesGroupedByCountryOptions,
+  getLocationsList,
+  getVendorsList
+} from '../../store/selectors';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
 
-  const onModalOpen = (e, id) => {
+  useEffect(() => {
+    dispatch(actions.vendorActions.getVendors());
+    dispatch(actions.locationActions.getLocationsList());
+  }, [dispatch]);
+
+  const vendors = useSelector(getVendorsList);
+  const locations = useSelector(getLocationsList);
+  const vendorsOptions = useSelector(getVendorsOptions);
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+
+  const vendorsWithCities = useMemo(() => {
+    const getVendorsWithCities = vendors.map((el) => {
+      const vendorLocation = locations.find((location) => location.id === el.locationId);
+      return { ...el, location: vendorLocation.city };
+    });
+    return getVendorsWithCities;
+  }, [locations, vendors]);
+
+  const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
     dispatch(actions.locationActions.getLocationsList());
 
-    console.log(e, id);
-
     if (e.target.name === 'edit') {
-      const selectedVendor = VendorsListPage.find((el) => el.id === id);
+      const selectedVendor = vendors.find((el) => el.id === id);
 
       setVendor(selectedVendor);
     } else {
@@ -42,12 +67,11 @@ function Vendors() {
         description: ''
       });
     }
-  };
+  }, [dispatch, vendors]);
 
-  const onDelete = (id) => {
-    // do code to delete item
-    console.log(id);
-  };
+  const onDelete = useCallback((id) => {
+    dispatch(actions.vendorActions.deleteVendor(id));
+  }, [dispatch]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -72,10 +96,10 @@ function Vendors() {
         <main className={styles.contentWrapper}>
           <FiltersContainer
             onApplyButtonClick={onApplyButtonClick}
-            countriesList={countriesList}
-            citiesList={citiesList}
+            countriesList={countriesOptions}
+            citiesList={citiesOptions}
             categoriesList={[]}
-            vendorsList={vendorsList}
+            vendorsList={vendorsOptions}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
@@ -97,7 +121,7 @@ function Vendors() {
             />
           </Modal>
           <VendorsList
-            vendors={VendorsListPage}
+            vendors={vendorsWithCities}
             onEdit = {onModalOpen}
             onDelete = {onDelete}
           />

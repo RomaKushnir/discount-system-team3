@@ -25,10 +25,10 @@ const VendorsListPage = [
   },
   {
     id: 4,
-    title: 'Rozetka',
+    title: 'makeup',
     imageUrl: '/logo192.png',
     locationId: 4,
-    email: 'test@rozetka.com',
+    email: 'test@makeup.com',
     description: 'Popular UA internet shop'
   },
   {
@@ -41,11 +41,11 @@ const VendorsListPage = [
   },
   {
     id: 6,
-    title: 'Velohouse',
+    title: 'foxtrot',
     imageUrl: '/logo192.png',
     locationId: 6,
-    email: 'test@velohouse.com',
-    description: 'Bike shop'
+    email: 'test@foxtrot.com',
+    description: 'equipment'
   }
 ];
 

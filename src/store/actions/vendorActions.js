@@ -13,3 +13,16 @@ export function deleteVendor(payload) {
     payload
   };
 }
+
+export function getVendors() {
+  return {
+    type: types.GET_VENDORS
+  };
+}
+
+export function getVendorsSuccess(payload) {
+  return {
+    type: types.GET_VENDORS_SUCCESS,
+    payload
+  };
+}
