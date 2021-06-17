@@ -26,11 +26,21 @@ export function* addVendor({ payload }) {
   }
 }
 
+export function* updateVendor({ payload }) {
+  try {
+    const response = yield call(api.vendors.updateVendor, payload);
+
+    yield put(actions.vendorActions.updateVendorSuccess(response));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export function* deleteVendor({ payload }) {
   try {
-    const response = yield call(api.vendors.deleteVendor, payload);
+    yield call(api.vendors.deleteVendor, payload);
 
-    console.log(response);
+    yield put(actions.vendorActions.deleteVendorSuccess(payload));
   } catch (error) {
     console.error(error);
   }

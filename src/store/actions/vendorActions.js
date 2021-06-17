@@ -7,9 +7,30 @@ export function addVendor(payload) {
   };
 }
 
+export function updateVendor(payload) {
+  return {
+    type: types.UPDATE_VENDOR,
+    payload
+  };
+}
+
+export function updateVendorSuccess(payload) {
+  return {
+    type: types.UPDATE_VENDOR_SUCCESS,
+    payload
+  };
+}
+
 export function deleteVendor(payload) {
   return {
     type: types.DELETE_VENDOR,
+    payload
+  };
+}
+
+export function deleteVendorSuccess(payload) {
+  return {
+    type: types.DELETE_VENDOR_SUCCESS,
     payload
   };
 }
