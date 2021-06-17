@@ -1,40 +1,39 @@
+@import '../../variables.scss';
 .borderCard {
-    width: 420px;
-    height: 180px;
+    width: 100%;
+    height: fit-content;
     display: flex;
     border-radius: 10px;
     box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
     font-family: 'Reem Kufi', sans-serif;
+    padding: .5rem;
 }
 
 .roundImg {
-    border-radius: 100px;
-    margin: 20px;
+    border-radius: 100%;
+    margin: 10px;
 }
 
 .row {
-    flex-direction: row;
-    height: 30px;
-    margin: 10px 0 12px 0;
+    display: flex;
+    margin: .3rem 0 .4rem;
 }
 
 .col1 {
- width: 35%;
- flex-direction: column;
+    flex-grow: 1;
 }
 
 .col2 {
- width: 75%;
- flex-direction: column;
- margin-left: 10px;
+    flex-grow: 3;
+    margin-left: 10px;
 }
 
 .col3 {
-    width: 30%;
-    flex-direction: column;
-    display: inline-block;
     margin: 0;
     white-space: nowrap;
+}
+.col3 + .col3 {
+    margin-left: 1rem;
 }
 
 .description {
@@ -43,5 +42,19 @@
 
 .disc {
     text-align: right;
-    margin-right: 10px;
+    background-color: $color--blue-dark;
+    color: $color--primary-white;
+    padding: .2rem;
+    border-radius: 0 .2rem .2rem 0;
+    position: relative;
+    margin-left: auto;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -32px;
+        border: 12px solid transparent;
+        border-right: 20px solid $color--blue-dark;
+    }
 }
