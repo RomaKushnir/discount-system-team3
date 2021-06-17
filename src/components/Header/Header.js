@@ -39,7 +39,7 @@ function Header() {
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
-            to={Routes.DISCOUNTS}
+            to={Routes.MY_DISCOUNTS}
             className={linkStyles}
             activeClassName={styles.activeClassName}
           >My discounts</NavLink>

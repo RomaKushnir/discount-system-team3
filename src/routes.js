@@ -6,7 +6,8 @@ const Routes = {
   VENDOR: '/vendor/:id',
   CATEGORIES: '/categories',
   STATISTICS: '/statistics',
-  FAVOURITES: '/favourites'
+  FAVOURITES: '/favourites',
+  MY_DISCOUNTS: '/mydiscounts'
 };
 
 export default Routes;
