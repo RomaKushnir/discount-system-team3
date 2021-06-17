@@ -5,6 +5,7 @@ import React, {
   useMemo
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
@@ -40,6 +41,7 @@ function Vendors() {
   const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
 
   const vendorsWithCities = useMemo(() => {
     const getVendorsWithCities = vendors.map((el) => {
@@ -120,12 +122,22 @@ function Vendors() {
               selectedVendor = {vendor}
             />
           </Modal>
-          <VendorsList
-            vendors={vendorsWithCities}
-            onEdit = {onModalOpen}
-            onDelete = {onDelete}
-          />
-          <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+            <div>
+              {getVendorsStatus.loading === true
+                && <div className = {styles.loadingContainer}>
+                <CircularProgress />
+              </div>}
+              {getVendorsStatus.loading === false
+                && <>
+                <VendorsList
+                  vendors={vendorsWithCities}
+                  onEdit = {onModalOpen}
+                  onDelete = {onDelete}
+                />
+                <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+                </>
+                }
+          </div>
         </main>
       </div>
       <Footer />
