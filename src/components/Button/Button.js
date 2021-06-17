@@ -4,7 +4,8 @@ function Button({
   btnText,
   onClick,
   isDisabled = false,
-  name
+  name,
+  type
 }) {
   return (
     <button
@@ -12,6 +13,7 @@ function Button({
       onClick = {onClick}
       disabled = {isDisabled}
       name = {name}
+      type = {type}
     >
       {btnText}
     </button>

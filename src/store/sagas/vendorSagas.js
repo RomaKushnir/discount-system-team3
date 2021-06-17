@@ -12,16 +12,20 @@ export function* addVendor({ payload }) {
   const { id, ...data } = payload;
 
   let response;
+  let successMessage;
 
   try {
     if (id === '') {
       response = yield call(api.vendors.addVendor, data);
+      successMessage = 'Vendor successfully added';
     } else {
       response = yield call(api.vendors.updateVendor, payload);
+      successMessage = 'Vendor successfully updated';
     }
 
     console.log(response);
-    yield put(actions.vendorActions.addVendorSuccess(response));
+    console.log(successMessage);
+    yield put(actions.vendorActions.addVendorSuccess(successMessage));
   } catch (error) {
     console.error(error);
     console.log(error);
@@ -34,8 +38,12 @@ export function* deleteVendor({ payload }) {
     const response = yield call(api.vendors.deleteVendor, payload);
 
     console.log(response);
+
+    yield put(actions.vendorActions.deleteVendorSuccess(payload));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.deleteVendorFailure(error));
   }
 }
 
@@ -46,6 +54,8 @@ export function* getVendors() {
     yield put(actions.vendorActions.getVendorsSuccess(response));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.getVendorsFailure(error));
   }
 }
 

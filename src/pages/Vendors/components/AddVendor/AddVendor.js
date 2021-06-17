@@ -45,6 +45,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
 
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const locationsList = useSelector((state) => state.locationReducer.locationsList);
+  const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
 
   const transformedInitialLocation = useMemo(() => {
     const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
@@ -140,14 +141,28 @@ function AddVendorModal({ onSave, selectedVendor }) {
     ) {
       setIsDisabled(false);
       dispatch(actions.vendorActions.addVendor(vendor));
-      onSave();
     } else {
       setIsDisabled(true);
     }
   };
 
+  const onOkClick = () => {
+    onSave();
+    dispatch(actions.vendorActions.addVendorClearStatus());
+  };
+
   return (
-    <form className = {styles.container}>
+    <div className = {styles.container}>
+      {addVendorStatus.loading === false && addVendorStatus.success
+      && <div className = {styles.successMessageContainer}>
+        <div className = {styles.successMessage}>{addVendorStatus.success}</div>
+        <Button
+          btnText = "OK"
+          onClick = {onOkClick}
+          type = "submit"
+        />
+      </div>}
+      <form>
       <div className = {styles.inputs}>
         <TextInput
           onValueChange = {onValueChange}
@@ -208,14 +223,21 @@ function AddVendorModal({ onSave, selectedVendor }) {
         touched = {touched.description ? 1 : 0}
       />
       <div className = {styles.error}>{errors.description}</div>
+      {addVendorStatus.loading === false && addVendorStatus.error
+      && <div className = {styles.errorMessage}>
+        {addVendorStatus.error}
+      </div>
+      }
       <div className = {styles.buttonContainer}>
         <Button
           btnText = "Save"
           onClick = {onSaveButtonClick}
           isDisabled = {isDisabled}
+          type = "submit"
         />
       </div>
-    </form>
+      </form>
+    </div>
   );
 }
 

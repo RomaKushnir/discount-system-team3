@@ -1,10 +1,11 @@
 import * as types from '../actionTypes';
+import * as helpers from '../helpers';
 
 const initialState = {
   locationsList: [],
   selectedLocation: {},
-  error: '',
-  isLoading: false
+  getLocationsStatus: helpers.getDefaultState(),
+  getLocationByIdStatus: helpers.getDefaultState()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -12,7 +13,7 @@ const locationReducer = (state = initialState, action) => {
     case types.GET_LOCATIONS_LIST: {
       return {
         ...state,
-        isLoading: true
+        getLocationsStatus: helpers.getRequestState()
       };
     }
     case types.GET_LOCATIONS_LIST_SUCCESS: {
@@ -20,21 +21,20 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         locationsList: payload,
-        isLoading: false
+        getLocationsStatus: helpers.getSuccessState(payload)
       };
     }
     case types.GET_LOCATIONS_LIST_FAILURE: {
       const { payload } = action;
       return {
         ...state,
-        error: payload,
-        isLoading: false
+        getLocationsStatus: helpers.getErrorState(payload)
       };
     }
     case types.GET_LOCATION_BY_ID: {
       return {
         ...state,
-        isLoading: true
+        getLocationByIdStatus: helpers.getDefaultState()
       };
     }
     case types.GET_LOCATION_BY_ID_SUCCESS: {
@@ -42,15 +42,14 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedLocation: payload,
-        isLoading: false
+        getLocationByIdStatus: helpers.getSuccessState(payload)
       };
     }
     case types.GET_LOCATION_BY_ID_FAILURE: {
       const { payload } = action;
       return {
         ...state,
-        error: payload,
-        isLoading: false
+        getLocationByIdStatus: helpers.getErrorState(payload)
       };
     }
     default:

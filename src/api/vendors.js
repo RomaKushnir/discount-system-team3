@@ -22,5 +22,8 @@ export const deleteVendor = (id) => {
 export const getVendors = () => {
   console.log('Get Vendors!'); // temporary to check flow
 
+  // return  new Promise(resolve, reject) {
+  //   setTimeout
+  // }; // temporary to check flow
   return vendorsList; // temporary to check flow
 };
