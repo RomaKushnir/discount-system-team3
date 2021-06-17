@@ -38,8 +38,8 @@ export function* updateVendor({ payload }) {
 
 export function* deleteVendor({ payload }) {
   try {
-    const response = yield call(api.vendors.deleteVendor, payload);
-    console.log(response);
+    yield call(api.vendors.deleteVendor, payload);
+
     yield put(actions.vendorActions.deleteVendorSuccess(payload));
   } catch (error) {
     console.error(error);
