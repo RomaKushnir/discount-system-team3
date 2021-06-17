@@ -26,7 +26,7 @@ function App() {
           <Route path = {Routes.DISCOUNTS}>
             <Discounts />
           </Route>
-          <Route path = {Routes.VENDOR}>
+          <Route path = {Routes.VENDOR_ID}>
             <Vendor />
           </Route>
           <Route path = {Routes.VENDORS}>

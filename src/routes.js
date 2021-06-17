@@ -3,7 +3,8 @@ const Routes = {
   LOGIN: '/login',
   DISCOUNTS: '/discounts',
   VENDORS: '/vendors',
-  VENDOR: '/vendor/:id',
+  VENDOR: '/vendor',
+  VENDOR_ID: '/vendor/:id',
   CATEGORIES: '/categories',
   STATISTICS: '/statistics',
   FAVOURITES: '/favourites'

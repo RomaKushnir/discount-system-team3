@@ -44,7 +44,7 @@ function Vendors() {
   const vendorsWithCities = useMemo(() => {
     const getVendorsWithCities = vendors.map((el) => {
       const vendorLocation = locations.find((location) => location.id === el.locationId);
-      return { ...el, location: vendorLocation.city };
+      return { ...el, location: vendorLocation ? vendorLocation.city : 'testCity' };// fallback value if not found locationId in mockData
     });
     return getVendorsWithCities;
   }, [locations, vendors]);
