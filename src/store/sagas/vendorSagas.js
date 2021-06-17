@@ -24,6 +24,9 @@ export function* addVendor({ payload }) {
   } catch (error) {
     console.error(error);
     console.log(error);
+    console.log(error.response);
+    console.log(error.request);
+    console.log(error.config);
     yield put(actions.vendorActions.addVendorFailure(error));
   }
 }
