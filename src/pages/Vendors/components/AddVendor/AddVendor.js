@@ -150,6 +150,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const onOkClick = () => {
     onSave();
     dispatch(actions.vendorActions.addVendorClearStatus());
+    dispatch(actions.vendorActions.getVendors());
   };
 
   return (
