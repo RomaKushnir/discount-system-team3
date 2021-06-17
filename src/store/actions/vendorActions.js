@@ -41,6 +41,13 @@ export function addVendorFailure(payload) {
   };
 }
 
+export function updateVendorSuccess(payload) {
+  return {
+    type: types.UPDATE_VENDOR_SUCCESS,
+    payload
+  };
+}
+
 export function addVendorClearStatus() {
   return {
     type: types.ADD_VENDOR_CLEAR_STATUS
