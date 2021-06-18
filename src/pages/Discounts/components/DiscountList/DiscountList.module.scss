@@ -1,0 +1,10 @@
+.discountsList {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+  margin: 16px 0;
+}
+.discountsCard {
+  width: 100%;
+}
