@@ -74,3 +74,9 @@ export function deleteVendorFailure(payload) {
     payload
   };
 }
+
+export function deleteVendorClearStatus() {
+  return {
+    type: types.DELETE_VENDOR_CLEAR_STATUS
+  };
+}

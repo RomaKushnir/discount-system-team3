@@ -97,6 +97,12 @@ const vendorReducer = (state = initialState, action) => {
         deleteVendorStatus: helpers.getErrorState(payload)
       };
     }
+    case types.DELETE_VENDOR_CLEAR_STATUS: {
+      return {
+        ...state,
+        deleteVendorStatus: helpers.getDefaultState()
+      };
+    }
     case types.UPDATE_VENDOR_SUCCESS: {
       const { payload } = action;
       console.log(payload);

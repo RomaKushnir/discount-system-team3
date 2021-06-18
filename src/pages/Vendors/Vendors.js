@@ -72,6 +72,7 @@ function Vendors() {
   }, [dispatch, vendors]);
 
   const onDelete = useCallback((id) => {
+    dispatch(actions.vendorActions.deleteVendorClearStatus());
     dispatch(actions.vendorActions.deleteVendor(id));
   }, [dispatch]);
 
