@@ -70,10 +70,10 @@ const selectValidation = (value) => {
 
 const titleValidation = (title) => {
   if (title.trim() === '') {
-    return `${title} is required`;
+    return `This field is required`;
   }
   if (title.trim().length < titleMinLength) {
-    return `${title} needs to be at least ${titleMinLength} characters`;
+    return `This field needs to be at least ${titleMinLength} characters`;
   }
   if (title.trim().length > titleMaxLength) {
     return 'Title is too long';
