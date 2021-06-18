@@ -1,3 +1,9 @@
+import React, {
+  // useState,
+  useEffect
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
@@ -27,6 +33,15 @@ const onShowMoreClick = () => {
 const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.discountsActions.getDiscountsList());
+  }, [dispatch]);
+
+  const discounts = useSelector((state) => state.discountsReducer.discounts);
+  console.log(discounts);
+
   const onApplyButtonClick = (parameters) => {
     console.log(parameters);
   };
