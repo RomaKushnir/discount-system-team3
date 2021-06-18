@@ -47,7 +47,7 @@ const imageUrlValidation = (imageUrl) => {
   if (imageUrl.trim() === '') {
     return 'Url is required';
   }
-  if (/.png/ // temporary for testing
+  if (/./ // temporary for testing
     .test(imageUrl)) {
     return null;
   }

@@ -16,23 +16,18 @@ export function* addVendor({ payload }) {
   try {
     if (id === '') {
       response = yield call(api.vendors.addVendor, data);
+      yield put(actions.vendorActions.addVendorSuccess(response.data));
     } else {
       response = yield call(api.vendors.updateVendor, payload);
+      yield put(actions.vendorActions.updateVendorSuccess(response.data));
     }
-
-    console.log(response);
   } catch (error) {
     console.error(error);
-  }
-}
-
-export function* updateVendor({ payload }) {
-  try {
-    const response = yield call(api.vendors.updateVendor, payload);
-
-    yield put(actions.vendorActions.updateVendorSuccess(response));
-  } catch (error) {
-    console.error(error);
+    console.log(error);
+    console.log(error.response);
+    console.log(error.request);
+    console.log(error.config);
+    yield put(actions.vendorActions.addVendorFailure(error));
   }
 }
 
@@ -43,6 +38,8 @@ export function* deleteVendor({ payload }) {
     yield put(actions.vendorActions.deleteVendorSuccess(payload));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.deleteVendorFailure(error));
   }
 }
 
@@ -50,9 +47,11 @@ export function* getVendors() {
   try {
     const response = yield call(api.vendors.getVendors);
 
-    yield put(actions.vendorActions.getVendorsSuccess(response));
+    yield put(actions.vendorActions.getVendorsSuccess(response.data));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.getVendorsFailure(error));
   }
 }
 

@@ -12,9 +12,11 @@ export function* getLocations() {
   try {
     const response = yield call(api.locations.getLocations);
 
-    yield put(actions.locationActions.getLocationsListSuccess(response));
+    yield put(actions.locationActions.getLocationsListSuccess(response.data));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.locationActions.getLocationsListFailure(error));
   }
 }
 
@@ -22,9 +24,11 @@ export function* getLocationById({ payload }) {
   try {
     const response = yield call(api.locations.getLocationById, payload);
 
-    yield put(actions.locationActions.getLocationByIdSuccess(response));
+    yield put(actions.locationActions.getLocationByIdSuccess(response.data));
   } catch (error) {
     console.error(error);
+    console.log(error);
+    yield put(actions.locationActions.getLocationByIdFailure(error));
   }
 }
 
