@@ -6,7 +6,7 @@
     border-radius: 10px;
     box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
     font-family: 'Reem Kufi', sans-serif;
-    padding: .5rem;
+    padding: 8px;
 }
 
 .roundImg {
@@ -16,7 +16,7 @@
 
 .row {
     display: flex;
-    margin: .3rem 0 .4rem;
+    margin: 5px 0 7px;
 }
 
 .col1 {
@@ -33,7 +33,7 @@
     white-space: nowrap;
 }
 .col3 + .col3 {
-    margin-left: 1rem;
+    margin-left: 16px;
 }
 
 .description {
@@ -44,8 +44,8 @@
     text-align: right;
     background-color: $color--blue-dark;
     color: $color--primary-white;
-    padding: .2rem;
-    border-radius: 0 .2rem .2rem 0;
+    padding: 3px;
+    border-radius: 0 3px 3px 0;
     position: relative;
     margin-left: auto;
     &::before {

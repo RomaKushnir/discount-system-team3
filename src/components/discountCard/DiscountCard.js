@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './customStyles.module.scss';
+import style from './DiscountCard.module.scss';
 
 function DiscountCard({
   title,
