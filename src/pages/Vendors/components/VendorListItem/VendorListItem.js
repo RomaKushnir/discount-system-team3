@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Routes from '../../../../routes';
 import styles from './VendorListItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
-import DeleteConfirmation from '../DeleteConfirmation';
+import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 
 function VendorListItem({ vendor, onEdit, onDelete }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const deleteVendorStatus = useSelector((state) => state.vendorReducer.deleteVendorStatus);
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
@@ -44,7 +46,11 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
         <Link to={`${Routes.VENDOR}/${vendor.id}`} className={styles.detailsBtn}>View</Link>
       </div>
       <Modal isOpen={modalOpen} onClose={closeModal}>
-        <DeleteConfirmation onYesClick ={() => onDelete(vendor.id)}/>
+        <DeleteConfirmation
+          onYesClick ={() => onDelete(vendor.id)}
+          status = {deleteVendorStatus}
+          itemTitle = "vendor"
+        />
       </Modal>
     </div>
   );

@@ -1,18 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './DeleteConfirmation.module.scss';
-import Button from '../../../../components/Button';
+import Button from '../Button';
 
-function DeleteConfirmation({ onYesClick }) {
-  const deleteVendorStatus = useSelector((state) => state.vendorReducer.deleteVendorStatus);
-  console.log(deleteVendorStatus);
+function DeleteConfirmation({ onYesClick, status, itemTitle }) {
   return (
     <div className = {styles.container}>
-      <div className = {styles.question}>Are you sure you want to delete this vendor?</div>
-      {deleteVendorStatus.loading === false && deleteVendorStatus.error
+      <div className = {styles.question}>Are you sure you want to delete this {itemTitle}?</div>
+      {status.loading === false && status.error
         && <div className = {styles.errorMessage}>
-          {deleteVendorStatus.error.message}
+          {status.error.message}
       </div>
       }
         <Button
@@ -20,7 +17,7 @@ function DeleteConfirmation({ onYesClick }) {
           onClick = {onYesClick}
           type = "submit"
         />
-      {deleteVendorStatus.loading === true
+      {status.loading === true
         && <div className = {styles.loadingContainer}>
           <CircularProgress />
       </div>}
