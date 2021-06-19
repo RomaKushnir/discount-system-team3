@@ -5,8 +5,7 @@ const initialState = {
   vendors: [],
   getVendorsStatus: helpers.getDefaultState(),
   addVendorStatus: helpers.getDefaultState(),
-  deleteVendorStatus: helpers.getDefaultState(),
-  updateVendorStatus: helpers.getDefaultState()
+  deleteVendorStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
