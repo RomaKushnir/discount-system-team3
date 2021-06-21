@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
 import Routes from '../../../../routes';
 import styles from './VendorListItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
@@ -16,17 +17,18 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       </div>
       <div className={styles.buttons}>
         <ItemActionButton
-          title="Edit"
-          onActionClick={(e) => onEdit(e, vendor.id)}
-          className={styles.editBtn}
-          name = "edit"
+          title="Delete"
+          className={styles.deleteBtn}
+          type="delete"
+          name = "delete"
+          onActionClick={() => onDelete(vendor.id)}
         />
         <ItemActionButton
-          title="Delete"
-          type="delete"
-          className={styles.deleteBtn}
-          onActionClick={() => onDelete(vendor.id)}
-          name = "delete"
+          title="Edit"
+          className={styles.editBtn}
+          type="edit"
+          name = "edit"
+          onActionClick={(e) => onEdit(e, vendor.id)}
         />
         <Link to={`${Routes.VENDOR}/${vendor.id}`} className={styles.detailsBtn}>View</Link>
       </div>
