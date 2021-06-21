@@ -1,0 +1,48 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  padding: 10px;
+
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 170px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .buttonContainer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 40px 0 0 0;
+    }
+
+    .successMessageContainer, .loadingContainer {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      background-color: white;
+
+        .successMessage {
+          margin-bottom: 20px;
+        }
+    }
+
+    .errorMessage {
+      padding: 20px 0;
+      color: red
+    }
+}
