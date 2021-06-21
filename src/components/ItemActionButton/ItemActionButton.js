@@ -1,4 +1,4 @@
-import AddIcon from '@material-ui/icons/Add';
+import React from 'react';
 import styles from './ItemActionButton.module.scss';
 
 function ItemActionButton({
@@ -17,7 +17,7 @@ function ItemActionButton({
       onClick={onActionClick}
       name = {name}
     >
-      <AddIcon/> {title}
+      {title}
     </button>
   );
 }
