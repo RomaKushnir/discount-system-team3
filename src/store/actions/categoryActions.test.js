@@ -45,10 +45,10 @@ describe('Category actions', () => {
     };
     expect(actions.updateCategorySuccess(payload)).toEqual(expectedAction);
   });
-  test('should create an action to add category clear status', () => {
+  test('should create an action to clear add category status', () => {
     const expectedAction = {
-      type: types.ADD_CATEGORY_CLEAR_STATUS
+      type: types.CLEAR_ADD_CATEGORY_STATUS
     };
-    expect(actions.addCategoryClearStatus()).toEqual(expectedAction);
+    expect(actions.clearAddCategoryStatus()).toEqual(expectedAction);
   });
 });

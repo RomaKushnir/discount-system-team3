@@ -59,14 +59,14 @@ describe('CategoryReducer', () => {
       }
     );
   });
-  test('should handle ADD_CATEGORY_CLEAR_STATUS', () => {
+  test('should handle CLEAR_ADD_CATEGORY_STATUS', () => {
     expect(categoryReducer(
       {
         categories: [],
         addCategoryStatus: helpers.getRequestState()
       },
       {
-        type: types.ADD_CATEGORY_CLEAR_STATUS
+        type: types.CLEAR_ADD_CATEGORY_STATUS
       }
     )).toEqual(
       {

@@ -29,8 +29,8 @@ export function updateCategorySuccess(payload) {
   };
 }
 
-export function addCategoryClearStatus() {
+export function clearAddCategoryStatus() {
   return {
-    type: types.ADD_CATEGORY_CLEAR_STATUS
+    type: types.CLEAR_ADD_CATEGORY_STATUS
   };
 }

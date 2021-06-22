@@ -110,7 +110,7 @@ function AddCategoryModal({ onSave, selectedCategory }) {
 
   const onOkClick = () => {
     onSave();
-    dispatch(actions.categoryActions.addCategoryClearStatus());
+    dispatch(actions.categoryActions.clearAddCategoryStatus());
     // dispatch(actions.categoryActions.getCategories());
   };
 

@@ -34,8 +34,8 @@ const categoryReducer = (state = initialState, action) => {
         addCategoryStatus: helpers.getErrorState(payload)
       };
     }
-    case types.ADD_CATEGORY_CLEAR_STATUS: {
-      console.log('ADD_CATEGORY_CLEAR_STATUS');
+    case types.CLEAR_ADD_CATEGORY_STATUS: {
+      console.log('CLEAR_ADD_CATEGORY_STATUS');
       console.log(state);
       return {
         ...state,
