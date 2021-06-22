@@ -22,7 +22,7 @@ function Vendor() {
   const vendor = useSelector((state) => state.vendorReducer.vendor);
   console.log(vendor);
   return (
-    <div className={styles.container}>
+    <div className={styles.vendorPage}>
     <Header />
     <div className={styles.blockVendor}>
     <VendorInfo
