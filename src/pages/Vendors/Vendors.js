@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useState,
   useEffect,
@@ -72,6 +72,7 @@ function Vendors() {
   }, [dispatch, vendors]);
 
   const onDelete = useCallback((id) => {
+    dispatch(actions.vendorActions.clearDeleteVendorStatus());
     dispatch(actions.vendorActions.deleteVendor(id));
   }, [dispatch]);
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Statistics.module.scss';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';

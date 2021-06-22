@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddVendor.module.scss';
@@ -149,7 +149,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
 
   const onOkClick = () => {
     onSave();
-    dispatch(actions.vendorActions.addVendorClearStatus());
+    dispatch(actions.vendorActions.clearAddVendorStatus());
     dispatch(actions.vendorActions.getVendors());
   };
 

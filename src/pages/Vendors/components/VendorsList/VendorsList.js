@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './VendorsList.module.scss';
 import VendorListItem from '../VendorListItem';
 

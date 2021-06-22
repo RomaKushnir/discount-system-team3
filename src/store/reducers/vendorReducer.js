@@ -5,8 +5,7 @@ const initialState = {
   vendors: [],
   getVendorsStatus: helpers.getDefaultState(),
   addVendorStatus: helpers.getDefaultState(),
-  deleteVendorStatus: helpers.getDefaultState(),
-  updateVendorStatus: helpers.getDefaultState()
+  deleteVendorStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -64,8 +63,8 @@ const vendorReducer = (state = initialState, action) => {
         addVendorStatus: helpers.getErrorState(payload)
       };
     }
-    case types.ADD_VENDOR_CLEAR_STATUS: {
-      console.log('ADD_VENDOR_CLEAR_STATUS');
+    case types.CLEAR_ADD_VENDOR_STATUS: {
+      console.log('CLEAR_ADD_VENDOR_STATUS');
       console.log(state);
       return {
         ...state,
@@ -95,6 +94,12 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteVendorStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_DELETE_VENDOR_STATUS: {
+      return {
+        ...state,
+        deleteVendorStatus: helpers.getDefaultState()
       };
     }
     case types.UPDATE_VENDOR_SUCCESS: {

@@ -1,4 +1,3 @@
-import React from 'react';
 // import styles from './Vendor.module.scss';
 import { useParams } from 'react-router-dom';
 import DiscountCard from '../../components/discountCard';
