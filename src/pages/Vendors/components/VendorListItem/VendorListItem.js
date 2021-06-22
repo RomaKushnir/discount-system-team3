@@ -31,17 +31,19 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       </div>
       <div className={styles.buttons}>
         <ItemActionButton
-          title="Edit"
-          onActionClick={(e) => onEdit(e, vendor.id)}
-          className={styles.editBtn}
-          name = "edit"
-        />
-        <ItemActionButton
           title="Delete"
-          type="delete"
           className={styles.deleteBtn}
           onActionClick={onDeleteClick}
+          type="delete"
           name = "delete"
+          onActionClick={() => onDelete(vendor.id)}
+        />
+        <ItemActionButton
+          title="Edit"
+          className={styles.editBtn}
+          type="edit"
+          name = "edit"
+          onActionClick={(e) => onEdit(e, vendor.id)}
         />
         <Link to={`${Routes.VENDOR}/${vendor.id}`} className={styles.detailsBtn}>View</Link>
       </div>
