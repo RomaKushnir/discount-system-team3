@@ -2,21 +2,37 @@
 
 .actionBtn {
   cursor: pointer;
-  border: none;
+  border: 1px solid $color--blue-light;
   padding: 5px 10px;
   border-radius: 5px;
- &.normal {
-   background-color: $color--blue-light;
-   color: $color--primary-white;
-   &:hover {
-    background-color: $color--blue-dark;
-   }
- } 
- &.delete {
-  background-color: $color--gray-faded;
-  color: $color--primary-black;
-  &:hover {
-    background-color: $color--gray-light;
-   }
- }
+  background-color: transparent;
+  transition: 0.1s;
+  &.normal {
+    background-color: $color--blue-light;
+    color: $color--primary-white;
+    &:hover {
+      border-color: $color--blue-dark;
+      background-color: $color--blue-dark;
+    }
+  }
+  &.edit {
+    border-color: $color--blue-dark;
+    color: $color--blue-dark;
+    &:hover {
+      color: $color--primary-white;
+      background-color: $color--blue-dark;
+      border-color: $color--blue-dark;
+    }
+  } 
+  &.delete {
+    border-radius: 5px;
+    border-color: $color--gray-dark;
+    color: $color--gray-dark;
+    background-color: transparent;
+    padding: 5px 10px;
+    &:hover {
+      background-color: $color--gray-dark;
+      color: $color--primary-white;
+    }
+  }
 }
