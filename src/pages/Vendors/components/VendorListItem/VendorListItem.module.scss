@@ -7,9 +7,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 0 2px gray;
-  border-radius: 10px;
+  border-bottom: 1px solid $color--gray-light;
   &:hover {
     &::before {
       content: '';
@@ -22,6 +20,9 @@
       opacity: 0.05;
       z-index: -1;
     }
+  }
+  &:first-child {
+    border-top: 1px solid $color--gray-light;
   }
 }
 
@@ -62,19 +63,20 @@
 
 .buttons {
   display: flex;
-  .deleteBtn {
+  .editBtn {
     margin: 0 10px;
   }
   .detailsBtn {
+    border: 1px solid $color--blue-light;
+    background-color: $color--blue-light;
+    color: $color--primary-white;
+    padding: 5px 10px;
     border-radius: 5px;
-    border: 1px solid $color--blue-dark;
-    border: 1px solid $color--gray-dark;
-    color: $color--gray-dark;
-    padding: 4px 10px;
+    transition: 0.1s;
+    text-align: center;
     &:hover {
       background-color: $color--blue-dark;
       border-color: $color--blue-dark;
-      color: $color--primary-white;
     }
   }
 }
@@ -94,8 +96,8 @@
     }
   }
   .buttons {
-    flex-direction: column;
-    .deleteBtn {
+    flex-direction: column-reverse;
+    .editBtn {
       margin: 5px 0;
     }
   }
