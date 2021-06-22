@@ -48,9 +48,9 @@ export function updateVendorSuccess(payload) {
   };
 }
 
-export function addVendorClearStatus() {
+export function clearAddVendorStatus() {
   return {
-    type: types.ADD_VENDOR_CLEAR_STATUS
+    type: types.CLEAR_ADD_VENDOR_STATUS
   };
 }
 
@@ -75,8 +75,8 @@ export function deleteVendorFailure(payload) {
   };
 }
 
-export function deleteVendorClearStatus() {
+export function clearDeleteVendorStatus() {
   return {
-    type: types.DELETE_VENDOR_CLEAR_STATUS
+    type: types.CLEAR_DELETE_VENDOR_STATUS
   };
 }

@@ -170,7 +170,7 @@ describe('Vendor reducer', () => {
       }
     );
   });
-  test('should handle ADD_VENDOR_CLEAR_STATUS', () => {
+  test('should handle CLEAR_ADD_VENDOR_STATUS', () => {
     expect(vendorReducer(
       {
         vendors: [],
@@ -179,7 +179,7 @@ describe('Vendor reducer', () => {
         deleteVendorStatus: helpers.getDefaultState()
       },
       {
-        type: types.ADD_VENDOR_CLEAR_STATUS
+        type: types.CLEAR_ADD_VENDOR_STATUS
       }
     )).toEqual(
       {
@@ -281,7 +281,7 @@ describe('Vendor reducer', () => {
       }
     );
   });
-  test('should handle DELETE_VENDOR_CLEAR_STATUS', () => {
+  test('should handle CLEAR_DELETE_VENDOR_STATUS', () => {
     expect(vendorReducer(
       {
         vendors: [],
@@ -290,7 +290,7 @@ describe('Vendor reducer', () => {
         deleteVendorStatus: helpers.getSuccessState()
       },
       {
-        type: types.DELETE_VENDOR_CLEAR_STATUS
+        type: types.CLEAR_DELETE_VENDOR_STATUS
       }
     )).toEqual(
       {

@@ -1,4 +1,3 @@
-import React from 'react';
 import Select from 'react-select';
 import style from './SelectField.module.scss';
 import customStyles from './SelectField.styles';

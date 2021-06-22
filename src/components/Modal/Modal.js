@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Close } from '@material-ui/icons';
 import styles from './Modal.module.scss';

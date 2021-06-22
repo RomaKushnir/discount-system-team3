@@ -93,11 +93,11 @@ describe('Vendor actions', () => {
     };
     expect(actions.updateVendorSuccess(payload)).toEqual(expectedAction);
   });
-  test('should create an action to add vendor clear status', () => {
+  test('should create an action to clear add vendor status', () => {
     const expectedAction = {
-      type: types.ADD_VENDOR_CLEAR_STATUS
+      type: types.CLEAR_ADD_VENDOR_STATUS
     };
-    expect(actions.addVendorClearStatus()).toEqual(expectedAction);
+    expect(actions.clearAddVendorStatus()).toEqual(expectedAction);
   });
   test('should create an action to trigger deletion of vendor', () => {
     const payload = 3;
@@ -123,10 +123,10 @@ describe('Vendor actions', () => {
     };
     expect(actions.deleteVendorFailure(payload)).toEqual(expectedAction);
   });
-  test('should create an action to deletion vendor clear status', () => {
+  test('should create an action to clear deletion vendor status', () => {
     const expectedAction = {
-      type: types.DELETE_VENDOR_CLEAR_STATUS
+      type: types.CLEAR_DELETE_VENDOR_STATUS
     };
-    expect(actions.deleteVendorClearStatus()).toEqual(expectedAction);
+    expect(actions.clearDeleteVendorStatus()).toEqual(expectedAction);
   });
 });

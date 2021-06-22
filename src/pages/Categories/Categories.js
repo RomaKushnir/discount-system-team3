@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import styles from './Categories.module.scss';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
