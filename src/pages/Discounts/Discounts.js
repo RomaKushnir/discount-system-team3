@@ -12,7 +12,7 @@ import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 
-const onActionClick = () => {
+const onModalOpen = () => {
   console.log('click');
 };
 const onChange = () => {
@@ -47,7 +47,7 @@ function Discounts() {
             <div className = {styles.discountsActions}>
               <AddNewItemButton
                 btnTitle="Add new discount"
-                onAddNewItem={onActionClick}
+                onAddNewItem={onModalOpen}
                 name = "add_discount"
               />
               <SelectField
