@@ -13,7 +13,6 @@ import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
-import discountsList from '../../mockData/discountsList';
 import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
@@ -76,7 +75,7 @@ function Discounts() {
             </div>
             <div className = {styles.discountsContainer}>
               <DiscountList
-                discounts = {discountsList}
+                discounts = {discounts}
               />
             </div>
             <div className = {styles.discountsShowMoreBtnWrap}>
