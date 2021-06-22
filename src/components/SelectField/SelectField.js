@@ -11,7 +11,7 @@ function SelectField({
   isLoading,
   isSearchable = true,
   isClearable = true,
-  className,
+  className = '',
   placeholder = '',
   isDisabled = false,
   isMulti = false,
@@ -19,11 +19,10 @@ function SelectField({
   onBlur
 }) {
   return (
-    <div className = {style.container}>
+    <div className = {`${style.container} ${className}`}>
       {label != null && <label className = {style.label}>{label}</label>}
       <Select
         styles = {customStyles}
-        className = {className}
         classNamePrefix = "select"
         defaultValue = {initialValue}
         isLoading = {isLoading}
