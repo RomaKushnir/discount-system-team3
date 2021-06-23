@@ -11,11 +11,12 @@ function TextInput(
     value,
     onBlur,
     error,
-    required = false
+    required = false,
+    className = ''
   }
 ) {
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} ${className}`}>
       {label != null && <label htmlFor={name}>{label}</label>}
       <input
         className={styles.input}

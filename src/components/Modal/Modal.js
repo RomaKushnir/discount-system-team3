@@ -21,7 +21,7 @@ function Modal({ isOpen, onClose, children }) {
          </div>
         <div className = {styles.content}>{children}</div>
        </div>
-     </div>, document.body
+     </div>, document.getElementById('modal-root')
   );
 }
 
