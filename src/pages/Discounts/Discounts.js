@@ -1,10 +1,10 @@
 import React, {
-  // useState,
-  useEffect
+  useState,
+  useEffect,
+  useCallback
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
-import { useState, useCallback } from 'react';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
