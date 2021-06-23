@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import DatePicker from 'react-date-picker';
 import styles from './AddDiscountModal.module.scss';
 import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
+import {
+  getVendorsOptions,
+  getCountriesOptions,
+  getCitiesGroupedByCountryOptions
+} from '../../../../store/selectors';
 
 function AddDiscountModal({ discount }) {
   const [dateFrom, setDateFrom] = useState(null);
@@ -11,12 +17,14 @@ function AddDiscountModal({ discount }) {
 
   const onDatePickFrom = (val) => {
     setDateFrom(val);
-    console.log('date picked from', val);
   };
   const onDatePickTo = (val) => {
     setDateTo(val);
-    console.log('date picked to', val);
   };
+
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  const vendorsOptions = useSelector(getVendorsOptions);
 
   return (
     <div className={styles.modalContent}>
@@ -37,7 +45,7 @@ function AddDiscountModal({ discount }) {
         <div className={styles.locationSection}>
           <div className={styles.twoColumnsWrapper}>
             <SelectField
-              // options = {citiesOptions}
+              options = {countriesOptions}
               // initialValue = {transformedInitialLocation}
               label = "Country"
               className={styles.inputContainer}
@@ -46,7 +54,7 @@ function AddDiscountModal({ discount }) {
             />
           </div>
           <SelectField
-              // options = {citiesOptions}
+              options = {citiesOptions}
               // initialValue = {transformedInitialLocation}
               label = "City"
               className={styles.inputContainer}
@@ -57,7 +65,7 @@ function AddDiscountModal({ discount }) {
         </div>
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            // options = {citiesOptions}
+            options = {vendorsOptions}
             // initialValue = {transformedInitialLocation}
             label = "Vendor"
             placeholder = "Select vendor"
@@ -161,7 +169,6 @@ function AddDiscountModal({ discount }) {
                 format="dd-MM-y"
                 name="date_from"
                 className={styles.customDatePicker}
-                defaultValue={null}
                 value={dateFrom}
                 onChange={onDatePickFrom}
               />
@@ -172,7 +179,6 @@ function AddDiscountModal({ discount }) {
                 format="dd-MM-y"
                 name="date_to"
                 className={styles.customDatePicker}
-                defaultValue={null}
                 value={dateTo}
                 onChange={onDatePickTo}
               />
