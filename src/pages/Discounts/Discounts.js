@@ -13,7 +13,7 @@ import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
-import AddDiscountModal from './components/AddDiscountModal/AddDiscountModal';
+import AddDiscountModal from './components/AddDiscountModal';
 
 const onChange = () => {
   console.log('change');
