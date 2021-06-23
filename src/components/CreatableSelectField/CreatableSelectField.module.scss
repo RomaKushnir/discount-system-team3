@@ -1,0 +1,16 @@
+@import '../../variables.scss';
+
+.container {
+  width: 200px;
+
+  .error {
+    color: red;
+  }
+}
+.label {
+  display: flex;
+  justify-content: flex-start;
+  color: $color--primary-black;
+  font-size: 1rem;
+  padding-bottom: 5px;
+}

@@ -1,35 +1,34 @@
-import Select from 'react-select';
-import style from './SelectField.module.scss';
-import customStyles from './SelectField.styles';
+import CreatableSelect from 'react-select/creatable';
+import style from './CreatableSelectField.module.scss';
+import customStyles from './CreatableSelectField.styles';
 
-function SelectField({
+function CreatableSelectField({
+  label,
   initialValue,
   options,
-  label,
   onChange,
   isLoading,
   isSearchable = true,
-  isClearable = true,
-  className = '',
-  placeholder = '',
+  isClearable = false,
+  className,
   isDisabled = false,
-  isMulti = false,
+  isMulti,
   error = '',
   onBlur
 }) {
+  console.log(initialValue);
   return (
-    <div className = {`${style.container} ${className}`}>
+    <div className = {style.container}>
       {label != null && <label className = {style.label}>{label}</label>}
-      <Select
+      <CreatableSelect
         styles = {customStyles}
-        classNamePrefix = "select"
+        className = {className}
         defaultValue = {initialValue}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}
         options = {options}
         onChange = {onChange}
-        placeholder = {placeholder}
         isDisabled = {isDisabled}
         isMulti = {isMulti}
         onBlur = {onBlur}
@@ -39,4 +38,4 @@ function SelectField({
   );
 }
 
-export default SelectField;
+export default CreatableSelectField;
