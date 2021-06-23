@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
@@ -11,10 +12,9 @@ import discountsList from '../../mockData/discountsList';
 import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
+import Modal from '../../components/Modal';
+import AddDiscountModal from './components/AddDiscountModal';
 
-const onActionClick = () => {
-  console.log('click');
-};
 const onChange = () => {
   console.log('change');
 };
@@ -27,6 +27,17 @@ const onShowMoreClick = () => {
 const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
+  const [modalState, setModalState] = useState(false);
+
+  const onModalOpen = () => {
+    setModalState(true);
+  };
+
+  const closeModal = useCallback(() => {
+    setModalState(false);
+  },
+  [setModalState]);
+
   const onApplyButtonClick = (parameters) => {
     console.log(parameters);
   };
@@ -47,7 +58,7 @@ function Discounts() {
             <div className = {styles.discountsActions}>
               <AddNewItemButton
                 btnTitle="Add new discount"
-                onAddNewItem={onActionClick}
+                onAddNewItem={onModalOpen}
                 name = "add_discount"
               />
               <SelectField
@@ -73,6 +84,9 @@ function Discounts() {
             </div>
           </main>
         </div>
+        <Modal isOpen={modalState} onClose={closeModal}>
+          <AddDiscountModal discount={{ title: 'title' }}/>
+        </Modal>
       <Footer/>
     </div>
   );
