@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddCategory.module.scss';
@@ -121,17 +121,15 @@ function AddCategoryModal({ onSave, selectedCategory }) {
     // dispatch(actions.categoryActions.getCategories()); // uncomment when we have redux flow for this
   };
 
-  const handleTagsChange = (newValue, actionMeta) => {
+  const handleTagsChange = useCallback(() => (newValue, actionMeta) => {
     console.group('Value Changed');
     console.log(newValue);
     console.log(actionMeta);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
-
-    console.log(tags);
     const newValuesOnly = new Set(newValue.filter((el) => !el.id).map((el) => el.value));
     setTags([...newValuesOnly]);
-  };
+  }, []);
 
   console.log(tags);
 
