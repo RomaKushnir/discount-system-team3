@@ -44,28 +44,16 @@ function AddDiscountModal({ discount }) {
               // onChange = {onChangeLocation}
               // error = {errors.locationId}
             />
-            <SelectField
+          </div>
+          <SelectField
               // options = {citiesOptions}
               // initialValue = {transformedInitialLocation}
-              label = "Country"
+              label = "City"
               className={styles.inputContainer}
+              isMulti={true}
               // onChange = {onChangeLocation}
               // error = {errors.locationId}
             />
-          </div>
-          <TextInput
-            // onValueChange = {onValueChange}
-            // placeholder = "Address"
-            label = "Address"
-            name = "address"
-            // type = "url"
-            className={styles.inputContainer}
-            // value = {discount.imageUrl}
-            // onBlur={onBlur}
-            required
-            // touched = {touched.imageUrl}
-            // error = {errors.imageUrl}
-          />
         </div>
         <div className={styles.twoColumnsWrapper}>
           <SelectField

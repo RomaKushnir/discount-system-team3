@@ -27,7 +27,7 @@ const onShowMoreClick = () => {
 const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
-  const [modalState, setModalState] = useState(true);
+  const [modalState, setModalState] = useState(false);
 
   const onModalOpen = () => {
     setModalState(true);
