@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Redirect exact from = "/" to = { isLoggedIn ? Routes.DISCOUNTS : Routes.LOGIN } />
+          <Redirect exact from = {Routes.ROOT} to = { isLoggedIn ? Routes.DISCOUNTS : Routes.LOGIN } />
           <Route path = {Routes.LOGIN}>
             <Login />
           </Route>

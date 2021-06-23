@@ -1,3 +1,9 @@
+import React, {
+  // useState,
+  useEffect
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../store/actions';
 import { useState, useCallback } from 'react';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
@@ -8,7 +14,6 @@ import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
-import discountsList from '../../mockData/discountsList';
 import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
@@ -27,6 +32,14 @@ const onShowMoreClick = () => {
 const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.discountsActions.getDiscountsList());
+  }, [dispatch]);
+
+  const discounts = useSelector((state) => state.discountsReducer.discounts);
+  console.log(discounts);
   const [modalState, setModalState] = useState(false);
 
   const onModalOpen = () => {
@@ -72,7 +85,7 @@ function Discounts() {
             </div>
             <div className = {styles.discountsContainer}>
               <DiscountList
-                discounts = {discountsList}
+                discounts = {discounts}
               />
             </div>
             <div className = {styles.discountsShowMoreBtnWrap}>
