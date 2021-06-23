@@ -17,7 +17,7 @@ import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 
 function App() {
-  const [isLoggedIn] = useState(true);
+  const [isLoggedIn] = useState(false);
 
   return (
     <BrowserRouter>
