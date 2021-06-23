@@ -12,10 +12,10 @@ function FiltersContainer({
   vendorsList
 }) {
   const [searchWord, setSearchWord] = useState('');
-  const [countries, setCountries] = useState(countriesList[0]);
-  const [cities, setCities] = useState(citiesList[0]);
-  const [categories, setCategories] = useState(categoriesList[0]);
-  const [vendor, setVendor] = useState(vendorsList[0]);
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [vendor, setVendor] = useState(null);
 
   const onChangeInput = (e) => {
     console.log(e.target.value);
@@ -24,17 +24,17 @@ function FiltersContainer({
 
   const onChangeCountries = (selectedOption) => {
     console.log(selectedOption);
-    setCountries(selectedOption);
+    setCountry(selectedOption);
   };
 
   const onChangeCities = (selectedOption) => {
     console.log(selectedOption);
-    setCities(selectedOption);
+    setCity(selectedOption);
   };
 
   const onChangeCategories = (selectedOption) => {
     console.log(selectedOption);
-    setCategories(selectedOption);
+    setCategory(selectedOption);
   };
 
   const onChangeVendor = (selectedOption) => {
@@ -48,7 +48,7 @@ function FiltersContainer({
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {countriesList[0]}
+              initialValue = {countriesList[0]} // temporary. Should be user country later
               options = {countriesList}
               label = "Country"
               onChange = {onChangeCountries}
@@ -56,7 +56,6 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                initialValue = {citiesList[0]}
                 options = {citiesList}
                 label = "City"
                 onChange = {onChangeCities}
@@ -66,7 +65,6 @@ function FiltersContainer({
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {categoriesList[0]}
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
@@ -74,7 +72,6 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {vendorsList[0]}
               options = {vendorsList}
               label = "Vendor"
               onChange = {onChangeVendor}
@@ -97,9 +94,9 @@ function FiltersContainer({
         onClick = {() => onApplyButtonClick(
           {
             searchWord,
-            countries,
-            cities,
-            categories,
+            country,
+            city,
+            category,
             vendor
           }
         )}
