@@ -1,7 +1,7 @@
 @import '../../variables.scss';
 .borderCard {
     width: 100%;
-    height: fit-content;
+    height: 100%;
     display: flex;
     border-radius: 10px;
     box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
@@ -26,6 +26,9 @@
 .col2 {
     flex-grow: 3;
     margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .col3 {

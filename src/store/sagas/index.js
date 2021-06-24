@@ -4,12 +4,14 @@ import locationSagas from './locationSagas';
 import vendorSagas from './vendorSagas';
 import categorySagas from './categorySagas';
 import userSagas from './userSagas';
+import discountsSagas from './discountsSagas';
 
 export default function* rootSaga() {
   yield all([
     vendorSagas(),
     locationSagas(),
     categorySagas(),
-    userSagas()
+    userSagas(),
+    discountsSagas()
   ]);
 }
