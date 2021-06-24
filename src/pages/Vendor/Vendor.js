@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Vendor.module.scss';
 import * as actions from '../../store/actions';
@@ -7,78 +8,51 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import VendorInfo from './components/VendorInfo/VendorInfo';
 import VendorDesc from './components/VendorDesc/VendorDesc';
-import ActiveDiscountsList from './components/ActiveDiscounts/ActiveDiscounts';
+import DiscountsList from './components/DiscountsList/ListDiscounts';
 import discountsList from '../../mockData/discountsList';
 
 function Vendor() {
   const dispatch = useDispatch();
   console.log('Before Use Effect');
-  const id = 22; // temporary
+  const { id } = useParams();// id value from url
   useEffect(() => {
     console.log('Use Effect');
     dispatch(actions.vendorActions.getVendorById(id));
     console.log('Work');
-  }, [dispatch]);
+    console.log(id);
+  }, [dispatch, id]);
   const vendor = useSelector((state) => state.vendorReducer.vendor);
   console.log(vendor);
   return (
+    <>
     <div className={styles.vendorPage}>
     <Header />
     <div className={styles.blockVendor}>
-    <VendorInfo
-      title = "Dodo"
-      img = "https://picsum.photos/200/300"
-      location = "Moscow"
-      address1 = "Sumska 256"
-      address2 = "Pushkinska 34"
-      category1 = "Food"
-      category2 = "Pizza"
-      category3 = "Fast-Food"
-      // vendor = {vendor}
+    { vendor && vendor.description
+      ? <Fragment> <VendorInfo
+      vendor = {vendor}
     />
-    <VendorDesc description = "Dodo Pizza is a Russian pizza delivery franchise founded in 2011 by Fyodor Ovchinnikov. The corporation is headquartered in Syktyvkar and Moscow."/>
-    {/* <VendorDesc description = {vendor.description} /> */}
+    <VendorDesc description = {vendor.description} />
+    </Fragment>
+      : <p>Vendor is not defined</p>
+    }
     </div>
     <div>
     <h2 className={styles.headers}>Active</h2>
     <div className={styles.activeDiscounts}>
-    <ActiveDiscountsList discountsList={discountsList}/>
-    {/* <div className={styles.blockButtonCenter}><button className={styles.buttonShowMore}>Show More</button></div> */}
+    <DiscountsList discountsList={discountsList}/>
     </div>
     </div>
     <div>
     <h2 className={styles.headers}>Archieve</h2>
     <div className={styles.activeDiscounts}>
-    <ActiveDiscountsList discountsList={discountsList}/>
-    {/* <div className={styles.blockButtonCenter}><button className={styles.buttonShowMore}>Show More</button></div> */}
+    <DiscountsList discountsList={discountsList}/>
     </div>
     </div>
     <div className={styles.footer}><Footer /></div>
     </div>
+    </>
   );
 }
 
 export default Vendor;
-
-/* <DiscountCard
-      title = "Discount on Carbonara"
-      category = "Food"
-      company = "Dodo"
-      description = "The pizza is delicious"
-      discount = "10%"
-    />
-    <DiscountCard
-      title = "Discount on Carbonara"
-      category = "Food"
-      company = "Dodo"
-      description = "The pizza is delicious"
-      discount = "10%"
-    />
-    <DiscountCard
-      title = "Discount on Carbonara"
-      category = "Food"
-      company = "Dodo"
-      description = "The pizza is delicious"
-      discount = "10%"
-    />
-*/
