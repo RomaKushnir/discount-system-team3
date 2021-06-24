@@ -84,7 +84,7 @@ const titleValidation = (title) => {
 
 const passwordValidation = (password) => {
   if (
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g.test( // Minimum eight characters, at least one letter and one number
+    /^\d{4,}$/g.test( // Minimum eight characters, at least one letter and one number
       password
     )
   ) {
