@@ -5,6 +5,7 @@ const imageUrlMaxLength = 510;
 const imageUrlMinLength = 3;
 const titleMaxLength = 50;
 const titleMinLength = 3;
+const passwordMinLength = 8;
 
 const idValidation = (id) => {
   if (id === Number(id) || id === '') {
@@ -81,11 +82,29 @@ const titleValidation = (title) => {
   return null;
 };
 
+const passwordValidation = (password) => {
+  if (
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g.test( // Minimum eight characters, at least one letter and one number
+      password
+    )
+  ) {
+    return null;
+  }
+  if (password.trim() === '') {
+    return 'Password is required';
+  }
+  if (password.trim().length < passwordMinLength) {
+    return 'Password is too short';
+  }
+  return 'Please enter a valid password';
+};
+
 export {
   idValidation,
   emailValidation,
   companyDescriptionValidation,
   imageUrlValidation,
   selectValidation,
-  titleValidation
+  titleValidation,
+  passwordValidation
 };
