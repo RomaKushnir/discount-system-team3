@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './Login.module.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import PasswordField from './components/PasswordField';
 import { emailValidation, passwordValidation } from '../../utilities/validation';
+import * as actions from '../../store/actions';
 
 const inputStyles = {
   width: '330px',
@@ -11,6 +14,8 @@ const inputStyles = {
 };
 
 function Login() {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(null);
   const [emailTouched, setEmailTouched] = useState(false);
@@ -18,7 +23,9 @@ function Login() {
   const [passwordError, setPasswordError] = useState(null);
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [loginDisabled, setLoginDisabled] = useState(true);
+  const [loginDisabled, setLoginDisabled] = useState(false);
+
+  const loginStatus = useSelector((state) => state.userReducer.loginStatus);
 
   const onEmailChange = (e) => {
     setEmail(e.target.value);
@@ -54,12 +61,8 @@ function Login() {
     setEmailTouched(true);
     setPasswordTouched(true);
     const errorEmail = emailValidation(email);
-    console.log(email);
-    console.log(errorEmail);
     setEmailError(errorEmail);
     const errorPassword = passwordValidation(password);
-    console.log(password);
-    console.log(errorPassword);
     setPasswordError(errorPassword);
 
     if (
@@ -67,14 +70,10 @@ function Login() {
       && email && password // no empty fields
       && emailTouched && passwordTouched // every touched field is true
     ) {
-      console.log('GOOD TO GO', email, password);
+      console.log({ email, password });
       setLoginDisabled(false);
-      // dispatch(actions.userActions.login(email, password));
+      dispatch(actions.userActions.login({ email, password }));
     } else {
-      console.log(emailError === null, passwordError === null,
-        email, password, // no empty fields
-        emailTouched, passwordTouched);
-      console.log(email, password);
       setLoginDisabled(true);
     }
   };
@@ -110,6 +109,11 @@ function Login() {
             error = {passwordError}
           />
         </div>
+        {loginStatus.loading === false && loginStatus.error
+          && <div className = {styles.errorMessage}>
+            {loginStatus.error.message}
+          </div>
+        }
         <div className = {styles.buttonContainer}>
           <Button
             btnText = "Login"
@@ -118,6 +122,11 @@ function Login() {
             type = "submit"
           />
         </div>
+        {loginStatus.loading === true
+          && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+          </div>
+        }
       </main>
     </div>
   );

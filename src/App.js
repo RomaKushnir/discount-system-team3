@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
   Switch,
@@ -17,7 +18,10 @@ import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 
 function App() {
-  const [isLoggedIn] = useState(false);
+  // const [isLoggedIn] = useState(false);
+
+  const isLoggedIn = useSelector((state) => state.userReducer.loggedIn);
+  console.log(isLoggedIn);
 
   return (
     <BrowserRouter>
