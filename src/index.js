@@ -6,6 +6,13 @@ import 'normalize.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import appStorage from './store';
+import * as actions from './store/actions';
+
+const token = localStorage.getItem('token');
+console.log(token);
+if (token) {
+  appStorage.dispatch(actions.userActions.loginSuccess());
+}
 
 ReactDOM.render(
   <React.StrictMode>

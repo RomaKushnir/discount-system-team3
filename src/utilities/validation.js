@@ -5,6 +5,7 @@ const imageUrlMaxLength = 510;
 const imageUrlMinLength = 3;
 const titleMaxLength = 50;
 const titleMinLength = 3;
+const passwordMinLength = 8;
 
 const idValidation = (id) => {
   if (id === Number(id) || id === '') {
@@ -68,6 +69,23 @@ const selectValidation = (value) => {
   return null;
 };
 
+const passwordValidation = (password) => {
+  if (
+    /^\d{4,}$/g.test( // Minimum four characters
+      password
+    )
+  ) {
+    return null;
+  }
+  if (password.trim() === '') {
+    return 'Password is required';
+  }
+  if (password.trim().length < passwordMinLength) {
+    return 'Password is too short';
+  }
+  return 'Please enter a valid password';
+};
+
 const titleValidation = (title) => {
   if (title.trim() === '') {
     return `This field is required`;
@@ -105,6 +123,7 @@ export {
   imageUrlValidation,
   selectValidation,
   titleValidation,
+  passwordValidation,
   inputValidate,
   requiredValidate
 };
