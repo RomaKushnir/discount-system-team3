@@ -9,7 +9,6 @@ import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
 import citiesList from '../../mockData/citiesList';
-import sortList from '../../mockData/sortList';
 import categoriesList from '../../mockData/categoriesList';
 import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
@@ -20,6 +19,7 @@ import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
+import UserDiscountModal from './components/UserDiscountModal';
 
 const onChange = () => {
   console.log('change');
@@ -30,6 +30,7 @@ const onBlur = () => {
 const onShowMoreClick = () => {
   console.log('show more');
 };
+const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -38,9 +39,12 @@ function Discounts() {
     dispatch(actions.discountsActions.getDiscountsList());
   }, [dispatch]);
 
-  const discounts = useSelector((state) => state.discountsReducer.discounts);
+  const discountsArray = useSelector((state) => state.discountsReducer.discounts.content);
+  console.log(discountsArray);
 
   const [modalState, setModalState] = useState(false);
+  const [userModalState, setUserModalState] = useState(false);
+  const [discount, setDiscount] = useState(null);
 
   const onModalOpen = () => {
     setModalState(true);
@@ -54,6 +58,17 @@ function Discounts() {
   const onApplyButtonClick = (parameters) => {
     console.log(parameters);
   };
+
+  const onDiscountClick = useCallback((e, id) => {
+    console.log(id);
+    setUserModalState(true);
+    const selectedDiscount = discountsArray.find((el) => el.id === id);
+    setDiscount(selectedDiscount);
+  }, [discountsArray]);
+
+  const discountModalClose = useCallback(() => {
+    setUserModalState(false);
+  }, []);
 
   return (
     <div className = {styles.containerFluid}>
@@ -75,18 +90,23 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {sortList}
-                initialValue ={[sortList[0]]}
+                options = {options}
+                initialValue = "Expiration Date"
                 onChange = {onChange}
-                // isLoading = "false"
+                isLoading = "false"
                 className = ""
-                isClearable={false}
                 onBlur = {onBlur}
               />
             </div>
             <div className = {styles.discountsContainer}>
               <DiscountList
-                discounts = {discounts}
+                discounts = {discountsArray}
+                onCardClick = {onDiscountClick}
+              />
+              <UserDiscountModal
+                discount = {discount}
+                isOpen = {userModalState}
+                onClose = {discountModalClose}
               />
             </div>
             <div className = {styles.discountsShowMoreBtnWrap}>
@@ -98,11 +118,9 @@ function Discounts() {
             </div>
           </main>
         </div>
+
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal
-            onModalClose={closeModal}
-            discount={{ title: 'title' }}
-          />
+          <AddDiscountModal discount={{ title: 'title' }}/>
         </Modal>
       <Footer/>
     </div>

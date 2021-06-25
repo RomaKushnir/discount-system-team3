@@ -1,10 +1,10 @@
 import styles from './DiscountList.module.scss';
 import DiscountCard from '../../../../components/discountCard';
 
-function DiscountList({ discounts }) {
+function DiscountList({ discounts, onCardClick }) {
   console.log(discounts);
-  const discountsList = discounts.length
-    ? discounts.map((discount) => <li key={discount.id}>
+  const discountsList = discounts?.length
+    ? discounts.map((discount) => <li key={discount.id} onClick = {onCardClick}>
         <DiscountCard
           title = {discount.title}
           category = {discount.category.title}
@@ -12,7 +12,6 @@ function DiscountList({ discounts }) {
           description = {discount.description}
           discount = {discount.percentage}
           className = {styles.discountsCard}
-          img = {discount.imageUrl}
         />
       </li>)
     : <p className = {styles.noContent}>There are no discounts</p>;
