@@ -4,6 +4,7 @@ import React, {
   useCallback
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
@@ -20,6 +21,7 @@ import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
 import UserDiscountModal from './components/UserDiscountModal';
+import Pagination from '../../components/Pagination/Pagination';
 
 const onChange = () => {
   console.log('change');
@@ -39,7 +41,9 @@ function Discounts() {
     dispatch(actions.discountsActions.getDiscountsList());
   }, [dispatch]);
 
-  const discountsArray = useSelector((state) => state.discountsReducer.discounts.content);
+  const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
+
+  const discountsArray = useSelector((state) => state.discountsReducer.discounts);
   console.log(discountsArray);
 
   const [modalState, setModalState] = useState(false);
@@ -59,8 +63,8 @@ function Discounts() {
     console.log(parameters);
   };
 
-  const onDiscountClick = useCallback((e, id) => {
-    console.log(id);
+  const onCardClick = useCallback((e, id) => {
+    console.log(discountsArray.find((el) => el.id === id));
     setUserModalState(true);
     const selectedDiscount = discountsArray.find((el) => el.id === id);
     setDiscount(selectedDiscount);
@@ -99,15 +103,24 @@ function Discounts() {
               />
             </div>
             <div className = {styles.discountsContainer}>
+            {getDiscountsStatus.loading === true
+              && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+            </div>}
+            {getDiscountsStatus.loading === false
+              && <>
               <DiscountList
                 discounts = {discountsArray}
-                onCardClick = {onDiscountClick}
+                onCardClick = {onCardClick}
               />
               <UserDiscountModal
                 discount = {discount}
                 isOpen = {userModalState}
                 onClose = {discountModalClose}
               />
+              <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+              </>
+            }
             </div>
             <div className = {styles.discountsShowMoreBtnWrap}>
               <OutlineButton

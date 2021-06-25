@@ -43,11 +43,13 @@ function UserDiscountModal({
       <div className = {styles.modalLocation}></div>
       <div className = {styles.dates}>
         <div className = {styles.startDate}>From: {getMonthAndDay(discount.startDate)}</div>
-        <div className = {styles.expDate}>To: {discount.expirationDate}</div>
+        <div className = {styles.expDate}>To: {getMonthAndDay(discount.expirationDate)}</div>
       </div>
     </div>
     <div className = {styles.row}>
-      Discount <div className={styles.discount}>{discount.percentage}%</div>
+      <div className = {styles.discountWrapper}>
+        Discount <div className={styles.discount}>{discount.percentage}%</div>
+      </div>
     </div>
     <div className = {styles.row}>
       <div className = {styles.count}>Available {discount.quantity} promotional codes</div>
