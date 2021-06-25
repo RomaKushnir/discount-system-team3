@@ -8,7 +8,7 @@ export const getCitiesGroupedByCountryOptions = createSelector(
     const locationsObject = items.reduce((acc, location) => {
       acc[location.country] = [...acc[location.country] || [], {
         id: location.id,
-        value: location.city,
+        value: location.id,
         label: location.city
       }];
 

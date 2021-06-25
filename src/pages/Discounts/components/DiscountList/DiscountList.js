@@ -11,6 +11,7 @@ function DiscountList({ discounts }) {
           description = {discount.description}
           discount = {discount.percentage}
           className = {styles.discountsCard}
+          img = {discount.imageUrl}
         />
       </li>)
     : <p className = {styles.noContent}>There are no discounts</p>;
