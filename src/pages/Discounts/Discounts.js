@@ -9,6 +9,7 @@ import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
 import citiesList from '../../mockData/citiesList';
+import sortList from '../../mockData/sortList';
 import categoriesList from '../../mockData/categoriesList';
 import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
@@ -29,7 +30,6 @@ const onBlur = () => {
 const onShowMoreClick = () => {
   console.log('show more');
 };
-const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function Discounts() {
   }, [dispatch]);
 
   const discounts = useSelector((state) => state.discountsReducer.discounts);
-  console.log(discounts);
+
   const [modalState, setModalState] = useState(false);
 
   const onModalOpen = () => {
@@ -75,11 +75,12 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {options}
-                initialValue = "Expiration Date"
+                options = {sortList}
+                initialValue ={[sortList[0]]}
                 onChange = {onChange}
-                isLoading = "false"
+                // isLoading = "false"
                 className = ""
+                isClearable={false}
                 onBlur = {onBlur}
               />
             </div>
@@ -98,7 +99,10 @@ function Discounts() {
           </main>
         </div>
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal discount={{ title: 'title' }}/>
+          <AddDiscountModal
+            onModalClose={closeModal}
+            discount={{ title: 'title' }}
+          />
         </Modal>
       <Footer/>
     </div>

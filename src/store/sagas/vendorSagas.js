@@ -47,7 +47,7 @@ export function* getVendors() {
   try {
     const response = yield call(api.vendors.getVendors);
 
-    yield put(actions.vendorActions.getVendorsSuccess(response.data));
+    yield put(actions.vendorActions.getVendorsSuccess(response.data.content));
   } catch (error) {
     console.error(error);
     console.log(error);

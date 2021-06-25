@@ -81,11 +81,30 @@ const titleValidation = (title) => {
   return null;
 };
 
+const requiredValidate = (str) => {
+  if (!str) {
+    return `This field is required`;
+  }
+  return '';
+};
+
+const inputValidate = (inputName, str) => {
+  switch (inputName) {
+    case 'title': return titleValidation(str);
+    case 'imageUrl': return imageUrlValidation(str);
+    case 'description': return companyDescriptionValidation(str);
+    case 'shortDescription': return companyDescriptionValidation(str);
+    default: return requiredValidate(str);
+  }
+};
+
 export {
   idValidation,
   emailValidation,
   companyDescriptionValidation,
   imageUrlValidation,
   selectValidation,
-  titleValidation
+  titleValidation,
+  inputValidate,
+  requiredValidate
 };

@@ -36,7 +36,6 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
           onActionClick={onDeleteClick}
           type="delete"
           name = "delete"
-          onActionClick={() => onDelete(vendor.id)}
         />
         <ItemActionButton
           title="Edit"
