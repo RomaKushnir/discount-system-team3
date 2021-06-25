@@ -1,16 +1,31 @@
-import { useState, useCallback } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  Fragment
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Categories.module.scss';
+import * as actions from '../../store/actions';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
+import CategoryList from './components/CategoryList';
 
 function Categories() {
-  // const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const [category, setCategory] = useState(null); // temporary while we don't have categories list
-
+  const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
+  const categories = useSelector((state) => state.categoryReducer.categories);
+  console.log(categories);
+  // const categories = useSelector(getCategoriesList);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('Use Effect');
+    dispatch(actions.categoryActions.getCategories());
+    console.log('Work');
+  }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
 
@@ -44,15 +59,23 @@ function Categories() {
     <div className = {styles.container}>
       <Header/>
       <main className={styles.contentWrapper}>
+      <div className={styles.row}>
         <AddNewItemButton
           btnTitle="Add new category"
           onAddNewItem={onModalOpen}
           name = "add"
         />
+      </div>
+        <div className={styles.row}>
+        { categories
+          ? <Fragment><CategoryList categories={categories} /></Fragment>
+          : <p>Category is not defined</p>
+        }
+        </div>
         <Modal isOpen={isOpen} onClose={closeModal}>
           <AddCategoryModal
             onSave={closeModal}
-            selectedCategory = {category}
+            selectedCategory = {addCategory}
           />
       </Modal>
       </main>

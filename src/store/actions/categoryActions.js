@@ -34,3 +34,29 @@ export function clearAddCategoryStatus() {
     type: types.CLEAR_ADD_CATEGORY_STATUS
   };
 }
+
+export function getCategories() {
+  return {
+    type: types.GET_CATEGORIES
+  };
+}
+
+export function getCategoriesSuccess(payload) {
+  return {
+    type: types.GET_CATEGORIES_SUCCESS,
+    payload
+  };
+}
+
+export function getCategoriesFailure(payload) {
+  return {
+    type: types.GET_CATEGORIES_FAILURE,
+    payload
+  };
+}
+
+export function clearGetCategoriesStatus() {
+  return {
+    type: types.CLEAR_GET_CATEGORIES_STATUS
+  };
+}

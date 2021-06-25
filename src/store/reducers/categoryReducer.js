@@ -3,7 +3,9 @@ import * as helpers from '../helpers';
 
 const initialState = {
   categories: [],
-  addCategoryStatus: helpers.getDefaultState()
+  addCategoryStatus: helpers.getDefaultState(),
+  category: null,
+  categoryStatus: helpers.getDefaultState()
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -58,6 +60,44 @@ const categoryReducer = (state = initialState, action) => {
         ...state,
         addCategoryStatus: helpers.getSuccessState(successMessage),
         categories: updateCategories
+      };
+    }
+    case types.GET_CATEGORIES: {
+      console.log('GET_CATEGORIES');
+      console.log(state);
+      return {
+        ...state,
+        categoryStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_CATEGORIES_SUCCESS: {
+      const { payload } = action;
+      console.log('GET_CATEGORIES_SUCCESS');
+      console.log(state);
+      console.log(payload);
+      return {
+        ...state,
+        categoryStatus: helpers.getSuccessState('Action success'),
+        categories: payload
+      };
+    }
+    case types.GET_CATEGORIES_FAILURE: {
+      const { payload } = action;
+      console.log('GET_CATEGORIES_FAILURE');
+      console.log(state);
+      console.log(payload);
+      return {
+        ...state,
+        categoryStatus: helpers.getErrorState(payload),
+        categories: payload
+      };
+    }
+    case types.CLEAR_GET_CATEGORIES_STATUS: {
+      console.log('CLEAR_GET_CATEGORIES_STATUS');
+      console.log(state);
+      return {
+        ...state,
+        categoryStatus: helpers.getDefaultState()
       };
     }
     default:
