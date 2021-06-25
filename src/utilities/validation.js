@@ -69,22 +69,9 @@ const selectValidation = (value) => {
   return null;
 };
 
-const titleValidation = (title) => {
-  if (title.trim() === '') {
-    return `This field is required`;
-  }
-  if (title.trim().length < titleMinLength) {
-    return `This field needs to be at least ${titleMinLength} characters`;
-  }
-  if (title.trim().length > titleMaxLength) {
-    return 'Title is too long';
-  }
-  return null;
-};
-
 const passwordValidation = (password) => {
   if (
-    /^\d{4,}$/g.test( // Minimum eight characters, at least one letter and one number
+    /^\d{4,}$/g.test( // Minimum four characters
       password
     )
   ) {
@@ -99,6 +86,36 @@ const passwordValidation = (password) => {
   return 'Please enter a valid password';
 };
 
+const titleValidation = (title) => {
+  if (title.trim() === '') {
+    return `This field is required`;
+  }
+  if (title.trim().length < titleMinLength) {
+    return `This field needs to be at least ${titleMinLength} characters`;
+  }
+  if (title.trim().length > titleMaxLength) {
+    return 'Title is too long';
+  }
+  return null;
+};
+
+const requiredValidate = (str) => {
+  if (!str) {
+    return `This field is required`;
+  }
+  return '';
+};
+
+const inputValidate = (inputName, str) => {
+  switch (inputName) {
+    case 'title': return titleValidation(str);
+    case 'imageUrl': return imageUrlValidation(str);
+    case 'description': return companyDescriptionValidation(str);
+    case 'shortDescription': return companyDescriptionValidation(str);
+    default: return requiredValidate(str);
+  }
+};
+
 export {
   idValidation,
   emailValidation,
@@ -106,5 +123,7 @@ export {
   imageUrlValidation,
   selectValidation,
   titleValidation,
-  passwordValidation
+  passwordValidation,
+  inputValidate,
+  requiredValidate
 };

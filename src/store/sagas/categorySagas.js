@@ -28,8 +28,21 @@ export function* addCategory({ payload }) {
   }
 }
 
+export function* getCategories() {
+  try {
+    const response = yield call(api.categories.getCategories);
+    console.log(response.data);
+    yield put(actions.categoryActions.getCategoriesSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    yield put(actions.categoryActions.getCategoriesFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
-    takeEvery(types.ADD_CATEGORY, addCategory)
+    takeEvery(types.ADD_CATEGORY, addCategory),
+    takeEvery(types.GET_CATEGORIES, getCategories)
   ]);
 }

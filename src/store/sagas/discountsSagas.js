@@ -22,8 +22,27 @@ export function* getDiscounts() {
   }
 }
 
+export function* createDiscount({ payload }) {
+  // const { data } = payload;
+  console.log('discounts SAGA payload', payload);
+  try {
+    console.log('SAGA createDiscount');
+    const response = yield call(api.discounts.createDiscount, payload);
+
+    yield put(actions.discountsActions.createDiscountSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    console.log(error.response);
+    console.log(error.request);
+    console.log(error.config);
+    yield put(actions.discountsActions.createDiscountFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
-    takeEvery(types.GET_DISCOUNTS, getDiscounts)
+    takeEvery(types.GET_DISCOUNTS, getDiscounts),
+    takeEvery(types.CREATE_DISCOUNT, createDiscount)
   ]);
 }
