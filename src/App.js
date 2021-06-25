@@ -1,21 +1,33 @@
-import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
   Switch
 } from 'react-router-dom';
 import './App.scss';
-import PrivateRoutes from './routes/PrivateRoutes';
-import PublicRoutes from './routes/PublicRoutes';
+import Routes from './routes';
+import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
+import Login from './pages/Login';
+import Discounts from './pages/Discounts';
+import Vendor from './pages/Vendor';
+import Vendors from './pages/Vendors';
+import Statistics from './pages/Statistics';
+import Favourites from './pages/Favourites';
+import MyDiscounts from './pages/MyDiscounts';
+import Categories from './pages/Categories';
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.userReducer.loggedIn);
-  console.log(isLoggedIn);
-
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          { isLoggedIn ? <PrivateRoutes/> : <PublicRoutes/> }
+          <PublicRoute path = {Routes.ROOT} component = {Login} exact = {true}/>
+          <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>
+          <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
+          <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>
+          <PrivateRoute path = {Routes.STATISTICS} component = {Statistics}/>
+          <PrivateRoute path = {Routes.FAVOURITES} component = {Favourites}/>
+          <PrivateRoute path = {Routes.MY_DISCOUNTS} component = {MyDiscounts}/>
+          <PrivateRoute path = {Routes.CATEGORIES} component = {Categories}/>
         </Switch>
       </div>
     </BrowserRouter>
