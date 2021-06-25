@@ -8,6 +8,7 @@ function ItemActionButton({
   onActionClick,
   name
 }) {
+  console.log(title);
   return (
     <button
       type="button"

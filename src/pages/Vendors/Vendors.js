@@ -16,15 +16,21 @@ import Footer from '../../components/Footer';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import SelectField from '../../components/SelectField';
-import sortList from '../../mockData/sortList';// mock data to render select list
+import sortList from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import {
   getVendorsOptions,
   getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
+  // getCitiesGroupedByCountryOptions,
   getLocationsList,
-  getVendorsList
+  getVendorsList,
+  getCitiesOptions
 } from '../../store/selectors';
+
+const userCountry = {
+  value: 'Ukraine',
+  label: 'Ukraine'
+};
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -40,8 +46,9 @@ function Vendors() {
   const locations = useSelector(getLocationsList);
   const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  // const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
+  const citiesOptions = useSelector(getCitiesOptions);
 
   const vendorsWithCities = useMemo(() => {
     const getVendorsWithCities = vendors.map((el) => {
@@ -84,13 +91,17 @@ function Vendors() {
     // apply filters
   };
 
-  const onSortFilter = () => {
-    // apply sort filter
+  const onSortFilter = (selectedOption) => {
+    console.log(selectedOption);
   };
 
   const onShowMoreClick = () => {
     // do request to get more items
   };
+
+  console.log(citiesOptions);
+  const userCities = citiesOptions.filter((el) => el.country === userCountry.value);
+  console.log(userCities);
 
   return (
     <div className={styles.container}>
@@ -103,6 +114,9 @@ function Vendors() {
             citiesList={citiesOptions}
             categoriesList={[]}
             vendorsList={vendorsOptions}
+            // userCountry = {countriesOptions.find((el) => el.value === userCountry)}
+            userCountry = {userCountry}
+            userCities = {userCities}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton

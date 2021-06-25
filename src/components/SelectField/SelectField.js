@@ -17,6 +17,7 @@ function SelectField({
   error = '',
   onBlur
 }) {
+  console.log(initialValue);
   return (
     <div className = {`${style.container} ${className}`}>
       {label != null && <label className = {style.label}>{label}</label>}

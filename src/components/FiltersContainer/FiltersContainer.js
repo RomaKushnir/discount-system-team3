@@ -1,3 +1,4 @@
+// import { useState, useEffect } from 'react';
 import { useState } from 'react';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
@@ -9,13 +10,19 @@ function FiltersContainer({
   countriesList,
   citiesList,
   categoriesList,
-  vendorsList
+  vendorsList,
+  userCountry,
+  userCities
 }) {
   const [searchWord, setSearchWord] = useState('');
-  const [country, setCountry] = useState(null);
+  const [country, setCountry] = useState(userCountry);
   const [city, setCity] = useState(null);
   const [category, setCategory] = useState(null);
   const [vendor, setVendor] = useState(null);
+  const [citiesBySelectedCountry, setCitiesBySelectedCountry] = useState(
+    // citiesList.filter((el) => el.country === userCountry.value)
+    userCities
+  );
 
   const onChangeInput = (e) => {
     console.log(e.target.value);
@@ -25,6 +32,8 @@ function FiltersContainer({
   const onChangeCountries = (selectedOption) => {
     console.log(selectedOption);
     setCountry(selectedOption);
+    const selectedCities = citiesList.filter((el) => el.country === selectedOption.value);
+    setCitiesBySelectedCountry(selectedCities);
   };
 
   const onChangeCities = (selectedOption) => {
@@ -42,13 +51,19 @@ function FiltersContainer({
     setVendor(selectedOption);
   };
 
+  console.log(vendorsList);
+  console.log(countriesList);
+  // console.log(countriesList.find((el) => el.value === userCountry));
+  console.log(country);
+  console.log(citiesBySelectedCountry);
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {countriesList[0]} // temporary. Should be user country later
+              initialValue = {country} // temporary. Should be user country later
               options = {countriesList}
               label = "Country"
               onChange = {onChangeCountries}
@@ -56,7 +71,7 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesList}
+                options = {citiesBySelectedCountry}
                 label = "City"
                 onChange = {onChangeCities}
               />
@@ -70,13 +85,13 @@ function FiltersContainer({
               onChange = {onChangeCategories}
             />
           </div>
-          <div className = {styles.filter}>
+          {vendorsList && <div className = {styles.filter}>
             <SelectField
               options = {vendorsList}
               label = "Vendor"
               onChange = {onChangeVendor}
             />
-          </div>
+          </div>}
         </div>
       </div>
       <div className = {styles.inputContainer}>

@@ -7,10 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
-import countriesList from '../../mockData/countriesList';
-import citiesList from '../../mockData/citiesList';
-import categoriesList from '../../mockData/categoriesList';
-import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
@@ -19,24 +15,22 @@ import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
-
-const onChange = () => {
-  console.log('change');
-};
-const onBlur = () => {
-  console.log('blur');
-};
-const onShowMoreClick = () => {
-  console.log('show more');
-};
-const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
+import {
+  getCountriesOptions,
+  getCitiesGroupedByCountryOptions
+} from '../../store/selectors';
+import sortList from '../../utilities/sortOptions';
 
 function Discounts() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountsList());
+    dispatch(actions.locationActions.getLocationsList());
   }, [dispatch]);
+
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
 
   const discounts = useSelector((state) => state.discountsReducer.discounts);
   console.log(discounts);
@@ -55,6 +49,14 @@ function Discounts() {
     console.log(parameters);
   };
 
+  const onChange = () => {
+    console.log('change');
+  };
+
+  const onShowMoreClick = () => {
+    console.log('show more');
+  };
+
   return (
     <div className = {styles.containerFluid}>
       <div>
@@ -62,11 +64,10 @@ function Discounts() {
         <main className = {styles.container}>
           <FiltersContainer
             onApplyButtonClick = {onApplyButtonClick}
-            countriesList = {countriesList}
-            citiesList = {citiesList}
-            categoriesList = {categoriesList}
-            vendorsList = {vendorsList}
             className = {styles.discountsFilter}
+            countriesList={countriesOptions}
+            citiesList={citiesOptions}
+            categoriesList={[]}
             />
             <div className = {styles.discountsActions}>
               <AddNewItemButton
@@ -75,12 +76,9 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {options}
-                initialValue = "Expiration Date"
+                options = {sortList}
+                initialValue = {sortList[0]}
                 onChange = {onChange}
-                isLoading = "false"
-                className = ""
-                onBlur = {onBlur}
               />
             </div>
             <div className = {styles.discountsContainer}>

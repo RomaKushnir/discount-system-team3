@@ -14,7 +14,7 @@ export function* getDiscounts() {
     const response = yield call(api.discounts.getDiscounts);
     console.log(response);
 
-    yield put(actions.discountsActions.getDiscountsListSuccess(response.data));
+    yield put(actions.discountsActions.getDiscountsListSuccess(response.data.content));
   } catch (error) {
     console.error(error);
     console.log(error);
