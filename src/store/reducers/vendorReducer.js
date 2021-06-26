@@ -8,7 +8,28 @@ const initialState = {
   deleteVendorStatus: helpers.getDefaultState(),
   updateVendorStatus: helpers.getDefaultState(),
   vendor: null,
-  vendorStatus: helpers.getDefaultState()
+  vendorStatus: helpers.getDefaultState(),
+  vendorFilters: {
+    locations_country: null,
+    locations_city: null,
+    category_title: null,
+    title: null,
+    description: null,
+    sort: null
+    // pageNumber: 1,
+    // pageSize: 10
+  },
+  vendorsFiltersApplied: {
+    locations_country: null,
+    locations_city: null,
+    category_title: null,
+    title: null,
+    description: null,
+    sort: null
+    // pageNumber: 1,
+    // pageSize: 10
+  },
+  getFilteredVendorsStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -134,6 +155,40 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_FILTERED_VENDORS: {
+      const { payload } = action;
+      console.log(payload);
+      return {
+        ...state,
+        getFilteredVendorsStatus: helpers.getRequestState(),
+        vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...payload }
+      };
+    }
+    case types.GET_FILTERED_VENDORS_SUCCESS: {
+      const { payload } = action;
+      console.log(payload);
+      return {
+        ...state,
+        getFilteredVendorsStatus: helpers.getSuccessState('Success!'),
+        vendors: payload
+      };
+    }
+    case types.GET_FILTERED_VENDORS_FAILURE: {
+      const { payload } = action;
+      console.log(payload);
+      return {
+        ...state,
+        getFilteredVendorsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_FILTERED_VENDORS_STATUS: {
+      const { payload } = action;
+      console.log(payload);
+      return {
+        ...state,
+        getFilteredVendorsStatus: helpers.getDefaultState()
       };
     }
     default:

@@ -19,7 +19,7 @@ import {
   getCountriesOptions,
   getCitiesGroupedByCountryOptions
 } from '../../store/selectors';
-import sortList from '../../utilities/sortOptions';
+import { discountsSortOptions } from '../../utilities/sortOptions';
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -76,8 +76,8 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {sortList}
-                initialValue = {sortList[0]}
+                options = {discountsSortOptions}
+                initialValue = {discountsSortOptions[0]}
                 onChange = {onChange}
               />
             </div>

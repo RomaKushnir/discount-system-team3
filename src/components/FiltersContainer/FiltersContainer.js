@@ -1,4 +1,3 @@
-// import { useState, useEffect } from 'react';
 import { useState } from 'react';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
@@ -60,20 +59,20 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesList.filter((el) => el.country === country.value)}
+                options = {country !== null ? citiesList.filter((el) => el.country === country.value) : citiesList}
                 label = "City"
                 onChange = {onChangeCities}
               />
             </div>
         </div>
         <div className = {styles.smallColumn}>
-          <div className = {styles.filter}>
+          {categoriesList && <div className = {styles.filter}>
             <SelectField
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
             />
-          </div>
+          </div>}
           {vendorsList && <div className = {styles.filter}>
             <SelectField
               options = {vendorsList}

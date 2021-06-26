@@ -67,11 +67,27 @@ export function* getVendorById({ payload }) {
   }
 }
 
+export function* getFilteredVendors({ payload }) {
+  console.log(payload);
+  try {
+    const response = yield call(api.vendors.getFilteredVendors, payload);
+
+    console.log(response);
+
+    yield put(actions.vendorActions.getFilteredVendorsSuccess(response.data.content));
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    yield put(actions.vendorActions.getFilteredVendorsFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_VENDOR, addVendor),
     takeEvery(types.DELETE_VENDOR, deleteVendor),
     takeEvery(types.GET_VENDORS, getVendors),
-    takeEvery(types.GET_VENDOR_BY_ID, getVendorById)
+    takeEvery(types.GET_VENDOR_BY_ID, getVendorById),
+    takeEvery(types.GET_FILTERED_VENDORS, getFilteredVendors)
   ]);
 }

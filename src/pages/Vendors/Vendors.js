@@ -15,20 +15,21 @@ import Footer from '../../components/Footer';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import SelectField from '../../components/SelectField';
-import sortList from '../../utilities/sortOptions';
+import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import {
   getVendorsOptions,
   getCountriesOptions,
   getVendorsList,
-  getCitiesOptions,
-  getCategoriesOptions
+  getCitiesOptions
+  // getCategoriesOptions
 } from '../../store/selectors';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
+  const [sortOption, setSortOption] = useState(vendorsSortOptions[0]);
 
   useEffect(() => {
     dispatch(actions.vendorActions.getVendors());
@@ -41,7 +42,7 @@ function Vendors() {
   const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const citiesOptions = useSelector(getCitiesOptions);
-  const categoriesOptions = useSelector(getCategoriesOptions);
+  // const categoriesOptions = useSelector(getCategoriesOptions);
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -72,18 +73,31 @@ function Vendors() {
     setIsOpen(false);
   }, []);
 
-  const onApplyButtonClick = () => {
-    // apply filters
+  const onApplyButtonClick = (params) => {
+    console.log(params);
+    const payload = {
+      location_country: params.country?.label || null,
+      location_city: params.city?.label || null,
+      // category_title: params.category?.label || null,
+      title: params.vendor?.label || null,
+      description: params.searchWord || null,
+      sort: sortOption.value || null
+    };
+
+    console.log(payload);
+    dispatch(actions.vendorActions.getFilteredVendors(payload));
   };
 
   const onSortFilter = (selectedOption) => {
     console.log(selectedOption);
+    setSortOption(selectedOption);
   };
 
   const onShowMoreClick = () => {
     // do request to get more items
   };
 
+  console.log(vendors);
   return (
     <div className={styles.container}>
       <div>
@@ -93,7 +107,7 @@ function Vendors() {
             onApplyButtonClick={onApplyButtonClick}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
-            categoriesList={categoriesOptions}
+            // categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
           />
           <div className={styles.vendorsActionsBlock}>
@@ -103,8 +117,8 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              initialValue={sortList[0]}
-              options={sortList}
+              initialValue={sortOption}
+              options={vendorsSortOptions}
               onChange={onSortFilter}
               isClearable={false}
               />
