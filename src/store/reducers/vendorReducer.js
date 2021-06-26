@@ -5,7 +5,10 @@ const initialState = {
   vendors: [],
   getVendorsStatus: helpers.getDefaultState(),
   addVendorStatus: helpers.getDefaultState(),
-  deleteVendorStatus: helpers.getDefaultState()
+  deleteVendorStatus: helpers.getDefaultState(),
+  updateVendorStatus: helpers.getDefaultState(),
+  vendor: null,
+  vendorStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -118,6 +121,43 @@ const vendorReducer = (state = initialState, action) => {
         ...state,
         addVendorStatus: helpers.getSuccessState(successMessage),
         vendors: updateVendors
+      };
+    }
+    case types.GET_VENDOR_BY_ID: {
+      console.log('GET_VENDOR_BY_ID');
+      console.log(state);
+      return {
+        ...state,
+        vendorStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_VENDOR_BY_ID_SUCCESS: {
+      const { payload } = action;
+      console.log('GET_VENDOR_BY_ID_SUCCESS');
+      console.log(state);
+      console.log(payload);
+      return {
+        ...state,
+        vendorStatus: helpers.getSuccessState('Action success'),
+        vendor: payload
+      };
+    }
+    case types.GET_VENDOR_BY_ID_FAILURE: {
+      const { payload } = action;
+      console.log('GET_VENDOR_BY_ID_FAILURE');
+      console.log('Error');
+      console.log(state);
+      return {
+        ...state,
+        vendorStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.GET_VENDOR_BY_ID_CLEAR_STATUS: {
+      console.log('GET_VENDOR_BY_ID_CLEAR_STATUS');
+      console.log(state);
+      return {
+        ...state,
+        vendorStatus: helpers.getDefaultState()
       };
     }
     default:

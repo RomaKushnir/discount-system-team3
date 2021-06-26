@@ -15,7 +15,8 @@ function SelectField({
   isDisabled = false,
   isMulti = false,
   error = '',
-  onBlur
+  onBlur,
+  name = ''
 }) {
   console.log(initialValue);
   return (
@@ -24,6 +25,7 @@ function SelectField({
       <Select
         styles = {customStyles}
         classNamePrefix = "select"
+        name = {name}
         defaultValue = {initialValue}
         isLoading = {isLoading}
         isClearable = {isClearable}

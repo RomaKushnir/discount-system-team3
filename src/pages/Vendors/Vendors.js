@@ -125,7 +125,7 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              initialValue={[sortList[0]]}
+              initialValue={sortList[0]}
               options={sortList}
               onChange={onSortFilter}
               isClearable={false}

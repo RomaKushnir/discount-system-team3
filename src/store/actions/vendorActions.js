@@ -80,3 +80,24 @@ export function clearDeleteVendorStatus() {
     type: types.CLEAR_DELETE_VENDOR_STATUS
   };
 }
+
+export function getVendorById(payload) {
+  return {
+    type: types.GET_VENDOR_BY_ID,
+    payload
+  };
+}
+
+export function getVendorByIdSuccess(payload) {
+  return {
+    type: types.GET_VENDOR_BY_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getVendorByIdFailure(payload) {
+  return {
+    type: types.GET_VENDOR_BY_ID_FAILURE,
+    payload
+  };
+}

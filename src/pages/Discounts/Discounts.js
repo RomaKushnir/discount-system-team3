@@ -33,7 +33,7 @@ function Discounts() {
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
 
   const discounts = useSelector((state) => state.discountsReducer.discounts);
-  console.log(discounts);
+
   const [modalState, setModalState] = useState(false);
 
   const onModalOpen = () => {
@@ -96,7 +96,10 @@ function Discounts() {
           </main>
         </div>
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal discount={{ title: 'title' }}/>
+          <AddDiscountModal
+            onModalClose={closeModal}
+            discount={{ title: 'title' }}
+          />
         </Modal>
       <Footer/>
     </div>

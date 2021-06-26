@@ -1,4 +1,6 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import * as actions from '../../store/actions';
 import Routes from '../../routes';
 import styles from './Header.module.scss';
 import OutlineButton from '../OutlineButton';
@@ -6,11 +8,15 @@ import OutlineButton from '../OutlineButton';
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
 
-const onClick = () => {
-  console.log('click');
-};
-
 function Header() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const onLogoutClick = () => {
+    localStorage.removeItem('token');
+    dispatch(actions.userActions.clearLoginStatus());
+    history.push(Routes.ROOT);
+  };
   return (
     <header className={styles.header}>
       <Link className={styles.logo} to="/">Discount<span className={styles.logoItem}>App</span></Link>
@@ -55,7 +61,7 @@ function Header() {
       </nav>
       <OutlineButton
         btnText = "Logout"
-        onClick = {onClick}
+        onClick = {onLogoutClick}
       />
     </header>
   );

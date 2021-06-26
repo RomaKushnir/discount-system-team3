@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import {
   BrowserRouter,
-  Switch,
-  Route,
-  Redirect
+  Switch
 } from 'react-router-dom';
 import './App.scss';
 import Routes from './routes';
+import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
 import Login from './pages/Login';
 import Discounts from './pages/Discounts';
 import Vendor from './pages/Vendor';
@@ -17,37 +16,18 @@ import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 
 function App() {
-  const [isLoggedIn] = useState(true);
-
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Redirect exact from = {Routes.ROOT} to = { isLoggedIn ? Routes.DISCOUNTS : Routes.LOGIN } />
-          <Route path = {Routes.LOGIN}>
-            <Login />
-          </Route>
-          <Route path = {Routes.DISCOUNTS}>
-            <Discounts />
-          </Route>
-          <Route path = {Routes.VENDOR_ID}>
-            <Vendor />
-          </Route>
-          <Route path = {Routes.VENDORS}>
-            <Vendors />
-          </Route>
-          <Route path = {Routes.STATISTICS}>
-            <Statistics />
-          </Route>
-          <Route path = {Routes.FAVOURITES}>
-            <Favourites />
-          </Route>
-          <Route path = {Routes.MY_DISCOUNTS}>
-            <MyDiscounts />
-          </Route>
-          <Route path = {Routes.CATEGORIES}>
-            <Categories />
-          </Route>
+          <PublicRoute path = {Routes.ROOT} component = {Login} exact = {true}/>
+          <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>
+          <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
+          <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>
+          <PrivateRoute path = {Routes.STATISTICS} component = {Statistics}/>
+          <PrivateRoute path = {Routes.FAVOURITES} component = {Favourites}/>
+          <PrivateRoute path = {Routes.MY_DISCOUNTS} component = {MyDiscounts}/>
+          <PrivateRoute path = {Routes.CATEGORIES} component = {Categories}/>
         </Switch>
       </div>
     </BrowserRouter>
