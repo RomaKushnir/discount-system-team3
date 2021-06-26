@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddVendor.module.scss';
@@ -14,7 +14,7 @@ import {
   companyDescriptionValidation,
   selectValidation
 } from '../../../../utilities/validation';
-import { getCitiesGroupedByCountryOptions } from '../../../../store/selectors';
+import { getCitiesOptions } from '../../../../store/selectors';
 
 const inputStyles = {
   width: '300px'
@@ -44,18 +44,9 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  const locationsList = useSelector((state) => state.locationReducer.locationsList);
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
-
-  const transformedInitialLocation = useMemo(() => {
-    const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
-    return {
-      id: initialLocation?.id,
-      value: initialLocation?.city,
-      label: initialLocation?.city
-    };
-  }, [locationsList, selectedVendor]);
+  const citiesOptions = useSelector(getCitiesOptions);
+  const initialLocation = citiesOptions.find((el) => el.id === vendor.location.id);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -211,7 +202,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
         />
         <SelectField
           options = {citiesOptions}
-          initialValue = {transformedInitialLocation}
+          initialValue = {initialLocation}
           label = "Location"
           placeholder = "Select location"
           onChange = {onChangeLocation}

@@ -10,19 +10,16 @@ function FiltersContainer({
   countriesList,
   citiesList,
   categoriesList,
-  vendorsList,
-  userCountry,
-  userCities
+  vendorsList
 }) {
   const [searchWord, setSearchWord] = useState('');
-  const [country, setCountry] = useState(userCountry);
+  const [country, setCountry] = useState({
+    value: 'Ukraine',
+    label: 'Ukraine'
+  });
   const [city, setCity] = useState(null);
   const [category, setCategory] = useState(null);
   const [vendor, setVendor] = useState(null);
-  const [citiesBySelectedCountry, setCitiesBySelectedCountry] = useState(
-    // citiesList.filter((el) => el.country === userCountry.value)
-    userCities
-  );
 
   const onChangeInput = (e) => {
     console.log(e.target.value);
@@ -32,8 +29,6 @@ function FiltersContainer({
   const onChangeCountries = (selectedOption) => {
     console.log(selectedOption);
     setCountry(selectedOption);
-    const selectedCities = citiesList.filter((el) => el.country === selectedOption.value);
-    setCitiesBySelectedCountry(selectedCities);
   };
 
   const onChangeCities = (selectedOption) => {
@@ -51,12 +46,6 @@ function FiltersContainer({
     setVendor(selectedOption);
   };
 
-  console.log(vendorsList);
-  console.log(countriesList);
-  // console.log(countriesList.find((el) => el.value === userCountry));
-  console.log(country);
-  console.log(citiesBySelectedCountry);
-
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -71,7 +60,7 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesBySelectedCountry}
+                options = {citiesList.filter((el) => el.country === country.value)}
                 label = "City"
                 onChange = {onChangeCities}
               />

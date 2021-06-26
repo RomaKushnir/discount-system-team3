@@ -1,8 +1,7 @@
 import {
   useCallback,
   useState,
-  useEffect,
-  useMemo
+  useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -21,16 +20,10 @@ import Pagination from '../../components/Pagination/Pagination';
 import {
   getVendorsOptions,
   getCountriesOptions,
-  // getCitiesGroupedByCountryOptions,
-  getLocationsList,
   getVendorsList,
-  getCitiesOptions
+  getCitiesOptions,
+  getCategoriesOptions
 } from '../../store/selectors';
-
-const userCountry = {
-  value: 'Ukraine',
-  label: 'Ukraine'
-};
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -40,23 +33,15 @@ function Vendors() {
   useEffect(() => {
     dispatch(actions.vendorActions.getVendors());
     dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
   const vendors = useSelector(getVendorsList);
-  const locations = useSelector(getLocationsList);
   const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
-  // const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const citiesOptions = useSelector(getCitiesOptions);
-
-  const vendorsWithCities = useMemo(() => {
-    const getVendorsWithCities = vendors.map((el) => {
-      const vendorLocation = locations.find((location) => location.id === el.locationId);
-      return { ...el, location: vendorLocation ? vendorLocation.city : 'testCity' };// fallback value if not found locationId in mockData
-    });
-    return getVendorsWithCities;
-  }, [locations, vendors]);
+  const categoriesOptions = useSelector(getCategoriesOptions);
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -99,10 +84,6 @@ function Vendors() {
     // do request to get more items
   };
 
-  console.log(citiesOptions);
-  const userCities = citiesOptions.filter((el) => el.country === userCountry.value);
-  console.log(userCities);
-
   return (
     <div className={styles.container}>
       <div>
@@ -112,11 +93,8 @@ function Vendors() {
             onApplyButtonClick={onApplyButtonClick}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
-            categoriesList={[]}
+            categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
-            // userCountry = {countriesOptions.find((el) => el.value === userCountry)}
-            userCountry = {userCountry}
-            userCities = {userCities}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
@@ -145,7 +123,7 @@ function Vendors() {
               {getVendorsStatus.loading === false
                 && <>
                 <VendorsList
-                  vendors={vendorsWithCities}
+                  vendors={vendors}
                   onEdit = {onModalOpen}
                   onDelete = {onDelete}
                 />
