@@ -88,7 +88,7 @@ function FiltersContainer({
           label = "Search"
           name = "Search"
           placeholder = "Search..."
-          type = "text"
+          type = "search"
         />
       </div>
       <div className = {styles.buttonContainer}>

@@ -9,23 +9,13 @@ const initialState = {
   updateVendorStatus: helpers.getDefaultState(),
   vendor: null,
   vendorStatus: helpers.getDefaultState(),
-  vendorFilters: {
-    locations_country: null,
-    locations_city: null,
-    category_title: null,
-    title: null,
-    description: null,
-    sort: null
-    // pageNumber: 1,
-    // pageSize: 10
-  },
   vendorsFiltersApplied: {
     locations_country: null,
     locations_city: null,
     category_title: null,
     title: null,
     description: null,
-    sort: null
+    sort: 'DESC'
     // pageNumber: 1,
     // pageSize: 10
   },
