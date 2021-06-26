@@ -2,7 +2,6 @@ import styles from './DiscountList.module.scss';
 import DiscountCard from '../../../../components/discountCard';
 
 function DiscountList({ discounts }) {
-  console.log(discounts);
   const discountsList = discounts.length
     ? discounts.map((discount) => <li key={discount.id}>
         <DiscountCard

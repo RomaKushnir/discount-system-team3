@@ -10,7 +10,7 @@ import FiltersContainer from '../../components/FiltersContainer';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
-import DiscountList from './components/DiscountList/DiscountList';
+import DiscountList from './components/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
