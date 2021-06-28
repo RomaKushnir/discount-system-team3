@@ -156,7 +156,7 @@ function Vendors() {
                   onEdit = {onModalOpen}
                   onDelete = {onDelete}
                 />
-                {vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages
+                {vendorsFiltersApplied.number + 1 < vendorsFiltersApplied.totalPages
                   && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
                 </>
                 }
