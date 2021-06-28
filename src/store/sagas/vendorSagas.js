@@ -70,11 +70,11 @@ export function* getVendorById({ payload }) {
 export function* getFilteredVendors({ payload }) {
   console.log(payload);
   try {
-    const response = yield call(api.vendors.getFilteredVendors, payload);
+    const response = yield call(api.vendors.getFilteredVendors, payload.filterParams);
 
     console.log(response);
 
-    yield put(actions.vendorActions.getFilteredVendorsSuccess(response.data.content));
+    yield put(actions.vendorActions.getFilteredVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
   } catch (error) {
     console.error(error);
     console.log(error);

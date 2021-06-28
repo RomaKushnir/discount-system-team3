@@ -42,6 +42,7 @@ function Vendors() {
   const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const citiesOptions = useSelector(getCitiesOptions);
+  const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   // const categoriesOptions = useSelector(getCategoriesOptions);
 
   const onModalOpen = useCallback((e, id) => {
@@ -56,7 +57,7 @@ function Vendors() {
       setVendor({
         id: '',
         title: '',
-        locationId: null,
+        location: null,
         email: '',
         imageUrl: '',
         description: ''
@@ -81,11 +82,17 @@ function Vendors() {
       // category_title: params.category?.label || null,
       title: params.vendor?.label || null,
       description: params.searchWord || null,
-      sort: sortOption.value || null
+      sort: sortOption.value || null,
+      number: 0,
+      size: 6
     };
 
     console.log(payload);
-    dispatch(actions.vendorActions.getFilteredVendors(payload));
+    const showMore = false;
+    dispatch(actions.vendorActions.getFilteredVendors({
+      filterParams: payload,
+      showMore
+    }));
   };
 
   const onSortFilter = (selectedOption) => {
@@ -94,10 +101,18 @@ function Vendors() {
   };
 
   const onShowMoreClick = () => {
-    // do request to get more items
+    if (vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages) {
+      vendorsFiltersApplied.number += 1;
+      const showMore = true;
+      dispatch(actions.vendorActions.getFilteredVendors({
+        filterParams: vendorsFiltersApplied,
+        showMore
+      }));
+    }
   };
 
   console.log(vendors);
+  console.log(vendorsFiltersApplied);
   return (
     <div className={styles.container}>
       <div>
@@ -141,7 +156,8 @@ function Vendors() {
                   onEdit = {onModalOpen}
                   onDelete = {onDelete}
                 />
-                <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+                {vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages
+                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
                 </>
                 }
           </div>

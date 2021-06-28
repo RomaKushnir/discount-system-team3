@@ -26,7 +26,7 @@ const validate = {
   email: emailValidation,
   imageUrl: imageUrlValidation,
   description: companyDescriptionValidation,
-  locationId: selectValidation
+  location: selectValidation
 };
 
 function AddVendorModal({ onSave, selectedVendor }) {
@@ -36,7 +36,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [errors, setErrors] = useState({
     id: '',
     title: '',
-    locationId: '',
+    location: '',
     email: '',
     imageUrl: '',
     description: ''
@@ -46,7 +46,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
 
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
   const citiesOptions = useSelector(getCitiesOptions);
-  const initialLocation = citiesOptions.find((el) => el.id === vendor.location.id);
+  const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -85,12 +85,12 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const onChangeLocation = (selectedOption) => {
     setVendor({
       ...vendor,
-      locationId: selectedOption?.id
+      location: selectedOption
     });
 
     setErrors({
       ...errors,
-      locationId: ''
+      location: ''
     });
 
     setIsDisabled(false);
@@ -132,6 +132,8 @@ function AddVendorModal({ onSave, selectedVendor }) {
       && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       setIsDisabled(false);
+      vendor.locationId = vendor.location.id;
+      console.log(vendor);
       dispatch(actions.vendorActions.addVendor(vendor));
     } else {
       setIsDisabled(true);
@@ -206,7 +208,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           label = "Location"
           placeholder = "Select location"
           onChange = {onChangeLocation}
-          error = {errors.locationId}
+          error = {errors.location}
         />
       </div>
       <textarea

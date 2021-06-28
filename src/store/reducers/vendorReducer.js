@@ -15,9 +15,11 @@ const initialState = {
     category_title: null,
     title: null,
     description: null,
-    sort: 'DESC'
-    // pageNumber: 1,
-    // pageSize: 10
+    sort: 'DESC',
+    number: null,
+    size: null,
+    totalElements: null,
+    totalPages: null
   },
   getFilteredVendorsStatus: helpers.getDefaultState()
 };
@@ -153,16 +155,28 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         getFilteredVendorsStatus: helpers.getRequestState(),
-        vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...payload }
+        vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...payload.filterParams }
       };
     }
     case types.GET_FILTERED_VENDORS_SUCCESS: {
-      const { payload } = action;
-      console.log(payload);
+      const {
+        vendors, showMore
+      } = action.payload;
+      const {
+        content, number, size, totalElements, totalPages
+      } = vendors;
+      console.log(action.payload);
       return {
         ...state,
         getFilteredVendorsStatus: helpers.getSuccessState('Success!'),
-        vendors: payload
+        vendors: showMore ? [...state.vendors, ...content] : content,
+        vendorsFiltersApplied: {
+          ...state.vendorsFiltersApplied,
+          number,
+          size,
+          totalElements,
+          totalPages
+        }
       };
     }
     case types.GET_FILTERED_VENDORS_FAILURE: {
