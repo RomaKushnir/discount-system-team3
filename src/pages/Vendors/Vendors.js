@@ -43,7 +43,7 @@ function Vendors() {
       // discounts_category_id: params.category?.id || null,
       title: null,
       description: null,
-      sort: sortOption.value || null,
+      sort: 'DESC' || null,
       number: 0,
       size: 6
     };
@@ -56,7 +56,7 @@ function Vendors() {
     }));
     dispatch(actions.locationActions.getLocationsList());
     dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, country.value, sortOption.value]);
+  }, [dispatch, country.value]);
 
   const vendors = useSelector(getVendorsList);
   const vendorsOptions = useSelector(getVendorsOptions);
