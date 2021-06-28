@@ -19,7 +19,7 @@ import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
-import AddDiscountModal from './components/AddDiscountModal';
+import DiscountModal from './components/DiscountModal';
 
 const onChange = () => {
   console.log('change');
@@ -99,9 +99,8 @@ function Discounts() {
           </main>
         </div>
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal
+          <DiscountModal
             onModalClose={closeModal}
-            discount={{ title: 'title' }}
           />
         </Modal>
       <Footer/>

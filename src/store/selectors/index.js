@@ -7,11 +7,15 @@ import {
   getVendorsList,
   getVendorsOptions
 } from './vendors';
+import {
+  getCategoriesOptions
+} from './categories';
 
 export {
   getLocationsList,
   getVendorsList,
   getCountriesOptions,
   getVendorsOptions,
-  getCitiesGroupedByCountryOptions
+  getCitiesGroupedByCountryOptions,
+  getCategoriesOptions
 };
