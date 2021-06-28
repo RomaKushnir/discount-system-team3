@@ -1,10 +1,10 @@
 import Modal from '../../../../components/Modal';
-import styles from './UserDiscountModal.module.scss';
+import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 
 // title, vendor, description long, location, from, to, persentage, count
-function UserDiscountModal({
+function DiscountModal({
   discount, isAdmin = true, onClose, isOpen
 }) {
   const onEditClick = () => {
@@ -17,7 +17,7 @@ function UserDiscountModal({
     console.log('activate');
   };
 
-  const adminBtns = <div className = {styles.adminBtns}>
+  const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
       title = "Edit"
       type = "edit"
@@ -31,7 +31,7 @@ function UserDiscountModal({
       name = "delete"
     />
   </div>;
-  const isAdminBtns = isAdmin ? adminBtns : "";
+  const adminBtns = isAdmin ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>
@@ -55,14 +55,14 @@ function UserDiscountModal({
       <div className = {styles.count}>Available {discount.quantity} promotional codes</div>
     </div>
     <div className = {styles.row}>
-      {isAdminBtns}
+      {adminBtns}
       <ItemActionButton
           title = "Activate"
           onActionClick = {onActivateClick}
           name = "activate"
         />
     </div>
-  </div> : "";
+  </div> : null;
   return (
     <Modal
       isOpen = {isOpen}
@@ -72,4 +72,4 @@ function UserDiscountModal({
   );
 }
 
-export default UserDiscountModal;
+export default DiscountModal;

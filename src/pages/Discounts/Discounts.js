@@ -20,7 +20,7 @@ import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
-import UserDiscountModal from './components/UserDiscountModal';
+import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
 
 const onChange = () => {
@@ -47,7 +47,7 @@ function Discounts() {
   console.log(discountsArray);
 
   const [modalState, setModalState] = useState(false);
-  const [userModalState, setUserModalState] = useState(false);
+  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
 
   const onModalOpen = () => {
@@ -65,13 +65,13 @@ function Discounts() {
 
   const onCardClick = useCallback((e, id) => {
     console.log(discountsArray.find((el) => el.id === id));
-    setUserModalState(true);
+    setIsDiscountModalShown(true);
     const selectedDiscount = discountsArray.find((el) => el.id === id);
     setDiscount(selectedDiscount);
   }, [discountsArray]);
 
-  const discountModalClose = useCallback(() => {
-    setUserModalState(false);
+  const onDiscountModalClose = useCallback(() => {
+    setIsDiscountModalShown(false);
   }, []);
 
   return (
@@ -113,10 +113,10 @@ function Discounts() {
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
               />
-              <UserDiscountModal
+              <DiscountModal
                 discount = {discount}
-                isOpen = {userModalState}
-                onClose = {discountModalClose}
+                isOpen = {isDiscountModalShown}
+                onClose = {onDiscountModalClose}
               />
               <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
               </>
