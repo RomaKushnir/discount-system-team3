@@ -24,7 +24,6 @@ function Vendor() {
   const vendor = useSelector((state) => state.vendorReducer.vendor);
   console.log(vendor);
   return (
-    <>
     <div className={styles.vendorPage}>
     <Header />
     <div className={styles.blockVendor}>
@@ -51,7 +50,6 @@ function Vendor() {
     </div>
     <div className={styles.footer}><Footer /></div>
     </div>
-    </>
   );
 }
 
