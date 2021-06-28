@@ -30,12 +30,33 @@ function Vendors() {
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
   const [sortOption, setSortOption] = useState(vendorsSortOptions[0]);
+  const country = {
+    value: 'Ukraine',
+    label: 'Ukraine'
+  }; // temporary, should be user country
 
   useEffect(() => {
-    dispatch(actions.vendorActions.getVendors());
+    // dispatch(actions.vendorActions.getVendors());
+    const payload = {
+      location_country: country.value || null,
+      location_city: null,
+      // discounts_category_id: params.category?.id || null,
+      title: null,
+      description: null,
+      sort: sortOption.value || null,
+      number: 0,
+      size: 6
+    };
+
+    console.log(payload);
+    const showMore = false;
+    dispatch(actions.vendorActions.getFilteredVendors({
+      filterParams: payload,
+      showMore
+    }));
     dispatch(actions.locationActions.getLocationsList());
     dispatch(actions.categoryActions.getCategories());
-  }, [dispatch]);
+  }, [dispatch, country.value, sortOption.value]);
 
   const vendors = useSelector(getVendorsList);
   const vendorsOptions = useSelector(getVendorsOptions);
@@ -79,7 +100,7 @@ function Vendors() {
     const payload = {
       location_country: params.country?.label || null,
       location_city: params.city?.label || null,
-      // category_title: params.category?.label || null,
+      // discounts_category_id: params.category?.id || null,
       title: params.vendor?.label || null,
       description: params.searchWord || null,
       sort: sortOption.value || null,

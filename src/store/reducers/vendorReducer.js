@@ -10,9 +10,9 @@ const initialState = {
   vendor: null,
   vendorStatus: helpers.getDefaultState(),
   vendorsFiltersApplied: {
-    locations_country: null,
-    locations_city: null,
-    category_title: null,
+    location_country: null,
+    location_city: null,
+    // discounts_category_id: null,
     title: null,
     description: null,
     sort: 'DESC',

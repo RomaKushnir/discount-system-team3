@@ -15,7 +15,7 @@ function FiltersContainer({
   const [country, setCountry] = useState({
     value: 'Ukraine',
     label: 'Ukraine'
-  });
+  }); // temporary, should be user country
   const [city, setCity] = useState(null);
   const [category, setCategory] = useState(null);
   const [vendor, setVendor] = useState(null);
