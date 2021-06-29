@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
 import { useFormik } from 'formik';
 import validationSchema from '../../../../utilities/validationSchema';
-import styles from './DiscountModal.module.scss';
+import styles from './CreateDiscount.module.scss';
 import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
@@ -16,7 +16,7 @@ import {
   getCategoriesOptions
 } from '../../../../store/selectors';
 
-function AddDiscountModal({
+function CreateDiscount({
   discount = {
     title: '',
     imageUrl: '',
@@ -271,4 +271,4 @@ function AddDiscountModal({
   );
 }
 
-export default AddDiscountModal;
+export default CreateDiscount;

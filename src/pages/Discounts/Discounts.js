@@ -19,7 +19,7 @@ import DiscountList from './components/DiscountList/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
-import DiscountModal from './components/DiscountModal';
+import CreateDiscount from './components/CreateDiscount';
 
 const onChange = () => {
   console.log('change');
@@ -99,7 +99,7 @@ function Discounts() {
           </main>
         </div>
         <Modal isOpen={modalState} onClose={closeModal}>
-          <DiscountModal
+          <CreateDiscount
             onModalClose={closeModal}
           />
         </Modal>
