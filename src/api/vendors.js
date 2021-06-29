@@ -23,7 +23,7 @@ export const getFilteredVendors = (payload) => {
     .join(';')
     .split('_')
     .join('.')
-    .replace(';description:', ';description*:*');
+    .replace('description:', 'description*:*');
 
   console.log(str);
   const queryParams = `?query=${str};`;
