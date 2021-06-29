@@ -1,3 +1,3 @@
-import DiscountListItem from "./DiscountListItem";
+import DiscountListItem from './DiscountListItem';
 
 export default DiscountListItem;

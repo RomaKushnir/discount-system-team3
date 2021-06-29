@@ -1,4 +1,4 @@
-import DiscountCard from "../../../../components/discountCard";
+import DiscountCard from '../../../../components/discountCard';
 import styles from './DiscountListItem.module.scss';
 
 function DiscountListItem({ discount, onClick }) {
