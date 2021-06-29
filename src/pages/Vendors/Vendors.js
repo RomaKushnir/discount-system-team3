@@ -57,7 +57,6 @@ function Vendors() {
 
     if (e.target.name === 'edit') {
       const selectedVendor = vendors.find((el) => el.id === id);
-
       setVendor(selectedVendor);
     } else {
       setVendor({

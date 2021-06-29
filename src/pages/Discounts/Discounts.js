@@ -4,12 +4,12 @@ import React, {
   useCallback
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import countriesList from '../../mockData/countriesList';
 import citiesList from '../../mockData/citiesList';
-import sortList from '../../mockData/sortList';
 import categoriesList from '../../mockData/categoriesList';
 import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
@@ -20,6 +20,8 @@ import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
+import DiscountModal from './components/DiscountModal';
+import Pagination from '../../components/Pagination/Pagination';
 
 const onChange = () => {
   console.log('change');
@@ -30,6 +32,7 @@ const onBlur = () => {
 const onShowMoreClick = () => {
   console.log('show more');
 };
+const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -38,9 +41,14 @@ function Discounts() {
     dispatch(actions.discountsActions.getDiscountsList());
   }, [dispatch]);
 
-  const discounts = useSelector((state) => state.discountsReducer.discounts);
+  const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
+
+  const discountsArray = useSelector((state) => state.discountsReducer.discounts);
+  console.log(discountsArray);
 
   const [modalState, setModalState] = useState(false);
+  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
+  const [discount, setDiscount] = useState(null);
 
   const onModalOpen = () => {
     setModalState(true);
@@ -54,6 +62,17 @@ function Discounts() {
   const onApplyButtonClick = (parameters) => {
     console.log(parameters);
   };
+
+  const onCardClick = useCallback((e, id) => {
+    console.log(discountsArray.find((el) => el.id === id));
+    setIsDiscountModalShown(true);
+    const selectedDiscount = discountsArray.find((el) => el.id === id);
+    setDiscount(selectedDiscount);
+  }, [discountsArray]);
+
+  const onDiscountModalClose = useCallback(() => {
+    setIsDiscountModalShown(false);
+  }, []);
 
   return (
     <div className = {styles.containerFluid}>
@@ -75,19 +94,33 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {sortList}
-                initialValue ={[sortList[0]]}
+                options = {options}
+                initialValue = "Expiration Date"
                 onChange = {onChange}
-                // isLoading = "false"
+                isLoading = "false"
                 className = ""
-                isClearable={false}
                 onBlur = {onBlur}
               />
             </div>
             <div className = {styles.discountsContainer}>
+            {getDiscountsStatus.loading === true
+              && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+            </div>}
+            {getDiscountsStatus.loading === false
+              && <>
               <DiscountList
-                discounts = {discounts}
+                discounts = {discountsArray}
+                onCardClick = {onCardClick}
               />
+              <DiscountModal
+                discount = {discount}
+                isOpen = {isDiscountModalShown}
+                onClose = {onDiscountModalClose}
+              />
+              <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+              </>
+            }
             </div>
             <div className = {styles.discountsShowMoreBtnWrap}>
               <OutlineButton
@@ -98,11 +131,9 @@ function Discounts() {
             </div>
           </main>
         </div>
+
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal
-            onModalClose={closeModal}
-            discount={{ title: 'title' }}
-          />
+          <AddDiscountModal discount={{ title: 'title' }}/>
         </Modal>
       <Footer/>
     </div>
