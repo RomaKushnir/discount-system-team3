@@ -12,10 +12,9 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
 import DiscountList from './components/DiscountList';
-import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
-import AddDiscountModal from './components/AddDiscountModal';
+import CreateDiscount from './components/CreateDiscount';
 import {
   getCountriesOptions,
   getCitiesGroupedByCountryOptions
@@ -119,18 +118,13 @@ function Discounts() {
               </>
             }
             </div>
-            <div className = {styles.discountsShowMoreBtnWrap}>
-              <OutlineButton
-                btnText = "Show more"
-                onClick = {onShowMoreClick}
-                className = {styles.discountsShowMoreBtn}
-              />
-            </div>
           </main>
         </div>
 
         <Modal isOpen={modalState} onClose={closeModal}>
-          <AddDiscountModal discount={{ title: 'title' }}/>
+          <CreateDiscount
+            onModalClose={closeModal}
+          />
         </Modal>
       <Footer/>
     </div>

@@ -1,5 +1,9 @@
 @import '../../../../variables.scss';
 
+.modalContent {
+  max-width: 400px;
+}
+
 .modal {
   &Header {
     display: flex;
