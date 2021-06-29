@@ -23,6 +23,7 @@ export const getFilteredVendors = (payload) => {
     .join(';')
     .split('_')
     .join('.')
+    .replace('title:', 'title*:*')
     .replace('description:', 'description*:*');
 
   console.log(str);

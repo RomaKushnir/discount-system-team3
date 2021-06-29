@@ -101,7 +101,7 @@ function Vendors() {
       location_country: params.country?.label || null,
       location_city: params.city?.label || null,
       // discounts_category_id: params.category?.id || null,
-      title: params.vendor?.label || null,
+      title: params.vendorSearch || null,
       description: params.searchWord || null,
       sort: sortOption.value || null,
       number: 0,

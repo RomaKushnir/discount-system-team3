@@ -4,6 +4,11 @@ import Button from '../Button';
 import SelectField from '../SelectField';
 import TextInput from '../TextInput';
 
+const inputStyles = {
+  width: '200px',
+  marginRight: '10px'
+};
+
 function FiltersContainer({
   onApplyButtonClick,
   countriesList,
@@ -18,11 +23,15 @@ function FiltersContainer({
   }); // temporary, should be user country
   const [city, setCity] = useState(null);
   const [category, setCategory] = useState(null);
-  const [vendor, setVendor] = useState(null);
+  const [vendorSearch, setVendorSearch] = useState(null);
 
   const onChangeInput = (e) => {
     console.log(e.target.value);
     setSearchWord(e.target.value);
+  };
+  const onChangeVendorInput = (e) => {
+    console.log(e.target.value);
+    setVendorSearch(e.target.value);
   };
 
   const onChangeCountries = (selectedOption) => {
@@ -38,11 +47,6 @@ function FiltersContainer({
   const onChangeCategories = (selectedOption) => {
     console.log(selectedOption);
     setCategory(selectedOption);
-  };
-
-  const onChangeVendor = (selectedOption) => {
-    console.log(selectedOption);
-    setVendor(selectedOption);
   };
 
   return (
@@ -74,36 +78,42 @@ function FiltersContainer({
             />
           </div>}
           {vendorsList && <div className = {styles.filter}>
-            <SelectField
-              options = {vendorsList}
+            <TextInput
+              onValueChange = {onChangeVendorInput}
               label = "Vendor"
-              onChange = {onChangeVendor}
+              name = "vendorSearch"
+              placeholder = "Search..."
+              type = "search"
+              style = {inputStyles}
             />
           </div>}
         </div>
       </div>
-      <div className = {styles.inputContainer}>
-        <TextInput
-          onValueChange = {onChangeInput}
-          label = "Search"
-          name = "Search"
-          placeholder = "Search..."
-          type = "search"
+      <div className = {styles.inputButtonColumn}>
+        <div className = {styles.inputContainer}>
+          <TextInput
+            onValueChange = {onChangeInput}
+            label = "Search"
+            name = "Search"
+            placeholder = "Search..."
+            type = "search"
+            style = {inputStyles}
+          />
+        </div>
+        <div className = {styles.buttonContainer}>
+        <Button
+          btnText = "Apply"
+          onClick = {() => onApplyButtonClick(
+            {
+              searchWord,
+              country,
+              city,
+              category,
+              vendorSearch
+            }
+          )}
         />
-      </div>
-      <div className = {styles.buttonContainer}>
-      <Button
-        btnText = "Apply"
-        onClick = {() => onApplyButtonClick(
-          {
-            searchWord,
-            country,
-            city,
-            category,
-            vendor
-          }
-        )}
-      />
+        </div>
       </div>
     </div>
   );
