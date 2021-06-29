@@ -55,10 +55,9 @@ function AddDiscountModal({
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
-    console.log('form values', formData);
+    // console.log('form values', formData);
 
     dispatch(actions.discountsActions.createDiscount(formData));
-  // onModalClose();
   };
 
   const onOkClick = () => {
@@ -73,9 +72,9 @@ function AddDiscountModal({
     onSubmit: submitHandler
   });
 
-  console.log('formik', formik);
+  // console.log('formik', formik);
 
-  // SET CUSTOM SELECT INTO FORMIK STATE
+  // SET SELECT VALUE INTO FORMIK STATE
   const onSelectValueChange = (selected, options) => {
     const { name } = options;
     const value = selected && (selected.value || selected.length) ? selected.value : null;
