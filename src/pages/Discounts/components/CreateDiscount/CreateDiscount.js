@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -27,8 +27,8 @@ function CreateDiscount({
     startDate: new Date(Date.now()),
     expirationDate: null,
     vendorId: null,
+    categoryId: null,
     // mocked fields
-    categoryId: 2,
     perUser: 1,
     price: 0,
     quantity: 1
@@ -80,6 +80,10 @@ function CreateDiscount({
     const value = selected && (selected.value || selected.length) ? selected.value : null;
     formik.setFieldValue(name, value, true);
   };
+
+  const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
+
+  const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
 
   return (
     <div className={styles.modalContent}>
@@ -235,7 +239,7 @@ function CreateDiscount({
                 name="startDate"
                 className={styles.customDatePicker}
                 value={formik.values.startDate}
-                onChange={(value) => formik.setFieldValue('startDate', value)}
+                onChange={startDateHandler}
                 returnValue="start"
               />
             </div>
@@ -246,7 +250,7 @@ function CreateDiscount({
                 name="expirationDate"
                 className={styles.customDatePicker}
                 value={formik.values.expirationDate}
-                onChange={(value) => formik.setFieldValue('expirationDate', value)}
+                onChange={expirationDateHandler}
                 returnValue="end"
               />
             </div>

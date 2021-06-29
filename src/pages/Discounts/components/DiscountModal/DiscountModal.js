@@ -37,7 +37,7 @@ function DiscountModal({
       <div className = {styles.modalTitle}>{discount.title}</div>
       <div className = {styles.vendorName}>{discount.vendor.title}</div>
     </div>
-    <div className = {styles.modalImg}><img src="https://picsum.photos/200/300"/></div>
+    <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
     <div className = {styles.modalDescr}>{discount.description}</div>
     <div className = {styles.row}>
       <div className = {styles.modalLocation}></div>

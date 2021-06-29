@@ -12,7 +12,6 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
 import DiscountList from './components/DiscountList';
-import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import CreateDiscount from './components/CreateDiscount';
@@ -118,13 +117,6 @@ function Discounts() {
               <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
               </>
             }
-            </div>
-            <div className = {styles.discountsShowMoreBtnWrap}>
-              <OutlineButton
-                btnText = "Show more"
-                onClick = {onShowMoreClick}
-                className = {styles.discountsShowMoreBtn}
-              />
             </div>
           </main>
         </div>
