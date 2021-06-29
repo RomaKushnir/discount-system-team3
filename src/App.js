@@ -3,6 +3,7 @@ import {
   Switch
 } from 'react-router-dom';
 import './App.scss';
+import { createBrowserHistory } from 'history';
 import Routes from './routes';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
@@ -14,6 +15,8 @@ import Statistics from './pages/Statistics';
 import Favourites from './pages/Favourites';
 import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
+
+export const history = createBrowserHistory();
 
 function App() {
   return (

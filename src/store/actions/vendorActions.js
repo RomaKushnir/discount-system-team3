@@ -1,8 +1,9 @@
 import * as types from '../actionTypes';
 
-export function getVendors() {
+export function getVendors(payload) {
   return {
-    type: types.GET_VENDORS
+    type: types.GET_VENDORS,
+    payload
   };
 }
 
@@ -17,6 +18,12 @@ export function getVendorsFailure(payload) {
   return {
     type: types.GET_VENDORS_FAILURE,
     payload
+  };
+}
+
+export function clearGetVendorsStatus() {
+  return {
+    type: types.CLEAR_GET_VENDORS_STATUS
   };
 }
 
@@ -127,5 +134,19 @@ export function clearGetFilteredVendorsStatus() {
   return {
     type: types.CLEAR_GET_FILTERED_VENDORS_STATUS
 
+  };
+}
+export function updateVendorsFilters(payload) {
+  return {
+    type: types.UPDATE_VENDORS_FILTERS,
+    payload
+
+  };
+}
+
+export function applyVendorsFilters(payload) {
+  return {
+    type: types.APPLY_VENDORS_FILTERS,
+    payload
   };
 }
