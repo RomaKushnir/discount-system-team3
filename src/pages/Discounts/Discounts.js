@@ -8,38 +8,32 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
-import countriesList from '../../mockData/countriesList';
-import citiesList from '../../mockData/citiesList';
-import categoriesList from '../../mockData/categoriesList';
-import vendorsList from '../../mockData/vendorsList';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SelectField from '../../components/SelectField';
-import DiscountList from './components/DiscountList/DiscountList';
+import DiscountList from './components/DiscountList';
 import OutlineButton from '../../components/OutlineButton';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import AddDiscountModal from './components/AddDiscountModal';
+import {
+  getCountriesOptions,
+  getCitiesGroupedByCountryOptions
+} from '../../store/selectors';
+import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
-
-const onChange = () => {
-  console.log('change');
-};
-const onBlur = () => {
-  console.log('blur');
-};
-const onShowMoreClick = () => {
-  console.log('show more');
-};
-const options = ['Vendors', 'Category', 'Discount', 'Expiration Date'];
 
 function Discounts() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountsList());
+    dispatch(actions.locationActions.getLocationsList());
   }, [dispatch]);
+
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
 
@@ -63,6 +57,13 @@ function Discounts() {
     console.log(parameters);
   };
 
+  const onChange = () => {
+    console.log('change');
+  };
+
+  const onShowMoreClick = () => {
+    console.log('show more');
+  };
   const onCardClick = useCallback((e, id) => {
     console.log(discountsArray.find((el) => el.id === id));
     setIsDiscountModalShown(true);
@@ -81,11 +82,10 @@ function Discounts() {
         <main className = {styles.container}>
           <FiltersContainer
             onApplyButtonClick = {onApplyButtonClick}
-            countriesList = {countriesList}
-            citiesList = {citiesList}
-            categoriesList = {categoriesList}
-            vendorsList = {vendorsList}
             className = {styles.discountsFilter}
+            countriesList={countriesOptions}
+            citiesList={citiesOptions}
+            categoriesList={[]}
             />
             <div className = {styles.discountsActions}>
               <AddNewItemButton
@@ -94,12 +94,9 @@ function Discounts() {
                 name = "add_discount"
               />
               <SelectField
-                options = {options}
-                initialValue = "Expiration Date"
+                options = {discountsSortOptions}
+                initialValue = {discountsSortOptions[0]}
                 onChange = {onChange}
-                isLoading = "false"
-                className = ""
-                onBlur = {onBlur}
               />
             </div>
             <div className = {styles.discountsContainer}>

@@ -11,6 +11,7 @@ function DiscountListItem({ discount, onClick }) {
         description = {discount.description}
         discount = {discount.percentage}
         className = {styles.discountsCard}
+        img = {discount.imageUrl}
       />
     </li>
   );

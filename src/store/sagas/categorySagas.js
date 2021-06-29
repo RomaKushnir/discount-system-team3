@@ -31,7 +31,6 @@ export function* addCategory({ payload }) {
 export function* getCategories() {
   try {
     const response = yield call(api.categories.getCategories);
-    console.log(response.data);
     yield put(actions.categoryActions.getCategoriesSuccess(response.data));
   } catch (error) {
     console.error(error);
