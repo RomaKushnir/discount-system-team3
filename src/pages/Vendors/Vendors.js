@@ -1,8 +1,7 @@
 import {
   useCallback,
   useState,
-  useEffect,
-  useMemo
+  useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -16,40 +15,56 @@ import Footer from '../../components/Footer';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import SelectField from '../../components/SelectField';
-import sortList from '../../mockData/sortList';// mock data to render select list
+import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import {
   getVendorsOptions,
   getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
-  getLocationsList,
-  getVendorsList
+  getVendorsList,
+  getCitiesOptions
+  // getCategoriesOptions
 } from '../../store/selectors';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
+  const [sortOption, setSortOption] = useState(vendorsSortOptions[0]);
+  const country = {
+    value: 'Ukraine',
+    label: 'Ukraine'
+  }; // temporary, should be user country
 
   useEffect(() => {
-    dispatch(actions.vendorActions.getVendors());
+    // dispatch(actions.vendorActions.getVendors());
+    const payload = {
+      location_country: country.value || null,
+      location_city: null,
+      // discounts_category_id: params.category?.id || null,
+      title: null,
+      description: null,
+      sort: 'DESC' || null,
+      number: 0,
+      size: 6
+    };
+
+    console.log(payload);
+    const showMore = false;
+    dispatch(actions.vendorActions.getFilteredVendors({
+      filterParams: payload,
+      showMore
+    }));
     dispatch(actions.locationActions.getLocationsList());
-  }, [dispatch]);
+    dispatch(actions.categoryActions.getCategories());
+  }, [dispatch, country.value]);
 
   const vendors = useSelector(getVendorsList);
-  const locations = useSelector(getLocationsList);
   const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
-
-  const vendorsWithCities = useMemo(() => {
-    const getVendorsWithCities = vendors.map((el) => {
-      const vendorLocation = locations.find((location) => location.id === el.locationId);
-      return { ...el, location: vendorLocation ? vendorLocation.city : 'testCity' };// fallback value if not found locationId in mockData
-    });
-    return getVendorsWithCities;
-  }, [locations, vendors]);
+  const citiesOptions = useSelector(getCitiesOptions);
+  const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
+  // const categoriesOptions = useSelector(getCategoriesOptions);
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -57,13 +72,12 @@ function Vendors() {
 
     if (e.target.name === 'edit') {
       const selectedVendor = vendors.find((el) => el.id === id);
-
       setVendor(selectedVendor);
     } else {
       setVendor({
         id: '',
         title: '',
-        locationId: null,
+        location: null,
         email: '',
         imageUrl: '',
         description: ''
@@ -80,18 +94,45 @@ function Vendors() {
     setIsOpen(false);
   }, []);
 
-  const onApplyButtonClick = () => {
-    // apply filters
+  const onApplyButtonClick = (params) => {
+    console.log(params);
+    const payload = {
+      location_country: params.country?.label || null,
+      location_city: params.city?.label || null,
+      // discounts_category_id: params.category?.id || null,
+      title: params.vendorSearch || null,
+      description: params.searchWord || null,
+      sort: sortOption.value || null,
+      number: 0,
+      size: 6
+    };
+
+    console.log(payload);
+    const showMore = false;
+    dispatch(actions.vendorActions.getFilteredVendors({
+      filterParams: payload,
+      showMore
+    }));
   };
 
-  const onSortFilter = () => {
-    // apply sort filter
+  const onSortFilter = (selectedOption) => {
+    console.log(selectedOption);
+    setSortOption(selectedOption);
   };
 
   const onShowMoreClick = () => {
-    // do request to get more items
+    if (vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages) {
+      vendorsFiltersApplied.number += 1;
+      const showMore = true;
+      dispatch(actions.vendorActions.getFilteredVendors({
+        filterParams: vendorsFiltersApplied,
+        showMore
+      }));
+    }
   };
 
+  console.log(vendors);
+  console.log(vendorsFiltersApplied);
   return (
     <div className={styles.container}>
       <div>
@@ -101,7 +142,7 @@ function Vendors() {
             onApplyButtonClick={onApplyButtonClick}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
-            categoriesList={[]}
+            // categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
           />
           <div className={styles.vendorsActionsBlock}>
@@ -111,8 +152,8 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              initialValue={sortList[0]}
-              options={sortList}
+              initialValue={sortOption}
+              options={vendorsSortOptions}
               onChange={onSortFilter}
               isClearable={false}
               />
@@ -131,11 +172,12 @@ function Vendors() {
               {getVendorsStatus.loading === false
                 && <>
                 <VendorsList
-                  vendors={vendorsWithCities}
+                  vendors={vendors}
                   onEdit = {onModalOpen}
                   onDelete = {onDelete}
                 />
-                <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+                {vendorsFiltersApplied.number + 1 < vendorsFiltersApplied.totalPages
+                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
                 </>
                 }
           </div>

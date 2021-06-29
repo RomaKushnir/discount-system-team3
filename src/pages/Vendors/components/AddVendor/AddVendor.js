@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddVendor.module.scss';
@@ -14,7 +14,7 @@ import {
   companyDescriptionValidation,
   selectValidation
 } from '../../../../utilities/validation';
-import { getCitiesGroupedByCountryOptions } from '../../../../store/selectors';
+import { getCitiesOptions } from '../../../../store/selectors';
 
 const inputStyles = {
   width: '300px'
@@ -26,7 +26,7 @@ const validate = {
   email: emailValidation,
   imageUrl: imageUrlValidation,
   description: companyDescriptionValidation,
-  locationId: selectValidation
+  location: selectValidation
 };
 
 function AddVendorModal({ onSave, selectedVendor }) {
@@ -36,7 +36,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [errors, setErrors] = useState({
     id: '',
     title: '',
-    locationId: '',
+    location: '',
     email: '',
     imageUrl: '',
     description: ''
@@ -44,18 +44,9 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  const locationsList = useSelector((state) => state.locationReducer.locationsList);
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
-
-  const transformedInitialLocation = useMemo(() => {
-    const initialLocation = locationsList.find((el) => el.id === selectedVendor.locationId);
-    return {
-      id: initialLocation?.id,
-      value: initialLocation?.city,
-      label: initialLocation?.city
-    };
-  }, [locationsList, selectedVendor]);
+  const citiesOptions = useSelector(getCitiesOptions);
+  const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -94,12 +85,12 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const onChangeLocation = (selectedOption) => {
     setVendor({
       ...vendor,
-      locationId: selectedOption?.id
+      location: selectedOption
     });
 
     setErrors({
       ...errors,
-      locationId: ''
+      location: ''
     });
 
     setIsDisabled(false);
@@ -141,6 +132,8 @@ function AddVendorModal({ onSave, selectedVendor }) {
       && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       setIsDisabled(false);
+      vendor.locationId = vendor.location.id;
+      console.log(vendor);
       dispatch(actions.vendorActions.addVendor(vendor));
     } else {
       setIsDisabled(true);
@@ -211,11 +204,11 @@ function AddVendorModal({ onSave, selectedVendor }) {
         />
         <SelectField
           options = {citiesOptions}
-          initialValue = {transformedInitialLocation}
+          initialValue = {initialLocation}
           label = "Location"
           placeholder = "Select location"
           onChange = {onChangeLocation}
-          error = {errors.locationId}
+          error = {errors.location}
         />
       </div>
       <textarea

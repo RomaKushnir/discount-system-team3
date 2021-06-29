@@ -45,14 +45,21 @@
 
     }
 
+    .inputButtonColumn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .inputContainer {
       display: flex;
       margin-left: 0;
       margin-bottom: 10px;
       width: 200px;
+      background-color: lightseagreen;
 
         @media(max-width: 1100px) {
-          margin-left: 50px;
+          margin-left: 20px;
           margin-top: 20px;
           justify-content: flex-start;
         }
@@ -68,7 +75,11 @@
       margin-left: auto;
       margin-bottom: 10px;
       width: 130px;
+      height: 38px;
       justify-content: flex-end;
+      align-self: flex-end;
+      // align-items: center;
+      background-color: lightgreen;
 
         @media(max-width: 1100px) {
           margin-top: 20px;

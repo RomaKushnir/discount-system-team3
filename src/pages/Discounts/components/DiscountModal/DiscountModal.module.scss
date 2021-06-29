@@ -1,0 +1,70 @@
+@import '../../../../variables.scss';
+
+.modal {
+  &Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  &Title {
+    font-size: 2rem;
+  }
+  &Descr {
+    margin: 10px 0;
+  }
+  &Img {
+    width: 400px;
+    height: 200px;
+    img {
+      width: 400px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+}
+.vendorName {
+  font-family: 'Reem Kufi', sans-serif;
+  font-size: 1.2rem;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.dates {
+  font-weight: bold;
+  * + * {
+    margin-top: 5px;
+  }
+}
+.discountWrapper {
+  display: flex;
+  align-items: center;
+}
+.discount {
+  text-align: right;
+  background-color: $color--blue-dark;
+  color: $color--primary-white;
+  padding: 3px;
+  border-radius: 0 3px 3px 0;
+  position: relative;
+  margin-left: 32px;
+  &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -32px;
+      border: 12px solid transparent;
+      border-right: 20px solid $color--blue-dark;
+  }
+}
+.count {
+  font-size: .8rem;
+}
+.adminBtns {
+  * + * {
+    margin-left: 5px;
+  }
+}

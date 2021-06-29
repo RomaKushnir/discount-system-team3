@@ -101,3 +101,31 @@ export function getVendorByIdFailure(payload) {
     payload
   };
 }
+
+export function getFilteredVendors(payload) {
+  return {
+    type: types.GET_FILTERED_VENDORS,
+    payload
+  };
+}
+
+export function getFilteredVendorsSuccess(payload) {
+  return {
+    type: types.GET_FILTERED_VENDORS_SUCCESS,
+    payload
+  };
+}
+
+export function getFilteredVendorsFailure(payload) {
+  return {
+    type: types.GET_FILTERED_VENDORS_FAILURE,
+    payload
+  };
+}
+
+export function clearGetFilteredVendorsStatus() {
+  return {
+    type: types.CLEAR_GET_FILTERED_VENDORS_STATUS
+
+  };
+}

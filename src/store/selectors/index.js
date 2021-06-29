@@ -1,15 +1,14 @@
 import {
   getLocationsList,
   getCountriesOptions,
-  getCitiesGroupedByCountryOptions
+  getCitiesGroupedByCountryOptions,
+  getCitiesOptions
 } from './locations';
 import {
   getVendorsList,
   getVendorsOptions
 } from './vendors';
-import {
-  getCategoriesOptions
-} from './categories';
+import { getCategoriesOptions } from './categories';
 
 export {
   getLocationsList,
@@ -17,5 +16,6 @@ export {
   getCountriesOptions,
   getVendorsOptions,
   getCitiesGroupedByCountryOptions,
+  getCitiesOptions,
   getCategoriesOptions
 };

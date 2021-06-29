@@ -41,3 +41,17 @@ export const getCountriesOptions = createSelector(
     return countries;
   }
 );
+
+export const getCitiesOptions = createSelector(
+  getLocationsList,
+  (locations) => locations.reduce((acc, location) => {
+    const obj = {
+      id: location.id,
+      value: location.id,
+      label: location.city,
+      country: location.country
+    };
+    acc.push(obj);
+    return acc;
+  }, [])
+);
