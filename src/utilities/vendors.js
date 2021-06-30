@@ -15,26 +15,21 @@ export const convertFilterParametersToUrl = (params) => {
     .replace('title:', 'title*:*')
     .replace('description:', 'description*:*');
 
-  console.log(str);
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=title,${sort}`;
   const paginationParams = `&page=${pageNumber}&size=${size}`;
   const searchParams = `${queryParams}${sortParams}${paginationParams}`;
 
-  console.log(queryParams);
-  console.log(sortParams);
-  console.log(paginationParams);
-
   return searchParams;
 };
 
 export const convertUrlToFilterParameters = (queryString) => {
-  console.log(queryString);
   const modifiedString = queryString
     .replace('description*:*', 'description:')
     .replace('title*:*', 'title:')
     .replace('location.city:', 'city:')
     .replace('location.country:', 'country:')
+    .replace('page', 'pageNumber:')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
@@ -42,13 +37,14 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('=', ':')
     .split(';');
 
-  console.log(modifiedString);
-
   const queryParamsObject = modifiedString.reduce((acc, el) => {
     const [key, value] = el.split(':');
+    console.log(key, value);
     acc[key] = value;
     return acc;
   }, {});
 
   console.log(queryParamsObject);
+
+  return queryParamsObject;
 };

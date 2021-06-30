@@ -182,17 +182,12 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.UPDATE_VENDORS_FILTERS: {
       const { payload } = action;
-      console.log(payload);
       return {
         ...state,
         vendorsFilters: { ...state.vendorsFilters, ...payload }
       };
     }
     case types.APPLY_VENDORS_FILTERS: {
-      const { payload } = action;
-      console.log(payload);
-      console.log(state.vendorsFiltersApplied);
-      console.log(state.vendorsFilters);
       return {
         ...state,
         vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...state.vendorsFilters }

@@ -25,8 +25,9 @@ import {
   // getCategoriesOptions
 } from '../../store/selectors';
 import { defaultVendorsFilter } from '../../store/reducers/vendorReducer';
-import { convertUrlToFilterParameters } from '../../utilities/vendors';
+// import { convertUrlToFilterParameters } from '../../utilities/vendors';
 import history from '../../history';
+import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function Vendors() {
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
 
-  convertUrlToFilterParameters(history.location.search);
+  useVendorsQueryChecker(history.location.search);
 
   useEffect(() => {
     const showMore = false;
@@ -50,10 +51,6 @@ function Vendors() {
   }, [dispatch]);
 
   // const categoriesOptions = useSelector(getCategoriesOptions);
-
-  console.log(defaultVendorsFilter);
-  console.log(vendorsFilters);
-  console.log(vendorsFiltersApplied);
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -123,7 +120,7 @@ function Vendors() {
     }
   };
 
-  console.log(vendors);
+  console.log(defaultVendorsFilter);
   console.log(vendorsFilters);
   console.log(vendorsFiltersApplied);
   return (
