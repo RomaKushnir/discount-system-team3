@@ -25,6 +25,8 @@ import {
   // getCategoriesOptions
 } from '../../store/selectors';
 import { defaultVendorsFilter } from '../../store/reducers/vendorReducer';
+import { convertUrlToFilterParameters } from '../../utilities/vendors';
+import history from '../../history';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -37,6 +39,8 @@ function Vendors() {
   const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+
+  convertUrlToFilterParameters(history.location.search);
 
   useEffect(() => {
     const showMore = false;

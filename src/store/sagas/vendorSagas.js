@@ -9,7 +9,7 @@ import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
 import { convertFilterParametersToUrl } from '../../utilities/vendors';
-import { history } from '../../App';
+import history from '../../history';
 
 export const getVendorsFiltersApplied = (state) => state.vendorReducer.vendorsFiltersApplied;
 

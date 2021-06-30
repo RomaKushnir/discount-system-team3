@@ -3,20 +3,17 @@ import {
   Switch
 } from 'react-router-dom';
 import './App.scss';
-import { createBrowserHistory } from 'history';
 import Routes from './routes';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 import Login from './pages/Login';
 import Discounts from './pages/Discounts';
 import Vendor from './pages/Vendor';
-import Vendors from './pages/Vendors';
 import Statistics from './pages/Statistics';
 import Favourites from './pages/Favourites';
 import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
-
-export const history = createBrowserHistory();
+import Vendors from './pages/Vendors';
 
 function App() {
   return (
