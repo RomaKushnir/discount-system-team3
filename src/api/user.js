@@ -1,10 +1,15 @@
-// import axios from './axiosClient';
+import axios from './axiosClient';
 
 export const login = (data) => {
   console.log(data);
-  return {
-    data: '123'
-  };
+
+  const response = axios.post('https://sandbox-discount.herokuapp.com/signin', data, {
+    withCredentials: false
+  });
+
+  console.log(response);
+
+  return response;
 };
 
 export const getUser = (data) => {
