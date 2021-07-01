@@ -44,9 +44,20 @@ export function* createDiscount({ payload }) {
   }
 }
 
+export function* deleteDiscount({ payload }) {
+  console.log('discounts SAGA payload', payload);
+  try {
+    yield call(api.discounts.deleteDiscount, payload);
+    yield put(actions.discountsActions.deleteDiscountSuccess(payload));
+  } catch (error) {
+    yield put(actions.discountsActions.deleteDiscountFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_DISCOUNTS, getDiscounts),
-    takeEvery(types.CREATE_DISCOUNT, createDiscount)
+    takeEvery(types.CREATE_DISCOUNT, createDiscount),
+    takeEvery(types.DELETE_DISCOUNT, deleteDiscount)
   ]);
 }

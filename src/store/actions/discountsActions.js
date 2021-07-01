@@ -52,3 +52,30 @@ export function clearCreateDiscountStatus() {
     type: types.CLEAR_CREATE_DISCOUNT_STATUS
   };
 }
+
+export function deleteDiscount(payload) {
+  return {
+    type: types.DELETE_DISCOUNT,
+    payload
+  };
+}
+
+export function deleteDiscountSuccess(payload) {
+  return {
+    type: types.DELETE_DISCOUNT_SUCCESS,
+    payload
+  };
+}
+
+export function deleteDiscountFailure(payload) {
+  return {
+    type: types.DELETE_DISCOUNT_FAILURE,
+    payload
+  };
+}
+
+export function clearDeleteDiscountStatus() {
+  return {
+    type: types.CLEAR_DELETE_DISCOUNT_STATUS
+  };
+}
