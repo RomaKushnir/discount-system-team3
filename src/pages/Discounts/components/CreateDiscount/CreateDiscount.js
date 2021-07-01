@@ -61,7 +61,7 @@ function CreateDiscount({
     percentage: discount ? discount.percentage : '',
     startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
     expirationDate: discount ? new Date(discount.expirationDate) : null,
-    locationIds: discount ? locationsToRequst : null,
+    locationIds: discount ? locationsToRequst : [],
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
     // mocked fields
