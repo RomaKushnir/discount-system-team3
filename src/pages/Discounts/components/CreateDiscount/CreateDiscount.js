@@ -81,10 +81,8 @@ function CreateDiscount({
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
-    // console.log('form values', formData);
-    if (discount.id) {
+    if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
-      console.log('formDataUpdate', formDataUpdate);
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
       dispatch(actions.discountsActions.createDiscount(formData));
@@ -103,11 +101,8 @@ function CreateDiscount({
     onSubmit: submitHandler
   });
 
-  // console.log('formik', formik);
-
   // SET SELECT VALUE INTO FORMIK STATE
   const onSelectValueChange = (selected, options) => {
-    // console.log('select change', selected, options);
     const { name } = options;
     let value;
     if (Array.isArray(selected)) {
@@ -115,15 +110,12 @@ function CreateDiscount({
     } else {
       value = selected && selected.value;
     }
-    // console.log('select', name, value);
     formik.setFieldValue(name, value, true);
   };
 
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
-
-  console.log('discount', discount);
 
   return (
     <div className={styles.modalContent}>
