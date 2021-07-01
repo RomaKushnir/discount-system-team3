@@ -1,14 +1,24 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
+=======
+import { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+>>>>>>> a98147f (feat: implement delete discount redux flow)
 import Modal from '../../../../components/Modal';
 import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
+<<<<<<< HEAD
 import CreateDiscount from '../CreateDiscount';
+=======
+import DeleteConfirmation from '../../../../components/DeleteConfirmation';
+>>>>>>> a98147f (feat: implement delete discount redux flow)
 
 // title, vendor, description long, location, from, to, persentage, count
 function DiscountModal({
-  discount, isAdmin = true, onClose, isOpen
+  discount, isAdmin = true, onClose, isOpen, onDeleteDiscount
 }) {
+<<<<<<< HEAD
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
 
   // clean up edit modal state
@@ -16,15 +26,22 @@ function DiscountModal({
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
   });
 
+=======
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
+>>>>>>> a98147f (feat: implement delete discount redux flow)
   const onEditClick = () => {
     setIsEditDiscountOpen(true);
-  };
-  const onDeleteClick = () => {
-    console.log('delete');
   };
   const onActivateClick = () => {
     console.log('activate');
   };
+  const onDelete = useCallback(() => {
+    setConfirmModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setConfirmModalOpen(false);
+  }, []);
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
@@ -36,7 +53,7 @@ function DiscountModal({
     <ItemActionButton
       title = "Delete"
       type = "delete"
-      onActionClick = {onDeleteClick}
+      onActionClick = {onDelete}
       name = "delete"
     />
   </div>;
@@ -73,14 +90,28 @@ function DiscountModal({
     </div>
   </div> : null;
   return (
+    <>
     <Modal
       isOpen = {isOpen}
       onClose = {onClose}
+<<<<<<< HEAD
       children = {!isEditDiscountOpen
         ? content
         : <CreateDiscount discount={discount} onModalClose={onClose}/>}
     >
     </Modal>
+=======
+      children = {content}
+    />
+    <Modal isOpen={confirmModalOpen} onClose={closeModal}>
+        <DeleteConfirmation
+          onYesClick ={() => onDeleteDiscount(discount.id)}
+          status = {deleteDiscountStatus}
+          itemTitle = "discount"
+        />
+      </Modal>
+    </>
+>>>>>>> a98147f (feat: implement delete discount redux flow)
   );
 }
 

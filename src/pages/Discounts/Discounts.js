@@ -70,9 +70,15 @@ function Discounts() {
     setDiscount(selectedDiscount);
   }, [discountsArray]);
 
-  const onDiscountModalClose = useCallback(() => {
+  const onDiscountModalClose = () => {
     setIsDiscountModalShown(false);
-  }, []);
+  };
+
+  const onDeleteDiscount = useCallback((id) => {
+    onDiscountModalClose();
+    dispatch(actions.discountsActions.clearDeleteDiscountStatus());
+    dispatch(actions.discountsActions.deleteDiscount(id));
+  }, [dispatch]);
 
   return (
     <div className = {styles.containerFluid}>
@@ -113,6 +119,7 @@ function Discounts() {
                 discount = {discount}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
+                onDeleteDiscount = {onDeleteDiscount}
               />
               <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
               </>

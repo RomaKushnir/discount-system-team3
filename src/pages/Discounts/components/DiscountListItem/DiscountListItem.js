@@ -4,6 +4,7 @@ import styles from './DiscountListItem.module.scss';
 function DiscountListItem({ discount, onClick }) {
   return (
     <li onClick = {(e) => onClick(e, discount.id)}>
+      {discount.id}
       <DiscountCard
         title = {discount.title}
         category = {discount.category.title}
