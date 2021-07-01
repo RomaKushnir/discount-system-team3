@@ -9,6 +9,7 @@ function DiscountListItem({ discount, onClick }) {
         category = {discount.category.title}
         company = {discount.vendor.title}
         description = {discount.description}
+        flatAmount = {discount.flatAmount}
         discount = {discount.percentage}
         className = {styles.discountsCard}
         img = {discount.imageUrl}
