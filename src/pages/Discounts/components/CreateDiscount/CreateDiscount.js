@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -30,26 +30,27 @@ function CreateDiscount({
   const locationOptions = useSelector(getLocationsOptions);
 
   // SET INITIAL VALUE TO SELECTS
-  const initialVendor = discount ? {
+  const initialVendorOptions = discount ? {
     value: discount.vendor.id,
     label: discount.vendor.title
   }
     : null;
 
-  const initialCategories = discount ? {
+  const initialCategoryOptions = discount ? {
     value: discount.category.id,
     label: discount.category.title
   }
     : null;
 
-  const initialLocations = discount
-    ? discount.locations.map((el) => ({
-      value: el.id,
-      label: Object.values(el).join(', ')
-    }))
-    : null;
+  const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
+    value: el.id,
+    label: Object.values(el).join(', ')
+  })) : null), [discount]);
 
-  console.log('initialLocations', initialLocations);
+  const locationsToRequst = useMemo(() => (discount && discount.locations.map((el) => (el.id))), [discount]);
+
+  const isFormSubmitted = createDiscountStatus.loading === false && createDiscountStatus.success;
+
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
     title: discount ? discount.title : '',
@@ -60,7 +61,7 @@ function CreateDiscount({
     percentage: discount ? discount.percentage : '',
     startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
     expirationDate: discount ? new Date(discount.expirationDate) : null,
-    locationIds: discount ? discount.locations.map((el) => (el.id)) : [],
+    locationIds: discount ? locationsToRequst : null,
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
     // mocked fields
@@ -126,7 +127,7 @@ function CreateDiscount({
 
   return (
     <div className={styles.modalContent}>
-      {createDiscountStatus.loading === false && createDiscountStatus.success
+      {isFormSubmitted
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{createDiscountStatus.success}</div>
         <Button
@@ -139,8 +140,7 @@ function CreateDiscount({
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
       </div>}
-      <form className={createDiscountStatus.loading === false && createDiscountStatus.success
-        && styles.formDisplayNone}>
+      <form className={isFormSubmitted && styles.formDisplayNone}>
         <TextInput
           placeholder = "Discount title"
           label = "Title"
@@ -155,7 +155,7 @@ function CreateDiscount({
         <div className={styles.twoColumnsWrapper}>
           <SelectField
             options = {vendorsOptions}
-            initialValue = {initialVendor}
+            initialValue = {initialVendorOptions}
             label = "Vendor"
             name = "vendorId"
             placeholder = "Select vendor"
@@ -165,7 +165,7 @@ function CreateDiscount({
           />
           <SelectField
             options = {categoriesOptions}
-            initialValue = {initialCategories}
+            initialValue = {initialCategoryOptions}
             label = "Category"
             name = "categoryId"
             placeholder = "Select category"
@@ -187,7 +187,7 @@ function CreateDiscount({
         /> */}
         <SelectField
           options = {locationOptions}
-          initialValue={initialLocations}
+          initialValue={initialLocationsOptions}
           label = "Location"
           name = "locationIds"
           className={styles.inputContainer}

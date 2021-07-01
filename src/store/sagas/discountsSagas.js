@@ -30,11 +30,10 @@ export function* createDiscount({ payload }) {
     // console.log('SAGA createDiscount');
     if (!id) {
       response = yield call(api.discounts.createDiscount, data);
-      yield put(actions.discountsActions.createDiscountSuccess(response.data));
     } else {
       response = yield call(api.discounts.updateDiscount, payload);
-      yield put(actions.discountsActions.createDiscountSuccess(response.data));
     }
+    yield put(actions.discountsActions.createDiscountSuccess(response.data));
   } catch (error) {
     console.error(error);
     console.log(error);
