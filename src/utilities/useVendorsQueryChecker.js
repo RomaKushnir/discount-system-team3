@@ -1,35 +1,55 @@
-// import {
-//   useCallback,
-//   useState,
-//   useEffect
-// } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { convertUrlToFilterParameters } from './vendors';
+import * as actions from '../store/actions';
 
 const useVendorsQueryChecker = (queryString) => {
+  const dispatch = useDispatch();
   const queryObject = convertUrlToFilterParameters(queryString);
-  // const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const { totalElements, totalPages, ...pureFilters } = vendorsFiltersApplied;
-  console.log(vendorsFiltersApplied);
-  console.log(totalElements, totalPages);
-  console.log(queryObject);
-  console.log(pureFilters);
-  console.log(queryObject.page);
-  const x = Object.entries(pureFilters).map(([key, value]) => {
-    let array = [];
+  console.log('*********************************');
+  console.log('vendorsFiltersApplied', vendorsFiltersApplied);
+  console.log('queryObject', queryObject);
+  console.log('pureFilters', pureFilters);
 
-    if (pureFilters[key] !== null) {
-      console.log(value, queryObject[key]);
-      array = array.push(value.toString() === queryObject[key]);
-      console.log(array);
+  const checkArray = Object.entries(pureFilters).filter(([, value]) => value !== null)
+
+    .map(([key, value]) => {
+      let array = [];
+
+      if (pureFilters[key] !== null) {
+        console.log(value.toString(), queryObject[key]);
+        console.log(value.toString() === queryObject[key]);
+
+        // array = array.push(value.toString() === queryObject[key]);
+        array = array.concat(value.toString() === queryObject[key]).join(',');
+      }
+      return array;
+    });
+
+  console.log(checkArray);
+
+  useEffect(() => {
+    const showMore = false;
+
+    console.log('USE EFFECT TO APPLY FILTERS 1');
+    dispatch(actions.vendorActions.clearGetVendorsStatus());
+
+    if (checkArray.includes('false')) {
+      // const showMore = false;
+      console.log('UPDATE FILTERS');
+      dispatch(actions.vendorActions.updateVendorsFilters(queryObject));
+      console.log('vendorsFilters', vendorsFilters);
     }
-    return array;
-  });
 
-  // console.log(vendorsFilters);
+    console.log('USE EFFECT TO APPLY FILTERS 2');
+    console.log('vendorsFilters', vendorsFilters);
 
-  console.log(x);
+    dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+    // eslint-disable-next-line
+  }, []);
 };
 
 export default useVendorsQueryChecker;

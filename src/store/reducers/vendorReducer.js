@@ -5,8 +5,8 @@ export const defaultVendorsFilter = {
   country: 'Ukraine', // temporary, should be user country
   city: null,
   // categoryId: null,
-  title: null,
-  description: null,
+  title: '',
+  description: '',
   sort: 'ASC',
   pageNumber: 0,
   size: 6,

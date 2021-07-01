@@ -79,13 +79,13 @@ export function* ApplyVendorsFilters({ payload }) {
   console.log(payload);
   console.log(history.location);
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
-  console.log('*****************');
+  console.log('^^^^^^^^^^^^^^^');
   console.log(vendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 
   console.log(searchParams);
 
-  history.push({ search: searchParams });
+  history.push({ pathname: '/vendors', search: searchParams });
 
   console.log(history.location);
 

@@ -19,7 +19,8 @@ function FiltersContainer({
   countriesList,
   citiesList,
   categoriesList,
-  vendorsList
+  vendorsList,
+  filters
 }) {
   const [country, setCountry] = useState({
     value: 'Ukraine',
@@ -46,6 +47,9 @@ function FiltersContainer({
     onChangeCategory(selectedOption);
   };
 
+  console.log('CITY', filters?.city);
+  console.log({ value: filters?.city, label: filters?.city });
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -64,6 +68,7 @@ function FiltersContainer({
                 // options = {cities}
                 label = "City"
                 onChange = {onChangeCities}
+                initialValue = {{ value: filters?.city, label: filters?.city } || null}
               />
             </div>
         </div>
@@ -83,6 +88,7 @@ function FiltersContainer({
               placeholder = "Search..."
               type = "search"
               style = {inputStyles}
+              value = {filters?.title || ''}
             />
           </div>}
         </div>
@@ -96,6 +102,7 @@ function FiltersContainer({
             placeholder = "Search..."
             type = "search"
             style = {inputStyles}
+            value = {filters?.description || ''}
           />
         </div>
         <div className = {styles.buttonContainer}>

@@ -4,8 +4,6 @@ export const convertFilterParametersToUrl = (params) => {
     sort, pageNumber, size, totalElements, totalPages, ...query
   } = params;
 
-  console.log(totalElements, totalPages);
-
   const str = Object.keys(query)
     .filter((el) => query[el] !== null && query[el] !== '')
     .map((key) => `${key}:${encodeURIComponent(query[key])}`)
@@ -29,7 +27,7 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('title*:*', 'title:')
     .replace('location.city:', 'city:')
     .replace('location.country:', 'country:')
-    .replace('page', 'pageNumber:')
+    .replace('page', 'pageNumber')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
@@ -39,12 +37,11 @@ export const convertUrlToFilterParameters = (queryString) => {
 
   const queryParamsObject = modifiedString.reduce((acc, el) => {
     const [key, value] = el.split(':');
-    console.log(key, value);
-    acc[key] = value;
+    if (key) {
+      acc[key] = value;
+    }
     return acc;
   }, {});
-
-  console.log(queryParamsObject);
 
   return queryParamsObject;
 };

@@ -9,7 +9,6 @@ import appStorage from './store';
 import * as actions from './store/actions';
 
 const token = localStorage.getItem('token');
-console.log(token);
 if (token) {
   appStorage.dispatch(actions.userActions.loginSuccess());
 }

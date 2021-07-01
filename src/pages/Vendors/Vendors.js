@@ -24,8 +24,6 @@ import {
   getCitiesOptions
   // getCategoriesOptions
 } from '../../store/selectors';
-import { defaultVendorsFilter } from '../../store/reducers/vendorReducer';
-// import { convertUrlToFilterParameters } from '../../utilities/vendors';
 import history from '../../history';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
@@ -41,14 +39,17 @@ function Vendors() {
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
 
-  useVendorsQueryChecker(history.location.search);
-
   useEffect(() => {
-    const showMore = false;
-    dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+    // const showMore = false;
+    // dispatch(actions.vendorActions.clearGetVendorsStatus());
+    // dispatch(actions.vendorActions.applyVendorsFilters(showMore));
     dispatch(actions.locationActions.getLocationsList());
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
+
+  console.log(history.location.search);
+
+  useVendorsQueryChecker(history.location.search);
 
   // const categoriesOptions = useSelector(getCategoriesOptions);
 
@@ -120,9 +121,6 @@ function Vendors() {
     }
   };
 
-  console.log(defaultVendorsFilter);
-  console.log(vendorsFilters);
-  console.log(vendorsFiltersApplied);
   return (
     <div className={styles.container}>
       <div>
@@ -139,6 +137,7 @@ function Vendors() {
             citiesList={citiesOptions}
             // categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
+            filters = {vendorsFilters}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
