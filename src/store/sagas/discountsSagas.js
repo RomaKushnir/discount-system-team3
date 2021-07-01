@@ -47,17 +47,9 @@ export function* createDiscount({ payload }) {
 export function* deleteDiscount({ payload }) {
   console.log('discounts SAGA payload', payload);
   try {
-    console.log('SAGA deleteDiscount');
-    const response = yield call(api.discounts.deleteDiscount, payload);
-    console.log(response.data);
-    console.log(response);
-    yield put(actions.discountsActions.deleteDiscountSuccess(response.data));
+    yield call(api.discounts.deleteDiscount, payload);
+    yield put(actions.discountsActions.deleteDiscountSuccess(payload));
   } catch (error) {
-    console.error(error);
-    console.log(error);
-    console.log(error.response);
-    console.log(error.request);
-    console.log(error.config);
     yield put(actions.discountsActions.deleteDiscountFailure(error));
   }
 }

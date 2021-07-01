@@ -79,9 +79,12 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.DELETE_DISCOUNT_SUCCESS: {
-      const successMessage = 'Discount is successfully created';
+      const { payload } = action;
+      const updatedDiscounts = state.discounts.filter((el) => el.id !== payload);
+      const successMessage = 'Discount successfully deleted';
       return {
         ...state,
+        discounts: updatedDiscounts,
         deleteDiscountStatus: helpers.getSuccessState(successMessage)
       };
     }
