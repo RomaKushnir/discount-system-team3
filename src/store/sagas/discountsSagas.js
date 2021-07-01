@@ -23,13 +23,18 @@ export function* getDiscounts() {
 }
 
 export function* createDiscount({ payload }) {
-  // const { data } = payload;
-  console.log('discounts SAGA payload', payload);
+  const { id, ...data } = payload;
+  let response;
+  // console.log('discounts SAGA payload', payload);
   try {
-    console.log('SAGA createDiscount');
-    const response = yield call(api.discounts.createDiscount, payload);
-
-    yield put(actions.discountsActions.createDiscountSuccess(response.data));
+    // console.log('SAGA createDiscount');
+    if (!id) {
+      response = yield call(api.discounts.createDiscount, data);
+      yield put(actions.discountsActions.createDiscountSuccess(response.data));
+    } else {
+      response = yield call(api.discounts.updateDiscount, payload);
+      yield put(actions.discountsActions.createDiscountSuccess(response.data));
+    }
   } catch (error) {
     console.error(error);
     console.log(error);

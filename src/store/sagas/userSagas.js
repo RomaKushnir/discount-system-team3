@@ -15,7 +15,7 @@ export function* login({ payload }) {
     const response = yield call(api.user.login, payload);
     console.log(response);
     console.log(response.data);
-    localStorage.setItem('token', response.data);
+    localStorage.setItem('token', response.data.token);
     yield put(actions.userActions.loginSuccess());
   } catch (error) {
     console.error(error);

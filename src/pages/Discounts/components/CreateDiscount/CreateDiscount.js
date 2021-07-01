@@ -10,6 +10,7 @@ import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
+  getLocationsOptions,
   getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
@@ -17,22 +18,7 @@ import {
 } from '../../../../store/selectors';
 
 function CreateDiscount({
-  discount = {
-    title: '',
-    imageUrl: '',
-    description: '',
-    shortDescription: '',
-    flatAmount: '',
-    percentage: '',
-    startDate: new Date(Date.now()),
-    expirationDate: null,
-    vendorId: null,
-    categoryId: null,
-    // mocked fields
-    perUser: 1,
-    price: 0,
-    quantity: 1
-  },
+  discount,
   onModalClose
 }) {
   const dispatch = useDispatch();
@@ -41,8 +27,47 @@ function CreateDiscount({
   const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
+  const locationOptions = useSelector(getLocationsOptions);
 
-  console.log('createDiscountStatus', createDiscountStatus);
+  // SET INITIAL VALUE TO SELECTS
+  const initialVendor = discount ? {
+    value: discount.vendor.id,
+    label: discount.vendor.title
+  }
+    : null;
+
+  const initialCategories = discount ? {
+    value: discount.category.id,
+    label: discount.category.title
+  }
+    : null;
+
+  const initialLocations = discount
+    ? discount.locations.map((el) => ({
+      value: el.id,
+      label: Object.values(el).join(', ')
+    }))
+    : null;
+
+  console.log('initialLocations', initialLocations);
+  // DEFINE VALUES THAT ARE REQUESTED
+  const discountRequest = {
+    title: discount ? discount.title : '',
+    imageUrl: discount ? discount.imageUrl : '',
+    description: discount ? discount.description : '',
+    shortDescription: discount ? discount.shortDescription : '',
+    flatAmount: discount ? discount.flatAmount : '',
+    percentage: discount ? discount.percentage : '',
+    startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
+    expirationDate: discount ? new Date(discount.expirationDate) : null,
+    locationIds: discount ? discount.locations.map((el) => (el.id)) : [],
+    categoryId: discount ? discount.category.id : null,
+    vendorId: discount ? discount.vendor.id : null,
+    // mocked fields
+    perUser: 1,
+    price: 0,
+    quantity: 1
+  };
 
   // GET REQUIRED DATA FROM API
   useEffect(() => {
@@ -56,8 +81,13 @@ function CreateDiscount({
   // FORM SUBMIT
   const submitHandler = (formData) => {
     // console.log('form values', formData);
-
-    dispatch(actions.discountsActions.createDiscount(formData));
+    if (discount.id) {
+      const formDataUpdate = { ...formData, id: discount.id };
+      console.log('formDataUpdate', formDataUpdate);
+      dispatch(actions.discountsActions.createDiscount(formDataUpdate));
+    } else {
+      dispatch(actions.discountsActions.createDiscount(formData));
+    }
   };
 
   const onOkClick = () => {
@@ -67,7 +97,7 @@ function CreateDiscount({
   };
 
   const formik = useFormik({
-    initialValues: discount,
+    initialValues: discountRequest,
     validationSchema,
     onSubmit: submitHandler
   });
@@ -76,14 +106,23 @@ function CreateDiscount({
 
   // SET SELECT VALUE INTO FORMIK STATE
   const onSelectValueChange = (selected, options) => {
+    // console.log('select change', selected, options);
     const { name } = options;
-    const value = selected && (selected.value || selected.length) ? selected.value : null;
+    let value;
+    if (Array.isArray(selected)) {
+      value = selected.map((el) => el.value);
+    } else {
+      value = selected && selected.value;
+    }
+    // console.log('select', name, value);
     formik.setFieldValue(name, value, true);
   };
 
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
+
+  console.log('discount', discount);
 
   return (
     <div className={styles.modalContent}>
@@ -100,7 +139,8 @@ function CreateDiscount({
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
       </div>}
-      <form>
+      <form className={createDiscountStatus.loading === false && createDiscountStatus.success
+        && styles.formDisplayNone}>
         <TextInput
           placeholder = "Discount title"
           label = "Title"
@@ -112,33 +152,10 @@ function CreateDiscount({
           onBlur={formik.handleBlur}
           error = {formik.errors.title}
         />
-        <div className={styles.locationSection}>
-          <div className={styles.twoColumnsWrapper}>
-            {/* <SelectField
-              options = {countriesOptions}
-              // initialValue = {transformedInitialLocation}
-              label = "Country"
-              name = "country"
-              className={styles.inputContainer}
-              onChange = {handleSelectChange}
-              error = {discountData.country.error}
-            /> */}
-          </div>
-          {/* <SelectField
-            options = {citiesOptions}
-            // initialValue = {transformedInitialLocation}
-            label = "City"
-            name = "city"
-            className={styles.inputContainer}
-            isMulti={true}
-            onChange = {handleSelectChange}
-            error = {discountData.city.error}
-          /> */}
-        </div>
         <div className={styles.twoColumnsWrapper}>
           <SelectField
             options = {vendorsOptions}
-            // initialValue = {transformedInitialLocation}
+            initialValue = {initialVendor}
             label = "Vendor"
             name = "vendorId"
             placeholder = "Select vendor"
@@ -148,7 +165,7 @@ function CreateDiscount({
           />
           <SelectField
             options = {categoriesOptions}
-            // initialValue = {transformedInitialLocation}
+            initialValue = {initialCategories}
             label = "Category"
             name = "categoryId"
             placeholder = "Select category"
@@ -161,13 +178,23 @@ function CreateDiscount({
           // options = {citiesOptions}
           // initialValue = {transformedInitialLocation}
           label = "Tags"
-          name = "tags"
+          name = "tagIds"
           placeholder = "Select tag"
           className={styles.inputContainer}
           isMulti={true}
-          onChange = {handleSelectChange}
-          error = {discountData.tags.error}
+          onChange = {onSelectValueChange}
+          // error = {formik.errors.tags}
         /> */}
+        <SelectField
+          options = {locationOptions}
+          initialValue={initialLocations}
+          label = "Location"
+          name = "locationIds"
+          className={styles.inputContainer}
+          isMulti={true}
+          onChange = {onSelectValueChange}
+          error = {formik.errors.locationIds}
+        />
         <TextInput
           placeholder = "Image Url"
           label = "Image Url"
