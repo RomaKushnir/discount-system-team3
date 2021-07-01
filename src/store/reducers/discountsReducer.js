@@ -51,7 +51,7 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.CREATE_DISCOUNT_SUCCESS: {
-      const successMessage = 'Discount is successfully created';
+      const successMessage = 'Discount is successfully submitted';
       return {
         ...state,
         createDiscountStatus: helpers.getSuccessState(successMessage)

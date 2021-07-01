@@ -1,14 +1,23 @@
+import { useState, useEffect } from 'react';
 import Modal from '../../../../components/Modal';
 import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
+import CreateDiscount from '../CreateDiscount';
 
 // title, vendor, description long, location, from, to, persentage, count
 function DiscountModal({
   discount, isAdmin = true, onClose, isOpen
 }) {
+  const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
+
+  // clean up edit modal state
+  useEffect(() => () => {
+    if (isEditDiscountOpen) setIsEditDiscountOpen(false);
+  });
+
   const onEditClick = () => {
-    console.log('edit');
+    setIsEditDiscountOpen(true);
   };
   const onDeleteClick = () => {
     console.log('delete');
@@ -67,8 +76,11 @@ function DiscountModal({
     <Modal
       isOpen = {isOpen}
       onClose = {onClose}
-      children = {content}
-    />
+      children = {!isEditDiscountOpen
+        ? content
+        : <CreateDiscount discount={discount} onModalClose={onClose}/>}
+    >
+    </Modal>
   );
 }
 

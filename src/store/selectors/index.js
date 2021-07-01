@@ -2,7 +2,8 @@ import {
   getLocationsList,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
-  getCitiesOptions
+  getCitiesOptions,
+  getLocationsOptions
 } from './locations';
 import {
   getVendorsList,
@@ -17,5 +18,6 @@ export {
   getVendorsOptions,
   getCitiesGroupedByCountryOptions,
   getCitiesOptions,
-  getCategoriesOptions
+  getCategoriesOptions,
+  getLocationsOptions
 };
