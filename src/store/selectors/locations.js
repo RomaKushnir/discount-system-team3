@@ -55,3 +55,17 @@ export const getCitiesOptions = createSelector(
     return acc;
   }, [])
 );
+
+export const getLocationsOptions = createSelector(
+  getLocationsList,
+  (locations) => locations.reduce((res, location) => {
+    const { id, ...data } = location;
+    const locationValues = Object.values(data);
+    const labelValue = locationValues.join(', ');
+    res.push({
+      value: id,
+      label: labelValue
+    });
+    return res;
+  }, [])
+);
