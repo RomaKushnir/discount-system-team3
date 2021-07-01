@@ -4,6 +4,11 @@ import Button from '../Button';
 import SelectField from '../SelectField';
 import TextInput from '../TextInput';
 
+const inputStyles = {
+  width: '200px',
+  marginRight: '10px'
+};
+
 function FiltersContainer({
   onApplyButtonClick,
   countriesList,
@@ -12,14 +17,21 @@ function FiltersContainer({
   vendorsList
 }) {
   const [searchWord, setSearchWord] = useState('');
-  const [country, setCountry] = useState(null);
+  const [country, setCountry] = useState({
+    value: 'Ukraine',
+    label: 'Ukraine'
+  }); // temporary, should be user country
   const [city, setCity] = useState(null);
   const [category, setCategory] = useState(null);
-  const [vendor, setVendor] = useState(null);
+  const [vendorSearch, setVendorSearch] = useState(null);
 
   const onChangeInput = (e) => {
     console.log(e.target.value);
     setSearchWord(e.target.value);
+  };
+  const onChangeVendorInput = (e) => {
+    console.log(e.target.value);
+    setVendorSearch(e.target.value);
   };
 
   const onChangeCountries = (selectedOption) => {
@@ -37,18 +49,13 @@ function FiltersContainer({
     setCategory(selectedOption);
   };
 
-  const onChangeVendor = (selectedOption) => {
-    console.log(selectedOption);
-    setVendor(selectedOption);
-  };
-
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {countriesList[0]} // temporary. Should be user country later
+              initialValue = {country} // temporary. Should be user country later
               options = {countriesList}
               label = "Country"
               onChange = {onChangeCountries}
@@ -56,51 +63,57 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesList}
+                options = {country !== null ? citiesList.filter((el) => el.country === country.value) : citiesList}
                 label = "City"
                 onChange = {onChangeCities}
               />
             </div>
         </div>
         <div className = {styles.smallColumn}>
-          <div className = {styles.filter}>
+          {categoriesList && <div className = {styles.filter}>
             <SelectField
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
             />
-          </div>
-          <div className = {styles.filter}>
-            <SelectField
-              options = {vendorsList}
+          </div>}
+          {vendorsList && <div className = {styles.filter}>
+            <TextInput
+              onValueChange = {onChangeVendorInput}
               label = "Vendor"
-              onChange = {onChangeVendor}
+              name = "vendorSearch"
+              placeholder = "Search..."
+              type = "search"
+              style = {inputStyles}
             />
-          </div>
+          </div>}
         </div>
       </div>
-      <div className = {styles.inputContainer}>
-        <TextInput
-          onValueChange = {onChangeInput}
-          label = "Search"
-          name = "Search"
-          placeholder = "Search..."
-          type = "text"
+      <div className = {styles.inputButtonColumn}>
+        <div className = {styles.inputContainer}>
+          <TextInput
+            onValueChange = {onChangeInput}
+            label = "Search"
+            name = "Search"
+            placeholder = "Search..."
+            type = "search"
+            style = {inputStyles}
+          />
+        </div>
+        <div className = {styles.buttonContainer}>
+        <Button
+          btnText = "Apply"
+          onClick = {() => onApplyButtonClick(
+            {
+              searchWord,
+              country,
+              city,
+              category,
+              vendorSearch
+            }
+          )}
         />
-      </div>
-      <div className = {styles.buttonContainer}>
-      <Button
-        btnText = "Apply"
-        onClick = {() => onApplyButtonClick(
-          {
-            searchWord,
-            country,
-            city,
-            category,
-            vendor
-          }
-        )}
-      />
+        </div>
       </div>
     </div>
   );

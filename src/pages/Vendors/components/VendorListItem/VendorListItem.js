@@ -26,7 +26,7 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       </figure>
       <div className={styles.textWrapper}>
         <p className={styles.vendorTitle}>{vendor.title}</p>
-        <p className={styles.vendorLocation}>{vendor.location}</p>
+        <p className={styles.vendorLocation}>{vendor.location.city}</p>
         <p className={styles.vendorDescription}>{vendor.description}</p>
       </div>
       <div className={styles.buttons}>
@@ -36,7 +36,6 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
           onActionClick={onDeleteClick}
           type="delete"
           name = "delete"
-          onActionClick={() => onDelete(vendor.id)}
         />
         <ItemActionButton
           title="Edit"

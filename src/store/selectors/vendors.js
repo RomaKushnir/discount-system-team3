@@ -7,7 +7,7 @@ export const getVendorsOptions = createSelector(
   (items) => items.reduce((acc, item) => {
     const obj = {
       id: item.id,
-      value: item.title,
+      value: item.id,
       label: item.title
     };
     acc.push(obj);

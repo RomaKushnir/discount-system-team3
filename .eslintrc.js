@@ -22,7 +22,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
-    'no-extra-parens': ['error', 'all'],
+    // 'no-extra-parens': ['error', 'all'],
     'array-callback-return': 'error',
     curly: 'error',
     'default-case': 'warn',

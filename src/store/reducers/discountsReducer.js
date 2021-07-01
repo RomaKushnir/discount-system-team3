@@ -3,7 +3,8 @@ import * as helpers from '../helpers';
 
 const initialState = {
   discounts: [],
-  getDiscountsStatus: helpers.getDefaultState()
+  getDiscountsStatus: helpers.getDefaultState(),
+  createDiscountStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -36,12 +37,37 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.GET_DISCOUNTS_CLEAR_STATUS: {
-      const { payload } = action;
       console.log('GET_DISCOUNTS_CLEAR_STATUS');
       console.log(state);
       return {
         ...state,
-        getDiscountsStatus: helpers.getDefaultState(payload)
+        getDiscountsStatus: helpers.getDefaultState()
+      };
+    }
+    case types.CREATE_DISCOUNT: {
+      return {
+        ...state,
+        createDiscountStatus: helpers.getRequestState()
+      };
+    }
+    case types.CREATE_DISCOUNT_SUCCESS: {
+      const successMessage = 'Discount is successfully submitted';
+      return {
+        ...state,
+        createDiscountStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.CREATE_DISCOUNT_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        createDiscountStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_CREATE_DISCOUNT_STATUS: {
+      return {
+        ...state,
+        createDiscountStatus: helpers.getDefaultState()
       };
     }
     default:
