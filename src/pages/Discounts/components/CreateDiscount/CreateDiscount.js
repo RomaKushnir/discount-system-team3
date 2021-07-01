@@ -132,7 +132,7 @@ function CreateDiscount({
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
       </div>}
-      <form className={isFormSubmitted && styles.formDisplayNone}>
+      <form className={isFormSubmitted ? styles.formDisplayNone : ''}>
         <TextInput
           placeholder = "Discount title"
           label = "Title"
