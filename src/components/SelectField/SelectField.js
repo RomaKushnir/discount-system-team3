@@ -18,7 +18,6 @@ function SelectField({
   onBlur,
   name = ''
 }) {
-  console.log(initialValue);
   return (
     <div className = {`${style.container} ${className}`}>
       {label != null && <label className = {style.label}>{label}</label>}
@@ -26,7 +25,7 @@ function SelectField({
         styles = {customStyles}
         classNamePrefix = "select"
         name = {name}
-        defaultValue = {initialValue}
+        value = {initialValue}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}

@@ -41,14 +41,9 @@ function Vendors() {
   const categoriesOptions = useSelector(getCategoriesOptions);
 
   useEffect(() => {
-    // const showMore = false;
-    // dispatch(actions.vendorActions.clearGetVendorsStatus());
-    // dispatch(actions.vendorActions.applyVendorsFilters(showMore));
     dispatch(actions.locationActions.getLocationsList());
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
-
-  console.log(history.location.search);
 
   useVendorsQueryChecker(history.location.search);
 
@@ -101,7 +96,6 @@ function Vendors() {
   };
 
   const onSortFilterChange = (selectedOption) => {
-    console.log(selectedOption);
     dispatch(actions.vendorActions.updateVendorsFilters({ sort: selectedOption?.value || null }));
   };
 

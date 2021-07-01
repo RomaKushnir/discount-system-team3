@@ -8,10 +8,6 @@ const useVendorsQueryChecker = (queryString) => {
   const queryObject = convertUrlToFilterParameters(queryString);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const { totalElements, totalPages, ...pureFilters } = vendorsFiltersApplied;
-  console.log('*********************************');
-  console.log('vendorsFiltersApplied', vendorsFiltersApplied);
-  console.log('queryObject', queryObject);
-  console.log('pureFilters', pureFilters);
 
   const checkArray = Object.entries(queryObject)
 
@@ -19,16 +15,11 @@ const useVendorsQueryChecker = (queryString) => {
       let array = [];
 
       if (queryObject[key] !== null) {
-        console.log(value, pureFilters[key]);
-        // eslint-disable-next-line
-        console.log(value == pureFilters[key]);
         // eslint-disable-next-line
         array = array.concat(value == pureFilters[key]).join(',');
       }
       return array;
     });
-
-  console.log(checkArray);
 
   useEffect(() => {
     const showMore = false;

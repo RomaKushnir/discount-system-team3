@@ -1,5 +1,4 @@
 export const convertFilterParametersToUrl = (params) => {
-  console.log(params);
   const {
     sort, pageNumber, size, totalElements, totalPages, ...query
   } = params;

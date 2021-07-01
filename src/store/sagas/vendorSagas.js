@@ -49,16 +49,12 @@ export function* deleteVendor({ payload }) {
 }
 
 export function* getVendors({ payload }) {
-  console.log(payload);
   try {
     const response = yield call(api.vendors.getVendors, payload.searchParams);
-
-    console.log(response);
 
     yield put(actions.vendorActions.getVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
   } catch (error) {
     console.error(error);
-    console.log(error);
     yield put(actions.vendorActions.getVendorsFailure(error));
   }
 }
@@ -76,18 +72,10 @@ export function* getVendorById({ payload }) {
 }
 
 export function* ApplyVendorsFilters({ payload }) {
-  console.log(payload);
-  console.log(history.location);
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
-  console.log('^^^^^^^^^^^^^^^');
-  console.log(vendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 
-  console.log(searchParams);
-
   history.push({ pathname: '/vendors', search: searchParams });
-
-  console.log(history.location);
 
   yield put(actions.vendorActions.getVendors({ searchParams, showMore: payload }));
 }

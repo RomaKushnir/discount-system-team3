@@ -29,8 +29,6 @@ const initialState = {
 const vendorReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_VENDORS: {
-      console.log('GET VENDORS');
-      console.log(defaultVendorsFilter);
       return {
         ...state,
         getVendorsStatus: helpers.getRequestState()
@@ -43,8 +41,6 @@ const vendorReducer = (state = initialState, action) => {
       const {
         content, number, size, totalElements, totalPages
       } = vendors;
-
-      console.log(action.payload);
       return {
         ...state,
         vendors: showMore ? [...state.vendors, ...content] : content,
@@ -66,8 +62,6 @@ const vendorReducer = (state = initialState, action) => {
       };
     }
     case types.CLEAR_GET_VENDORS_STATUS: {
-      console.log('CLEAR STATUS');
-      console.log(defaultVendorsFilter);
       return {
         ...state,
         getVendorsStatus: helpers.getDefaultState(),
@@ -112,9 +106,7 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.DELETE_VENDOR_SUCCESS: {
       const { payload } = action;
-      console.log(payload);
       const updatedVendors = state.vendors.filter((el) => el.id !== payload);
-      console.log(updatedVendors);
       const successMessage = 'Vendor successfully deleted';
       return {
         ...state,
@@ -137,7 +129,6 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.UPDATE_VENDOR_SUCCESS: {
       const { payload } = action;
-      console.log(payload);
       const successMessage = 'Action successful!';
       const updateVendors = state.vendors.map(
         (el) => {

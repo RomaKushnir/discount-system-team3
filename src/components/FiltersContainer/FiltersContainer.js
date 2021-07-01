@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
@@ -22,11 +21,6 @@ function FiltersContainer({
   vendorsList,
   filters
 }) {
-  const [country, setCountry] = useState({
-    value: 'Ukraine',
-    label: 'Ukraine'
-  }); // temporary, should be user country
-
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
   };
@@ -36,7 +30,6 @@ function FiltersContainer({
 
   const onChangeCountries = (selectedOption) => {
     onChangeCountry(selectedOption);
-    setCountry(selectedOption);
   };
 
   const onChangeCities = (selectedOption) => {
@@ -47,16 +40,13 @@ function FiltersContainer({
     onChangeCategory(selectedOption);
   };
 
-  console.log('CITY', filters?.city);
-  console.log({ value: filters?.city, label: filters?.city });
-
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {country} // temporary. Should be user country later
+              initialValue = {{ value: filters?.country, label: filters?.country } || null}
               options = {countriesList}
               label = "Country"
               onChange = {onChangeCountries}
@@ -64,8 +54,7 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {country !== null ? citiesList.filter((el) => el.country === country.value) : citiesList}
-                // options = {cities}
+                options = {citiesList.filter((el) => el.country === filters?.country) || citiesList}
                 label = "City"
                 onChange = {onChangeCities}
                 initialValue = {{ value: filters?.city, label: filters?.city } || null}
@@ -78,6 +67,7 @@ function FiltersContainer({
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
+              initialValue = {categoriesList.find((el) => el.id === +filters.category) || null}
             />
           </div>}
           {vendorsList && <div className = {styles.filter}>
