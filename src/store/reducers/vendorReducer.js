@@ -2,7 +2,7 @@ import * as types from '../actionTypes';
 import * as helpers from '../helpers';
 
 export const defaultVendorsFilter = {
-  country: 'Ukraine', // temporary, should be user country
+  country: null, // temporary, should be user country
   city: null,
   category: null,
   title: '',
