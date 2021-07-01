@@ -6,7 +6,6 @@ import * as actions from '../store/actions';
 const useVendorsQueryChecker = (queryString) => {
   const dispatch = useDispatch();
   const queryObject = convertUrlToFilterParameters(queryString);
-  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const { totalElements, totalPages, ...pureFilters } = vendorsFiltersApplied;
   console.log('*********************************');
@@ -14,17 +13,17 @@ const useVendorsQueryChecker = (queryString) => {
   console.log('queryObject', queryObject);
   console.log('pureFilters', pureFilters);
 
-  const checkArray = Object.entries(pureFilters)
-  // .filter(([, value]) => value !== null)
+  const checkArray = Object.entries(queryObject)
 
     .map(([key, value]) => {
       let array = [];
 
-      if (pureFilters[key] !== null) {
-        console.log(value.toString(), queryObject[key]);
-        console.log(value.toString() === queryObject[key]);
-
-        array = array.concat(value.toString() === queryObject[key]).join(',');
+      if (queryObject[key] !== null) {
+        console.log(value, pureFilters[key]);
+        // eslint-disable-next-line
+        console.log(value == pureFilters[key]);
+        // eslint-disable-next-line
+        array = array.concat(value == pureFilters[key]).join(',');
       }
       return array;
     });
@@ -33,19 +32,11 @@ const useVendorsQueryChecker = (queryString) => {
 
   useEffect(() => {
     const showMore = false;
-
-    console.log('USE EFFECT TO APPLY FILTERS 1');
     dispatch(actions.vendorActions.clearGetVendorsStatus());
 
     if (checkArray.includes('false')) {
-      // const showMore = false;
-      console.log('UPDATE FILTERS');
       dispatch(actions.vendorActions.updateVendorsFilters(queryObject));
-      console.log('vendorsFilters', vendorsFilters);
     }
-
-    console.log('USE EFFECT TO APPLY FILTERS 2');
-    console.log('vendorsFilters', vendorsFilters);
 
     dispatch(actions.vendorActions.applyVendorsFilters(showMore));
     // eslint-disable-next-line
