@@ -46,7 +46,7 @@ function FiltersContainer({
         <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {{ value: filters?.country, label: filters?.country } || null}
+              value = {{ value: filters?.country, label: filters?.country } || null}
               options = {countriesList}
               label = "Country"
               onChange = {onChangeCountries}
@@ -57,7 +57,7 @@ function FiltersContainer({
                 options = {citiesList.filter((el) => el.country === filters?.country) || citiesList}
                 label = "City"
                 onChange = {onChangeCities}
-                initialValue = {{ value: filters?.city, label: filters?.city } || null}
+                value = {{ value: filters?.city, label: filters?.city } || null}
               />
             </div>
         </div>
@@ -67,7 +67,7 @@ function FiltersContainer({
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
-              initialValue = {categoriesList.find((el) => el.id === +filters.category) || null}
+              value = {categoriesList.find((el) => el.id === +filters.category) || null}
             />
           </div>}
           {vendorsList && <div className = {styles.filter}>

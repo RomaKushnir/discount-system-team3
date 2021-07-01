@@ -139,7 +139,7 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              initialValue={vendorsSortOptions[0]}
+              value={vendorsSortOptions[0]}
               options={vendorsSortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
