@@ -13,6 +13,7 @@ import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import CategoryList from './components/CategoryList';
+import categoriesList from '../../mockData/categoriesList';
 
 function Categories() {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +69,7 @@ function Categories() {
       </div>
         <div className={styles.row}>
         { categories
-          ? <Fragment><CategoryList categories={categories} /></Fragment>
+          ? <Fragment><CategoryList categories={categories} arrTags={categoriesList}/></Fragment>
           : <p>Category is not defined</p>
         }
         </div>
