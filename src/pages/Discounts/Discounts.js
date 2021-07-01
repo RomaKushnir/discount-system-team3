@@ -17,7 +17,8 @@ import Modal from '../../components/Modal';
 import CreateDiscount from './components/CreateDiscount';
 import {
   getCountriesOptions,
-  getCitiesGroupedByCountryOptions
+  getCitiesGroupedByCountryOptions,
+  getDiscountsList
 } from '../../store/selectors';
 import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
@@ -25,6 +26,10 @@ import Pagination from '../../components/Pagination/Pagination';
 
 function Discounts() {
   const dispatch = useDispatch();
+
+  const [modalState, setModalState] = useState(false);
+  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
+  const [discount, setDiscount] = useState(null);
 
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountsList());
@@ -36,12 +41,9 @@ function Discounts() {
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
 
-  const discountsArray = useSelector((state) => state.discountsReducer.discounts);
-  console.log(discountsArray);
+  const discountsArray = useSelector(getDiscountsList);
 
-  const [modalState, setModalState] = useState(false);
-  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
-  const [discount, setDiscount] = useState(null);
+  console.log(discountsArray);
 
   const onModalOpen = () => {
     setModalState(true);
@@ -64,7 +66,6 @@ function Discounts() {
     console.log('show more');
   };
   const onCardClick = useCallback((e, id) => {
-    console.log(discountsArray.find((el) => el.id === id));
     setIsDiscountModalShown(true);
     const selectedDiscount = discountsArray.find((el) => el.id === id);
     setDiscount(selectedDiscount);
@@ -75,9 +76,9 @@ function Discounts() {
   };
 
   const onDeleteDiscount = useCallback((id) => {
-    onDiscountModalClose();
     dispatch(actions.discountsActions.clearDeleteDiscountStatus());
     dispatch(actions.discountsActions.deleteDiscount(id));
+    onDiscountModalClose();
   }, [dispatch]);
 
   return (

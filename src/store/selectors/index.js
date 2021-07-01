@@ -10,6 +10,7 @@ import {
   getVendorsOptions
 } from './vendors';
 import { getCategoriesOptions } from './categories';
+import { getDiscountsList } from './discounts';
 
 export {
   getLocationsList,
@@ -19,5 +20,6 @@ export {
   getCitiesGroupedByCountryOptions,
   getCitiesOptions,
   getCategoriesOptions,
-  getLocationsOptions
+  getLocationsOptions,
+  getDiscountsList
 };
