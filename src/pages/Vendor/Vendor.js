@@ -8,8 +8,8 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import VendorInfo from './components/VendorInfo/VendorInfo';
 import VendorDesc from './components/VendorDesc/VendorDesc';
-import DiscountsList from './components/DiscountsList/ListDiscounts';
-import discountsList from '../../mockData/discountsList';
+// import DiscountsList from './components/DiscountsList/ListDiscounts';
+// import discountsList from '../../mockData/discountsList';
 
 function Vendor() {
   const dispatch = useDispatch();
@@ -25,29 +25,31 @@ function Vendor() {
   console.log(vendor);
   return (
     <div className={styles.vendorPage}>
-    <Header />
-    <div className={styles.blockVendor}>
-    { vendor && vendor.description
-      ? <Fragment> <VendorInfo
-      vendor = {vendor}
-    />
-    <VendorDesc description = {vendor.description} />
-    </Fragment>
-      : <p>Vendor is not defined</p>
-    }
-    </div>
-    <div>
-    <h2 className={styles.headers}>Active</h2>
-    <div className={styles.activeDiscounts}>
-    <DiscountsList discountsList={discountsList}/>
-    </div>
-    </div>
-    <div>
-    <h2 className={styles.headers}>Archieve</h2>
-    <div className={styles.activeDiscounts}>
-    <DiscountsList discountsList={discountsList}/>
-    </div>
-    </div>
+      <div className = {styles.contentWrapper}>
+        <Header />
+        <div className={styles.blockVendor}>
+          { vendor && vendor.description
+            ? <Fragment> <VendorInfo
+            vendor = {vendor}
+          />
+          <VendorDesc description = {vendor.description} />
+          </Fragment>
+            : <p>Vendor is not defined</p>
+          }
+          </div>
+          {/* <div>
+          <h2 className={styles.headers}>Active</h2>
+          <div className={styles.activeDiscounts}>
+          <DiscountsList discountsList={discountsList}/>
+          </div>
+          </div> */}
+          {/* <div>
+          <h2 className={styles.headers}>Archieve</h2>
+          <div className={styles.activeDiscounts}>
+          <DiscountsList discountsList={discountsList}/>
+          </div>
+          </div> */}
+      </div>
     <div className={styles.footer}><Footer /></div>
     </div>
   );
