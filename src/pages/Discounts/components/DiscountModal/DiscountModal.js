@@ -32,6 +32,10 @@ function DiscountModal({
   const onCloseModal = useCallback(() => {
     setConfirmModalOpen(false);
   }, []);
+  const onYesClick = () => {
+    onDeleteDiscount(discount.id);
+    setConfirmModalOpen(false);
+  };
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
@@ -91,10 +95,7 @@ function DiscountModal({
     </Modal>
     <Modal isOpen={confirmModalOpen} onClose={onCloseModal}>
         <DeleteConfirmation
-          onYesClick ={() => {
-            onDeleteDiscount(discount.id);
-            setConfirmModalOpen(false);
-          }}
+          onYesClick = {onYesClick}
           status = {deleteDiscountStatus}
           itemTitle = "discount"
         />
