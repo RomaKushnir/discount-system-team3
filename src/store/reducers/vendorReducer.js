@@ -4,7 +4,7 @@ import * as helpers from '../helpers';
 export const defaultVendorsFilter = {
   country: 'Ukraine', // temporary, should be user country
   city: null,
-  // categoryId: null,
+  category: null,
   title: '',
   description: '',
   sort: 'ASC',

@@ -21,8 +21,8 @@ import {
   getVendorsOptions,
   getCountriesOptions,
   getVendorsList,
-  getCitiesOptions
-  // getCategoriesOptions
+  getCitiesOptions,
+  getCategoriesOptions
 } from '../../store/selectors';
 import history from '../../history';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
@@ -38,6 +38,7 @@ function Vendors() {
   const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+  const categoriesOptions = useSelector(getCategoriesOptions);
 
   useEffect(() => {
     // const showMore = false;
@@ -50,8 +51,6 @@ function Vendors() {
   console.log(history.location.search);
 
   useVendorsQueryChecker(history.location.search);
-
-  // const categoriesOptions = useSelector(getCategoriesOptions);
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -90,7 +89,7 @@ function Vendors() {
   };
 
   const onChangeCategory = (category) => {
-    dispatch(actions.vendorActions.updateVendorsFilters({ categoryId: category?.id || null }));
+    dispatch(actions.vendorActions.updateVendorsFilters({ category: category?.id || null }));
   };
 
   const onSearchVendor = (selectedVendor) => {
@@ -135,7 +134,7 @@ function Vendors() {
             onSearchInputChange = {onSearchInputChange}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
-            // categoriesList={categoriesOptions}
+            categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
             filters = {vendorsFilters}
           />

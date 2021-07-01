@@ -14,7 +14,8 @@ const useVendorsQueryChecker = (queryString) => {
   console.log('queryObject', queryObject);
   console.log('pureFilters', pureFilters);
 
-  const checkArray = Object.entries(pureFilters).filter(([, value]) => value !== null)
+  const checkArray = Object.entries(pureFilters)
+  // .filter(([, value]) => value !== null)
 
     .map(([key, value]) => {
       let array = [];
@@ -23,7 +24,6 @@ const useVendorsQueryChecker = (queryString) => {
         console.log(value.toString(), queryObject[key]);
         console.log(value.toString() === queryObject[key]);
 
-        // array = array.push(value.toString() === queryObject[key]);
         array = array.concat(value.toString() === queryObject[key]).join(',');
       }
       return array;

@@ -11,7 +11,8 @@ export const convertFilterParametersToUrl = (params) => {
     .replace('country:', 'location.country:')
     .replace('city:', 'location.city:')
     .replace('title:', 'title*:*')
-    .replace('description:', 'description*:*');
+    .replace('description:', 'description*:*')
+    .replace('category:', 'discounts.category.id:');
 
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=title,${sort}`;
@@ -27,6 +28,7 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('title*:*', 'title:')
     .replace('location.city:', 'city:')
     .replace('location.country:', 'country:')
+    .replace('discounts.category.id:', 'category:')
     .replace('page', 'pageNumber')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
