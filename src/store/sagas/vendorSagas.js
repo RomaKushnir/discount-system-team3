@@ -71,7 +71,7 @@ export function* getVendorById({ payload }) {
   }
 }
 
-export function* ApplyVendorsFilters({ payload }) {
+export function* applyVendorsFilters({ payload }) {
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 
@@ -86,6 +86,6 @@ export default function* watch() {
     takeEvery(types.DELETE_VENDOR, deleteVendor),
     takeEvery(types.GET_VENDORS, getVendors),
     takeEvery(types.GET_VENDOR_BY_ID, getVendorById),
-    takeEvery(types.APPLY_VENDORS_FILTERS, ApplyVendorsFilters)
+    takeEvery(types.APPLY_VENDORS_FILTERS, applyVendorsFilters)
   ]);
 }
