@@ -1,7 +1,8 @@
 .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(30%, 1fr));
+  grid-gap: 16px;
+  margin: 16px 0;
 }
 
 .blockButtonCenter {

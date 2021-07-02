@@ -5,11 +5,14 @@
     border-radius: 10px;
     box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
     font-family: 'Reem Kufi', sans-serif;
+    padding: 15px;
   }
   
   .roundImg {
     border-radius: 10px;
-    margin: 20px;
+    width: 240px;
+    height: 110px;
+    object-fit: cover;
   }
   
   .row {
@@ -24,7 +27,6 @@
   .col2 {
   width: 50%;
   flex-direction: column;
-  margin: 5px 10px;
   }
   
   .col3 {

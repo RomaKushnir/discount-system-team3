@@ -52,7 +52,7 @@ function Categories() {
         id: ''
       });
     }
-  }, [dispatch, categories]);
+  }, [categories]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -71,7 +71,9 @@ function Categories() {
       </div>
         <div className={styles.row}>
         { categories
-          ? <Fragment><CategoryList categories={categories} arrTags={categoriesList} onDelete = {onDelete} onEdit={onModalOpen}/></Fragment>
+          ? <Fragment>
+          <CategoryList categories={categories} arrTags={categoriesList} onDelete = {onDelete} onEdit={onModalOpen}/>
+          </Fragment>
           : <p>Category is not defined</p>
         }
         </div>
