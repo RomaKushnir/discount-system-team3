@@ -11,7 +11,7 @@ import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
   getLocationsOptions,
-  getVendorsOptions,
+  // getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
   getCategoriesOptions,
@@ -25,7 +25,7 @@ function CreateDiscount({
   const dispatch = useDispatch();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  const vendorsOptions = useSelector(getVendorsOptions);
+  // const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
@@ -85,7 +85,7 @@ function CreateDiscount({
     // }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
+  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
