@@ -135,7 +135,7 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              value={vendorsSortOptions[0]}
+              value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
               options={vendorsSortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
