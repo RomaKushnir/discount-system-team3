@@ -26,7 +26,7 @@ function DiscountCard({
         </div>
         <div className={style.row}>
           <p className={style.disc}>
-            {discount === 0 || !discount ? flatAmount : discount}{discount === 0 || !discount ? 'UAH' : '%'}
+            - {discount === 0 || !discount ? flatAmount : discount}{discount === 0 || !discount ? '$' : '%'}
           </p>
         </div>
         </div>
