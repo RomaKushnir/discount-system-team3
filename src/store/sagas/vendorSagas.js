@@ -50,7 +50,7 @@ export function* deleteVendor({ payload }) {
 
 export function* getVendors({ payload }) {
   try {
-    const response = yield call(api.vendors.getVendors, payload.searchParams);
+    const response = yield call(api.vendors.getVendors, payload.serverSearchParams);
 
     yield put(actions.vendorActions.getVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
   } catch (error) {
@@ -75,9 +75,15 @@ export function* applyVendorsFilters({ payload }) {
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 
-  history.push({ pathname: '/vendors', search: searchParams });
+  const { queryParams, sortParams, paginationParams } = searchParams;
 
-  yield put(actions.vendorActions.getVendors({ searchParams, showMore: payload }));
+  if (payload && payload.rewriteUrl !== false) {
+    history.push({ pathname: '/vendors', search: `${queryParams}${sortParams}` });
+  }
+
+  const serverSearchParams = `${queryParams}${sortParams}${paginationParams}`;
+
+  yield put(actions.vendorActions.getVendors({ serverSearchParams, showMore: payload.showMore }));
 }
 
 export default function* watch() {

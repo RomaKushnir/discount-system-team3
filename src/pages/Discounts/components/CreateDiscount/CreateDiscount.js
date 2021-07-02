@@ -78,8 +78,7 @@ function CreateDiscount({
     // if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
 
     if (!vendorsOptions.length) {
-      const showMore = false;
-      dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
     }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());

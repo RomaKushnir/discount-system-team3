@@ -24,7 +24,6 @@ import {
   getCitiesOptions,
   getCategoriesOptions
 } from '../../store/selectors';
-import history from '../../history';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
 function Vendors() {
@@ -45,7 +44,7 @@ function Vendors() {
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
-  useVendorsQueryChecker(history.location.search);
+  useVendorsQueryChecker();
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -100,17 +99,14 @@ function Vendors() {
   };
 
   const onApplyButtonClick = () => {
-    const showMore = false;
-
     dispatch(actions.vendorActions.clearGetVendorsStatus());
-    dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: true }));
   };
 
   const onShowMoreClick = () => {
     if (vendorsFiltersApplied.pageNumber < vendorsFiltersApplied.totalPages) {
-      const showMore = true;
       dispatch(actions.vendorActions.updateVendorsFilters({ pageNumber: vendorsFilters.pageNumber += 1 }));
-      dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: true, rewriteUrl: false }));
     }
   };
 

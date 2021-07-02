@@ -16,9 +16,8 @@ export const convertFilterParametersToUrl = (params) => {
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=title,${sort}`;
   const paginationParams = `&page=${pageNumber}&size=${size}`;
-  const searchParams = `${queryParams}${sortParams}${paginationParams}`;
 
-  return searchParams;
+  return { queryParams, sortParams, paginationParams };
 };
 
 export const convertUrlToFilterParameters = (queryString) => {
@@ -28,11 +27,9 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('location.city:', 'city:')
     .replace('location.country:', 'country:')
     .replace('discounts.category.id:', 'category:')
-    .replace('page', 'pageNumber')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
-    .replace('&size=', ';size:')
     .replace('=', ':')
     .split(';');
 
