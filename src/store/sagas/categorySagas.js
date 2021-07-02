@@ -39,9 +39,22 @@ export function* getCategories() {
   }
 }
 
+export function* deleteCategory({ payload }) {
+  try {
+    yield call(api.categories.deleteCategory, payload);
+
+    yield put(actions.categoryActions.deleteCategorySuccess(payload));
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    yield put(actions.categoryActions.deleteCategoryFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_CATEGORY, addCategory),
+    takeEvery(types.DELETE_CATEGORY, deleteCategory),
     takeEvery(types.GET_CATEGORIES, getCategories)
   ]);
 }

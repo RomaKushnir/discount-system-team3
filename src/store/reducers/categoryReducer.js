@@ -3,6 +3,7 @@ import * as helpers from '../helpers';
 
 const initialState = {
   categories: [],
+  deleteCategoryStatus: helpers.getDefaultState(),
   addCategoryStatus: helpers.getDefaultState(),
   category: null,
   categoryStatus: helpers.getDefaultState()
@@ -79,6 +80,37 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         categoryStatus: helpers.getDefaultState()
+      };
+    }
+    case types.DELETE_CATEGORY: {
+      return {
+        ...state,
+        deleteCategoryStatus: helpers.getRequestState()
+      };
+    }
+    case types.DELETE_CATEGORY_SUCCESS: {
+      const { payload } = action;
+      console.log(payload);
+      const updatedCategories = state.categories.filter((el) => el.id !== payload);
+      console.log(updatedCategories);
+      const successMessage = 'Category successfully deleted';
+      return {
+        ...state,
+        categories: updatedCategories,
+        deleteCategoryStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.DELETE_CATEGORY_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        deleteCategoryStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_DELETE_CATEGORY_STATUS: {
+      return {
+        ...state,
+        deleteCategoryStatus: helpers.getDefaultState()
       };
     }
     default:

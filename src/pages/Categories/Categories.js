@@ -27,21 +27,24 @@ function Categories() {
     dispatch(actions.categoryActions.getCategories());
     console.log('Work');
   }, [dispatch]);
+  const onDelete = useCallback((id) => {
+    console.log('Delete');
+    dispatch(actions.categoryActions.clearDeleteCategoryStatus());
+    dispatch(actions.categoryActions.deleteCategory(id));
+  }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
 
-    console.log(id);
-
     if (e.target.name === 'edit') {
-      // const selectedCategory = categories.find((el) => el.id === id);
+      const selectedCategory = categories.find((el) => el.id === id);
 
-      // setCategory(selectedCategory);
+      setCategory(selectedCategory);
 
-      setCategory({
-        imageUrl: 'https://picsum.photos/200?random=8',
-        title: 'Food',
-        id: 5
-      }); // temporary while we don't have list of categories
+      // setCategory({
+      //   imageUrl: 'https://picsum.photos/200?random=8',
+      //   title: 'Food',
+      //   id: 5
+      // }); // temporary while we don't have list of categories
     } else {
       setCategory({
         imageUrl: '',
@@ -49,8 +52,7 @@ function Categories() {
         id: ''
       });
     }
-  // }, [dispatch, categories]);
-  }, []);
+  }, [dispatch, categories]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -69,7 +71,7 @@ function Categories() {
       </div>
         <div className={styles.row}>
         { categories
-          ? <Fragment><CategoryList categories={categories} arrTags={categoriesList}/></Fragment>
+          ? <Fragment><CategoryList categories={categories} arrTags={categoriesList} onDelete = {onDelete} onEdit={onModalOpen}/></Fragment>
           : <p>Category is not defined</p>
         }
         </div>

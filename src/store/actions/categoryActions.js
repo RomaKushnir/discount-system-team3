@@ -60,3 +60,30 @@ export function clearGetCategoriesStatus() {
     type: types.CLEAR_GET_CATEGORIES_STATUS
   };
 }
+
+export function deleteCategory(payload) {
+  return {
+    type: types.DELETE_CATEGORY,
+    payload
+  };
+}
+
+export function deleteCategorySuccess(payload) {
+  return {
+    type: types.DELETE_CATEGORY_SUCCESS,
+    payload
+  };
+}
+
+export function deleteCategoryFailure(payload) {
+  return {
+    type: types.DELETE_CATEGORY_FAILURE,
+    payload
+  };
+}
+
+export function clearDeleteCategoryStatus() {
+  return {
+    type: types.CLEAR_DELETE_CATEGORY_STATUS
+  };
+}

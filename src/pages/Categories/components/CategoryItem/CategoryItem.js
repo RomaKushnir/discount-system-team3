@@ -1,12 +1,12 @@
-import React from 'react';
+import { React } from 'react';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
 import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 
 function CategoryItem({
-  category
-//   onEdit,
-//   onDelete
+  category,
+  onEdit,
+  onDelete
 }) {
   return (
         <div className={styles.categoryBlock}>
@@ -20,7 +20,11 @@ function CategoryItem({
           className={styles.editBtn}
           type="edit"
           name = "edit"
-        //   onActionClick={(e) => onEdit(e, vendor.id)}
+          onActionClick={(e) => {
+            e.stopPropagation();
+            onEdit(e, category.id);
+          }}
+          // onClick={(event) => event.stopPropagation()}
         />
         <ItemActionButton
           title="Delete"
@@ -28,7 +32,10 @@ function CategoryItem({
         //   onActionClick={onDeleteClick}
           type="delete"
           name = "delete"
-        //   onActionClick={() => onDelete(vendor.id)}
+          onActionClick={(e) => {
+            e.stopPropagation();
+            onDelete(category.id);
+          }}
         />
       </div>
         </div>
