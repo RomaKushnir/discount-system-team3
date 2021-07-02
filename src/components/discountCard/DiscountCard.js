@@ -7,6 +7,7 @@ function DiscountCard({
   img = 'https://picsum.photos/200/300',
   description,
   discount,
+  flatAmount,
   className = ''
 }) {
   return (
@@ -24,7 +25,9 @@ function DiscountCard({
           <p className={style.description}>{description}</p>
         </div>
         <div className={style.row}>
-          <p className={style.disc}>{discount}%</p>
+          <p className={style.disc}>
+            {discount === 0 || !discount ? flatAmount : discount}{discount === 0 || !discount ? 'UAH' : '%'}
+          </p>
         </div>
         </div>
         </div>
