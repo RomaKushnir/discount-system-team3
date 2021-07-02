@@ -21,6 +21,7 @@ function App() {
       <div className="App">
         <Switch>
           <PublicRoute path = {Routes.ROOT} component = {Login} exact = {true}/>
+          <PublicRoute path = {Routes.LOGIN} component = {Login}/>
           <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>
           <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
           <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>
