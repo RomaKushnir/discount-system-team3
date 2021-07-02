@@ -150,3 +150,33 @@ export function applyVendorsFilters(payload) {
     payload
   };
 }
+
+export function getTypeaheadVendors(payload) {
+  return {
+    type: types.GET_TYPEAHEAD_VENDORS,
+    payload
+
+  };
+}
+
+export function getTypeaheadVendorsSuccess(payload) {
+  return {
+    type: types.GET_TYPEAHEAD_VENDORS_SUCCESS,
+    payload
+
+  };
+}
+
+export function getTypeaheadVendorsFailure(payload) {
+  return {
+    type: types.GET_TYPEAHEAD_VENDORS_FAILURE,
+    payload
+
+  };
+}
+
+export function clearVendorsTypeahead() {
+  return {
+    type: types.CLEAR_VENDORS_TYPEAHEAD
+  };
+}

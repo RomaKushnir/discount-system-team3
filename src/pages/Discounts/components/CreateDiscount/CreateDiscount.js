@@ -14,7 +14,8 @@ import {
   getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
-  getCategoriesOptions
+  getCategoriesOptions,
+  getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
 
 function CreateDiscount({
@@ -28,6 +29,7 @@ function CreateDiscount({
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
   const initialVendorOptions = discount ? {
@@ -77,10 +79,10 @@ function CreateDiscount({
     }
     // if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
 
-    if (!vendorsOptions.length) {
-      const showMore = false;
-      dispatch(actions.vendorActions.applyVendorsFilters(showMore));
-    }
+    // if (!vendorsOptions.length) {
+    //   const showMore = false;
+    //   dispatch(actions.vendorActions.applyVendorsFilters(showMore));
+    // }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
   }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
@@ -119,6 +121,15 @@ function CreateDiscount({
     formik.setFieldValue(name, value, true);
   };
 
+  const onVendorSelectChange = (characters) => {
+    console.log(characters);
+    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
+  };
+
+  const onVendorsSelectorBlur = () => {
+    dispatch(actions.vendorActions.clearVendorsTypeahead());
+  };
+
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
@@ -152,14 +163,17 @@ function CreateDiscount({
         />
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            options = {vendorsOptions}
+            // options = {vendorsOptions}
+            options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
             label = "Vendor"
             name = "vendorId"
             placeholder = "Select vendor"
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
+            onInputChange={(characters) => onVendorSelectChange(characters)}
             error = {formik.errors.vendorId}
+            onBlur = {onVendorsSelectorBlur}
           />
           <SelectField
             options = {categoriesOptions}
