@@ -14,9 +14,16 @@ const useVendorsQueryChecker = () => {
 
   const querySortParams = `${queryParams}${sortParams}`;
 
-  history.listen((location) => {
-    setUrlQueryString(location.search);
-  });
+  useEffect(() => {
+    let isSubscribed = true;
+    history.listen((location) => {
+      if (isSubscribed) setUrlQueryString(location.search);
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (urlQueryString !== querySortParams) {
@@ -27,6 +34,7 @@ const useVendorsQueryChecker = () => {
     }
     // eslint-disable-next-line
   }, [urlQueryString]);
+
 };
 
 export default useVendorsQueryChecker;

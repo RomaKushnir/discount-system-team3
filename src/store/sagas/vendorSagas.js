@@ -86,12 +86,28 @@ export function* applyVendorsFilters({ payload }) {
   yield put(actions.vendorActions.getVendors({ serverSearchParams, showMore: payload.showMore }));
 }
 
+export function* getTypeaheadVendors({ payload }) {
+  const minSearchNumber = 3;
+  try {
+    if (payload.length >= minSearchNumber) {
+      const searchParams = `?query=title*:*${payload}`;
+      const response = yield call(api.vendors.getVendors, searchParams);
+
+      yield put(actions.vendorActions.getTypeaheadVendorsSuccess(response.data.content));
+    }
+  } catch (error) {
+    console.error(error);
+    yield put(actions.vendorActions.getTypeaheadVendorsFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_VENDOR, addVendor),
     takeEvery(types.DELETE_VENDOR, deleteVendor),
     takeEvery(types.GET_VENDORS, getVendors),
     takeEvery(types.GET_VENDOR_BY_ID, getVendorById),
-    takeEvery(types.APPLY_VENDORS_FILTERS, applyVendorsFilters)
+    takeEvery(types.APPLY_VENDORS_FILTERS, applyVendorsFilters),
+    takeEvery(types.GET_TYPEAHEAD_VENDORS, getTypeaheadVendors)
   ]);
 }

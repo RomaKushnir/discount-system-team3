@@ -13,19 +13,18 @@ function FiltersContainer({
   onChangeCountry,
   onChangeCity,
   onChangeCategory,
-  onSearchVendor,
   onSearchInputChange,
   countriesList,
   citiesList,
   categoriesList,
-  vendorsList,
-  filters
+  filters,
+  onVendorSelectOptionChange,
+  onVendorSelectInputChange,
+  onVendorSelectBlur,
+  vendorsTypeaheadOptions
 }) {
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
-  };
-  const onChangeVendorInput = (e) => {
-    onSearchVendor(e.target.value);
   };
 
   const onChangeCountries = (selectedOption) => {
@@ -70,17 +69,17 @@ function FiltersContainer({
               value = {categoriesList.find((el) => el.id === +filters.category) || null}
             />
           </div>}
-          {vendorsList && <div className = {styles.filter}>
-            <TextInput
-              onValueChange = {onChangeVendorInput}
-              label = "Vendor"
-              name = "vendorSearch"
-              placeholder = "Search..."
-              type = "search"
-              style = {inputStyles}
-              value = {filters?.title || ''}
+          <div className = {styles.filter}>
+            <SelectField
+              options = {vendorsTypeaheadOptions}
+              value = {{ value: filters?.title, label: filters?.title } || null}
+              label = "Vendor (Min 3 chars)"
+              name = "vendorId"
+              onChange = {(option) => onVendorSelectOptionChange(option)}
+              onInputChange={(characters) => onVendorSelectInputChange(characters)}
+              onBlur = {onVendorSelectBlur}
             />
-          </div>}
+          </div>
         </div>
       </div>
       <div className = {styles.inputButtonColumn}>

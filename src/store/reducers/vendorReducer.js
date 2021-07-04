@@ -23,7 +23,9 @@ const initialState = {
   vendor: null,
   vendorStatus: helpers.getDefaultState(),
   vendorsFilters: { ...defaultVendorsFilter },
-  vendorsFiltersApplied: { ...defaultVendorsFilter }
+  vendorsFiltersApplied: { ...defaultVendorsFilter },
+  vendorsTypeahead: [],
+  getTypeaheadVendorsStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -154,7 +156,7 @@ const vendorReducer = (state = initialState, action) => {
       const { payload } = action;
       return {
         ...state,
-        vendorStatus: helpers.getSuccessState('Action success'),
+        vendorStatus: helpers.getSuccessState('Action successful'),
         vendor: payload
       };
     }
@@ -182,6 +184,33 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...state.vendorsFilters }
+      };
+    }
+    case types.GET_TYPEAHEAD_VENDORS: {
+      return {
+        ...state,
+        getTypeaheadVendorsStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_TYPEAHEAD_VENDORS_SUCCESS: {
+      return {
+        ...state,
+        vendorsTypeahead: action.payload,
+        getTypeaheadVendorsStatus: helpers.getSuccessState('Action successful')
+      };
+    }
+    case types.GET_TYPEAHEAD_VENDORS_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getTypeaheadVendorsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_VENDORS_TYPEAHEAD: {
+      return {
+        ...state,
+        getTypeaheadVendorsStatus: helpers.getDefaultState(),
+        vendorsTypeahead: []
       };
     }
     case types.CLEAR_VENDORS_FILTERS: {

@@ -11,10 +11,10 @@ import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
   getLocationsOptions,
-  getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
-  getCategoriesOptions
+  getCategoriesOptions,
+  getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
 
 function CreateDiscount({
@@ -24,10 +24,10 @@ function CreateDiscount({
   const dispatch = useDispatch();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
   const initialVendorOptions = discount ? {
@@ -75,14 +75,9 @@ function CreateDiscount({
     if (!countriesOptions.length || !citiesOptions.length) {
       dispatch(actions.locationActions.getLocationsList());
     }
-    // if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
-
-    if (!vendorsOptions.length) {
-      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
-    }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
+  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
@@ -118,6 +113,14 @@ function CreateDiscount({
     formik.setFieldValue(name, value, true);
   };
 
+  const onVendorSelectChange = (characters) => {
+    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
+  };
+
+  const onVendorSelectBlur = () => {
+    dispatch(actions.vendorActions.clearVendorsTypeahead());
+  };
+
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
@@ -151,14 +154,16 @@ function CreateDiscount({
         />
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            options = {vendorsOptions}
+            options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor"
+            label = "Vendor (Min 3 chars)"
             name = "vendorId"
             placeholder = "Select vendor"
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
+            onInputChange={(characters) => onVendorSelectChange(characters)}
             error = {formik.errors.vendorId}
+            onBlur = {onVendorSelectBlur}
           />
           <SelectField
             options = {categoriesOptions}
