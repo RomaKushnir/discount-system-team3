@@ -2,11 +2,16 @@ import {
   put,
   call,
   takeEvery,
-  all
+  all,
+  select
 } from 'redux-saga/effects';
 import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
+import { convertFilterParametersToUrl } from '../../utilities/vendors';
+import history from '../../history';
+
+export const getVendorsFiltersApplied = (state) => state.vendorReducer.vendorsFiltersApplied;
 
 export function* addVendor({ payload }) {
   const { id, ...data } = payload;
@@ -43,14 +48,13 @@ export function* deleteVendor({ payload }) {
   }
 }
 
-export function* getVendors() {
+export function* getVendors({ payload }) {
   try {
-    const response = yield call(api.vendors.getVendors);
+    const response = yield call(api.vendors.getVendors, payload.serverSearchParams);
 
-    yield put(actions.vendorActions.getVendorsSuccess(response.data.content));
+    yield put(actions.vendorActions.getVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
   } catch (error) {
     console.error(error);
-    console.log(error);
     yield put(actions.vendorActions.getVendorsFailure(error));
   }
 }
@@ -67,19 +71,19 @@ export function* getVendorById({ payload }) {
   }
 }
 
-export function* getFilteredVendors({ payload }) {
-  console.log(payload);
-  try {
-    const response = yield call(api.vendors.getFilteredVendors, payload.filterParams);
+export function* applyVendorsFilters({ payload }) {
+  const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
+  const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 
-    console.log(response);
+  const { queryParams, sortParams, paginationParams } = searchParams;
 
-    yield put(actions.vendorActions.getFilteredVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
-  } catch (error) {
-    console.error(error);
-    console.log(error);
-    yield put(actions.vendorActions.getFilteredVendorsFailure(error));
+  if (payload && payload.rewriteUrl !== false) {
+    history.push({ pathname: '/vendors', search: `${queryParams}${sortParams}` });
   }
+
+  const serverSearchParams = `${queryParams}${sortParams}${paginationParams}`;
+
+  yield put(actions.vendorActions.getVendors({ serverSearchParams, showMore: payload.showMore }));
 }
 
 export default function* watch() {
@@ -88,6 +92,6 @@ export default function* watch() {
     takeEvery(types.DELETE_VENDOR, deleteVendor),
     takeEvery(types.GET_VENDORS, getVendors),
     takeEvery(types.GET_VENDOR_BY_ID, getVendorById),
-    takeEvery(types.GET_FILTERED_VENDORS, getFilteredVendors)
+    takeEvery(types.APPLY_VENDORS_FILTERS, applyVendorsFilters)
   ]);
 }

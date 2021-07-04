@@ -14,6 +14,7 @@ function VendorInfo({
 }) {
   console.log(vendor);
   const { title, location, imageUrl } = vendor;
+  const { country, city } = location;
   return (
         <div>
         { <div className={style.borderCard}>
@@ -22,7 +23,7 @@ function VendorInfo({
         </div>
         <div className={style.col2}>
           <div className={style.row}><h2>{title}</h2></div>
-          <div className={style.row}><p>{location}</p></div>
+          <div className={style.row}><p>{country}, {city}</p></div>
           {/* <div className={style.row}><p>{address1}</p></div>
           <div className={style.row}><p>{address2}</p></div> */}
         <div className={style.row}>

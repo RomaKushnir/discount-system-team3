@@ -21,50 +21,30 @@ import {
   getVendorsOptions,
   getCountriesOptions,
   getVendorsList,
-  getCitiesOptions
-  // getCategoriesOptions
+  getCitiesOptions,
+  getCategoriesOptions
 } from '../../store/selectors';
+import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
-  const [sortOption, setSortOption] = useState(vendorsSortOptions[0]);
-  const country = {
-    value: 'Ukraine',
-    label: 'Ukraine'
-  }; // temporary, should be user country
-
-  useEffect(() => {
-    // dispatch(actions.vendorActions.getVendors());
-    const payload = {
-      location_country: country.value || null,
-      location_city: null,
-      // discounts_category_id: params.category?.id || null,
-      title: null,
-      description: null,
-      sort: 'DESC' || null,
-      number: 0,
-      size: 6
-    };
-
-    console.log(payload);
-    const showMore = false;
-    dispatch(actions.vendorActions.getFilteredVendors({
-      filterParams: payload,
-      showMore
-    }));
-    dispatch(actions.locationActions.getLocationsList());
-    dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, country.value]);
-
   const vendors = useSelector(getVendorsList);
   const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
-  // const categoriesOptions = useSelector(getCategoriesOptions);
+  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+  const categoriesOptions = useSelector(getCategoriesOptions);
+
+  useEffect(() => {
+    dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.categoryActions.getCategories());
+  }, [dispatch]);
+
+  useVendorsQueryChecker();
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -94,45 +74,42 @@ function Vendors() {
     setIsOpen(false);
   }, []);
 
-  const onApplyButtonClick = (params) => {
-    console.log(params);
-    const payload = {
-      location_country: params.country?.label || null,
-      location_city: params.city?.label || null,
-      // discounts_category_id: params.category?.id || null,
-      title: params.vendorSearch || null,
-      description: params.searchWord || null,
-      sort: sortOption.value || null,
-      number: 0,
-      size: 6
-    };
-
-    console.log(payload);
-    const showMore = false;
-    dispatch(actions.vendorActions.getFilteredVendors({
-      filterParams: payload,
-      showMore
-    }));
+  const onChangeCountry = (selectedCountry) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.label || null }));
   };
 
-  const onSortFilter = (selectedOption) => {
-    console.log(selectedOption);
-    setSortOption(selectedOption);
+  const onChangeCity = (city) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ city: city?.label || null }));
+  };
+
+  const onChangeCategory = (category) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ category: category?.id || null }));
+  };
+
+  const onSearchVendor = (selectedVendor) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor }));
+  };
+
+  const onSearchInputChange = (descriptionSearchWord) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ description: descriptionSearchWord }));
+  };
+
+  const onSortFilterChange = (selectedOption) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ sort: selectedOption?.value || null }));
+  };
+
+  const onApplyButtonClick = () => {
+    dispatch(actions.vendorActions.clearGetVendorsStatus());
+    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: true }));
   };
 
   const onShowMoreClick = () => {
-    if (vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages) {
-      vendorsFiltersApplied.number += 1;
-      const showMore = true;
-      dispatch(actions.vendorActions.getFilteredVendors({
-        filterParams: vendorsFiltersApplied,
-        showMore
-      }));
+    if (vendorsFiltersApplied.pageNumber < vendorsFiltersApplied.totalPages) {
+      dispatch(actions.vendorActions.updateVendorsFilters({ pageNumber: vendorsFilters.pageNumber += 1 }));
+      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: true, rewriteUrl: false }));
     }
   };
 
-  console.log(vendors);
-  console.log(vendorsFiltersApplied);
   return (
     <div className={styles.container}>
       <div>
@@ -140,10 +117,16 @@ function Vendors() {
         <main className={styles.contentWrapper}>
           <FiltersContainer
             onApplyButtonClick={onApplyButtonClick}
+            onChangeCountry = {onChangeCountry}
+            onChangeCity = {onChangeCity}
+            onChangeCategory = {onChangeCategory}
+            onSearchVendor = {onSearchVendor}
+            onSearchInputChange = {onSearchInputChange}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
-            // categoriesList={categoriesOptions}
+            categoriesList={categoriesOptions}
             vendorsList={vendorsOptions}
+            filters = {vendorsFilters}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
@@ -152,9 +135,9 @@ function Vendors() {
               name = "add"
             />
             <SelectField
-              initialValue={sortOption}
+              value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
               options={vendorsSortOptions}
-              onChange={onSortFilter}
+              onChange={onSortFilterChange}
               isClearable={false}
               />
           </div>
@@ -176,7 +159,7 @@ function Vendors() {
                   onEdit = {onModalOpen}
                   onDelete = {onDelete}
                 />
-                {vendorsFiltersApplied.number + 1 < vendorsFiltersApplied.totalPages
+                {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
                   && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
                 </>
                 }

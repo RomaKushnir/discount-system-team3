@@ -1,7 +1,16 @@
 .vendorPage {
-  width: 80%;
-  height: 100%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
+}
+.contentWrapper {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+
 }
 
 .blockVendor {

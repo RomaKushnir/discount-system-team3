@@ -1,6 +1,19 @@
 import * as types from '../actionTypes';
 import * as helpers from '../helpers';
 
+export const defaultVendorsFilter = {
+  country: null, // temporary, should be user country
+  city: null,
+  category: null,
+  title: '',
+  description: '',
+  sort: 'ASC',
+  pageNumber: 0,
+  size: 6,
+  totalElements: null,
+  totalPages: null
+};
+
 const initialState = {
   vendors: [],
   getVendorsStatus: helpers.getDefaultState(),
@@ -9,19 +22,8 @@ const initialState = {
   updateVendorStatus: helpers.getDefaultState(),
   vendor: null,
   vendorStatus: helpers.getDefaultState(),
-  vendorsFiltersApplied: {
-    location_country: null,
-    location_city: null,
-    // discounts_category_id: null,
-    title: null,
-    description: null,
-    sort: 'DESC',
-    number: null,
-    size: null,
-    totalElements: null,
-    totalPages: null
-  },
-  getFilteredVendorsStatus: helpers.getDefaultState()
+  vendorsFilters: { ...defaultVendorsFilter },
+  vendorsFiltersApplied: { ...defaultVendorsFilter }
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -33,11 +35,23 @@ const vendorReducer = (state = initialState, action) => {
       };
     }
     case types.GET_VENDORS_SUCCESS: {
-      const { payload } = action;
+      const {
+        vendors, showMore
+      } = action.payload;
+      const {
+        content, number, size, totalElements, totalPages
+      } = vendors;
       return {
         ...state,
-        vendors: payload,
-        getVendorsStatus: helpers.getSuccessState(payload)
+        vendors: showMore ? [...state.vendors, ...content] : content,
+        getVendorsStatus: helpers.getSuccessState('Success!'),
+        vendorsFiltersApplied: {
+          ...state.vendorsFiltersApplied,
+          pageNumber: number,
+          size,
+          totalElements,
+          totalPages
+        }
       };
     }
     case types.GET_VENDORS_FAILURE: {
@@ -45,6 +59,17 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         getVendorsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_VENDORS_STATUS: {
+      return {
+        ...state,
+        getVendorsStatus: helpers.getDefaultState(),
+        vendorsFilters: {
+          ...state.vendorsFilters,
+          pageNumber: defaultVendorsFilter.pageNumber,
+          size: defaultVendorsFilter.size
+        }
       };
     }
     case types.ADD_VENDOR: {
@@ -81,9 +106,7 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.DELETE_VENDOR_SUCCESS: {
       const { payload } = action;
-      console.log(payload);
       const updatedVendors = state.vendors.filter((el) => el.id !== payload);
-      console.log(updatedVendors);
       const successMessage = 'Vendor successfully deleted';
       return {
         ...state,
@@ -106,7 +129,6 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.UPDATE_VENDOR_SUCCESS: {
       const { payload } = action;
-      console.log(payload);
       const successMessage = 'Action successful!';
       const updateVendors = state.vendors.map(
         (el) => {
@@ -149,50 +171,23 @@ const vendorReducer = (state = initialState, action) => {
         vendorStatus: helpers.getDefaultState()
       };
     }
-    case types.GET_FILTERED_VENDORS: {
+    case types.UPDATE_VENDORS_FILTERS: {
       const { payload } = action;
-      console.log(payload);
       return {
         ...state,
-        getFilteredVendorsStatus: helpers.getRequestState(),
-        vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...payload.filterParams }
+        vendorsFilters: { ...state.vendorsFilters, ...payload }
       };
     }
-    case types.GET_FILTERED_VENDORS_SUCCESS: {
-      const {
-        vendors, showMore
-      } = action.payload;
-      const {
-        content, number, size, totalElements, totalPages
-      } = vendors;
-      console.log(action.payload);
+    case types.APPLY_VENDORS_FILTERS: {
       return {
         ...state,
-        getFilteredVendorsStatus: helpers.getSuccessState('Success!'),
-        vendors: showMore ? [...state.vendors, ...content] : content,
-        vendorsFiltersApplied: {
-          ...state.vendorsFiltersApplied,
-          number,
-          size,
-          totalElements,
-          totalPages
-        }
+        vendorsFiltersApplied: { ...state.vendorsFiltersApplied, ...state.vendorsFilters }
       };
     }
-    case types.GET_FILTERED_VENDORS_FAILURE: {
-      const { payload } = action;
-      console.log(payload);
+    case types.CLEAR_VENDORS_FILTERS: {
       return {
         ...state,
-        getFilteredVendorsStatus: helpers.getErrorState(payload)
-      };
-    }
-    case types.CLEAR_GET_FILTERED_VENDORS_STATUS: {
-      const { payload } = action;
-      console.log(payload);
-      return {
-        ...state,
-        getFilteredVendorsStatus: helpers.getDefaultState()
+        vendorsFilters: { ...defaultVendorsFilter }
       };
     }
     default:

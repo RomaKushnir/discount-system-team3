@@ -9,11 +9,11 @@ import PublicRoute from './routes/PublicRoute';
 import Login from './pages/Login';
 import Discounts from './pages/Discounts';
 import Vendor from './pages/Vendor';
-import Vendors from './pages/Vendors';
 import Statistics from './pages/Statistics';
 import Favourites from './pages/Favourites';
 import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
+import Vendors from './pages/Vendors';
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
       <div className="App">
         <Switch>
           <PublicRoute path = {Routes.ROOT} component = {Login} exact = {true}/>
+          <PublicRoute path = {Routes.LOGIN} component = {Login}/>
           <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>
           <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
           <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>

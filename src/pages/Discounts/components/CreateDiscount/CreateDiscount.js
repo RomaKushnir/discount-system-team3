@@ -75,7 +75,12 @@ function CreateDiscount({
     if (!countriesOptions.length || !citiesOptions.length) {
       dispatch(actions.locationActions.getLocationsList());
     }
-    if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
+    // if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
+
+    if (!vendorsOptions.length) {
+      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
+    }
+
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
   }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
 

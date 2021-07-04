@@ -4,6 +4,7 @@ import customStyles from './SelectField.styles';
 
 function SelectField({
   initialValue,
+  value,
   options,
   label,
   onChange,
@@ -26,6 +27,7 @@ function SelectField({
         classNamePrefix = "select"
         name = {name}
         defaultValue = {initialValue}
+        value = {value}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}
