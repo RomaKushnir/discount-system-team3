@@ -11,7 +11,6 @@ import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
   getLocationsOptions,
-  // getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
   getCategoriesOptions,
@@ -25,7 +24,6 @@ function CreateDiscount({
   const dispatch = useDispatch();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  // const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
@@ -116,12 +114,10 @@ function CreateDiscount({
   };
 
   const onVendorSelectChange = (characters) => {
-    console.log(characters);
     dispatch(actions.vendorActions.getTypeaheadVendors(characters));
   };
 
-  const onVendorSelectBlur = (value) => {
-    console.log(value);
+  const onVendorSelectBlur = () => {
     dispatch(actions.vendorActions.clearVendorsTypeahead());
   };
 
@@ -160,7 +156,7 @@ function CreateDiscount({
           <SelectField
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor"
+            label = "Vendor (Min 3 chars)"
             name = "vendorId"
             placeholder = "Select vendor"
             className={styles.inputContainer}

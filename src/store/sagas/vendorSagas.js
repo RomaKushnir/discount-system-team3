@@ -87,14 +87,11 @@ export function* applyVendorsFilters({ payload }) {
 }
 
 export function* getTypeaheadVendors({ payload }) {
-  console.log(payload);
-  const minSearchNumber = 2;
-
+  const minSearchNumber = 3;
   try {
-    if (payload.length > minSearchNumber) {
+    if (payload.length >= minSearchNumber) {
       const searchParams = `?query=title*:*${payload}`;
       const response = yield call(api.vendors.getVendors, searchParams);
-      console.log(response);
 
       yield put(actions.vendorActions.getTypeaheadVendorsSuccess(response.data.content));
     }
