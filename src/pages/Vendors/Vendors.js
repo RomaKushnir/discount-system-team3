@@ -18,11 +18,11 @@ import SelectField from '../../components/SelectField';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import {
-  getVendorsOptions,
   getCountriesOptions,
   getVendorsList,
   getCitiesOptions,
-  getCategoriesOptions
+  getCategoriesOptions,
+  getTypeaheadVendorsOptions
 } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
@@ -31,13 +31,13 @@ function Vendors() {
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
   const vendors = useSelector(getVendorsList);
-  const vendorsOptions = useSelector(getVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
   const categoriesOptions = useSelector(getCategoriesOptions);
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -86,8 +86,16 @@ function Vendors() {
     dispatch(actions.vendorActions.updateVendorsFilters({ category: category?.id || null }));
   };
 
-  const onSearchVendor = (selectedVendor) => {
-    dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor }));
+  const onVendorSelectOptionChange = (selectedVendor) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor?.label || null }));
+  };
+
+  const onVendorSelectInputChange = (characters) => {
+    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
+  };
+
+  const onVendorSelectBlur = () => {
+    dispatch(actions.vendorActions.clearVendorsTypeahead());
   };
 
   const onSearchInputChange = (descriptionSearchWord) => {
@@ -120,12 +128,14 @@ function Vendors() {
             onChangeCountry = {onChangeCountry}
             onChangeCity = {onChangeCity}
             onChangeCategory = {onChangeCategory}
-            onSearchVendor = {onSearchVendor}
+            onVendorSelectOptionChange = {onVendorSelectOptionChange}
+            onVendorSelectInputChange = { onVendorSelectInputChange}
+            onVendorSelectBlur = {onVendorSelectBlur}
+            vendorsTypeaheadOptions = {vendorsTypeaheadOptions}
             onSearchInputChange = {onSearchInputChange}
             countriesList={countriesOptions}
             citiesList={citiesOptions}
             categoriesList={categoriesOptions}
-            vendorsList={vendorsOptions}
             filters = {vendorsFilters}
           />
           <div className={styles.vendorsActionsBlock}>

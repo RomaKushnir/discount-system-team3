@@ -77,12 +77,6 @@ function CreateDiscount({
     if (!countriesOptions.length || !citiesOptions.length) {
       dispatch(actions.locationActions.getLocationsList());
     }
-    // if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
-
-    // if (!vendorsOptions.length) {
-    //   const showMore = false;
-    //   dispatch(actions.vendorActions.applyVendorsFilters(showMore));
-    // }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
   }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
@@ -126,7 +120,8 @@ function CreateDiscount({
     dispatch(actions.vendorActions.getTypeaheadVendors(characters));
   };
 
-  const onVendorsSelectorBlur = () => {
+  const onVendorSelectBlur = (value) => {
+    console.log(value);
     dispatch(actions.vendorActions.clearVendorsTypeahead());
   };
 
@@ -163,7 +158,6 @@ function CreateDiscount({
         />
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            // options = {vendorsOptions}
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
             label = "Vendor"
@@ -173,7 +167,7 @@ function CreateDiscount({
             onChange = {onSelectValueChange}
             onInputChange={(characters) => onVendorSelectChange(characters)}
             error = {formik.errors.vendorId}
-            onBlur = {onVendorsSelectorBlur}
+            onBlur = {onVendorSelectBlur}
           />
           <SelectField
             options = {categoriesOptions}
