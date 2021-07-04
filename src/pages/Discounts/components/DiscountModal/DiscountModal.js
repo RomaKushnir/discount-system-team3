@@ -36,7 +36,6 @@ function DiscountModal({
     onDeleteDiscount(discount.id);
     setConfirmModalOpen(false);
   };
-
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
       title = "Edit"
@@ -68,7 +67,9 @@ function DiscountModal({
     </div>
     <div className = {styles.row}>
       <div className = {styles.discountWrapper}>
-        Discount <div className={styles.discount}>{discount.percentage}%</div>
+        Discount <div className={styles.discount}>
+          - {discount.percentage === 0 || !discount.percentage ? discount.flatAmount : discount.percentage}
+          {discount.percentage === 0 || !discount.percentage ? '$' : '%'}</div>
       </div>
     </div>
     <div className = {styles.row}>

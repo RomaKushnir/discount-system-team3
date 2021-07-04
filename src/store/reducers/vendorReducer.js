@@ -69,8 +69,8 @@ const vendorReducer = (state = initialState, action) => {
         getVendorsStatus: helpers.getDefaultState(),
         vendorsFilters: {
           ...state.vendorsFilters,
-          pageNumber: 0,
-          size: 6
+          pageNumber: defaultVendorsFilter.pageNumber,
+          size: defaultVendorsFilter.size
         }
       };
     }
@@ -211,6 +211,12 @@ const vendorReducer = (state = initialState, action) => {
         ...state,
         getTypeaheadVendorsStatus: helpers.getDefaultState(),
         vendorsTypeahead: []
+      };
+    }
+    case types.CLEAR_VENDORS_FILTERS: {
+      return {
+        ...state,
+        vendorsFilters: { ...defaultVendorsFilter }
       };
     }
     default:
