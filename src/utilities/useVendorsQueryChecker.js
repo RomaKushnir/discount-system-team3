@@ -21,6 +21,7 @@ const useVendorsQueryChecker = () => {
   useEffect(() => {
     if (urlQueryString !== querySortParams) {
       const urlFilters = convertUrlToFilterParameters(urlQueryString);
+      dispatch(actions.vendorActions.clearVendorsFilters());
       dispatch(actions.vendorActions.updateVendorsFilters(urlFilters));
       dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
     }
