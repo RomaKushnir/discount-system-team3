@@ -6,13 +6,12 @@ import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
+import SelectField from '../../../../components/SelectField';
 
-// title, vendor, description long, location, from, to, persentage, count
 function DiscountModal({
   discount, isAdmin = true, onClose, isOpen, onDeleteDiscount
 }) {
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
-
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
@@ -20,6 +19,16 @@ function DiscountModal({
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
+  const locationsList = discount && discount.locations
+    ? discount.locations.map((location) => {
+      const option = {
+        value: `${location.country}, ${location.city}`,
+        label: `${location.country}, ${location.city}`
+      };
+      return option;
+    })
+    : null;
+
   const onEditClick = () => {
     setIsEditDiscountOpen(true);
   };
@@ -36,6 +45,10 @@ function DiscountModal({
     onDeleteDiscount(discount.id);
     setConfirmModalOpen(false);
   };
+  const onLocationChange = () => {
+    console.log('change location');
+  };
+
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
       title = "Edit"
@@ -59,7 +72,14 @@ function DiscountModal({
     <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
     <div className = {styles.modalDescr}>{discount.description}</div>
     <div className = {styles.row}>
-      <div className = {styles.modalLocation}></div>
+      <div className = {styles.modalLocation}>
+        <SelectField
+          initialValue = {locationsList[0]}
+          options = {locationsList}
+          label = "Location"
+          onChange = {onLocationChange}
+        />
+      </div>
       <div className = {styles.dates}>
         <div className = {styles.startDate}>From: {getMonthAndDay(discount.startDate)}</div>
         <div className = {styles.expDate}>To: {getMonthAndDay(discount.expirationDate)}</div>
