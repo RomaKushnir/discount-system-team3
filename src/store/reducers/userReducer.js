@@ -3,7 +3,9 @@ import * as helpers from '../helpers';
 
 const initialState = {
   loggedIn: false,
-  loginStatus: helpers.getDefaultState()
+  loginStatus: helpers.getDefaultState(),
+  user: null,
+  getUserStatus: helpers.getDefaultState()
 };
 
 const userReducer = (state = initialState, action) => {
@@ -33,6 +35,35 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loggedIn: false,
+        loginStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_USER: {
+      return {
+        ...state,
+        getUserStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_USER_SUCCESS: {
+      const { payload } = action;
+      const successMessage = 'Welcome!';
+      return {
+        ...state,
+        user: payload,
+        getUserStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.GET_USER_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        loginStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_USER_STATUS: {
+      return {
+        ...state,
+        user: null,
         loginStatus: helpers.getDefaultState()
       };
     }

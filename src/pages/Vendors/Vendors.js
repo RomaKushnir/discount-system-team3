@@ -25,6 +25,7 @@ import {
   getTypeaheadVendorsOptions
 } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
+import Roles from '../../roles';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function Vendors() {
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -139,11 +141,11 @@ function Vendors() {
             filters = {vendorsFilters}
           />
           <div className={styles.vendorsActionsBlock}>
-            <AddNewItemButton
+            {user?.role.name === Roles.ADMIN && <AddNewItemButton
               btnTitle="Add new vendor"
               onAddNewItem={onModalOpen}
               name = "add"
-            />
+            />}
             <SelectField
               value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
               options={vendorsSortOptions}
