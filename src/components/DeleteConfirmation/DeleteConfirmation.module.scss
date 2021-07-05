@@ -29,4 +29,14 @@
       padding: 20px 0;
       color: red
     }
+
+    .buttonsContainer {
+      display: flex;
+      align-items: center;
+
+      .deleteBtn, .normalBtn {
+        width: 80px;
+        margin: 0 20px;
+      }
+    }
 }

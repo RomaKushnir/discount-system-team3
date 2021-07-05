@@ -72,7 +72,7 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {vendorsTypeaheadOptions}
-              value = {{ value: filters?.title, label: filters?.title } || null}
+              value = {{ value: filters?.title, label: filters?.title } || ''}
               label = "Vendor (Min 3 chars)"
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
