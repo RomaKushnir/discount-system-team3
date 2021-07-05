@@ -11,10 +11,10 @@ import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
   getLocationsOptions,
+  getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
-  getCategoriesOptions,
-  getTypeaheadVendorsOptions
+  getCategoriesOptions
 } from '../../../../store/selectors';
 import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
 
@@ -26,10 +26,10 @@ function CreateDiscount({
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
-  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
   const initialVendorOptions = discount ? {
@@ -78,9 +78,9 @@ function CreateDiscount({
     if (!countriesOptions.length || !citiesOptions.length) {
       dispatch(actions.locationActions.getLocationsList());
     }
-
+    if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
+  }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
@@ -149,16 +149,15 @@ function CreateDiscount({
         />
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            options = {vendorsTypeaheadOptions}
+            options = {vendorsOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor (Min 3 chars)"
+            label = "Vendor"
             name = "vendorId"
             placeholder = "Select vendor"
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
             onInputChange={(characters) => onVendorSelectInputChange(characters)}
             error = {formik.errors.vendorId}
-            onBlur = {onVendorSelectBlur}
           />
           <SelectField
             options = {categoriesOptions}

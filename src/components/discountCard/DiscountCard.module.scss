@@ -1,64 +1,76 @@
 @import '../../variables.scss';
 .borderCard {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    border-radius: 10px;
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
-    font-family: 'Reem Kufi', sans-serif;
-    padding: 8px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  font-family: 'Reem Kufi', sans-serif;
+  padding: 8px;
 }
 
 .roundImg {
-    border-radius: 100%;
-    margin: 10px;
+  border-radius: 100%;
+  margin: 10px;
 }
 
 .row {
-    display: flex;
-    margin: 5px 0 7px;
+  display: flex;
+  margin: 5px 0 7px;
 }
 
 .col1 {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .col2 {
-    flex-grow: 3;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  flex-grow: 3;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .col3 {
-    margin: 0;
+  margin: 0;
 }
 .col3 + .col3 {
-    margin-left: 16px;
+  margin-left: 16px;
 }
 
 .description {
-    color: #8B8B8B;
+  color: #8B8B8B;
 }
 
 .disc {
-    text-align: right;
-    background-color: $color--blue-dark;
-    color: $color--primary-white;
-    padding: 3px;
-    border-radius: 0 3px 3px 0;
-    position: relative;
-    margin-left: auto;
+  text-align: right;
+  background-color: $color--blue-dark;
+  color: $color--primary-white;
+  padding: 3px;
+  border-radius: 0 3px 3px 0;
+  position: relative;
+  margin-left: auto;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -32px;
+    border: 12px solid transparent;
+    border-right: 20px solid $color--blue-dark;
+  }
+  &.amount {
+    background-color: $color--amount-tag;
     &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: -32px;
-        border: 12px solid transparent;
-        border-right: 20px solid $color--blue-dark;
+      border-right-color: $color--amount-tag;
     }
+  }
+  &.hot {
+    background-color: $color--hot-tag;
+    &::before {
+      border-right-color: $color--hot-tag;
+    }
+  }
 }
 .currency {
     font-size: .8rem;

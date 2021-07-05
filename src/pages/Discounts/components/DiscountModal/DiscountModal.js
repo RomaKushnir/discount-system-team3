@@ -8,6 +8,7 @@ import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
+import DiscountTag from '../../../../components/DiscountTag';
 
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount
@@ -89,11 +90,10 @@ function DiscountModal({
       </div>
     </div>
     <div className = {styles.row}>
-      <div className = {styles.discountWrapper}>
-        Discount <div className={styles.discount}>
-          - {discount.percentage === 0 || !discount.percentage ? discount.flatAmount : discount.percentage}
-          {discount.percentage === 0 || !discount.percentage ? '$' : '%'}</div>
-      </div>
+      <DiscountTag
+        percentage = {discount.percentage}
+        flatAmount = {discount.flatAmount}
+      />
     </div>
     <div className = {styles.row}>
       <div className = {styles.count}>Available {discount.quantity} promotional codes</div>

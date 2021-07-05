@@ -63,6 +63,18 @@
       border: 12px solid transparent;
       border-right: 20px solid $color--blue-dark;
   }
+  &.amount {
+    background-color: $color--amount-tag;
+    &::before {
+      border-right-color: $color--amount-tag;
+    }
+  }
+  &.hot {
+    background-color: $color--hot-tag;
+    &::before {
+      border-right-color: $color--hot-tag;
+    }
+  }
 }
 .count {
   font-size: .8rem;
