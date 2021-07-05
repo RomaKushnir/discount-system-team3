@@ -12,6 +12,7 @@
   }
   &Title {
     font-size: 2rem;
+    text-transform: capitalize;
   }
   &Descr {
     margin: 10px 0;
@@ -19,6 +20,7 @@
   &Img {
     width: 400px;
     height: 200px;
+    margin-top: 20px;
     img {
       width: 400px;
       height: 200px;
@@ -28,7 +30,6 @@
   }
 }
 .vendorName {
-  font-family: 'Reem Kufi', sans-serif;
   font-size: 1.2rem;
 }
 .row {

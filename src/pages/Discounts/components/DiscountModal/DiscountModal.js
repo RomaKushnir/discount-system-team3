@@ -70,6 +70,7 @@ function DiscountModal({
   const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {styles.modalHeader}>
+      <div className = {styles.modalCategory}>{discount.category.title}</div>
       <div className = {styles.modalTitle}>{discount.title}</div>
       <div className = {styles.vendorName}>{discount.vendor.title}</div>
     </div>
