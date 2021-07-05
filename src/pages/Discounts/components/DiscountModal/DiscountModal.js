@@ -7,7 +7,6 @@ import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import SelectField from '../../../../components/SelectField';
-// import SelectField from '../../../../components/SelectField';
 
 function DiscountModal({
   discount, isAdmin = true, onClose, isOpen, onDeleteDiscount
@@ -20,20 +19,15 @@ function DiscountModal({
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
-  // const locationsList = discount.locations;
-  let locationsList;
-  if (discount) {
-    locationsList = discount.locations
-      ? discount.locations.map((location) => {
-        const option = {
-          value: `${location.country}, ${location.city}`,
-          label: `${location.country}, ${location.city}`
-        };
-        return option;
-      })
-      : null;
-  }
-  console.log(locationsList);
+  const locationsList = discount && discount.locations
+    ? discount.locations.map((location) => {
+      const option = {
+        value: `${location.country}, ${location.city}`,
+        label: `${location.country}, ${location.city}`
+      };
+      return option;
+    })
+    : null;
 
   const onEditClick = () => {
     setIsEditDiscountOpen(true);
