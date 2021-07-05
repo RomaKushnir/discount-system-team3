@@ -78,7 +78,6 @@ function Discounts() {
   const onDeleteDiscount = useCallback((id) => {
     dispatch(actions.discountsActions.clearDeleteDiscountStatus());
     dispatch(actions.discountsActions.deleteDiscount(id));
-    // dispatch(actions.discountsActions.getDiscountsList());
     onDiscountModalClose();
   }, [dispatch]);
 

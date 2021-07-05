@@ -7,6 +7,7 @@ import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import Roles from '../../../../roles';
+import SelectField from '../../../../components/SelectField';
 
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount
@@ -14,12 +15,23 @@ function DiscountModal({
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
 
+  // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
   });
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
+  const locationsList = discount && discount.locations
+    ? discount.locations.map((location) => {
+      const option = {
+        value: `${location.country}, ${location.city}`,
+        label: `${location.country}, ${location.city}`
+      };
+      return option;
+    })
+    : null;
+
   const onEditClick = () => {
     setIsEditDiscountOpen(true);
   };
@@ -36,6 +48,10 @@ function DiscountModal({
     onDeleteDiscount(discount.id);
     setConfirmModalOpen(false);
   };
+  const onLocationChange = () => {
+    console.log('change location');
+  };
+
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
       title = "Edit"
@@ -59,7 +75,14 @@ function DiscountModal({
     <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
     <div className = {styles.modalDescr}>{discount.description}</div>
     <div className = {styles.row}>
-      <div className = {styles.modalLocation}></div>
+      <div className = {styles.modalLocation}>
+        <SelectField
+          initialValue = {locationsList[0]}
+          options = {locationsList}
+          label = "Location"
+          onChange = {onLocationChange}
+        />
+      </div>
       <div className = {styles.dates}>
         <div className = {styles.startDate}>From: {getMonthAndDay(discount.startDate)}</div>
         <div className = {styles.expDate}>To: {getMonthAndDay(discount.expirationDate)}</div>
@@ -99,6 +122,7 @@ function DiscountModal({
           onYesClick = {onYesClick}
           status = {deleteDiscountStatus}
           itemTitle = "discount"
+          onNoClick = {() => setConfirmModalOpen(false)}
         />
       </Modal>
     </>
