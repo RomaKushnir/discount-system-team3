@@ -49,6 +49,7 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       <Modal isOpen={modalOpen} onClose={closeModal}>
         <DeleteConfirmation
           onYesClick ={() => onDelete(vendor.id)}
+          onNoClick ={() => setModalOpen(false)}
           status = {deleteVendorStatus}
           itemTitle = "vendor"
         />

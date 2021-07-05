@@ -99,6 +99,7 @@ function DiscountModal({
           onYesClick = {onYesClick}
           status = {deleteDiscountStatus}
           itemTitle = "discount"
+          onNoClick = {() => setConfirmModalOpen(false)}
         />
       </Modal>
     </>
