@@ -87,7 +87,7 @@ function Vendors() {
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
-    dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor?.label || null }));
+    dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor?.label || '' }));
   };
 
   const onVendorSelectInputChange = (characters) => {
