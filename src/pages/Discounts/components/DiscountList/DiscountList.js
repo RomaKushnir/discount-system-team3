@@ -2,7 +2,6 @@ import styles from './DiscountList.module.scss';
 import DiscountListItem from '../DiscountListItem';
 
 function DiscountList({ discounts, onCardClick }) {
-  console.log(discounts);
   const discountsList = discounts?.length
     ? discounts.map((discount) => <DiscountListItem
         discount = {discount}
