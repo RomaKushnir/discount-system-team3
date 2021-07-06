@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
@@ -60,7 +61,9 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesOptions.filter((el) => el.country === filters?.country) || citiesOptions}
+                options = {
+                  useMemo(() => citiesOptions.filter((el) => el.country === filters?.country), [citiesOptions, filters])
+                  || citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
                 value = {{ value: filters?.city, label: filters?.city } || null}
@@ -71,7 +74,9 @@ function FiltersContainer({
               options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {categoriesOptions.find((el) => el.id === +filters.category) || null}
+              value = {
+                useMemo(() => categoriesOptions.find((el) => el.id === +filters.category), [categoriesOptions, filters])
+                || null}
             />
           </div>
           <div className = {styles.filter}>

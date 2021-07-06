@@ -29,6 +29,7 @@ function Discounts() {
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountsList());
     dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
