@@ -5,6 +5,7 @@ import {
   all,
   select
 } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
@@ -26,13 +27,10 @@ export function* addVendor({ payload }) {
       response = yield call(api.vendors.updateVendor, payload);
       yield put(actions.vendorActions.updateVendorSuccess(response.data));
     }
+    toast.success('Vendor was successfully added/updated.');
   } catch (error) {
-    console.error(error);
-    console.log(error);
-    console.log(error.response);
-    console.log(error.request);
-    console.log(error.config);
     yield put(actions.vendorActions.addVendorFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -41,10 +39,10 @@ export function* deleteVendor({ payload }) {
     yield call(api.vendors.deleteVendor, payload);
 
     yield put(actions.vendorActions.deleteVendorSuccess(payload));
+    toast.success('Vendor was successfully deleted.');
   } catch (error) {
-    console.error(error);
-    console.log(error);
     yield put(actions.vendorActions.deleteVendorFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -54,8 +52,8 @@ export function* getVendors({ payload }) {
 
     yield put(actions.vendorActions.getVendorsSuccess({ vendors: response.data, showMore: payload.showMore }));
   } catch (error) {
-    console.error(error);
     yield put(actions.vendorActions.getVendorsFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -66,8 +64,8 @@ export function* getVendorById({ payload }) {
     console.log(response);
     yield put(actions.vendorActions.getVendorByIdSuccess(response.data));
   } catch (error) {
-    console.error(error);
     yield put(actions.vendorActions.getVendorByIdFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -96,8 +94,8 @@ export function* getTypeaheadVendors({ payload }) {
       yield put(actions.vendorActions.getTypeaheadVendorsSuccess(response.data.content));
     }
   } catch (error) {
-    console.error(error);
     yield put(actions.vendorActions.getTypeaheadVendorsFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 

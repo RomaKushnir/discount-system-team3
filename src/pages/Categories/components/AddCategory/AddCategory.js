@@ -11,7 +11,9 @@ import * as actions from '../../../../store/actions';
 //   selectValidation, imageUrlValidation, idValidation, titleValidation
 // } from '../../../../utilities/validation';
 import {
-  selectValidation, imageUrlValidation, idValidation, titleValidation
+  // selectValidation,
+  // imageUrlValidation,
+  idValidation, titleValidation
 } from '../../../../utilities/validation';
 
 const inputStyles = {
@@ -21,9 +23,9 @@ const inputStyles = {
 
 const validate = {
   id: idValidation,
-  imageUrl: imageUrlValidation,
-  title: titleValidation,
-  tags: selectValidation
+  // imageUrl: imageUrlValidation,
+  title: titleValidation
+  // tags: selectValidation
 };
 
 function AddCategoryModal({ onSave, selectedCategory }) {
@@ -33,9 +35,9 @@ function AddCategoryModal({ onSave, selectedCategory }) {
   // const [tags, setTags] = useState([]);
   const [errors, setErrors] = useState({
     id: '',
-    imageUrl: '',
-    title: '',
-    tags: ''
+    // imageUrl: '',
+    title: ''
+    // tags: ''
   });
   const [touched, setTouched] = useState({ id: true, imageUrl: true, tags: true });
   const [isDisabled, setIsDisabled] = useState(false);

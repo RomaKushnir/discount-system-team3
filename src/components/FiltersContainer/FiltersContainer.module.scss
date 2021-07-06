@@ -2,6 +2,7 @@
   display: flex;
   padding: 10px 0;
   align-items: flex-end;
+  width: 100%;
 
     @media(max-width: 1220px) {
       padding: 10px;
@@ -15,7 +16,9 @@
     .filtersContainer {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       margin-bottom: 10px;
+      width: 100%;
 
         .smallColumn {
           display: flex;

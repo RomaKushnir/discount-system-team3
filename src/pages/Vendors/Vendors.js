@@ -10,8 +10,7 @@ import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
 import VendorsList from './components/VendorsList';
 import * as actions from '../../store/actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import SelectField from '../../components/SelectField';
@@ -119,65 +118,62 @@ function Vendors() {
   };
 
   return (
-    <div className={styles.container}>
-      <div>
-        <Header />
-        <main className={styles.contentWrapper}>
-          <FiltersContainer
-            onApplyButtonClick={onApplyButtonClick}
-            onChangeCountry = {onChangeCountry}
-            onChangeCity = {onChangeCity}
-            onChangeCategory = {onChangeCategory}
-            onVendorSelectOptionChange = {onVendorSelectOptionChange}
-            onVendorSelectInputChange = { onVendorSelectInputChange}
-            onVendorSelectBlur = {onVendorSelectBlur}
-            vendorsTypeaheadOptions = {vendorsTypeaheadOptions}
-            onSearchInputChange = {onSearchInputChange}
-            countriesList={countriesOptions}
-            citiesList={citiesOptions}
-            categoriesList={categoriesOptions}
-            filters = {vendorsFilters}
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
+        <FiltersContainer
+          onApplyButtonClick={onApplyButtonClick}
+          onChangeCountry = {onChangeCountry}
+          onChangeCity = {onChangeCity}
+          onChangeCategory = {onChangeCategory}
+          onVendorSelectOptionChange = {onVendorSelectOptionChange}
+          onVendorSelectInputChange = { onVendorSelectInputChange}
+          onVendorSelectBlur = {onVendorSelectBlur}
+          vendorsTypeaheadOptions = {vendorsTypeaheadOptions}
+          onSearchInputChange = {onSearchInputChange}
+          countriesList={countriesOptions}
+          citiesList={citiesOptions}
+          categoriesList={categoriesOptions}
+          filters = {vendorsFilters}
+        />
+        <div className={styles.vendorsActionsBlock}>
+          <AddNewItemButton
+            btnTitle="Add new vendor"
+            onAddNewItem={onModalOpen}
+            name = "add"
           />
-          <div className={styles.vendorsActionsBlock}>
-            <AddNewItemButton
-              btnTitle="Add new vendor"
-              onAddNewItem={onModalOpen}
-              name = "add"
+          <SelectField
+            value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
+            options={vendorsSortOptions}
+            onChange={onSortFilterChange}
+            isClearable={false}
             />
-            <SelectField
-              value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
-              options={vendorsSortOptions}
-              onChange={onSortFilterChange}
-              isClearable={false}
+        </div>
+        <Modal isOpen={isOpen} onClose={closeModal}>
+          <AddVendorModal
+            onSave={closeModal}
+            selectedVendor = {vendor}
+          />
+        </Modal>
+          <div>
+            {getVendorsStatus.loading === true
+              && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+            </div>}
+            {getVendorsStatus.loading === false
+              && <>
+              <VendorsList
+                vendors={vendors}
+                onEdit = {onModalOpen}
+                onDelete = {onDelete}
               />
-          </div>
-          <Modal isOpen={isOpen} onClose={closeModal}>
-            <AddVendorModal
-              onSave={closeModal}
-              selectedVendor = {vendor}
-            />
-          </Modal>
-            <div>
-              {getVendorsStatus.loading === true
-                && <div className = {styles.loadingContainer}>
-                <CircularProgress />
-              </div>}
-              {getVendorsStatus.loading === false
-                && <>
-                <VendorsList
-                  vendors={vendors}
-                  onEdit = {onModalOpen}
-                  onDelete = {onDelete}
-                />
-                {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
-                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
-                </>
-                }
-          </div>
-        </main>
+              {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
+                && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+              </>
+              }
+        </div>
       </div>
-      <Footer />
-    </div>
+    </PageWrapper>
+
   );
 }
 
