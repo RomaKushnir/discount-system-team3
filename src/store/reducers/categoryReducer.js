@@ -90,9 +90,7 @@ const categoryReducer = (state = initialState, action) => {
     }
     case types.DELETE_CATEGORY_SUCCESS: {
       const { payload } = action;
-      console.log(payload);
       const updatedCategories = state.categories.filter((el) => el.id !== payload);
-      console.log(updatedCategories);
       const successMessage = 'Category successfully deleted';
       return {
         ...state,

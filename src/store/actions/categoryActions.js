@@ -1,7 +1,6 @@
 import * as types from '../actionTypes';
 
 export function addCategory(payload) {
-  console.log(payload);
   return {
     type: types.ADD_CATEGORY,
     payload

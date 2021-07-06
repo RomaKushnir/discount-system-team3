@@ -10,14 +10,12 @@ import * as actions from '../actions';
 
 export function* addCategory({ payload }) {
   const { id, ...data } = payload;
-  console.log(payload);
 
   let response;
 
   try {
     if (id === '') {
       response = yield call(api.categories.addCategory, data);
-      console.log(response);
       yield put(actions.categoryActions.addCategorySuccess(response.data));
     } else {
       response = yield call(api.categories.updateCategory, payload);
@@ -31,10 +29,15 @@ export function* addCategory({ payload }) {
 export function* getCategories() {
   try {
     const response = yield call(api.categories.getCategories);
-    yield put(actions.categoryActions.getCategoriesSuccess(response.data));
+    const updatedResponse = response.data.map((el) => ({
+      ...el,
+      tags: [
+        { value: 'pizza', label: 'pizza' },
+        { value: 'water', label: 'water' }
+      ]
+    }));
+    yield put(actions.categoryActions.getCategoriesSuccess(updatedResponse));
   } catch (error) {
-    console.error(error);
-    console.log(error);
     yield put(actions.categoryActions.getCategoriesFailure(error));
   }
 }
@@ -45,8 +48,6 @@ export function* deleteCategory({ payload }) {
 
     yield put(actions.categoryActions.deleteCategorySuccess(payload));
   } catch (error) {
-    console.error(error);
-    console.log(error);
     yield put(actions.categoryActions.deleteCategoryFailure(error));
   }
 }

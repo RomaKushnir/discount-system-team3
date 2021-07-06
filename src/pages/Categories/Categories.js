@@ -12,23 +12,19 @@ import Footer from '../../components/Footer';
 import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
-import CategoryList from './components/CategoryList';
-import categoriesList from '../../mockData/categoriesList';
+import CategoriesList from './components/CategoriesList';
+// import categoriesList from '../../mockData/categoriesList';
 
 function Categories() {
   const [isOpen, setIsOpen] = useState(false);
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
-  console.log(categories);
   // const categories = useSelector(getCategoriesList);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('Use Effect');
     dispatch(actions.categoryActions.getCategories());
-    console.log('Work');
   }, [dispatch]);
   const onDelete = useCallback((id) => {
-    console.log('Delete');
     dispatch(actions.categoryActions.clearDeleteCategoryStatus());
     dispatch(actions.categoryActions.deleteCategory(id));
   }, [dispatch]);
@@ -70,11 +66,11 @@ function Categories() {
         />
       </div>
         <div className={styles.row}>
-        { categories
+        { categories.length
           ? <Fragment>
-          <CategoryList categories={categories} arrTags={categoriesList} onDelete = {onDelete} onEdit={onModalOpen}/>
+          <CategoriesList categories={categories} onDelete = {onDelete} onEdit={onModalOpen}/>
           </Fragment>
-          : <p>Category is not defined</p>
+          : <p>Categories is not defined</p>
         }
         </div>
         <Modal isOpen={isOpen} onClose={closeModal}>

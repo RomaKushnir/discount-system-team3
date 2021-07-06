@@ -24,12 +24,10 @@ function CategoryItem({
             e.stopPropagation();
             onEdit(e, category.id);
           }}
-          // onClick={(event) => event.stopPropagation()}
         />
         <ItemActionButton
           title="Delete"
           className={styles.deleteBtn}
-        //   onActionClick={onDeleteClick}
           type="delete"
           name = "delete"
           onActionClick={(e) => {
