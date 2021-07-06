@@ -14,11 +14,7 @@ import DiscountList from './components/DiscountList';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import CreateDiscount from './components/CreateDiscount';
-import {
-  getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
-  getDiscountsList
-} from '../../store/selectors';
+import { getDiscountsList } from '../../store/selectors';
 import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
@@ -35,12 +31,9 @@ function Discounts() {
     dispatch(actions.locationActions.getLocationsList());
   }, [dispatch]);
 
-  const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
-
   const discountsArray = useSelector(getDiscountsList);
+  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters); // TEMPORARY, should be discount filters
 
   const onModalOpen = () => {
     setModalState(true);
@@ -53,6 +46,24 @@ function Discounts() {
 
   const onApplyButtonClick = (parameters) => {
     console.log(parameters);
+  };
+  const onChangeCountry = (selectedCountry) => {
+    console.log(selectedCountry);
+  };
+
+  const onChangeCity = (city) => {
+    console.log(city);
+  };
+
+  const onChangeCategory = (category) => {
+    console.log(category);
+  };
+
+  const onVendorSelectOptionChange = (selectedVendor) => {
+    console.log(selectedVendor);
+  };
+  const onSearchInputChange = (descriptionSearchWord) => {
+    console.log(descriptionSearchWord);
   };
 
   const onSortFilterChange = () => {
@@ -86,11 +97,15 @@ function Discounts() {
           <FiltersContainer
             onApplyButtonClick = {onApplyButtonClick}
             className = {styles.discountsFilter}
-            countriesList={countriesOptions}
-            citiesList={citiesOptions}
-            categoriesList={[]}
+            onChangeCountry = { onChangeCountry}
+            onChangeCity = {onChangeCity}
+            onChangeCategory = {onChangeCategory}
+            onSearchInputChange = {onSearchInputChange}
+            onVendorSelectOptionChange = {onVendorSelectOptionChange}
+            onSortFilterChange
             sortOptions ={discountsSortOptions}
             onSortFilterChange = {onSortFilterChange}
+            filters = {vendorsFilters} // TEMPORARY, should be discount filters
             />
             <div className = {styles.discountsActions}>
               <AddNewItemButton

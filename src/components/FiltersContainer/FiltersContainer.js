@@ -1,7 +1,13 @@
+import { useSelector } from 'react-redux';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
 import TextInput from '../TextInput';
+import {
+  getTypeaheadVendorsOptions, getCountriesOptions, getCitiesOptions,
+  getCategoriesOptions
+} from '../../store/selectors';
+import useVendorTypeahead from '../../utilities/useVendorTypeahead';
 
 const inputStyles = {
   width: '200px',
@@ -14,17 +20,17 @@ function FiltersContainer({
   onChangeCity,
   onChangeCategory,
   onSearchInputChange,
-  countriesList,
-  citiesList,
-  categoriesList,
   filters,
   onVendorSelectOptionChange,
-  onVendorSelectInputChange,
-  onVendorSelectBlur,
-  vendorsTypeaheadOptions,
   sortOptions,
   onSortFilterChange
 }) {
+  const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesOptions);
+  const categoriesOptions = useSelector(getCategoriesOptions);
+
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
   };
@@ -47,14 +53,14 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               value = {{ value: filters?.country, label: filters?.country } || null}
-              options = {countriesList}
+              options = {countriesOptions}
               label = "Country"
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesList.filter((el) => el.country === filters?.country) || citiesList}
+                options = {citiesOptions.filter((el) => el.country === filters?.country) || citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
                 value = {{ value: filters?.city, label: filters?.city } || null}
@@ -62,10 +68,10 @@ function FiltersContainer({
             </div>
           <div className = {styles.filter}>
             <SelectField
-              options = {categoriesList}
+              options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {categoriesList.find((el) => el.id === +filters.category) || null}
+              value = {categoriesOptions.find((el) => el.id === +filters.category) || null}
             />
           </div>
           <div className = {styles.filter}>

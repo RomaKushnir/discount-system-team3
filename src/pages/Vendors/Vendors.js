@@ -16,13 +16,7 @@ import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
-import {
-  getCountriesOptions,
-  getVendorsList,
-  getCitiesOptions,
-  getCategoriesOptions,
-  getTypeaheadVendorsOptions
-} from '../../store/selectors';
+import { getVendorsList } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 
 function Vendors() {
@@ -30,13 +24,9 @@ function Vendors() {
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
   const vendors = useSelector(getVendorsList);
-  const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
-  const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
-  const categoriesOptions = useSelector(getCategoriesOptions);
-  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -89,14 +79,6 @@ function Vendors() {
     dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor?.label || '' }));
   };
 
-  const onVendorSelectInputChange = (characters) => {
-    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
-  };
-
-  const onVendorSelectBlur = () => {
-    dispatch(actions.vendorActions.clearVendorsTypeahead());
-  };
-
   const onSearchInputChange = (descriptionSearchWord) => {
     dispatch(actions.vendorActions.updateVendorsFilters({ description: descriptionSearchWord }));
   };
@@ -128,13 +110,7 @@ function Vendors() {
             onChangeCity = {onChangeCity}
             onChangeCategory = {onChangeCategory}
             onVendorSelectOptionChange = {onVendorSelectOptionChange}
-            onVendorSelectInputChange = { onVendorSelectInputChange}
-            onVendorSelectBlur = {onVendorSelectBlur}
-            vendorsTypeaheadOptions = {vendorsTypeaheadOptions}
             onSearchInputChange = {onSearchInputChange}
-            countriesList={countriesOptions}
-            citiesList={citiesOptions}
-            categoriesList={categoriesOptions}
             filters = {vendorsFilters}
             sortOptions ={vendorsSortOptions}
             onSortFilterChange = {onSortFilterChange}
