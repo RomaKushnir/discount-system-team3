@@ -14,7 +14,6 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
-import SelectField from '../../components/SelectField';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import {
@@ -137,6 +136,8 @@ function Vendors() {
             citiesList={citiesOptions}
             categoriesList={categoriesOptions}
             filters = {vendorsFilters}
+            sortOptions ={vendorsSortOptions}
+            onSortFilterChange = {onSortFilterChange}
           />
           <div className={styles.vendorsActionsBlock}>
             <AddNewItemButton
@@ -144,12 +145,6 @@ function Vendors() {
               onAddNewItem={onModalOpen}
               name = "add"
             />
-            <SelectField
-              value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
-              options={vendorsSortOptions}
-              onChange={onSortFilterChange}
-              isClearable={false}
-              />
           </div>
           <Modal isOpen={isOpen} onClose={closeModal}>
             <AddVendorModal

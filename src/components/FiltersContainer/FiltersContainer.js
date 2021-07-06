@@ -21,7 +21,9 @@ function FiltersContainer({
   onVendorSelectOptionChange,
   onVendorSelectInputChange,
   onVendorSelectBlur,
-  vendorsTypeaheadOptions
+  vendorsTypeaheadOptions,
+  sortOptions,
+  onSortFilterChange
 }) {
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -42,7 +44,6 @@ function FiltersContainer({
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
-        <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
               value = {{ value: filters?.country, label: filters?.country } || null}
@@ -59,16 +60,14 @@ function FiltersContainer({
                 value = {{ value: filters?.city, label: filters?.city } || null}
               />
             </div>
-        </div>
-        <div className = {styles.smallColumn}>
-          {categoriesList && <div className = {styles.filter}>
+          <div className = {styles.filter}>
             <SelectField
               options = {categoriesList}
               label = "Category"
               onChange = {onChangeCategories}
               value = {categoriesList.find((el) => el.id === +filters.category) || null}
             />
-          </div>}
+          </div>
           <div className = {styles.filter}>
             <SelectField
               options = {vendorsTypeaheadOptions}
@@ -80,20 +79,27 @@ function FiltersContainer({
               onBlur = {onVendorSelectBlur}
             />
           </div>
-        </div>
-      </div>
-      <div className = {styles.inputButtonColumn}>
-        <div className = {styles.inputContainer}>
-          <TextInput
-            onValueChange = {onChangeSearchInput}
-            label = "Search"
-            name = "Search"
-            placeholder = "Search..."
-            type = "search"
-            style = {inputStyles}
-            value = {filters?.description || ''}
-          />
-        </div>
+          <div className = {styles.filter}>
+            <TextInput
+              onValueChange = {onChangeSearchInput}
+              label = "Search"
+              name = "Search"
+              placeholder = "Search..."
+              type = "search"
+              style = {inputStyles}
+              value = {filters?.description || ''}
+            />
+          </div>
+          <div className = {styles.filter}>
+            <SelectField
+              value = {{ value: filters?.sort, label: filters?.sort } || null}
+              options={sortOptions}
+              onChange={onSortFilterChange}
+              isClearable={false}
+              label = "Sort"
+              className = {styles.filterSort}
+            />
+          </div>
         <div className = {styles.buttonContainer}>
         <Button
           btnText = "Apply"

@@ -10,7 +10,6 @@ import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import SelectField from '../../components/SelectField';
 import DiscountList from './components/DiscountList';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
@@ -56,7 +55,7 @@ function Discounts() {
     console.log(parameters);
   };
 
-  const onChange = () => {
+  const onSortFilterChange = () => {
     console.log('change');
   };
 
@@ -90,17 +89,14 @@ function Discounts() {
             countriesList={countriesOptions}
             citiesList={citiesOptions}
             categoriesList={[]}
+            sortOptions ={discountsSortOptions}
+            onSortFilterChange = {onSortFilterChange}
             />
             <div className = {styles.discountsActions}>
               <AddNewItemButton
                 btnTitle="Add new discount"
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
-              />
-              <SelectField
-                options = {discountsSortOptions}
-                initialValue = {discountsSortOptions[0]}
-                onChange = {onChange}
               />
             </div>
             <div className = {styles.discountsContainer}>
