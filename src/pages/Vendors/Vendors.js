@@ -25,7 +25,7 @@ import {
   getTypeaheadVendorsOptions
 } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
-import Roles from '../../roles';
+import isAdmin from '../../utilities/isAdmin';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -141,7 +141,7 @@ function Vendors() {
             filters = {vendorsFilters}
           />
           <div className={styles.vendorsActionsBlock}>
-            {user?.role.name === Roles.ADMIN && <AddNewItemButton
+            {isAdmin(user) && <AddNewItemButton
               btnTitle="Add new vendor"
               onAddNewItem={onModalOpen}
               name = "add"

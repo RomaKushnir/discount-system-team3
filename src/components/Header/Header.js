@@ -4,7 +4,7 @@ import * as actions from '../../store/actions';
 import Routes from '../../routes';
 import styles from './Header.module.scss';
 import OutlineButton from '../OutlineButton';
-import Roles from '../../roles';
+import isAdmin from '../../utilities/isAdmin';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
@@ -27,14 +27,14 @@ function Header() {
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className = {navItemStyles} data-admin="true">
-          {user?.role.name === Roles.ADMIN && <NavLink
+          {isAdmin(user) && <NavLink
             to={Routes.CATEGORIES}
             className={linkStyles}
             activeClassName={styles.activeClassName}
           >Categories</NavLink>}
           </li>
           <li className = {navItemStyles} data-admin="true">
-          {user?.role.name === Roles.ADMIN && <NavLink
+          {isAdmin(user) && <NavLink
             to={Routes.STATISTICS}
             className={linkStyles}
             activeClassName={styles.activeClassName}

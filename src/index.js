@@ -11,6 +11,7 @@ import * as actions from './store/actions';
 const token = localStorage.getItem('token');
 if (token) {
   appStorage.dispatch(actions.userActions.loginSuccess());
+  appStorage.dispatch(actions.userActions.getUser());
 }
 
 ReactDOM.render(

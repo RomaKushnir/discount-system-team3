@@ -23,7 +23,7 @@ import {
 import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
-import Roles from '../../roles';
+import isAdmin from '../../utilities/isAdmin';
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ function Discounts() {
             categoriesList={[]}
             />
             <div className = {styles.discountsActions}>
-            {user?.role.name === Roles.ADMIN && <AddNewItemButton
+            {isAdmin(user) && <AddNewItemButton
                 btnTitle="Add new discount"
                 onAddNewItem={onModalOpen}
                 name = "add_discount"

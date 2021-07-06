@@ -16,7 +16,7 @@ import Favourites from './pages/Favourites';
 import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 import Vendors from './pages/Vendors';
-import Roles from './roles';
+import isAdmin from './utilities/isAdmin';
 
 function App() {
   const user = useSelector((state) => state.userReducer.user);
@@ -30,12 +30,12 @@ function App() {
           <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
           <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>
           <PrivateRoute path = {Routes.STATISTICS} >
-            {user?.role.name === Roles.ADMIN ? <Statistics /> : <Redirect to={Routes.DISCOUNTS} />}
+            {isAdmin(user) ? <Statistics /> : <Redirect to={Routes.DISCOUNTS} />}
           </PrivateRoute>
           <PrivateRoute path = {Routes.FAVOURITES} component = {Favourites}/>
           <PrivateRoute path = {Routes.MY_DISCOUNTS} component = {MyDiscounts}/>
           <PrivateRoute path = {Routes.CATEGORIES}>
-            {user?.role.name === Roles.ADMIN ? <Categories /> : <Redirect to={Routes.DISCOUNTS} />}
+            {isAdmin(user) ? <Categories /> : <Redirect to={Routes.DISCOUNTS} />}
           </PrivateRoute>
         </Switch>
       </div>

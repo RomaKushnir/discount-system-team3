@@ -6,7 +6,7 @@ import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
-import Roles from '../../../../roles';
+import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
 
 function DiscountModal({
@@ -66,7 +66,7 @@ function DiscountModal({
       name = "delete"
     />
   </div>;
-  const adminBtns = user?.role.name === Roles.ADMIN ? adminBtnsLayout : null;
+  const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>

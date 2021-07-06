@@ -6,7 +6,7 @@ import styles from './VendorListItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
-import Roles from '../../../../roles';
+import isAdmin from '../../../../utilities/isAdmin';
 
 function VendorListItem({ vendor, onEdit, onDelete }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,7 +32,7 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
         <p className={styles.vendorDescription}>{vendor.description}</p>
       </div>
       <div className={styles.buttons}>
-      {user?.role.name === Roles.ADMIN && <>
+      {isAdmin(user) && <>
         <ItemActionButton
             title="Delete"
             className={styles.deleteBtn}
