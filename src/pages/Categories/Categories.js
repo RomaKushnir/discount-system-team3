@@ -1,8 +1,7 @@
 import React, {
   useState,
   useCallback,
-  useEffect,
-  Fragment
+  useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Categories.module.scss';
@@ -13,13 +12,11 @@ import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import CategoriesList from './components/CategoriesList';
-// import categoriesList from '../../mockData/categoriesList';
 
 function Categories() {
   const [isOpen, setIsOpen] = useState(false);
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
-  // const categories = useSelector(getCategoriesList);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.categoryActions.getCategories());
@@ -58,27 +55,22 @@ function Categories() {
     <div className = {styles.container}>
       <Header/>
       <main className={styles.contentWrapper}>
-      <div className={styles.row}>
-        <AddNewItemButton
-          btnTitle="Add new category"
-          onAddNewItem={onModalOpen}
-          name = "add"
-        />
-      </div>
         <div className={styles.row}>
-        { categories.length
-          ? <Fragment>
+          <AddNewItemButton
+            btnTitle="Add new category"
+            onAddNewItem={onModalOpen}
+            name = "add"
+          />
+        </div>
+        <div className={styles.row}>
           <CategoriesList categories={categories} onDelete = {onDelete} onEdit={onModalOpen}/>
-          </Fragment>
-          : <p>Categories is not defined</p>
-        }
         </div>
         <Modal isOpen={isOpen} onClose={closeModal}>
           <AddCategoryModal
             onSave={closeModal}
             selectedCategory = {addCategory}
           />
-      </Modal>
+        </Modal>
       </main>
       <Footer />
     </div>

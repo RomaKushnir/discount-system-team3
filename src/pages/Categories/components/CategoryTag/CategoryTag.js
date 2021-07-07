@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './CategoryTag.module.scss';
 
-function CategoryTagsList({ tag }) {
+function CategoryTag({ tag }) {
   return (
         <div className={styles.blockTags}>
         {
@@ -11,4 +11,4 @@ function CategoryTagsList({ tag }) {
   );
 }
 
-export default CategoryTagsList;
+export default CategoryTag;
