@@ -49,18 +49,28 @@ function FiltersContainer({
   };
 
   const categoriesOptionsMemoized = useMemo(
-    () => categoriesOptions.find((el) => el.id === +filters.category), [categoriesOptions, filters]
+    () => categoriesOptions.find(
+      (el) => el.id === +filters.category
+    ), [categoriesOptions, filters]
   );
   const citiesOptionsMemoized = useMemo(
-    () => citiesOptions.filter((el) => el.country === filters?.country), [citiesOptions, filters]
+    () => citiesOptions.filter(
+      (el) => el.country === filters?.country
+    ), [citiesOptions, filters]
   );
+
+  console.log(filters);
+  console.log(categoriesOptionsMemoized);
 
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
           <div className = {styles.filter}>
             <SelectField
-              value = {{ value: filters?.country, label: filters?.country } || null}
+              value = {{
+                value: filters?.country,
+                label: filters?.country
+              } || null}
               options = {countriesOptions}
               label = "Country"
               onChange = {onChangeCountries}
@@ -71,7 +81,10 @@ function FiltersContainer({
                 options = {citiesOptionsMemoized || citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
-                value = {{ value: filters?.city, label: filters?.city } || null}
+                value = {{
+                  value: filters?.discountsCity,
+                  label: filters?.discountsCity
+                } || null}
               />
             </div>
           <div className = {styles.filter}>
@@ -85,7 +98,10 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {vendorsTypeaheadOptions}
-              value = {{ value: filters?.title, label: filters?.title } || ''}
+              value = {{
+                value: filters?.title,
+                label: filters?.title
+              } || ''}
               label = "Vendor (Min 3 chars)"
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
@@ -101,7 +117,7 @@ function FiltersContainer({
               placeholder = "Search..."
               type = "search"
               style = {inputStyles}
-              value = {filters?.description || ''}
+              value = {filters?.description || filters?.shortDescription || ''}
             />
           </div>
           <div className = {styles.filter}>

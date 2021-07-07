@@ -154,9 +154,8 @@ export function clearVendorsTypeahead() {
   };
 }
 
-export function clearVendorsFilters(payload) {
+export function clearVendorsFilters() {
   return {
-    type: types.CLEAR_VENDORS_FILTERS,
-    payload
+    type: types.CLEAR_VENDORS_FILTERS
   };
 }

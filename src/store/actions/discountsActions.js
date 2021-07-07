@@ -1,8 +1,9 @@
 import * as types from '../actionTypes';
 
-export function getDiscountsList() {
+export function getDiscountsList(payload) {
   return {
-    type: types.GET_DISCOUNTS
+    type: types.GET_DISCOUNTS,
+    payload
   };
 }
 
@@ -20,7 +21,7 @@ export function getDiscountsListFailure(payload) {
   };
 }
 
-export function getDiscountsClearStatus() {
+export function clearGetDiscountsStatus() {
   return {
     type: types.CLEAR_GET_DISCOUNTS_STATUS
   };
@@ -92,5 +93,11 @@ export function applyDiscountsFilters(payload) {
   return {
     type: types.APPLY_DISCOUNTS_FILTERS,
     payload
+  };
+}
+
+export function clearDiscountsFilters() {
+  return {
+    type: types.CLEAR_DISCOUNTS_FILTERS
   };
 }
