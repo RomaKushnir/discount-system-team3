@@ -48,6 +48,13 @@ function FiltersContainer({
     onChangeCategory(selectedOption);
   };
 
+  const categoriesOptionsMemoized = useMemo(
+    () => categoriesOptions.find((el) => el.id === +filters.category), [categoriesOptions, filters]
+  );
+  const citiesOptionsMemoized = useMemo(
+    () => citiesOptions.filter((el) => el.country === filters?.country), [citiesOptions, filters]
+  );
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -61,9 +68,7 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {
-                  useMemo(() => citiesOptions.filter((el) => el.country === filters?.country), [citiesOptions, filters])
-                  || citiesOptions}
+                options = {citiesOptionsMemoized || citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
                 value = {{ value: filters?.city, label: filters?.city } || null}
@@ -74,9 +79,7 @@ function FiltersContainer({
               options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {
-                useMemo(() => categoriesOptions.find((el) => el.id === +filters.category), [categoriesOptions, filters])
-                || null}
+              value = {categoriesOptionsMemoized || null}
             />
           </div>
           <div className = {styles.filter}>
