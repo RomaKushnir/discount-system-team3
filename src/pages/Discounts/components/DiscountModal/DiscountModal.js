@@ -6,12 +6,15 @@ import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
+import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
 
 function DiscountModal({
-  discount, isAdmin = true, onClose, isOpen, onDeleteDiscount
+  discount, onClose, isOpen, onDeleteDiscount
 }) {
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
+  const user = useSelector((state) => state.userReducer.user);
+
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
@@ -63,7 +66,7 @@ function DiscountModal({
       name = "delete"
     />
   </div>;
-  const adminBtns = isAdmin ? adminBtnsLayout : null;
+  const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>

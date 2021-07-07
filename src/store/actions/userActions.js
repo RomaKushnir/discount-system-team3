@@ -26,3 +26,29 @@ export function clearLoginStatus() {
     type: types.CLEAR_LOGIN_STATUS
   };
 }
+
+export function getUser() {
+  return {
+    type: types.GET_USER
+  };
+}
+
+export function getUserSuccess(payload) {
+  return {
+    type: types.GET_USER_SUCCESS,
+    payload
+  };
+}
+
+export function getUserFailure(payload) {
+  return {
+    type: types.GET_USER_FAILURE,
+    payload
+  };
+}
+
+export function clearGetUserStatus() {
+  return {
+    type: types.CLEAR_GET_USER_STATUS
+  };
+}

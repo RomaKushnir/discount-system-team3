@@ -1,9 +1,10 @@
 import { Link, NavLink, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
 import Routes from '../../routes';
 import styles from './Header.module.scss';
 import OutlineButton from '../OutlineButton';
+import isAdmin from '../../utilities/isAdmin';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
@@ -12,9 +13,12 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const user = useSelector((state) => state.userReducer.user);
+
   const onLogoutClick = () => {
     localStorage.removeItem('token');
     dispatch(actions.userActions.clearLoginStatus());
+    dispatch(actions.userActions.clearGetUserStatus());
     history.push(Routes.ROOT);
   };
   return (
@@ -23,18 +27,18 @@ function Header() {
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className = {navItemStyles} data-admin="true">
-          <NavLink
+          {isAdmin(user) && <NavLink
             to={Routes.CATEGORIES}
             className={linkStyles}
             activeClassName={styles.activeClassName}
-          >Categories</NavLink>
+          >Categories</NavLink>}
           </li>
           <li className = {navItemStyles} data-admin="true">
-          <NavLink
+          {isAdmin(user) && <NavLink
             to={Routes.STATISTICS}
             className={linkStyles}
             activeClassName={styles.activeClassName}
-          >Statistics</NavLink>
+          >Statistics</NavLink>}
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
