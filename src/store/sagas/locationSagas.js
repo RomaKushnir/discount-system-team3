@@ -15,7 +15,6 @@ export function* getLocations() {
     yield put(actions.locationActions.getLocationsListSuccess(response.data));
   } catch (error) {
     console.error(error);
-    console.log(error);
     yield put(actions.locationActions.getLocationsListFailure(error));
   }
 }
@@ -27,14 +26,24 @@ export function* getLocationById({ payload }) {
     yield put(actions.locationActions.getLocationByIdSuccess(response.data));
   } catch (error) {
     console.error(error);
-    console.log(error);
     yield put(actions.locationActions.getLocationByIdFailure(error));
+  }
+}
+
+export function* getCountries() {
+  try {
+    const response = yield call(api.locations.getCountries);
+
+    yield put(actions.locationActions.getCountriesSuccess(response.data));
+  } catch (error) {
+    yield put(actions.locationActions.getCountriesFailure(error));
   }
 }
 
 export default function* watch() {
   yield all([
     takeEvery(types.GET_LOCATIONS_LIST, getLocations),
-    takeEvery(types.GET_LOCATION_BY_ID, getLocationById)
+    takeEvery(types.GET_LOCATION_BY_ID, getLocationById),
+    takeEvery(types.GET_COUNTRIES, getCountries)
   ]);
 }

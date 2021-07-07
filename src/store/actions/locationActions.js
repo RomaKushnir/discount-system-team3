@@ -40,3 +40,29 @@ export function getLocationByIdFailure(payload) {
     payload
   };
 }
+
+export function getCountries() {
+  return {
+    type: types.GET_COUNTRIES
+  };
+}
+
+export function getCountriesSuccess(payload) {
+  return {
+    type: types.GET_COUNTRIES_SUCCESS,
+    payload
+  };
+}
+
+export function getCountriesFailure(payload) {
+  return {
+    type: types.GET_COUNTRIES_FAILURE,
+    payload
+  };
+}
+
+export function clearGetCountriesStatus() {
+  return {
+    type: types.CLEAR_GET_COUNTRIES_STATUS
+  };
+}
