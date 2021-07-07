@@ -9,6 +9,7 @@ const useVendorsQueryChecker = () => {
   const [urlQueryString, setUrlQueryString] = useState(history.location.search);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const appliedFiltersQueryString = convertFilterParametersToUrl(vendorsFiltersApplied);
+  const userCountry = useSelector((state) => state.userReducer.user.location.country);
 
   const { queryParams, sortParams } = appliedFiltersQueryString;
 
@@ -23,12 +24,15 @@ const useVendorsQueryChecker = () => {
     return () => {
       isSubscribed = false;
     };
+    // eslint-disable-next-line
   }, []);
+
+  console.log(urlQueryString, querySortParams);
 
   useEffect(() => {
     if (urlQueryString !== querySortParams) {
       const urlFilters = convertUrlToFilterParameters(urlQueryString);
-      dispatch(actions.vendorActions.clearVendorsFilters());
+      dispatch(actions.vendorActions.clearVendorsFilters({ country: userCountry }));
       dispatch(actions.vendorActions.updateVendorsFilters(urlFilters));
       dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
     }

@@ -22,7 +22,7 @@ export function getDiscountsListFailure(payload) {
 
 export function getDiscountsClearStatus() {
   return {
-    type: types.GET_DISCOUNTS_CLEAR_STATUS
+    type: types.CLEAR_GET_DISCOUNTS_STATUS
   };
 }
 

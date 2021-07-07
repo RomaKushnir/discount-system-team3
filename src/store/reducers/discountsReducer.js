@@ -31,7 +31,7 @@ const discountsReducer = (state = initialState, action) => {
         getDiscountsStatus: helpers.getErrorState(payload)
       };
     }
-    case types.GET_DISCOUNTS_CLEAR_STATUS: {
+    case types.CLEAR_GET_DISCOUNTS_STATUS: {
       return {
         ...state,
         getDiscountsStatus: helpers.getDefaultState()
