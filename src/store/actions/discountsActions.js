@@ -79,3 +79,18 @@ export function clearDeleteDiscountStatus() {
     type: types.CLEAR_DELETE_DISCOUNT_STATUS
   };
 }
+
+export function updateDiscountsFilters(payload) {
+  return {
+    type: types.UPDATE_DISCOUNTS_FILTERS,
+    payload
+
+  };
+}
+
+export function applyDiscountsFilters(payload) {
+  return {
+    type: types.APPLY_DISCOUNTS_FILTERS,
+    payload
+  };
+}
