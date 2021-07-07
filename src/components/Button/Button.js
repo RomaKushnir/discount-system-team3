@@ -5,11 +5,12 @@ function Button({
   onClick,
   isDisabled = false,
   name,
-  type
+  className = '',
+  type = 'button'
 }) {
   return (
     <button
-      className = {styles.btn}
+      className = {`${styles.btn} ${className}`}
       onClick = {onClick}
       disabled = {isDisabled}
       name = {name}

@@ -4,12 +4,14 @@ import * as helpers from '../helpers';
 const initialState = {
   locationsList: [],
   selectedLocation: {},
+  createdLocation: {},
   getLocationsStatus: helpers.getDefaultState(),
   getLocationByIdStatus: helpers.getDefaultState(),
   countries: [],
   getCountriesStatus: helpers.getDefaultState(),
   cities: [],
-  getCitiesStatus: helpers.getDefaultState()
+  getCitiesStatus: helpers.getDefaultState(),
+  createLocationStatus: helpers.getDefaultState()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -108,6 +110,33 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         getCitiesStatus: helpers.getRequestState()
+      };
+    }
+    case types.CREATE_LOCATION: {
+      return {
+        ...state,
+        createLocationStatus: helpers.getRequestState()
+      };
+    }
+    case types.CREATE_LOCATION_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        createdLocation: payload,
+        createLocationStatus: helpers.getSuccessState('Success!')
+      };
+    }
+    case types.CREATE_LOCATION_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        createLocationStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_CREATE_LOCATION_STATUS: {
+      return {
+        ...state,
+        createLocationStatus: helpers.getDefaultState()
       };
     }
     default:

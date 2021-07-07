@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
-import SelectField from '../../../../components/SelectField';
+import AddNewItemButton from '../../../../components/AddNewItemButton';
+import LocationModal from '../LocationModal';
+import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
 import {
   idValidation,
@@ -14,11 +17,6 @@ import {
   companyDescriptionValidation,
   selectValidation
 } from '../../../../utilities/validation';
-import { getCitiesOptions } from '../../../../store/selectors';
-
-const inputStyles = {
-  width: '300px'
-};
 
 const validate = {
   id: idValidation,
@@ -43,10 +41,18 @@ function AddVendorModal({ onSave, selectedVendor }) {
   });
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [vendorLocations, setVendorLocations] = useState([
+    {
+      country: 'Ukraine',
+      city: 'Vinnitsa',
+      address: 'Porika 14',
+      id: '11'
+    }
+  ]);
 
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
-  const citiesOptions = useSelector(getCitiesOptions);
-  const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
+  // const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -77,20 +83,6 @@ function AddVendorModal({ onSave, selectedVendor }) {
     setErrors({
       ...errors,
       ...error && { [name]: touched[name] && error }
-    });
-
-    setIsDisabled(false);
-  };
-
-  const onChangeLocation = (selectedOption) => {
-    setVendor({
-      ...vendor,
-      location: selectedOption
-    });
-
-    setErrors({
-      ...errors,
-      location: ''
     });
 
     setIsDisabled(false);
@@ -146,8 +138,25 @@ function AddVendorModal({ onSave, selectedVendor }) {
     dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
   };
 
+  const openAddLocationModal = useCallback(() => {
+    setIsLocationModalOpen(true);
+  }, []);
+
+  const closeAddLocationModal = useCallback(() => {
+    setIsLocationModalOpen(false);
+  }, []);
+
+  const addLocationToVendor = (location) => {
+    setVendorLocations([...vendorLocations, location]);
+  };
+
+  const deleteLocationHandler = (id) => {
+    const filteredLocations = vendorLocations.filter((el) => el.id !== id);
+    setVendorLocations(filteredLocations);
+  };
+
   return (
-    <div className = {styles.container}>
+    <div className = {`${styles.container} ${isLocationModalOpen ? styles.hidden : ''}`}>
       {addVendorStatus.loading === false && addVendorStatus.success
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{addVendorStatus.success}</div>
@@ -162,12 +171,11 @@ function AddVendorModal({ onSave, selectedVendor }) {
         <CircularProgress />
       </div>}
       <form>
-      <div className = {styles.inputs}>
         <TextInput
           onValueChange = {onValueChange}
           placeholder = "Company name"
           label = "Company name"
-          style = {inputStyles}
+          className={styles.inputContainer}
           name = "title"
           type = "text"
           value = {vendor.title}
@@ -180,7 +188,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
           onValueChange = {onValueChange}
           placeholder = "Email"
           label = "Email"
-          style = {inputStyles}
+          className={styles.inputContainer}
           name = "email"
           type="email"
           value = {vendor.email}
@@ -193,49 +201,69 @@ function AddVendorModal({ onSave, selectedVendor }) {
           onValueChange = {onValueChange}
           placeholder = "Image Url"
           label = "Image Url"
-          style = {inputStyles}
           name = "imageUrl"
           type = "url"
+          className={styles.inputContainer}
           value = {vendor.imageUrl}
           onBlur={onBlur}
           required
           touched = {touched.imageUrl}
           error = {errors.imageUrl}
         />
-        <SelectField
-          options = {citiesOptions}
-          initialValue = {initialLocation}
-          label = "Location"
-          placeholder = "Select location"
-          onChange = {onChangeLocation}
-          error = {errors.location}
+        <div className={styles.locationBlock}>
+          <div className={styles.locationsList}>
+            {vendorLocations.map((el) => (
+              <div className={styles.locationItem} key={el.id}>
+                <p>{`${el.country}, ${el.city}, ${el.address}`}</p>
+                <DeleteForever
+                  className={styles.deleteBtn}
+                  onClick={() => deleteLocationHandler(el.id)}
+                />
+              </div>
+            ))}
+          </div>
+          <AddNewItemButton
+            btnTitle="Add location"
+            onAddNewItem={openAddLocationModal}
+            className={styles.AddBtnStyles}
+            iconSize="default"
+          />
+        </div>
+        <textarea
+          onChange = {onValueChange}
+          className = {styles.description}
+          placeholder = "Description"
+          value = {vendor.description}
+          name = "description"
+          onBlur={onBlur}
+          required
+          touched = {touched.description ? 1 : 0}
         />
-      </div>
-      <textarea
-        onChange = {onValueChange}
-        className = {styles.description}
-        placeholder = "Description"
-        value = {vendor.description}
-        name = "description"
-        onBlur={onBlur}
-        required
-        touched = {touched.description ? 1 : 0}
-      />
-      <div className = {styles.error}>{errors.description}</div>
-      {addVendorStatus.loading === false && addVendorStatus.error
-      && <div className = {styles.errorMessage}>
-        {addVendorStatus.error.message}
-      </div>
-      }
-      <div className = {styles.buttonContainer}>
-        <Button
-          btnText = "Save"
-          onClick = {onSaveButtonClick}
-          isDisabled = {isDisabled}
-          type = "submit"
-        />
-      </div>
+        <div className = {styles.error}>{errors.description}</div>
+        {addVendorStatus.loading === false && addVendorStatus.error
+        && <div className = {styles.errorMessage}>
+          {addVendorStatus.error.message}
+        </div>
+        }
+        <div className = {styles.buttonContainer}>
+          <Button
+            btnText = "Submit"
+            onClick = {onSaveButtonClick}
+            isDisabled = {isDisabled}
+            type = "submit"
+          />
+        </div>
       </form>
+      <Modal
+        isOpen={isLocationModalOpen}
+        onClose={closeAddLocationModal}
+        isOverlayTransparent={isLocationModalOpen}
+      >
+        <LocationModal
+          onModalClose={closeAddLocationModal}
+          addLocationToVendor={addLocationToVendor}
+        />
+      </Modal>
     </div>
   );
 }
