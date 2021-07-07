@@ -18,6 +18,7 @@ import { getDiscountsList } from '../../store/selectors';
 import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
+import isAdmin from '../../utilities/isAdmin';
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Discounts() {
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountsList());
@@ -109,11 +111,11 @@ function Discounts() {
             filters = {vendorsFilters} // TEMPORARY, should be discount filters
             />
             <div className = {styles.discountsActions}>
-              <AddNewItemButton
+            {isAdmin(user) && <AddNewItemButton
                 btnTitle="Add new discount"
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
-              />
+              />}
             </div>
             <div className = {styles.discountsContainer}>
             {getDiscountsStatus.loading === true

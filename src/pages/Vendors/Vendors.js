@@ -18,6 +18,7 @@ import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
 import { getVendorsList } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
+import isAdmin from '../../utilities/isAdmin';
 
 function Vendors() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function Vendors() {
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -116,11 +118,11 @@ function Vendors() {
             onSortFilterChange = {onSortFilterChange}
           />
           <div className={styles.vendorsActionsBlock}>
-            <AddNewItemButton
+            {isAdmin(user) && <AddNewItemButton
               btnTitle="Add new vendor"
               onAddNewItem={onModalOpen}
               name = "add"
-            />
+            />}
           </div>
           <Modal isOpen={isOpen} onClose={closeModal}>
             <AddVendorModal
