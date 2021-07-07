@@ -16,12 +16,14 @@ import {
   getCategoriesOptions,
   getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
+import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
 
 function CreateDiscount({
   discount,
   onModalClose
 }) {
   const dispatch = useDispatch();
+  const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
@@ -113,14 +115,6 @@ function CreateDiscount({
     formik.setFieldValue(name, value, true);
   };
 
-  const onVendorSelectChange = (characters) => {
-    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
-  };
-
-  const onVendorSelectBlur = () => {
-    dispatch(actions.vendorActions.clearVendorsTypeahead());
-  };
-
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
@@ -161,7 +155,7 @@ function CreateDiscount({
             placeholder = "Select vendor"
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
-            onInputChange={(characters) => onVendorSelectChange(characters)}
+            onInputChange={(characters) => onVendorSelectInputChange(characters)}
             error = {formik.errors.vendorId}
             onBlur = {onVendorSelectBlur}
           />

@@ -6,6 +6,6 @@ export const discountsSortOptions = [
 ];
 
 export const vendorsSortOptions = [
-  { value: 'ASC', label: 'Name asc' },
-  { value: 'DESC', label: 'Name desc' }
+  { value: 'ASC', label: 'ASC' },
+  { value: 'DESC', label: 'DESC' }
 ];
