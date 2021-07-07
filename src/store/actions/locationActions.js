@@ -1,8 +1,9 @@
 import * as types from '../actionTypes';
 
-export function getLocationsList() {
+export function getLocationsList(payload) {
   return {
-    type: types.GET_LOCATIONS_LIST
+    type: types.GET_LOCATIONS_LIST,
+    payload
   };
 }
 

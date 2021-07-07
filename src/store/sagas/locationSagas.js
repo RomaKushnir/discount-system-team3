@@ -8,9 +8,18 @@ import * as types from '../actionTypes';
 import * as actions from '../actions';
 import * as api from '../../api';
 
-export function* getLocations() {
+export function* getLocations({ payload }) {
   try {
-    const response = yield call(api.locations.getLocations);
+    console.log(payload);
+    let searchParams = null;
+
+    if (payload?.countryCode) {
+      searchParams = `?query=country.countryCode:${payload.countryCode}`;
+    } else if (payload?.city) {
+      searchParams = `?query=city:${payload.city}`;
+    }
+
+    const response = yield call(api.locations.getLocations, searchParams);
 
     yield put(actions.locationActions.getLocationsListSuccess(response.data));
   } catch (error) {
