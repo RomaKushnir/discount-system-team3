@@ -13,30 +13,21 @@ import * as actions from '../../store/actions';
 import PageWrapper from '../../components/PageWrapper';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
-import SelectField from '../../components/SelectField';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
-import {
-  getCountriesOptions,
-  getVendorsList,
-  getCitiesOptions,
-  getCategoriesOptions,
-  getTypeaheadVendorsOptions
-} from '../../store/selectors';
+import { getVendorsList } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
+import isAdmin from '../../utilities/isAdmin';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
   const vendors = useSelector(getVendorsList);
-  const countriesOptions = useSelector(getCountriesOptions);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
-  const citiesOptions = useSelector(getCitiesOptions);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
-  const categoriesOptions = useSelector(getCategoriesOptions);
-  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -89,14 +80,6 @@ function Vendors() {
     dispatch(actions.vendorActions.updateVendorsFilters({ title: selectedVendor?.label || '' }));
   };
 
-  const onVendorSelectInputChange = (characters) => {
-    dispatch(actions.vendorActions.getTypeaheadVendors(characters));
-  };
-
-  const onVendorSelectBlur = () => {
-    dispatch(actions.vendorActions.clearVendorsTypeahead());
-  };
-
   const onSearchInputChange = (descriptionSearchWord) => {
     dispatch(actions.vendorActions.updateVendorsFilters({ description: descriptionSearchWord }));
   };
@@ -118,61 +101,51 @@ function Vendors() {
   };
 
   return (
-    <PageWrapper>
-      <div className={styles.contentWrapper}>
-        <FiltersContainer
-          onApplyButtonClick={onApplyButtonClick}
-          onChangeCountry = {onChangeCountry}
-          onChangeCity = {onChangeCity}
-          onChangeCategory = {onChangeCategory}
-          onVendorSelectOptionChange = {onVendorSelectOptionChange}
-          onVendorSelectInputChange = { onVendorSelectInputChange}
-          onVendorSelectBlur = {onVendorSelectBlur}
-          vendorsTypeaheadOptions = {vendorsTypeaheadOptions}
-          onSearchInputChange = {onSearchInputChange}
-          countriesList={countriesOptions}
-          citiesList={citiesOptions}
-          categoriesList={categoriesOptions}
-          filters = {vendorsFilters}
-        />
-        <div className={styles.vendorsActionsBlock}>
-          <AddNewItemButton
-            btnTitle="Add new vendor"
-            onAddNewItem={onModalOpen}
-            name = "add"
-          />
-          <SelectField
-            value = {{ value: vendorsFilters?.sort, label: vendorsFilters?.sort } || null}
-            options={vendorsSortOptions}
-            onChange={onSortFilterChange}
-            isClearable={false}
-            />
-        </div>
-        <Modal isOpen={isOpen} onClose={closeModal}>
-          <AddVendorModal
-            onSave={closeModal}
-            selectedVendor = {vendor}
-          />
-        </Modal>
-          <div>
-            {getVendorsStatus.loading === true
-              && <div className = {styles.loadingContainer}>
-              <CircularProgress />
-            </div>}
-            {getVendorsStatus.loading === false
-              && <>
-              <VendorsList
-                vendors={vendors}
-                onEdit = {onModalOpen}
-                onDelete = {onDelete}
-              />
-              {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
-                && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
-              </>
-              }
-        </div>
+<PageWrapper>
+  <div className={styles.contentWrapper}>
+      <FiltersContainer
+        onApplyButtonClick={onApplyButtonClick}
+        onChangeCountry = {onChangeCountry}
+        onChangeCity = {onChangeCity}
+        onChangeCategory = {onChangeCategory}
+        onVendorSelectOptionChange = {onVendorSelectOptionChange}
+        onSearchInputChange = {onSearchInputChange}
+        filters = {vendorsFilters}
+        sortOptions ={vendorsSortOptions}
+        onSortFilterChange = {onSortFilterChange}
+      />
+      <div className={styles.vendorsActionsBlock}>
+        {isAdmin(user) && <AddNewItemButton
+          btnTitle="Add new vendor"
+          onAddNewItem={onModalOpen}
+          name = "add"
+        />}
       </div>
-    </PageWrapper>
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        <AddVendorModal
+          onSave={closeModal}
+          selectedVendor = {vendor}
+        />
+      </Modal>
+        <div>
+          {getVendorsStatus.loading === true
+            && <div className = {styles.loadingContainer}>
+            <CircularProgress />
+          </div>}
+          {getVendorsStatus.loading === false
+            && <>
+            <VendorsList
+              vendors={vendors}
+              onEdit = {onModalOpen}
+              onDelete = {onDelete}
+            />
+            {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
+              && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+            </>
+            }
+      </div>
+    </div>
+  </PageWrapper>
 
   );
 }

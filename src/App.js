@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import './App.scss';
 import Routes from './routes';
@@ -14,8 +16,10 @@ import Favourites from './pages/Favourites';
 import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 import Vendors from './pages/Vendors';
+import isAdmin from './utilities/isAdmin';
 
 function App() {
+  const user = useSelector((state) => state.userReducer.user);
   return (
     <BrowserRouter>
       <div className="App">
@@ -25,10 +29,14 @@ function App() {
           <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>
           <PrivateRoute path = {Routes.VENDOR_ID} component = {Vendor}/>
           <PrivateRoute path = {Routes.VENDORS} component = {Vendors}/>
-          <PrivateRoute path = {Routes.STATISTICS} component = {Statistics}/>
+          <PrivateRoute path = {Routes.STATISTICS} >
+            {isAdmin(user) ? <Statistics /> : <Redirect to={Routes.DISCOUNTS} />}
+          </PrivateRoute>
           <PrivateRoute path = {Routes.FAVOURITES} component = {Favourites}/>
           <PrivateRoute path = {Routes.MY_DISCOUNTS} component = {MyDiscounts}/>
-          <PrivateRoute path = {Routes.CATEGORIES} component = {Categories}/>
+          <PrivateRoute path = {Routes.CATEGORIES}>
+            {isAdmin(user) ? <Categories /> : <Redirect to={Routes.DISCOUNTS} />}
+          </PrivateRoute>
         </Switch>
       </div>
     </BrowserRouter>

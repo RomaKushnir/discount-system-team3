@@ -72,7 +72,6 @@ function Login() {
       && email && password // no empty fields
       && emailTouched && passwordTouched // every touched field is true
     ) {
-      console.log({ email, password });
       setLoginDisabled(false);
       dispatch(actions.userActions.login({ email, password }));
     } else {
