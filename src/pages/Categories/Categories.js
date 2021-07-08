@@ -29,17 +29,9 @@ function Categories() {
 
     if (e.target.name === 'edit') {
       const selectedCategory = categories.find((el) => el.id === id);
-
       setCategory(selectedCategory);
-
-      setCategory({
-        // imageUrl: 'https://picsum.photos/200?random=8',
-        title: 'Food',
-        id: 5
-      }); // temporary while we don't have list of categories
     } else {
       setCategory({
-        // imageUrl: '',
         title: '',
         id: ''
       });

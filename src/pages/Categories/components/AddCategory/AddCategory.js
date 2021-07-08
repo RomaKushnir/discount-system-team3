@@ -1,19 +1,18 @@
-import { useState } from 'react';
-// import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddCategory.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
-// import CreatableSelectField from '../../../../components/CreatableSelectField';
+import CreatableSelectField from '../../../../components/CreatableSelectField';
 import * as actions from '../../../../store/actions';
 // import {
 //   selectValidation, imageUrlValidation, idValidation, titleValidation
 // } from '../../../../utilities/validation';
 import {
-  // selectValidation,
-  // imageUrlValidation,
-  idValidation, titleValidation
+  selectValidation,
+  idValidation,
+  titleValidation
 } from '../../../../utilities/validation';
 
 const inputStyles = {
@@ -23,21 +22,19 @@ const inputStyles = {
 
 const validate = {
   id: idValidation,
-  // imageUrl: imageUrlValidation,
-  title: titleValidation
-  // tags: selectValidation
+  title: titleValidation,
+  tags: selectValidation
 };
 
 function AddCategoryModal({ onSave, selectedCategory }) {
   const dispatch = useDispatch();
 
   const [category, setCategory] = useState(selectedCategory);
-  // const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([]);
   const [errors, setErrors] = useState({
     id: '',
-    // imageUrl: '',
-    title: ''
-    // tags: ''
+    title: '',
+    tags: ''
   });
   const [touched, setTouched] = useState({ id: true, imageUrl: true, tags: true });
   const [isDisabled, setIsDisabled] = useState(false);
@@ -124,20 +121,20 @@ function AddCategoryModal({ onSave, selectedCategory }) {
   const onOkClick = () => {
     onSave();
     dispatch(actions.categoryActions.clearAddCategoryStatus());
-    // dispatch(actions.categoryActions.getCategories()); // uncomment when we have redux flow for this
+    dispatch(actions.categoryActions.getCategories()); // uncomment when we have redux flow for this
   };
 
-  // const handleTagsChange = useCallback(() => (newValue, actionMeta) => {
-  //   console.group('Value Changed');
-  //   console.log(newValue);
-  //   console.log(actionMeta);
-  //   console.log(`action: ${actionMeta.action}`);
-  //   console.groupEnd();
-  //   const newValuesOnly = new Set(newValue.filter((el) => !el.id).map((el) => el.value));
-  //   setTags([...newValuesOnly]);
-  // }, []);
+  const handleTagsChange = useCallback(() => (newValue, actionMeta) => {
+    console.group('Value Changed');
+    console.log(newValue);
+    console.log(actionMeta);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+    const newValuesOnly = new Set(newValue.filter((el) => !el.id).map((el) => el.value));
+    setTags([...newValuesOnly]);
+  }, []);
 
-  // console.log(tags);
+  console.log(tags);
 
   return (
     <div className = {styles.container}>
@@ -170,14 +167,14 @@ function AddCategoryModal({ onSave, selectedCategory }) {
           error = {errors.title}
           className = {styles.title}
         />
-        {/* <CreatableSelectField
+        <CreatableSelectField
           isMulti
           label = "Tags"
           options = {tags}
           onChange = {handleTagsChange}
           error = {errors.tags}
           className = {styles.creatableSelect}
-        /> */}
+        />
       </div>
       {addCategoryStatus.loading === false && addCategoryStatus.error
       && <div className = {styles.errorMessage}>
