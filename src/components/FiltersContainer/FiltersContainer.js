@@ -116,12 +116,12 @@ function FiltersContainer({
               placeholder = "Search..."
               type = "search"
               style = {inputStyles}
-              value = {filters.description || filters.shortDescription}
+              value = {filters.description || filters.shortDescription || ''}
             />
           </div>
           <div className = {styles.filter}>
             <SelectField
-              value = {sortOptionMemoized || ''}
+              value = {sortOptionMemoized }
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
