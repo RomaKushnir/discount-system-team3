@@ -24,7 +24,7 @@ export function* login({ payload }) {
 export function* getUser() {
   try {
     const response = yield call(api.user.getUser);
-    yield put(actions.userActions.getUserSuccess(response));
+    yield put(actions.userActions.getUserSuccess(response.data));
   } catch (error) {
     console.error(error);
     yield put(actions.userActions.getUserFailure(error));
