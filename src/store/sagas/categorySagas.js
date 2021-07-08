@@ -11,14 +11,12 @@ import * as actions from '../actions';
 
 export function* addCategory({ payload }) {
   const { id, ...data } = payload;
-  console.log(payload);
 
   let response;
 
   try {
     if (id === '') {
       response = yield call(api.categories.addCategory, data);
-      console.log(response);
       yield put(actions.categoryActions.addCategorySuccess(response.data));
     } else {
       response = yield call(api.categories.updateCategory, payload);
@@ -34,18 +32,34 @@ export function* addCategory({ payload }) {
 export function* getCategories() {
   try {
     const response = yield call(api.categories.getCategories);
-    yield put(actions.categoryActions.getCategoriesSuccess(response.data));
+    const updatedResponse = response.data.map((el) => ({
+      ...el,
+      tags: [
+        { value: 'pizza', label: 'pizza' },
+        { value: 'water', label: 'water' }
+      ]
+    }));
+    yield put(actions.categoryActions.getCategoriesSuccess(updatedResponse));
   } catch (error) {
-    console.error(error);
-    console.log(error);
     yield put(actions.categoryActions.getCategoriesFailure(error));
     toast.error(`Error: ${error.message}`);
+  }
+}
+
+export function* deleteCategory({ payload }) {
+  try {
+    yield call(api.categories.deleteCategory, payload);
+
+    yield put(actions.categoryActions.deleteCategorySuccess(payload));
+  } catch (error) {
+    yield put(actions.categoryActions.deleteCategoryFailure(error));
   }
 }
 
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_CATEGORY, addCategory),
+    takeEvery(types.DELETE_CATEGORY, deleteCategory),
     takeEvery(types.GET_CATEGORIES, getCategories)
   ]);
 }
