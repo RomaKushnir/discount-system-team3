@@ -25,7 +25,6 @@ export function* getUser() {
   try {
     const response = yield call(api.user.getUser);
     yield put(actions.userActions.getUserSuccess(response.data));
-    toast.success(`Welcome, ${response.data.firstName}!`);
   } catch (error) {
     console.error(error);
     yield put(actions.userActions.getUserFailure(error));
