@@ -40,9 +40,7 @@ function Discounts() {
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
-
   console.log(discountsArray);
-  console.log(discountsFilters);
 
   const onModalOpen = () => {
     setModalState(true);
@@ -54,33 +52,27 @@ function Discounts() {
   [setModalState]);
 
   const onChangeCountry = (selectedCountry) => {
-    console.log(selectedCountry);
     dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.label || null }));
   };
 
   const onChangeCity = (city) => {
-    console.log(city);
-    dispatch(actions.discountsActions.updateDiscountsFilters({ cCity: city?.label || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ city: city?.label || null }));
   };
 
   const onChangeCategory = (category) => {
-    console.log(category);
     dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null }));
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
-    console.log(selectedVendor);
     dispatch(actions.discountsActions.updateDiscountsFilters({ title: selectedVendor?.label || '' }));
   };
   const onSearchInputChange = (descriptionSearchWord) => {
-    console.log(descriptionSearchWord);
     dispatch(actions.discountsActions.updateDiscountsFilters({
       shortDescription: descriptionSearchWord
     }));
   };
 
   const onSortFilterChange = (selectedOption) => {
-    console.log(selectedOption);
     dispatch(actions.discountsActions.updateDiscountsFilters({ sort: selectedOption?.value || null }));
   };
 

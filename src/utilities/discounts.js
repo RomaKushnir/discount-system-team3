@@ -10,21 +10,19 @@ export const convertFilterParametersToUrl = (params) => {
     .replace('country:', 'locations.country:')
     .replace('city:', 'locations.city:')
     .replace('title:', 'vendor.title*:*')
-    .replace('description:', 'shortDescription*:*')
+    .replace('shortDescription:', 'shortDescription*:*')
     .replace('category:', 'category.id:');
 
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=${sort}`;
   const paginationParams = `&page=${pageNumber}&size=${size}`;
 
-  console.log(sortParams);
-
   return { queryParams, sortParams, paginationParams };
 };
 
 export const convertUrlToFilterParameters = (queryString) => {
   const modifiedString = queryString
-    .replace('shortDescription*:*', 'description:')
+    .replace('shortDescription*:*', 'shortDescription:')
     .replace('vendor.title*:*', 'title:')
     .replace('locations.city:', 'city:')
     .replace('locations.country:', 'country:')

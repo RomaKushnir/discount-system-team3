@@ -1,8 +1,8 @@
 export const discountsSortOptions = [
-  { value: 'expirationDate, ASC', label: 'expirationDate, ASC' },
-  { value: 'title,ASC', label: 'title,ASC' },
-  { value: 'title,DESC', label: 'title,DESC' },
-  { value: 'creationDate, DESC', label: 'creationDate, DESC' }
+  { value: 'expirationDate,ASC', label: 'Expire soon' },
+  { value: 'title,ASC', label: 'ASC' },
+  { value: 'title,DESC', label: 'DESC' },
+  { value: 'created,DESC', label: 'Newest' }
 ];
 
 export const vendorsSortOptions = [

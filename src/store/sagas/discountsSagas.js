@@ -15,7 +15,6 @@ export const getDiscountsFiltersApplied = (state) => state.discountsReducer.disc
 
 export function* getDiscounts({ payload }) {
   try {
-    console.log('SAGA', payload);
     const response = yield call(api.discounts.getDiscounts, payload.serverSearchParams);
 
     yield put(actions.discountsActions.getDiscountsListSuccess({
@@ -54,19 +53,13 @@ export function* applyDiscountsFilters({ payload }) {
   const discountsFiltersApplied = yield select(getDiscountsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(discountsFiltersApplied);
 
-  console.log(discountsFiltersApplied);
-
   const { queryParams, sortParams, paginationParams } = searchParams;
-
-  console.log(searchParams);
 
   if (payload && payload.rewriteUrl !== false) {
     history.push({ pathname: '/discounts', search: `${queryParams}${sortParams}` });
   }
 
   const serverSearchParams = `${queryParams}${sortParams}${paginationParams}`;
-
-  console.log(serverSearchParams);
 
   yield put(actions.discountsActions.getDiscountsList({ serverSearchParams, showMore: payload.showMore }));
 }

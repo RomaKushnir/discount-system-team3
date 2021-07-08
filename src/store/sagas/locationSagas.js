@@ -10,14 +10,13 @@ import * as api from '../../api';
 
 export function* getLocations({ payload }) {
   try {
-    console.log(payload);
     let searchParams = null;
 
     if (payload?.countryCode) {
       searchParams = `?query=country.countryCode:${payload.countryCode}`;
     } else if (payload?.city) {
       searchParams = `?query=city:${payload.city}`;
-    }
+    } else { searchParams = ''; }
 
     const response = yield call(api.locations.getLocations, searchParams);
 

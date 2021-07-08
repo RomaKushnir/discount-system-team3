@@ -58,9 +58,11 @@ function FiltersContainer({
       (el) => el.country === filters?.country
     ), [citiesOptions, filters]
   );
-
-  console.log(filters);
-  console.log(categoriesOptionsMemoized);
+  const sortOptionMemoized = useMemo(
+    () => sortOptions.find(
+      (el) => el.value === filters?.sort
+    ), [sortOptions, filters]
+  );
 
   return (
     <div className = {styles.container}>
@@ -82,8 +84,8 @@ function FiltersContainer({
                 label = "City"
                 onChange = {onChangeCities}
                 value = {{
-                  value: filters?.discountsCity,
-                  label: filters?.discountsCity
+                  value: filters?.city,
+                  label: filters?.city
                 } || null}
               />
             </div>
@@ -122,7 +124,8 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             <SelectField
-              value = {{ value: filters?.sort, label: filters?.sort } || null}
+              // value = {{ value: filters?.sort, label: filters?.sort } || null}
+              value = {sortOptionMemoized || null}
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}

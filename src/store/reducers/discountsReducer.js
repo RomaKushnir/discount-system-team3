@@ -125,15 +125,12 @@ const discountsReducer = (state = initialState, action) => {
     }
     case types.UPDATE_DISCOUNTS_FILTERS: {
       const { payload } = action;
-      console.log(payload);
       return {
         ...state,
         discountsFilters: { ...state.discountsFilters, ...payload }
       };
     }
     case types.APPLY_DISCOUNTS_FILTERS: {
-      console.log(state.discountsFiltersApplied);
-      console.log(state.discountsFilters);
       return {
         ...state,
         discountsFiltersApplied: { ...state.discountsFiltersApplied, ...state.discountsFilters }
@@ -141,7 +138,6 @@ const discountsReducer = (state = initialState, action) => {
     }
     case types.CLEAR_DISCOUNTS_FILTERS: {
       const { payload } = action;
-      console.log(payload);
       return {
         ...state,
         discountsFilters: { ...defaultDiscountsFilter, ...payload }
