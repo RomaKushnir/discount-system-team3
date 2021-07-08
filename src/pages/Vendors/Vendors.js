@@ -30,7 +30,7 @@ function Vendors() {
   const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
@@ -65,7 +65,8 @@ function Vendors() {
   }, []);
 
   const onChangeCountry = (selectedCountry) => {
-    dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.label || null }));
+    dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
   const onChangeCity = (city) => {

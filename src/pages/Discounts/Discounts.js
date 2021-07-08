@@ -28,7 +28,7 @@ function Discounts() {
   const [discount, setDiscount] = useState(null);
 
   useEffect(() => {
-    dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
@@ -50,7 +50,8 @@ function Discounts() {
   [setModalState]);
 
   const onChangeCountry = (selectedCountry) => {
-    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.label || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
   const onChangeCity = (city) => {

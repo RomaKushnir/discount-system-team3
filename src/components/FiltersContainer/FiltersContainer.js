@@ -48,16 +48,24 @@ function FiltersContainer({
     onChangeCategory(selectedOption);
   };
 
+  const countryMemoized = useMemo(
+    () => countriesOptions.find(
+      (el) => el.countryCode === filters.country
+    ), [countriesOptions, filters]
+  );
+
+  const cityMemoized = useMemo(
+    () => citiesOptions.find(
+      (el) => el.value === filters.city
+    ), [citiesOptions, filters]
+  );
+
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
       (el) => el.id === Number(filters.category) || null
     ), [categoriesOptions, filters]
   );
-  const citiesOptionsMemoized = useMemo(
-    () => citiesOptions.filter(
-      (el) => el.country === filters.country
-    ), [citiesOptions, filters]
-  );
+
   const sortOptionMemoized = useMemo(
     () => sortOptions.find(
       (el) => el.value === filters.sort || ''
@@ -69,7 +77,7 @@ function FiltersContainer({
       <div className = {styles.filtersContainer}>
           <div className = {styles.filter}>
             <SelectField
-              value = {{ value: filters.country, label: filters.country }}
+              value = {countryMemoized}
               options = {countriesOptions}
               label = "Country"
               onChange = {onChangeCountries}
@@ -77,10 +85,10 @@ function FiltersContainer({
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {citiesOptionsMemoized || citiesOptions}
+                options = {citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
-                value = {{ value: filters.city, label: filters.city }}
+                value = {cityMemoized}
               />
             </div>
           <div className = {styles.filter}>
