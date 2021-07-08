@@ -9,18 +9,25 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  &Category {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: .8rem;
   }
   &Title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-transform: capitalize;
+    margin-top: 15px;
   }
   &Descr {
-    margin: 10px 0;
+    margin: 20px 0;
   }
   &Img {
     width: 400px;
     height: 200px;
-    margin-top: 20px;
+    margin-top: 10px;
     img {
       width: 400px;
       height: 200px;
@@ -31,11 +38,13 @@
 }
 .vendorName {
   font-size: 1.2rem;
+  text-transform: initial;
 }
 .row {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  align-items: center;
+  margin: 20px 0;
 }
 .dates {
   font-weight: bold;
@@ -43,39 +52,8 @@
     margin-top: 5px;
   }
 }
-.discountWrapper {
-  display: flex;
-  align-items: center;
-}
-.discount {
-  text-align: right;
-  background-color: $color--blue-dark;
-  color: $color--primary-white;
-  padding: 3px;
-  border-radius: 0 3px 3px 0;
-  position: relative;
-  margin-left: 32px;
-  &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: -32px;
-      border: 12px solid transparent;
-      border-right: 20px solid $color--blue-dark;
-  }
-  &.amount {
-    background-color: $color--amount-tag;
-    &::before {
-      border-right-color: $color--amount-tag;
-    }
-  }
-  &.hot {
-    background-color: $color--hot-tag;
-    &::before {
-      border-right-color: $color--hot-tag;
-    }
-  }
+.tag {
+  justify-content: flex-end;
 }
 .count {
   font-size: .8rem;

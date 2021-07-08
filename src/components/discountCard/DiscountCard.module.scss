@@ -18,6 +18,10 @@
   display: flex;
   margin: 5px 0 7px;
 }
+.descrTag {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
 
 .col1 {
   flex-grow: 1;

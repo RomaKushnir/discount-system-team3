@@ -22,10 +22,8 @@ function DiscountCard({
         <div className={style.col3}><p>{category}</p></div>
         <div className={style.col3}><p>{company}</p></div>
       </div>
-      <div className={style.row}>
+      <div className={`${style.row} ${style.descrTag}`}>
         <p className={style.description}>{description}</p>
-      </div>
-      <div className={style.row}>
         <DiscountTag
           percentage = {discount}
           flatAmount = {flatAmount}

@@ -69,20 +69,22 @@ function DiscountModal({
   </div>;
   const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
-    <div className = {styles.modalHeader}>
-      <div className = {styles.modalCategory}>{discount.category.title}</div>
-      <div className = {styles.modalTitle}>{discount.title}</div>
-      <div className = {styles.vendorName}>{discount.vendor.title}</div>
-    </div>
+    <div className = {styles.modalCategory}>{discount.category.title}</div>
     <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
+    <div className = {styles.modalHeader}>
+      <div className = {styles.modalTitle}>{discount.title}
+        <span className = {styles.vendorName}> by {discount.vendor.title}</span>
+      </div>
+    </div>
     <div className = {styles.modalDescr}>{discount.description}</div>
     <div className = {styles.row}>
       <div className = {styles.modalLocation}>
         <SelectField
-          initialValue = {locationsList[0]}
+          initialValue = "Location"
           options = {locationsList}
           label = "Location"
           onChange = {onLocationChange}
+          isClearable = {false}
         />
       </div>
       <div className = {styles.dates}>
@@ -90,15 +92,15 @@ function DiscountModal({
         <div className = {styles.expDate}>To: {getMonthAndDay(discount.expirationDate)}</div>
       </div>
     </div>
-    <div className = {styles.row}>
+    <div className = {`${styles.row} ${styles.tag}`}>
       <DiscountTag
         percentage = {discount.percentage}
         flatAmount = {discount.flatAmount}
       />
     </div>
-    <div className = {styles.row}>
+    {/* <div className = {styles.row}>
       <div className = {styles.count}>Available {discount.quantity} promotional codes</div>
-    </div>
+    </div> */}
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
