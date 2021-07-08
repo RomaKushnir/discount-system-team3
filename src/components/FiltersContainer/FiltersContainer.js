@@ -56,13 +56,17 @@ function FiltersContainer({
 
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
-      (el) => el.id === Number(filters.category) || null
+      (el) => el.id === Number(filters.category)
     ), [categoriesOptions, filters]
   );
 
+  console.log(filters);
+  console.log(categoriesOptions);
+  console.log(categoriesOptionsMemoized);
+
   const sortOptionMemoized = useMemo(
     () => sortOptions.find(
-      (el) => el.value === filters.sort || ''
+      (el) => el.value === filters.sort
     ), [sortOptions, filters]
   );
 
@@ -90,7 +94,7 @@ function FiltersContainer({
               options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {categoriesOptionsMemoized}
+              value = {categoriesOptionsMemoized || null}
             />
           </div>
           <div className = {styles.filter}>
@@ -117,7 +121,7 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             <SelectField
-              value = {sortOptionMemoized}
+              value = {sortOptionMemoized || ''}
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
