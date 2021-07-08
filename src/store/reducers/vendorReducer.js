@@ -214,11 +214,9 @@ const vendorReducer = (state = initialState, action) => {
       };
     }
     case types.CLEAR_VENDORS_FILTERS: {
-      const { payload } = action;
-      console.log(payload);
       return {
         ...state,
-        vendorsFilters: { ...defaultVendorsFilter, ...payload }
+        vendorsFilters: { ...defaultVendorsFilter }
       };
     }
     default:

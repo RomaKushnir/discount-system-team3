@@ -137,10 +137,9 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.CLEAR_DISCOUNTS_FILTERS: {
-      const { payload } = action;
       return {
         ...state,
-        discountsFilters: { ...defaultDiscountsFilter, ...payload }
+        discountsFilters: { ...defaultDiscountsFilter }
       };
     }
     default:

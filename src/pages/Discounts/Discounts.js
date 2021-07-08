@@ -40,7 +40,6 @@ function Discounts() {
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
-  console.log(discountsArray);
 
   const onModalOpen = () => {
     setModalState(true);
