@@ -30,7 +30,7 @@ export function* createDiscount({ payload }) {
       response = yield call(api.discounts.updateDiscount, payload);
     }
     yield put(actions.discountsActions.createDiscountSuccess(response.data));
-    toast.success('Discount was successfully added/updated.');
+    toast.success('Discount was successfully saved.');
   } catch (error) {
     yield put(actions.discountsActions.createDiscountFailure(error));
     toast.error(`Error: ${error.message}`);

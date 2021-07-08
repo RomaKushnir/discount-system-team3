@@ -24,7 +24,7 @@ export function* addCategory({ payload }) {
       response = yield call(api.categories.updateCategory, payload);
       yield put(actions.categoryActions.updateCategorySuccess(response.data));
     }
-    toast.success('Category was successfully added/updated.');
+    toast.success('Category was successfully saved.');
   } catch (error) {
     yield put(actions.categoryActions.addCategoryFailure(error));
     toast.error(`Error: ${error.message}`);

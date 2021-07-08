@@ -27,7 +27,7 @@ export function* addVendor({ payload }) {
       response = yield call(api.vendors.updateVendor, payload);
       yield put(actions.vendorActions.updateVendorSuccess(response.data));
     }
-    toast.success('Vendor was successfully added/updated.');
+    toast.success('Vendor was successfully saved.');
   } catch (error) {
     yield put(actions.vendorActions.addVendorFailure(error));
     toast.error(`Error: ${error.message}`);
