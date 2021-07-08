@@ -1,14 +1,11 @@
 import styles from './Statistics.module.scss';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 
 function Statistics() {
   return (
-    <div className = {styles.container}>
-      <Header/>
-      <main className={styles.contentWrapper}>Statistics page</main>
-      <Footer />
-    </div>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>Statistics page</div>
+    </PageWrapper>
   );
 }
 

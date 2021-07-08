@@ -4,6 +4,7 @@ import {
   takeEvery,
   all
 } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import * as types from '../actionTypes';
 import * as actions from '../actions';
 import * as api from '../../api';
@@ -17,6 +18,7 @@ export function* getLocations() {
     console.error(error);
     console.log(error);
     yield put(actions.locationActions.getLocationsListFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -29,6 +31,7 @@ export function* getLocationById({ payload }) {
     console.error(error);
     console.log(error);
     yield put(actions.locationActions.getLocationByIdFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 

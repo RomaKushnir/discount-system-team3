@@ -4,6 +4,7 @@ import {
   takeEvery,
   all
 } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
@@ -15,8 +16,8 @@ export function* login({ payload }) {
     yield put(actions.userActions.loginSuccess());
     yield put(actions.userActions.getUser());
   } catch (error) {
-    console.error(error);
-    yield put(actions.userActions.loginFailure(error));
+    yield put(actions.userActions.loginFailure(error.response.data));
+    toast.error(`Error: ${error.response.data.code}`);
   }
 }
 

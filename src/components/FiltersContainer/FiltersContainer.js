@@ -54,6 +54,11 @@ function FiltersContainer({
   const citiesOptionsMemoized = useMemo(
     () => citiesOptions.filter((el) => el.country === filters?.country), [citiesOptions, filters]
   );
+  const sortOptionMemoized = useMemo(
+    () => sortOptions.find(
+      (el) => el.value === filters?.sort
+    ), [sortOptions, filters]
+  );
 
   return (
     <div className = {styles.container}>
@@ -106,7 +111,7 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             <SelectField
-              value = {{ value: filters?.sort, label: filters?.sort } || null}
+              value = {sortOptionMemoized}
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}

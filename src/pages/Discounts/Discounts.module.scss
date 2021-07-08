@@ -1,16 +1,10 @@
 @import '../../variables.scss';
-.containerFluid {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-.container {
-  max-width: 1400px;
-  width: 100%;
-  padding: 0 15px;
+.contentWrapper {
   margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .discountsFilter {
   padding: 10px 0;

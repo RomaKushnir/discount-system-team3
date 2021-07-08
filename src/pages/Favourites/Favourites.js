@@ -1,14 +1,11 @@
 import styles from './Favourites.module.scss';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 
 function Favourites() {
   return (
-    <div className = {styles.container}>
-      <Header/>
-      <main className={styles.contentWrapper}>Favourites page</main>
-      <Footer />
-    </div>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>Favourites page</div>
+    </PageWrapper>
   );
 }
 
