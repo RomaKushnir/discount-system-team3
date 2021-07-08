@@ -8,7 +8,6 @@ function DiscountTag({
 }) {
   return (
     <div className = {styles.discountWrapper}>
-    Discount
       {percentage === 0 || !percentage
         ? <div className={`${styles.discount} ${styles.amount}`}>
           - {flatAmount}$
