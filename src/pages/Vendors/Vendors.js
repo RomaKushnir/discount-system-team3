@@ -32,7 +32,9 @@ function Vendors() {
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
-  }, [dispatch]);
+    dispatch(actions.locationActions.getCities(vendorsFiltersApplied.country));
+    // eslint-disable-next-line
+  }, []);
 
   useVendorsQueryChecker();
 

@@ -60,6 +60,10 @@ function FiltersContainer({
     ), [citiesOptions, filters]
   );
 
+  console.log(citiesOptions);
+  console.log(cityMemoized);
+  console.log(filters.city);
+
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
       (el) => el.id === Number(filters.category) || null
