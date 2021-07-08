@@ -3,7 +3,8 @@ function getMonthAndDay(date) {
   const dateObj = new Date(date);
   const day = String(dateObj.getDate());
   const month = String(dateObj.getMonth());
-  return `${day.padStart(DATE_MONTH_LENGTH, '0')}.${month.padStart(DATE_MONTH_LENGTH, '0')}.`;
+  const year = String(dateObj.getFullYear());
+  return `${day.padStart(DATE_MONTH_LENGTH, '0')}.${month.padStart(DATE_MONTH_LENGTH, '0')}.${year}`;
 }
 
 export default getMonthAndDay;
