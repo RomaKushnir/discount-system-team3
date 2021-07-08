@@ -57,6 +57,7 @@ function CreateDiscount({
   const discountRequest = {
     title: discount ? discount.title : '',
     imageUrl: discount ? discount.imageUrl : '',
+    promocode: discount ? discount.promocode : '',
     description: discount ? discount.description : '',
     shortDescription: discount ? discount.shortDescription : '',
     flatAmount: discount ? discount.flatAmount : '',
@@ -201,6 +202,17 @@ function CreateDiscount({
           onValueChange = {formik.handleChange}
           onBlur={formik.handleBlur}
           error = {formik.errors.imageUrl}
+        />
+        <TextInput
+          placeholder = "Promo code"
+          label = "Promo code"
+          name = "promocode"
+          type = "text"
+          className={styles.inputContainer}
+          value = {formik.values.promocode}
+          onValueChange = {formik.handleChange}
+          onBlur={formik.handleBlur}
+          error = {formik.errors.promocode}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
           <label htmlFor="description">Full Description</label>

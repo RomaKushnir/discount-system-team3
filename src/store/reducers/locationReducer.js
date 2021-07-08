@@ -22,7 +22,7 @@ const locationReducer = (state = initialState, action) => {
       const { payload } = action;
       return {
         ...state,
-        locationsList: payload,
+        locationsList: payload.content,
         getLocationsStatus: helpers.getSuccessState(payload)
       };
     }
