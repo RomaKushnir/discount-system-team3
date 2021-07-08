@@ -6,7 +6,7 @@
     height: 50px;
     display: flex;
     align-items: center;
-    border: 1px solid $color--gray-light;
+    
     border-radius: 10px;
     margin: 10px 0;
     justify-content: space-between;
@@ -41,4 +41,14 @@
 
 .row {
     flex-direction: row;
+}
+
+.panelHidden {
+  display: none
+}
+
+.accBody {
+	padding: 10px;
+	border-bottom: 1px solid #c0c0c0;
+	margin-bottom: 5px;
 }

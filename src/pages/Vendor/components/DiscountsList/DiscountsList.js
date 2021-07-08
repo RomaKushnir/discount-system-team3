@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './ActiveDiscount.module.scss';
+import styles from './DiscountsList.module.scss';
 import DiscountCard from '../../../../components/discountCard/DiscountCard';
 import OutlineButton from '../../../../components/OutlineButton/OutlineButton';
 
@@ -25,7 +25,7 @@ function DiscountsList({ discountsList }) {
     <>
     <div className={styles.row}>
       {resultArr.map(
-        (discountCard) => <div><DiscountCard
+        (discountCard) => <DiscountCard
           discount={discountCard}
           key={discountCard.id}
           title={discountCard.title}
@@ -33,7 +33,7 @@ function DiscountsList({ discountsList }) {
           company={discountCard.vendorId[discountCard.id]}
           description={discountCard.shortDescription}
           discount={discountCard.percentage}
-          /></div>
+          />
       )
       }
     </div>
