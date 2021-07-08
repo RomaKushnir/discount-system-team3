@@ -7,6 +7,17 @@ import Button from '../../../../components/Button';
 
 import { getCitiesOptions } from '../../../../store/selectors';
 
+const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
+  const { name } = options;
+  let value;
+  if (Array.isArray(selected)) {
+    value = selected;
+  } else {
+    value = selected && selected.value;
+  }
+  setFieldValue(name, value);
+};
+
 function AddLocation({ onModalClose, addLocationToVendor }) {
   const citiesOptions = useSelector(getCitiesOptions);
 
@@ -33,16 +44,8 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
             handleBlur, setFieldValue, errors, isValid, dirty, isSubmitting
           } = formikProps;
 
-          const onSelectValueChange = (selected, options) => {
-            const { name } = options;
-            let value;
-            if (Array.isArray(selected)) {
-              value = selected;
-            } else {
-              value = selected && selected.value;
-            }
-            setFieldValue(name, value);
-          };
+          const onSelectValueChange = createOnSelectValueChange(setFieldValue);
+
           return (
             <Form>
               <div className={styles.twoColumnsWrapper}>
@@ -91,16 +94,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
             handleBlur, setFieldValue, errors, isValid, dirty
           } = formikProps;
 
-          const onSelectValueChange = (selected, options) => {
-            const { name } = options;
-            let value;
-            if (Array.isArray(selected)) {
-              value = selected;
-            } else {
-              value = selected && selected.value;
-            }
-            setFieldValue(name, value);
-          };
+          const onSelectValueChange = createOnSelectValueChange(setFieldValue);
 
           return (
             <Form>
