@@ -35,7 +35,7 @@ function Discounts() {
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
-    dispatch(actions.locationActions.getCities(discountsFiltersApplied.country));
+    dispatch(actions.locationActions.getCities(discountsFilters.country));
     // eslint-disable-next-line
   }, []);
 

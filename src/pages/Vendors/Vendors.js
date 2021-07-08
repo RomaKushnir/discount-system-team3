@@ -32,7 +32,7 @@ function Vendors() {
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
-    dispatch(actions.locationActions.getCities(vendorsFiltersApplied.country));
+    dispatch(actions.locationActions.getCities(vendorsFilters.country));
     // eslint-disable-next-line
   }, []);
 

@@ -54,16 +54,6 @@ function FiltersContainer({
     ), [countriesOptions, filters]
   );
 
-  const cityMemoized = useMemo(
-    () => citiesOptions.find(
-      (el) => el.value === filters.city
-    ), [citiesOptions, filters]
-  );
-
-  console.log(citiesOptions);
-  console.log(cityMemoized);
-  console.log(filters.city);
-
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
       (el) => el.id === Number(filters.category) || null
@@ -92,7 +82,7 @@ function FiltersContainer({
                 options = {citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
-                value = {cityMemoized}
+                value = {{ value: filters.city, label: filters.city }}
               />
             </div>
           <div className = {styles.filter}>
