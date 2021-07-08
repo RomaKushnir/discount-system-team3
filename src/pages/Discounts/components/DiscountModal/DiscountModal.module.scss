@@ -13,8 +13,6 @@
   }
   &Category {
     width: 100%;
-    margin-bottom: 10px;
-    font-size: .8rem;
   }
   &Title {
     font-size: 1.5rem;
@@ -46,11 +44,27 @@
   align-items: center;
   margin: 20px 0;
 }
+.modalCategory,
+.vendor {
+  display: flex;
+  align-items: center;
+  p {
+    margin-left: 3px;
+  }
+}
 .dates {
-  font-weight: bold;
   * + * {
     margin-top: 5px;
   }
+}
+.startDate,
+.expDate {
+  display: flex;
+  justify-content: space-between;
+}
+.dateValue {
+  font-weight: bold;
+  margin-left: 5px;
 }
 .tag {
   justify-content: flex-end;
@@ -65,4 +79,7 @@
 }
 .currency {
   font-size: .8rem;
+}
+.like {
+  cursor: pointer;
 }

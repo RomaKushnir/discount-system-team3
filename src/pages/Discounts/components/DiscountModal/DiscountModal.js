@@ -1,3 +1,7 @@
+import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
+import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import { useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '../../../../components/Modal';
@@ -11,10 +15,22 @@ import SelectField from '../../../../components/SelectField';
 import DiscountTag from '../../../../components/DiscountTag';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount
+  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
 }) {
+  const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
+
+  const onFavouriteClick = (e, id) => {
+    e.stopPropagation();
+    if (isLike) {
+      favouriteDiscounts.filter((el) => el !== id);
+      setIsLike(false);
+    } else {
+      favouriteDiscounts.push(id);
+      setIsLike(true);
+    }
+  };
 
   // clean up edit modal state
   useEffect(() => () => {
@@ -69,11 +85,19 @@ function DiscountModal({
   </div>;
   const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
   const content = discount ? <div className = {styles.modalContent}>
-    <div className = {styles.modalCategory}>{discount.category.title}</div>
+    <div className = {`${styles.row} ${styles.info}`}>
+      <div className = {styles.modalCategory}>
+        <CategoryRoundedIcon/><p>{discount.category.title}</p>
+      </div>
+      <div className = {styles.vendor}>
+        <StorefrontRoundedIcon/><p>{discount.vendor.title}</p>
+      </div>
+    </div>
     <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
     <div className = {styles.modalHeader}>
-      <div className = {styles.modalTitle}>{discount.title}
-        <span className = {styles.vendorName}> by {discount.vendor.title}</span>
+      <div className = {styles.modalTitle}>{discount.title}</div>
+      <div className = {styles.like} onClick = {(e) => onFavouriteClick(e, discount.id)}>
+        {isLike ? <FavoriteRoundedIcon color = "error" /> : <FavoriteBorderRoundedIcon />}
       </div>
     </div>
     <div className = {styles.modalDescr}>{discount.description}</div>
@@ -88,8 +112,12 @@ function DiscountModal({
         />
       </div>
       <div className = {styles.dates}>
-        <div className = {styles.startDate}>From: {getMonthAndDay(discount.startDate)}</div>
-        <div className = {styles.expDate}>To: {getMonthAndDay(discount.expirationDate)}</div>
+        <div className = {styles.startDate}>From:
+          <span className = {styles.dateValue}> {getMonthAndDay(discount.startDate)}</span>
+        </div>
+        <div className = {styles.expDate}>To:
+          <span className = {styles.dateValue}> {getMonthAndDay(discount.expirationDate)}</span>
+        </div>
       </div>
     </div>
     <div className = {`${styles.row} ${styles.tag}`}>
