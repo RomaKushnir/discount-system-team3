@@ -9,7 +9,7 @@ export const convertFilterParametersToUrl = (params) => {
     .join(';')
     .replace('country:', 'location.country:')
     .replace('city:', 'location.city:')
-    .replace('title:', 'title*:*')
+    .replace('vendorTitle:', 'title*:*')
     .replace('description:', 'description*:*')
     .replace('category:', 'discounts.category.id:');
 
@@ -23,7 +23,7 @@ export const convertFilterParametersToUrl = (params) => {
 export const convertUrlToFilterParameters = (queryString) => {
   const modifiedString = queryString
     .replace('description*:*', 'description:')
-    .replace('title*:*', 'title:')
+    .replace('title*:*', 'vendorTitle:')
     .replace('location.city:', 'city:')
     .replace('location.country:', 'country:')
     .replace('discounts.category.id:', 'category:')

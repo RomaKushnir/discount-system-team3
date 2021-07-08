@@ -101,8 +101,8 @@ function FiltersContainer({
             <SelectField
               options = {vendorsTypeaheadOptions}
               value = {{
-                value: filters?.title,
-                label: filters?.title
+                value: filters?.vendorTitle,
+                label: filters?.vendorTitle
               } || ''}
               label = "Vendor (Min 3 chars)"
               name = "vendorId"
@@ -124,7 +124,6 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             <SelectField
-              // value = {{ value: filters?.sort, label: filters?.sort } || null}
               value = {sortOptionMemoized || null}
               options={sortOptions}
               onChange={onSortFilterChange}

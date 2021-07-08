@@ -5,7 +5,7 @@ export const defaultDiscountsFilter = {
   country: null,
   city: null,
   category: null,
-  title: '',
+  vendorTitle: '',
   shortDescription: '',
   sort: 'expirationDate,ASC',
   pageNumber: 0,
@@ -39,7 +39,7 @@ const discountsReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        discounts: showMore ? [...state.vendors, ...content] : content,
+        discounts: showMore ? [...state.discounts, ...content] : content,
         getDiscountsStatus: helpers.getSuccessState('Success!'),
         discountsFiltersApplied: {
           ...state.discountsFiltersApplied,

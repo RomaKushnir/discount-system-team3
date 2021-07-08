@@ -64,7 +64,7 @@ function Discounts() {
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
-    dispatch(actions.discountsActions.updateDiscountsFilters({ title: selectedVendor?.label || '' }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ vendorTitle: selectedVendor?.label || '' }));
   };
   const onSearchInputChange = (descriptionSearchWord) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({

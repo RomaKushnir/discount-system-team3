@@ -5,7 +5,7 @@ export const defaultVendorsFilter = {
   country: null,
   city: null,
   category: null,
-  title: '',
+  vendorTitle: '',
   description: '',
   sort: 'ASC',
   pageNumber: 0,
@@ -175,7 +175,6 @@ const vendorReducer = (state = initialState, action) => {
     }
     case types.UPDATE_VENDORS_FILTERS: {
       const { payload } = action;
-      console.log(payload);
       return {
         ...state,
         vendorsFilters: { ...state.vendorsFilters, ...payload }
