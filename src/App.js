@@ -4,6 +4,8 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import Routes from './routes';
 import PrivateRoute from './routes/PrivateRoute';
@@ -38,6 +40,7 @@ function App() {
             {isAdmin(user) ? <Categories /> : <Redirect to={Routes.DISCOUNTS} />}
           </PrivateRoute>
         </Switch>
+        <ToastContainer/>
       </div>
     </BrowserRouter>
   );

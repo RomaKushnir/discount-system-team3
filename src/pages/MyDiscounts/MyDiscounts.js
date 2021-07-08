@@ -1,14 +1,11 @@
 import styles from './MyDiscounts.module.scss';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 
 function MyDiscounts() {
   return (
-    <div className = {styles.container}>
-      <Header/>
-      <main className={styles.contentWrapper}>My discounts page</main>
-      <Footer />
-    </div>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>My discounts page</div>
+    </PageWrapper>
   );
 }
 

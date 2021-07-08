@@ -63,6 +63,11 @@ function FiltersContainer({
       (el) => el.value === filters.sort || ''
     ), [sortOptions, filters]
   );
+  const sortOptionMemoized = useMemo(
+    () => sortOptions.find(
+      (el) => el.value === filters?.sort
+    ), [sortOptions, filters]
+  );
 
   return (
     <div className = {styles.container}>

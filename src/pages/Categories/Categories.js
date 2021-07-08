@@ -6,8 +6,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Categories.module.scss';
 import * as actions from '../../store/actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
@@ -33,14 +32,14 @@ function Categories() {
 
       setCategory(selectedCategory);
 
-      // setCategory({
-      //   imageUrl: 'https://picsum.photos/200?random=8',
-      //   title: 'Food',
-      //   id: 5
-      // }); // temporary while we don't have list of categories
+      setCategory({
+        // imageUrl: 'https://picsum.photos/200?random=8',
+        title: 'Food',
+        id: 5
+      }); // temporary while we don't have list of categories
     } else {
       setCategory({
-        imageUrl: '',
+        // imageUrl: '',
         title: '',
         id: ''
       });
@@ -52,16 +51,15 @@ function Categories() {
   }, []);
 
   return (
-    <div className = {styles.container}>
-      <Header/>
-      <main className={styles.contentWrapper}>
-        <div className={styles.row}>
-          <AddNewItemButton
-            btnTitle="Add new category"
-            onAddNewItem={onModalOpen}
-            name = "add"
-          />
-        </div>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
+      <div className={styles.row}>
+        <AddNewItemButton
+          btnTitle="Add new category"
+          onAddNewItem={onModalOpen}
+          name = "add"
+        />
+      </div>
         <div className={styles.row}>
           <CategoriesList categories={categories} onDelete = {onDelete} onEdit={onModalOpen}/>
         </div>
@@ -70,10 +68,9 @@ function Categories() {
             onSave={closeModal}
             selectedCategory = {addCategory}
           />
-        </Modal>
-      </main>
-      <Footer />
-    </div>
+      </Modal>
+      </div>
+      </PageWrapper>
   );
 }
 

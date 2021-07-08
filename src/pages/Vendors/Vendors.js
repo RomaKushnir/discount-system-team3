@@ -10,8 +10,7 @@ import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
 import VendorsList from './components/VendorsList';
 import * as actions from '../../store/actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
@@ -102,55 +101,52 @@ function Vendors() {
   };
 
   return (
-    <div className={styles.container}>
-      <div>
-        <Header />
-        <main className={styles.contentWrapper}>
-          <FiltersContainer
-            onApplyButtonClick={onApplyButtonClick}
-            onChangeCountry = {onChangeCountry}
-            onChangeCity = {onChangeCity}
-            onChangeCategory = {onChangeCategory}
-            onVendorSelectOptionChange = {onVendorSelectOptionChange}
-            onSearchInputChange = {onSearchInputChange}
-            filters = {vendorsFilters}
-            sortOptions ={vendorsSortOptions}
-            onSortFilterChange = {onSortFilterChange}
-          />
-          <div className={styles.vendorsActionsBlock}>
-            {isAdmin(user) && <AddNewItemButton
-              btnTitle="Add new vendor"
-              onAddNewItem={onModalOpen}
-              name = "add"
-            />}
-          </div>
-          <Modal isOpen={isOpen} onClose={closeModal}>
-            <AddVendorModal
-              onSave={closeModal}
-              selectedVendor = {vendor}
-            />
-          </Modal>
-            <div>
-              {getVendorsStatus.loading === true
-                && <div className = {styles.loadingContainer}>
-                <CircularProgress />
-              </div>}
-              {getVendorsStatus.loading === false
-                && <>
-                <VendorsList
-                  vendors={vendors}
-                  onEdit = {onModalOpen}
-                  onDelete = {onDelete}
-                />
-                {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
-                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
-                </>
-                }
-          </div>
-        </main>
+<PageWrapper>
+  <div className={styles.contentWrapper}>
+      <FiltersContainer
+        onApplyButtonClick={onApplyButtonClick}
+        onChangeCountry = {onChangeCountry}
+        onChangeCity = {onChangeCity}
+        onChangeCategory = {onChangeCategory}
+        onVendorSelectOptionChange = {onVendorSelectOptionChange}
+        onSearchInputChange = {onSearchInputChange}
+        filters = {vendorsFilters}
+        sortOptions ={vendorsSortOptions}
+        onSortFilterChange = {onSortFilterChange}
+      />
+      <div className={styles.vendorsActionsBlock}>
+        {isAdmin(user) && <AddNewItemButton
+          btnTitle="Add new vendor"
+          onAddNewItem={onModalOpen}
+          name = "add"
+        />}
       </div>
-      <Footer />
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        <AddVendorModal
+          onSave={closeModal}
+          selectedVendor = {vendor}
+        />
+      </Modal>
+        <div>
+          {getVendorsStatus.loading === true
+            && <div className = {styles.loadingContainer}>
+            <CircularProgress />
+          </div>}
+          {getVendorsStatus.loading === false
+            && <>
+            <VendorsList
+              vendors={vendors}
+              onEdit = {onModalOpen}
+              onDelete = {onDelete}
+            />
+            {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
+              && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+            </>
+            }
+      </div>
     </div>
+  </PageWrapper>
+
   );
 }
 

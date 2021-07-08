@@ -5,6 +5,7 @@ import {
   all,
   select
 } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
@@ -22,6 +23,7 @@ export function* getDiscounts({ payload }) {
     }));
   } catch (error) {
     yield put(actions.discountsActions.getDiscountsListFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -35,8 +37,10 @@ export function* createDiscount({ payload }) {
       response = yield call(api.discounts.updateDiscount, payload);
     }
     yield put(actions.discountsActions.createDiscountSuccess(response.data));
+    toast.success('Discount was successfully saved.');
   } catch (error) {
     yield put(actions.discountsActions.createDiscountFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 
@@ -44,8 +48,10 @@ export function* deleteDiscount({ payload }) {
   try {
     yield call(api.discounts.deleteDiscount, payload);
     yield put(actions.discountsActions.deleteDiscountSuccess(payload));
+    toast.success('Category was successfully deleted.');
   } catch (error) {
     yield put(actions.discountsActions.deleteDiscountFailure(error));
+    toast.error(`Error: ${error.message}`);
   }
 }
 

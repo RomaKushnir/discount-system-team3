@@ -8,8 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import DiscountList from './components/DiscountList';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
@@ -103,10 +102,8 @@ function Discounts() {
   }, [dispatch]);
 
   return (
-    <div className = {styles.containerFluid}>
-      <div>
-        <Header/>
-        <main className = {styles.container}>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
           <FiltersContainer
             onApplyButtonClick = {onApplyButtonClick}
             className = {styles.discountsFilter}
@@ -149,16 +146,13 @@ function Discounts() {
               </>
             }
             </div>
-          </main>
-        </div>
-
+          </div>
         <Modal isOpen={modalState} onClose={closeModal}>
           <CreateDiscount
             onModalClose={closeModal}
           />
         </Modal>
-      <Footer/>
-    </div>
+    </PageWrapper>
   );
 }
 
