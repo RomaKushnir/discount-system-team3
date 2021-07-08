@@ -153,6 +153,7 @@ export function clearVendorsTypeahead() {
     type: types.CLEAR_VENDORS_TYPEAHEAD
   };
 }
+
 export function clearVendorsFilters() {
   return {
     type: types.CLEAR_VENDORS_FILTERS

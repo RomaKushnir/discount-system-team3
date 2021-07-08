@@ -1,6 +1,6 @@
 import axios from './axiosClient';
 
-export const getDiscounts = () => axios.get('/discounts');
+export const getDiscounts = (params) => axios.get(`/discounts${params}`);
 
 export const getDiscountsById = (id) => axios.get(`/discounts/${id}`);
 

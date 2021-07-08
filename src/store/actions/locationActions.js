@@ -1,8 +1,9 @@
 import * as types from '../actionTypes';
 
-export function getLocationsList() {
+export function getLocationsList(payload) {
   return {
-    type: types.GET_LOCATIONS_LIST
+    type: types.GET_LOCATIONS_LIST,
+    payload
   };
 }
 
@@ -38,5 +39,31 @@ export function getLocationByIdFailure(payload) {
   return {
     type: types.GET_LOCATION_BY_ID_FAILURE,
     payload
+  };
+}
+
+export function getCountries() {
+  return {
+    type: types.GET_COUNTRIES
+  };
+}
+
+export function getCountriesSuccess(payload) {
+  return {
+    type: types.GET_COUNTRIES_SUCCESS,
+    payload
+  };
+}
+
+export function getCountriesFailure(payload) {
+  return {
+    type: types.GET_COUNTRIES_FAILURE,
+    payload
+  };
+}
+
+export function clearGetCountriesStatus() {
+  return {
+    type: types.CLEAR_GET_COUNTRIES_STATUS
   };
 }

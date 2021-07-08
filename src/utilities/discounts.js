@@ -7,14 +7,14 @@ export const convertFilterParametersToUrl = (params) => {
     .filter((el) => query[el] !== null && query[el] !== '')
     .map((key) => `${key}:${encodeURIComponent(query[key])}`)
     .join(';')
-    .replace('country:', 'location.country:')
-    .replace('city:', 'location.city:')
-    .replace('vendorTitle:', 'title*:*')
-    .replace('description:', 'description*:*')
-    .replace('category:', 'discounts.category.id:');
+    .replace('country:', 'locations.country:')
+    .replace('city:', 'locations.city:')
+    .replace('vendorTitle:', 'vendor.title*:*')
+    .replace('shortDescription:', 'shortDescription*:*')
+    .replace('category:', 'category.id:');
 
   const queryParams = `?query=${str};`;
-  const sortParams = `&sort=title,${sort}`;
+  const sortParams = `&sort=${sort}`;
   const paginationParams = `&page=${pageNumber}&size=${size}`;
 
   return { queryParams, sortParams, paginationParams };
@@ -22,11 +22,11 @@ export const convertFilterParametersToUrl = (params) => {
 
 export const convertUrlToFilterParameters = (queryString) => {
   const modifiedString = queryString
-    .replace('description*:*', 'description:')
-    .replace('title*:*', 'vendorTitle:')
-    .replace('location.city:', 'city:')
-    .replace('location.country:', 'country:')
-    .replace('discounts.category.id:', 'category:')
+    .replace('shortDescription*:*', 'shortDescription:')
+    .replace('vendor.title*:*', 'vendorTitle:')
+    .replace('locations.city:', 'city:')
+    .replace('locations.country:', 'country:')
+    .replace('category.id:', 'category:')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')

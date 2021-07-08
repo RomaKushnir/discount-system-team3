@@ -2,10 +2,10 @@ import * as types from '../actionTypes';
 import * as helpers from '../helpers';
 
 export const defaultVendorsFilter = {
-  country: null, // temporary, should be user country
+  country: null,
   city: null,
   category: null,
-  title: '',
+  vendorTitle: '',
   description: '',
   sort: 'ASC',
   pageNumber: 0,

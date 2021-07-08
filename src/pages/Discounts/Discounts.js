@@ -18,6 +18,7 @@ import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
 import isAdmin from '../../utilities/isAdmin';
+import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
 
 function Discounts() {
   const dispatch = useDispatch();
@@ -25,17 +26,19 @@ function Discounts() {
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
-  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    dispatch(actions.discountsActions.getDiscountsList());
     dispatch(actions.locationActions.getLocationsList());
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
 
+  useDiscountsQueryChecker();
+
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
-  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters); // TEMPORARY, should be discount filters
+  const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
+  const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
+  const user = useSelector((state) => state.userReducer.user);
 
   const onModalOpen = () => {
     setModalState(true);
@@ -46,34 +49,41 @@ function Discounts() {
   },
   [setModalState]);
 
-  const onApplyButtonClick = (parameters) => {
-    console.log(parameters);
-  };
   const onChangeCountry = (selectedCountry) => {
-    console.log(selectedCountry);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.label || null }));
   };
 
   const onChangeCity = (city) => {
-    console.log(city);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ city: city?.label || null }));
   };
 
   const onChangeCategory = (category) => {
-    console.log(category);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null }));
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
-    console.log(selectedVendor);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ vendorTitle: selectedVendor?.label || '' }));
   };
   const onSearchInputChange = (descriptionSearchWord) => {
-    console.log(descriptionSearchWord);
+    dispatch(actions.discountsActions.updateDiscountsFilters({
+      shortDescription: descriptionSearchWord
+    }));
   };
 
-  const onSortFilterChange = () => {
-    console.log('change');
+  const onSortFilterChange = (selectedOption) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ sort: selectedOption?.value || null }));
+  };
+
+  const onApplyButtonClick = () => {
+    dispatch(actions.discountsActions.clearGetDiscountsStatus());
+    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: true }));
   };
 
   const onShowMoreClick = () => {
-    console.log('show more');
+    if (discountsFiltersApplied.pageNumber < discountsFiltersApplied.totalPages) {
+      dispatch(actions.discountsActions.updateDiscountsFilters({ pageNumber: discountsFilters.pageNumber += 1 }));
+      dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: true, rewriteUrl: false }));
+    }
   };
   const onCardClick = useCallback((e, id) => {
     setIsDiscountModalShown(true);
@@ -105,7 +115,7 @@ function Discounts() {
             onSortFilterChange
             sortOptions ={discountsSortOptions}
             onSortFilterChange = {onSortFilterChange}
-            filters = {vendorsFilters} // TEMPORARY, should be discount filters
+            filters = {discountsFilters}
             />
             <div className = {styles.discountsActions}>
             {isAdmin(user) && <AddNewItemButton
@@ -131,7 +141,8 @@ function Discounts() {
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
               />
-              <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+              {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
+                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
               </>
             }
             </div>

@@ -5,7 +5,9 @@ const initialState = {
   locationsList: [],
   selectedLocation: {},
   getLocationsStatus: helpers.getDefaultState(),
-  getLocationByIdStatus: helpers.getDefaultState()
+  getLocationByIdStatus: helpers.getDefaultState(),
+  countries: [],
+  getCountriesStatus: helpers.getDefaultState()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -50,6 +52,33 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         getLocationByIdStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.GET_COUNTRIES: {
+      return {
+        ...state,
+        getCountriesStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_COUNTRIES_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        countries: payload,
+        getCountriesStatus: helpers.getSuccessState(payload)
+      };
+    }
+    case types.GET_COUNTRIES_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getCountriesStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_COUNTRIES_STATUS: {
+      return {
+        ...state,
+        getCountriesStatus: helpers.getRequestState()
       };
     }
     default:
