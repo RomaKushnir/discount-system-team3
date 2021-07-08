@@ -50,17 +50,17 @@ function FiltersContainer({
 
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
-      (el) => el.id === +filters.category
+      (el) => el.id === Number(filters.category) || null
     ), [categoriesOptions, filters]
   );
   const citiesOptionsMemoized = useMemo(
     () => citiesOptions.filter(
-      (el) => el.country === filters?.country
+      (el) => el.country === filters.country
     ), [citiesOptions, filters]
   );
   const sortOptionMemoized = useMemo(
     () => sortOptions.find(
-      (el) => el.value === filters?.sort
+      (el) => el.value === filters.sort || ''
     ), [sortOptions, filters]
   );
 
@@ -69,10 +69,7 @@ function FiltersContainer({
       <div className = {styles.filtersContainer}>
           <div className = {styles.filter}>
             <SelectField
-              value = {{
-                value: filters?.country,
-                label: filters?.country
-              } || null}
+              value = {{ value: filters.country, label: filters.country }}
               options = {countriesOptions}
               label = "Country"
               onChange = {onChangeCountries}
@@ -83,10 +80,7 @@ function FiltersContainer({
                 options = {citiesOptionsMemoized || citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
-                value = {{
-                  value: filters?.city,
-                  label: filters?.city
-                } || null}
+                value = {{ value: filters.city, label: filters.city }}
               />
             </div>
           <div className = {styles.filter}>
@@ -94,7 +88,7 @@ function FiltersContainer({
               options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {categoriesOptionsMemoized || null}
+              value = {categoriesOptionsMemoized}
             />
           </div>
           <div className = {styles.filter}>
@@ -119,12 +113,12 @@ function FiltersContainer({
               placeholder = "Search..."
               type = "search"
               style = {inputStyles}
-              value = {filters?.description || filters?.shortDescription || ''}
+              value = {filters.description || filters.shortDescription}
             />
           </div>
           <div className = {styles.filter}>
             <SelectField
-              value = {sortOptionMemoized || null}
+              value = {sortOptionMemoized}
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
