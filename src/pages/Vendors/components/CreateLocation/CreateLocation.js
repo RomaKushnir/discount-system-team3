@@ -28,10 +28,10 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
 
   useEffect(() => {
     if (createLocationStatus.success) {
+      console.log('created location success', createdLocation);
       addLocationToVendor([createdLocation]);
       dispatch(actions.locationActions.clearCreateLocationStatus());
       onModalClose();
-      // console.log('created location success', createdLocation);
     }
     return () => {
       dispatch(actions.locationActions.clearCreateLocationStatus());
@@ -52,7 +52,8 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
       >
         {(formikProps) => {
           const {
-            handleSubmit, handleChange, handleBlur, setFieldValue, values, errors, isValid, dirty, isSubmitting
+            handleSubmit, handleChange, handleBlur, setFieldValue, values, errors
+            //  isValid, dirty, isSubmitting
           } = formikProps;
 
           const onCreateLocation = () => {
@@ -83,6 +84,7 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
                   onChange={createOnSelectValueChange(setFieldValue)}
                   onBlur={handleBlur}
                   isSearchable={true}
+                  isClearable={true}
                 />
               </div>
               <TextInput
@@ -98,7 +100,7 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
               <Button
                 btnText = "Create location"
                 onClick = {onCreateLocation}
-                isDisabled = {!isValid || !dirty || isSubmitting}
+                // isDisabled = {!isValid || !dirty || isSubmitting}
                 className={styles.createLocationBtn}
                 type = "submit"
               />

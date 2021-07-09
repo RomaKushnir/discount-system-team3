@@ -42,14 +42,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [touched, setTouched] = useState({ id: true });
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [vendorLocations, setVendorLocations] = useState([
-    // {
-    //   country: 'Ukraine',
-    //   city: 'Vinnitsa',
-    //   address: 'Porika 14',
-    //   id: '11'
-    // }
-  ]);
+  const [vendorLocations, setVendorLocations] = useState([]);
 
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
   // const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
@@ -212,10 +205,10 @@ function AddVendorModal({ onSave, selectedVendor }) {
         />
         <div className={styles.locationBlock}>
           <div className={styles.locationsList}>
-            {vendorLocations.map((el) => (
+            {vendorLocations && vendorLocations.map((el) => (
               <div className={styles.locationItem} key={el.id}>
                 <p>
-                  {`${el.countryCode}, ${el.city}, ${el.addressLine}`}
+                  {`${el.countryCode}${el.city ? `, ${el.city}` : ''}${el.addressLine ? `, ${el.addressLine}` : ''}`}
                 </p>
                 <DeleteForever
                   className={styles.deleteBtn}

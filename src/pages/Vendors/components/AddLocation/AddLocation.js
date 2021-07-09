@@ -24,6 +24,9 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
     if (name === 'countryCode') {
       dispatch(actions.locationActions.getCities(value));
     }
+    if (name === 'city') {
+      dispatch(actions.locationActions.getLocationsList(value));
+    }
   };
 
   const onApplyFilter = (filterData) => {
@@ -40,13 +43,14 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
       <Formik
         initialValues={{ countryCode: '' }}
         validationSchema={yup.object().shape({
-          country: yup.string().nullable().required('The fiels is required')
+          countryCode: yup.string().nullable().required('The fiels is required')
         })}
         onSubmit={onApplyFilter}
       >
         {(formikProps) => {
           const {
-            handleBlur, setFieldValue, errors, isValid, dirty, isSubmitting
+            handleBlur, setFieldValue, errors
+            //  isValid, dirty, isSubmitting
           } = formikProps;
 
           const onSelectValueChange = createOnSelectValueChange(setFieldValue);
@@ -81,7 +85,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
                 btnText = "Apply filter"
                 className={styles.locationActionBtn}
                 type = "submit"
-                isDisabled={!isValid || !dirty || isSubmitting}
+                // isDisabled={!isValid || !dirty || isSubmitting}
               />
             </Form>
           );
@@ -96,7 +100,8 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
       >
         {(formikProps) => {
           const {
-            handleBlur, setFieldValue, errors, isValid, dirty
+            handleBlur, setFieldValue, errors
+            // , isValid, dirty
           } = formikProps;
 
           const onSelectValueChange = createOnSelectValueChange(setFieldValue);
@@ -116,7 +121,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
                 btnText = "Add location"
                 className={`${styles.chooseLocationBtn} ${styles.locationActionBtn}`}
                 type = "submit"
-                isDisabled={!isValid || !dirty}
+                // isDisabled={!isValid || !dirty}
               />
             </Form>
           );
