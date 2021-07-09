@@ -9,6 +9,33 @@
   margin: 0 auto;
   padding: 20px 15px;
 }
+.adminDropDownContainer {
+  position: relative;
+  .dropDown {
+    display: none;
+    position: absolute;
+    padding-top: 10px;
+    background: white;
+    top: 100%;
+    left: -50px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    .navItemLink {
+      width: 150px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.5s;
+      &:hover {
+        background-color: rgb(215, 219, 218);
+      }
+    }
+  }
+  &:hover {
+    .dropDown {
+      display: block;
+    }
+  }
+}
 .logo {
   color: $color--blue-dark;
   font-weight: 900;
@@ -46,66 +73,71 @@
   padding: 0 0 5px 0;
 }
 
-@media (min-width: 320px) {
-  .menuSpan {
-    display: block;
-    width: 40px;
-    height: 5px;
-    margin-bottom: 7px;
-    background-color: #fff;
+
+@media (min-width: 768px) {
+  .mobileLogoutButton, .burgerMenuIcon {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header{
+    position: relative;
   }
 
-  
-  
-  .menuBtn {
-    display: block;
-    transform-origin: 16px 11px;
-    float: left;
-    margin-right: 29px;
-    outline: 0;
-    border: 0;
-    padding: 12px;
-    background: none;
-  
-    span {
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  .mobileLogoutButton {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    &.mobileNavOpened {
+      display: block;
     }
-  
-    :focus {
-      border: medium none rgb(111, 255, 176);
-      box-shadow: rgb(111, 255, 176) 0 0 2px 2px;
-      outline: 0;
+    .navList {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-  
-    :hover {
-      span:nth-of-type(1) {
-        width: 33px;
-      }
-  
-      span:nth-of-type(2) {
-        width: 40px;
-      }
-  
-      span:nth-of-type(3) {
-        width: 30px;
+    .navItem {
+      margin: 10px 0;
+      &:nth-child(1) {
+        margin: 0;
+        &:nth-child(1) {
+          // padding-bottom: 5px;
+        }
       }
     }
-  
-    &.active {
-      span:nth-of-type(1) {
-        transform: rotate(45deg) translate(10px, 10px);
-        width: 40px;
-      }
-  
-      span:nth-of-type(2) {
-        opacity: 0;
-        pointer-events: none;
-      }
-  
-      span:nth-of-type(3) {
-        transform: rotate(-45deg) translate(7px, -7px);
-        width: 40px;
-      }
+    .activeClassName {
+      border: none;
+    }
+    
+  }
+
+  .adminDropDownContainer {
+    .dropDown {
+      display: block;
+      position: inherit;
+      padding-top: 10px;
+      background: none;
+      top: 0;
+      left: 0;
+      box-shadow: none;
+    }
+    .navItemLink {
+      display: none;
     }
   }
+
+  .desktopLogoutButton {
+    display: none;
+  }
+  
 }
