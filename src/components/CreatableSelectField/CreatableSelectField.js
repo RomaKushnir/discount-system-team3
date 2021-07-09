@@ -14,7 +14,8 @@ function CreatableSelectField({
   isDisabled = false,
   isMulti,
   error = '',
-  onBlur
+  onBlur,
+  value
 }) {
   console.log(initialValue);
   return (
@@ -32,6 +33,7 @@ function CreatableSelectField({
         isDisabled = {isDisabled}
         isMulti = {isMulti}
         onBlur = {onBlur}
+        value = {value}
       />
       <div className = {style.error}>{error}</div>
     </div>

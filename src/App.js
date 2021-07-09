@@ -22,6 +22,8 @@ import isAdmin from './utilities/isAdmin';
 
 function App() {
   const user = useSelector((state) => state.userReducer.user);
+  console.log(user);
+  console.log(isAdmin(user));
   return (
     <BrowserRouter>
       <div className="App">

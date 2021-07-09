@@ -25,6 +25,9 @@ function Categories() {
     dispatch(actions.categoryActions.deleteCategory(id));
   }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
+    dispatch(actions.categoryActions.clearAddCategoryStatus());
+    dispatch(actions.categoryActions.clearAddTagsToCategoryStatus());
+    dispatch(actions.categoryActions.clearDeleteTagsFromCategoryStatus());
     setIsOpen(true);
 
     if (e.target.name === 'edit') {
@@ -36,7 +39,7 @@ function Categories() {
         id: ''
       });
     }
-  }, [categories]);
+  }, [categories, dispatch]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);

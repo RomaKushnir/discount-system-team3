@@ -10,6 +10,7 @@ import CategoryTag from '../CategoryTag';
 function CategoriesList({
   categories, onDelete, onEdit
 }) {
+  console.log(categories);
   return (
         <div>
       {categories.length
@@ -19,12 +20,14 @@ function CategoriesList({
               <CategoryItem category={category} onDelete = {onDelete} onEdit={onEdit}/>
             </AccordionSummary>
               <AccordionDetails>
-                {category.tags.length
-                  ? category.tags.map(
-                    (tag) => <CategoryTag key={tag.value} tag={tag.value} />
-                  )
-                  : <p>There are no tags yet!</p>
-                }
+                <div className={styles.accordionDetails}>
+                  {category.tags.length
+                    ? category.tags.map(
+                      (tag) => <CategoryTag key={tag.id} tag={tag.name} />
+                    )
+                    : <p>There are no tags yet!</p>
+                  }
+                </div>
               </AccordionDetails>
           </Accordion>
         )
