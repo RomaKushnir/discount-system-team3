@@ -55,11 +55,24 @@ export function* getCities({ payload }) {
   }
 }
 
+export function* createLocation({ payload }) {
+  try {
+    const response = yield call(api.locations.createLocation, payload);
+    // console.log(response);
+    yield put(actions.locationActions.createLocationSuccess(response));
+  } catch (error) {
+    console.error(error);
+    console.log('SAGA', error.response.data);
+    yield put(actions.locationActions.createLocationFailure(error.response.data));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_LOCATIONS_LIST, getLocations),
     takeEvery(types.GET_LOCATION_BY_ID, getLocationById),
     takeEvery(types.GET_COUNTRIES, getCountries),
-    takeEvery(types.GET_CITIES, getCities)
+    takeEvery(types.GET_CITIES, getCities),
+    takeEvery(types.CREATE_LOCATION, createLocation)
   ]);
 }

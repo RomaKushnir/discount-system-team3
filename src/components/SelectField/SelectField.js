@@ -18,7 +18,8 @@ function SelectField({
   error = '',
   onBlur,
   name = '',
-  onInputChange
+  onInputChange,
+  menuPlacement = 'auto'
 }) {
   return (
     <div className = {`${style.container} ${className}`}>
@@ -39,6 +40,7 @@ function SelectField({
         isMulti = {isMulti}
         onBlur = {onBlur}
         onInputChange = {onInputChange}
+        menuPlacement = {menuPlacement}
       />
       <div className = {style.error}>{error}</div>
     </div>

@@ -4,16 +4,18 @@ import styles from './AddNewItemButton.module.scss';
 function AddNewItemButton({
   btnTitle,
   onAddNewItem,
-  name
+  name,
+  iconSize = 'large',
+  className = ''
 }) {
   return (
     <button
       type="button"
-      className={styles.addBtn}
+      className={`${styles.addBtn} ${className}`}
       onClick={onAddNewItem}
       name = {name}
     >
-      <AddIcon fontSize="large" />
+      <AddIcon fontSize={iconSize} />
       <span>{btnTitle}</span>
     </button>
   );
