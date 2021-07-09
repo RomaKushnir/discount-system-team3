@@ -27,7 +27,7 @@ function DiscountCard({
         <div className={style.col3}><StorefrontRoundedIcon fontSize = "small"/><p>{discount.vendor.title}</p></div>
       </div>
       <div className={`${style.row} ${style.descrTag}`}>
-        <p className={style.description}>{discount.description}</p>
+        <p className={style.description}>{discount.shortDescription}</p>
         <DiscountTag
           percentage = {discount.percentage}
           flatAmount = {discount.flatAmount}
