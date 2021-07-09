@@ -21,6 +21,9 @@ import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
 
 function Discounts() {
+  // mock data for favourite discounts
+  const favourite = [];
+
   const dispatch = useDispatch();
 
   const [modalState, setModalState] = useState(false);
@@ -136,12 +139,14 @@ function Discounts() {
               <DiscountList
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
+                favouriteDiscounts = {favourite}
               />
               <DiscountModal
                 discount = {discount}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
+                favouriteDiscounts = {favourite}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
