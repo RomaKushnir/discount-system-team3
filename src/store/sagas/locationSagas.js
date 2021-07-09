@@ -11,13 +11,7 @@ import * as api from '../../api';
 
 export function* getLocations({ payload }) {
   try {
-    let searchParams = null;
-
-    if (payload?.countryCode) {
-      searchParams = `?query=country.countryCode:${payload.countryCode}`;
-    } else if (payload?.city) {
-      searchParams = `?query=city:${payload.city}`;
-    } else { searchParams = ''; }
+    const searchParams = `?query=city:${payload}`;
 
     const response = yield call(api.locations.getLocations, searchParams);
 
@@ -51,10 +45,21 @@ export function* getCountries() {
   }
 }
 
+export function* getCities({ payload }) {
+  try {
+    const response = yield call(api.locations.getCities, payload);
+
+    yield put(actions.locationActions.getCitiesSuccess(response.data));
+  } catch (error) {
+    yield put(actions.locationActions.getCitiesFailure(error));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_LOCATIONS_LIST, getLocations),
     takeEvery(types.GET_LOCATION_BY_ID, getLocationById),
-    takeEvery(types.GET_COUNTRIES, getCountries)
+    takeEvery(types.GET_COUNTRIES, getCountries),
+    takeEvery(types.GET_CITIES, getCities)
   ]);
 }
