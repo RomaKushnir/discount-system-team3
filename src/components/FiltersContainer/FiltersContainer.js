@@ -90,7 +90,7 @@ function FiltersContainer({
               options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
-              value = {categoriesOptionsMemoized || null}
+              value = {categoriesOptionsMemoized}
             />
           </div>
           <div className = {styles.filter}>
