@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+export const getCountries = (state) => state.locationReducer.countries;
+export const getCities = (state) => state.locationReducer.cities;
 export const getLocationsList = (state) => state.locationReducer.locationsList;
 
 export const getCitiesGroupedByCountryOptions = createSelector(
@@ -25,37 +27,6 @@ export const getCitiesGroupedByCountryOptions = createSelector(
   }
 );
 
-export const getCountriesOptions = createSelector(
-  getLocationsList,
-  (items) => {
-    const array = items.reduce((acc, item) => [...acc, item.country], []);
-    const uniqueArray = [...new Set(array)];
-    const countries = uniqueArray.reduce((acc, item) => {
-      const newObj = {
-        label: item,
-        value: item
-      };
-      acc.push(newObj);
-      return acc;
-    }, []);
-    return countries;
-  }
-);
-
-export const getCitiesOptions = createSelector(
-  getLocationsList,
-  (locations) => locations.reduce((acc, location) => {
-    const obj = {
-      id: location.id,
-      value: location.id,
-      label: location.city,
-      country: location.country
-    };
-    acc.push(obj);
-    return acc;
-  }, [])
-);
-
 export const getLocationsOptions = createSelector(
   getLocationsList,
   (locations) => locations.reduce((res, location) => {
@@ -68,4 +39,21 @@ export const getLocationsOptions = createSelector(
     });
     return res;
   }, [])
+);
+
+export const getCountriesOptions = createSelector(
+  getCountries,
+  (countries) => countries.map((country) => ({
+    ...country,
+    value: country.countryCode,
+    label: country.countryFullName
+  }))
+);
+
+export const getCitiesOptions = createSelector(
+  getCities,
+  (cities) => cities.map((el) => ({
+    value: el.city,
+    label: el.city
+  }))
 );

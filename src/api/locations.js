@@ -4,4 +4,6 @@ export const getLocations = (searchParams) => axios.get(`/locations${searchParam
 
 export const getLocationById = (locationId) => axios.get(`/locations/${locationId}`);
 
-export const getCountries = () => axios.get('/countries'); // CHECK WITH BE
+export const getCountries = () => axios.get('/locations/countries');
+
+export const getCities = (countryCode) => axios.get(`/locations/cities/?countryCode=${countryCode}`);

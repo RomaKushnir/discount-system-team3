@@ -67,3 +67,30 @@ export function clearGetCountriesStatus() {
     type: types.CLEAR_GET_COUNTRIES_STATUS
   };
 }
+
+export function getCities(payload) {
+  return {
+    type: types.GET_CITIES,
+    payload
+  };
+}
+
+export function getCitiesSuccess(payload) {
+  return {
+    type: types.GET_CITIES_SUCCESS,
+    payload
+  };
+}
+
+export function getCitiesFailure(payload) {
+  return {
+    type: types.GET_CITIES_FAILURE,
+    payload
+  };
+}
+
+export function clearGetCitiesStatus() {
+  return {
+    type: types.CLEAR_GET_CITIES_STATUS
+  };
+}

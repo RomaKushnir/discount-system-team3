@@ -26,19 +26,20 @@ function Discounts() {
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
-
-  useEffect(() => {
-    dispatch(actions.locationActions.getLocationsList());
-    dispatch(actions.categoryActions.getCategories());
-  }, [dispatch]);
-
-  useDiscountsQueryChecker();
-
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
+
+  useEffect(() => {
+    dispatch(actions.locationActions.getCountries());
+    dispatch(actions.categoryActions.getCategories());
+    dispatch(actions.locationActions.getCities(discountsFilters.country));
+    // eslint-disable-next-line
+  }, []);
+
+  useDiscountsQueryChecker();
 
   const onModalOpen = () => {
     setModalState(true);
@@ -50,7 +51,8 @@ function Discounts() {
   [setModalState]);
 
   const onChangeCountry = (selectedCountry) => {
-    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.label || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
   const onChangeCity = (city) => {
