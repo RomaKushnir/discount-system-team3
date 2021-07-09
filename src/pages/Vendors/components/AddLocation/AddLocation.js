@@ -5,7 +5,7 @@ import styles from './AddLocation.module.scss';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
 
-import { getCitiesOptions } from '../../../../store/selectors';
+import { getCitiesOptions, getCountriesOptions } from '../../../../store/selectors';
 
 const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
   const { name } = options;
@@ -20,6 +20,7 @@ const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
 
 function AddLocation({ onModalClose, addLocationToVendor }) {
   const citiesOptions = useSelector(getCitiesOptions);
+  const countriesOptions = useSelector(getCountriesOptions);
 
   const onApplyFilter = (filterData) => {
     console.log('filterData', filterData);
@@ -51,7 +52,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
               <div className={styles.twoColumnsWrapper}>
                 <SelectField
                   // defaultValue={citiesOptions}
-                  // options = {countryOptions}
+                  options = {countriesOptions}
                   name="country"
                   label = "Country"
                   placeholder = "Country"

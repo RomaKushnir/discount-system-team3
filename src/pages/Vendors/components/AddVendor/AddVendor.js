@@ -147,7 +147,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   }, []);
 
   const addLocationToVendor = (location) => {
-    setVendorLocations([...vendorLocations, location]);
+    setVendorLocations([...vendorLocations, ...location]);
   };
 
   const deleteLocationHandler = (id) => {

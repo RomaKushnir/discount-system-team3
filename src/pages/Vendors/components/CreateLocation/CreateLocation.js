@@ -5,19 +5,26 @@ import * as yup from 'yup';
 import styles from './CreateLocation.module.scss';
 import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
+import CreatableSelectField from '../../../../components/CreatableSelectField';
 import Button from '../../../../components/Button';
-import { getCitiesOptions } from '../../../../store/selectors';
+import { getCountriesOptions } from '../../../../store/selectors';
 import * as actions from '../../../../store/actions';
+
+const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
+  const { name } = options;
+  const value = selected && selected.value;
+  setFieldValue(name, value);
+};
 
 const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
   const dispatch = useDispatch();
-  const citiesOptions = useSelector(getCitiesOptions);
   const createdLocation = useSelector((state) => state.locationReducer.locationsList);
   const createLocationStatus = useSelector((state) => state.locationReducer.createLocationStatus);
+  const countriesOptions = useSelector(getCountriesOptions);
 
   useEffect(() => {
     if (createLocationStatus.success) {
-      addLocationToVendor(createdLocation);
+      addLocationToVendor([createdLocation]);
       dispatch(actions.locationActions.clearCreateLocationStatus());
       onModalClose();
       // console.log('created location success', createdLocation);
@@ -31,12 +38,12 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
     <div className={styles.createLocationWrapper}>
       <Formik
         initialValues={{
-          country: '',
+          countryCode: '',
           city: '',
-          address: ''
+          addressLine: ''
         }}
         validationSchema={yup.object().shape({
-          country: yup.string().nullable().required('The fiels is required')
+          countryCode: yup.string().nullable().required('The fiels is required')
         })}
       >
         {(formikProps) => {
@@ -44,14 +51,8 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
             handleSubmit, handleChange, handleBlur, setFieldValue, values, errors, isValid, dirty, isSubmitting
           } = formikProps;
 
-          const onSelectValueChange = (selected, options) => {
-            const { name } = options;
-            const value = selected && selected.value;
-            setFieldValue(name, value);
-          };
-
           const onCreateLocation = () => {
-            console.log('onCreateLocation values', values, isValid, dirty);
+            // console.log('onCreateLocation values', values, isValid, dirty);
             handleSubmit();
             dispatch(actions.locationActions.createLocation(values));
           };
@@ -59,24 +60,25 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
             <Form className={styles.createLocationForm}>
               <div className={styles.twoColumnsWrapper}>
                 <SelectField
-                  // defaultValue={citiesOptions}
-                  options = {citiesOptions}
-                  name="country"
+                  options = {countriesOptions}
+                  name="countryCode"
                   label = "Country"
                   placeholder = "Country"
                   className={styles.inputContainer}
-                  onChange = {onSelectValueChange}
+                  onChange = {createOnSelectValueChange(setFieldValue)}
                   onBlur = {handleBlur}
+                  isSearchable={true}
                   error = {errors.country}
                 />
-                <TextInput
-                  onValueChange = {handleChange}
-                  placeholder = "City"
-                  label = "City"
+                <CreatableSelectField
+                  // options = {countriesOptions}
+                  name="city"
+                  label="City"
+                  placeholder="City"
                   className={styles.inputContainer}
-                  name = "city"
-                  type = "text"
-                  value = {values.city}
+                  onChange={createOnSelectValueChange(setFieldValue)}
+                  onBlur={handleBlur}
+                  isSearchable={true}
                 />
               </div>
               <TextInput
@@ -84,7 +86,7 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
                 placeholder = "Address line"
                 label = "Address line"
                 className={styles.inputContainer}
-                name = "address"
+                name = "addressLine"
                 type = "text"
                 value = {values.address}
               />
