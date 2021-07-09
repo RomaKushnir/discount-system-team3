@@ -122,7 +122,7 @@ const locationReducer = (state = initialState, action) => {
       const { payload } = action;
       return {
         ...state,
-        createdLocation: payload,
+        createdLocation: payload.data,
         createLocationStatus: helpers.getSuccessState('Success!')
       };
     }

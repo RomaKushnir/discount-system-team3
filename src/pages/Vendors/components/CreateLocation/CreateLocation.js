@@ -7,20 +7,24 @@ import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
 import CreatableSelectField from '../../../../components/CreatableSelectField';
 import Button from '../../../../components/Button';
-import { getCountriesOptions } from '../../../../store/selectors';
+import { getCountriesOptions, getCitiesOptions } from '../../../../store/selectors';
 import * as actions from '../../../../store/actions';
-
-const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
-  const { name } = options;
-  const value = selected && selected.value;
-  setFieldValue(name, value);
-};
 
 const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
   const dispatch = useDispatch();
-  const createdLocation = useSelector((state) => state.locationReducer.locationsList);
+  const createdLocation = useSelector((state) => state.locationReducer.createdLocation);
   const createLocationStatus = useSelector((state) => state.locationReducer.createLocationStatus);
   const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesOptions);
+
+  const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
+    const { name } = options;
+    const value = selected && selected.value;
+    setFieldValue(name, value);
+    if (name === 'countryCode') {
+      dispatch(actions.locationActions.getCities(value));
+    }
+  };
 
   useEffect(() => {
     if (createLocationStatus.success) {
@@ -71,7 +75,7 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
                   error = {errors.country}
                 />
                 <CreatableSelectField
-                  // options = {countriesOptions}
+                  options = {citiesOptions}
                   name="city"
                   label="City"
                   placeholder="City"

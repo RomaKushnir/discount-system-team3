@@ -1,26 +1,30 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import styles from './AddLocation.module.scss';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
-
+import * as actions from '../../../../store/actions';
 import { getCitiesOptions, getCountriesOptions } from '../../../../store/selectors';
 
-const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
-  const { name } = options;
-  let value;
-  if (Array.isArray(selected)) {
-    value = selected;
-  } else {
-    value = selected && selected.value;
-  }
-  setFieldValue(name, value);
-};
-
 function AddLocation({ onModalClose, addLocationToVendor }) {
+  const dispatch = useDispatch();
   const citiesOptions = useSelector(getCitiesOptions);
   const countriesOptions = useSelector(getCountriesOptions);
+
+  const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
+    const { name } = options;
+    let value;
+    if (Array.isArray(selected)) {
+      value = selected;
+    } else {
+      value = selected && selected.value;
+    }
+    setFieldValue(name, value);
+    if (name === 'countryCode') {
+      dispatch(actions.locationActions.getCities(value));
+    }
+  };
 
   const onApplyFilter = (filterData) => {
     console.log('filterData', filterData);
@@ -34,7 +38,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
   return (
     <div className={styles.chooseLocationWrapper}>
       <Formik
-        initialValues={{ counrty: '' }}
+        initialValues={{ countryCode: '' }}
         validationSchema={yup.object().shape({
           country: yup.string().nullable().required('The fiels is required')
         })}
@@ -53,7 +57,7 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
                 <SelectField
                   // defaultValue={citiesOptions}
                   options = {countriesOptions}
-                  name="country"
+                  name="countryCode"
                   label = "Country"
                   placeholder = "Country"
                   className={styles.inputContainer}

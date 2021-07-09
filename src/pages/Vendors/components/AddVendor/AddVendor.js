@@ -43,12 +43,12 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [vendorLocations, setVendorLocations] = useState([
-    {
-      country: 'Ukraine',
-      city: 'Vinnitsa',
-      address: 'Porika 14',
-      id: '11'
-    }
+    // {
+    //   country: 'Ukraine',
+    //   city: 'Vinnitsa',
+    //   address: 'Porika 14',
+    //   id: '11'
+    // }
   ]);
 
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
@@ -214,7 +214,9 @@ function AddVendorModal({ onSave, selectedVendor }) {
           <div className={styles.locationsList}>
             {vendorLocations.map((el) => (
               <div className={styles.locationItem} key={el.id}>
-                <p>{`${el.country}, ${el.city}, ${el.address}`}</p>
+                <p>
+                  {`${el.countryCode}, ${el.city}, ${el.addressLine}`}
+                </p>
                 <DeleteForever
                   className={styles.deleteBtn}
                   onClick={() => deleteLocationHandler(el.id)}
