@@ -85,10 +85,16 @@
     position: relative;
   }
 
+  html {
+    overflow:  hidden;
+  }
+
   .mobileLogoutButton {
     border: 0 !important;
     padding: 0 !important;
   }
+
+
 
   .nav {
     display: none;
@@ -98,6 +104,7 @@
     top: 100%;
     left: 0;
     z-index: 1;
+    height: 1000px;
     &.mobileNavOpened {
       display: block;
     }
@@ -110,15 +117,11 @@
       margin: 10px 0;
       &:nth-child(1) {
         margin: 0;
-        &:nth-child(1) {
-          // padding-bottom: 5px;
-        }
       }
     }
     .activeClassName {
       border: none;
     }
-    
   }
 
   .adminDropDownContainer {
@@ -130,6 +133,9 @@
       top: 0;
       left: 0;
       box-shadow: none;
+      p:nth-child(1) {
+        padding-bottom: 5px;
+      }
     }
     .navItemLink {
       display: none;

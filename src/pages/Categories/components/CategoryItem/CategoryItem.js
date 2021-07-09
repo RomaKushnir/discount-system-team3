@@ -1,5 +1,6 @@
-import { React } from 'react';
-import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
+import { React, useState } from 'react';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 
@@ -8,9 +9,13 @@ function CategoryItem({
   onEdit,
   onDelete
 }) {
+  const [isItemOpen, setItemOpen] = useState(false);
   return (
-        <div className={styles.categoryBlock}>
-        <KeyboardArrowDownOutlinedIcon />
+        <div className={styles.categoryBlock} onClick = {() => setItemOpen(!isItemOpen)}>
+        {isItemOpen
+          ? <KeyboardArrowDownIcon />
+          : <KeyboardArrowUpIcon />
+        }
       <div className={styles.categoryText}>
         <p>{category.title}</p>
       </div>
