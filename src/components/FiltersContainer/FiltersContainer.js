@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
 import TextInput from '../TextInput';
+import {
+  getTypeaheadVendorsOptions, getCountriesOptions, getCitiesOptions,
+  getCategoriesOptions
+} from '../../store/selectors';
+import useVendorTypeahead from '../../utilities/useVendorTypeahead';
 
 const inputStyles = {
   width: '200px',
@@ -11,107 +17,118 @@ const inputStyles = {
 
 function FiltersContainer({
   onApplyButtonClick,
-  countriesList,
-  citiesList,
-  categoriesList,
-  vendorsList
+  onChangeCountry,
+  onChangeCity,
+  onChangeCategory,
+  onSearchInputChange,
+  filters,
+  onVendorSelectOptionChange,
+  sortOptions,
+  onSortFilterChange
 }) {
-  const [searchWord, setSearchWord] = useState('');
-  const [country, setCountry] = useState({
-    value: 'Ukraine',
-    label: 'Ukraine'
-  }); // temporary, should be user country
-  const [city, setCity] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [vendorSearch, setVendorSearch] = useState(null);
+  const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
+  const countriesOptions = useSelector(getCountriesOptions);
+  const citiesOptions = useSelector(getCitiesOptions);
+  const categoriesOptions = useSelector(getCategoriesOptions);
 
-  const onChangeInput = (e) => {
-    console.log(e.target.value);
-    setSearchWord(e.target.value);
-  };
-  const onChangeVendorInput = (e) => {
-    console.log(e.target.value);
-    setVendorSearch(e.target.value);
+  const onChangeSearchInput = (e) => {
+    onSearchInputChange(e.target.value);
   };
 
   const onChangeCountries = (selectedOption) => {
-    console.log(selectedOption);
-    setCountry(selectedOption);
+    onChangeCountry(selectedOption);
   };
 
   const onChangeCities = (selectedOption) => {
-    console.log(selectedOption);
-    setCity(selectedOption);
+    onChangeCity(selectedOption);
   };
 
   const onChangeCategories = (selectedOption) => {
-    console.log(selectedOption);
-    setCategory(selectedOption);
+    onChangeCategory(selectedOption);
   };
+
+  const countryMemoized = useMemo(
+    () => countriesOptions.find(
+      (el) => el.countryCode === filters.country
+    ) || null, [countriesOptions, filters]
+  );
+
+  const categoriesOptionsMemoized = useMemo(
+    () => categoriesOptions.find(
+      (el) => el.id === Number(filters.category)
+    ) || null, [categoriesOptions, filters]
+  );
+
+  const sortOptionMemoized = useMemo(
+    () => sortOptions.find(
+      (el) => el.value === filters.sort
+    ), [sortOptions, filters]
+  );
 
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
-        <div className = {styles.smallColumn}>
           <div className = {styles.filter}>
             <SelectField
-              initialValue = {country} // temporary. Should be user country later
-              options = {countriesList}
+              value = {countryMemoized}
+              options = {countriesOptions}
               label = "Country"
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
-                options = {country !== null ? citiesList.filter((el) => el.country === country.value) : citiesList}
+                options = {citiesOptions}
                 label = "City"
                 onChange = {onChangeCities}
+                value = {{ value: filters.city, label: filters.city }}
               />
             </div>
-        </div>
-        <div className = {styles.smallColumn}>
-          {categoriesList && <div className = {styles.filter}>
+          <div className = {styles.filter}>
             <SelectField
-              options = {categoriesList}
+              options = {categoriesOptions}
               label = "Category"
               onChange = {onChangeCategories}
+              value = {categoriesOptionsMemoized}
             />
-          </div>}
-          {vendorsList && <div className = {styles.filter}>
+          </div>
+          <div className = {styles.filter}>
+            <SelectField
+              options = {vendorsTypeaheadOptions}
+              value = {{ value: filters.vendorTitle, label: filters.vendorTitle }}
+              label = "Vendor (Min 3 chars)"
+              name = "vendorId"
+              onChange = {(option) => onVendorSelectOptionChange(option)}
+              onInputChange={(characters) => onVendorSelectInputChange(characters)}
+              onBlur = {onVendorSelectBlur}
+            />
+          </div>
+          <div className = {styles.filter}>
             <TextInput
-              onValueChange = {onChangeVendorInput}
-              label = "Vendor"
-              name = "vendorSearch"
+              onValueChange = {onChangeSearchInput}
+              label = "Search"
+              name = "Search"
               placeholder = "Search..."
               type = "search"
               style = {inputStyles}
+              value = {filters.description || filters.shortDescription || ''}
             />
-          </div>}
-        </div>
-      </div>
-      <div className = {styles.inputButtonColumn}>
-        <div className = {styles.inputContainer}>
-          <TextInput
-            onValueChange = {onChangeInput}
-            label = "Search"
-            name = "Search"
-            placeholder = "Search..."
-            type = "search"
-            style = {inputStyles}
-          />
-        </div>
+          </div>
+          <div className = {styles.filter}>
+            <SelectField
+              value = {sortOptionMemoized }
+              options={sortOptions}
+              onChange={onSortFilterChange}
+              isClearable={false}
+              label = "Sort"
+              className = {styles.filterSort}
+            />
+          </div>
         <div className = {styles.buttonContainer}>
         <Button
           btnText = "Apply"
-          onClick = {() => onApplyButtonClick(
-            {
-              searchWord,
-              country,
-              city,
-              category,
-              vendorSearch
-            }
-          )}
+          onClick = {onApplyButtonClick}
         />
         </div>
       </div>

@@ -15,6 +15,4 @@ instance.interceptors.request.use((request) => {
   return request;
 });
 
-console.log(instance);
-
 export default instance;

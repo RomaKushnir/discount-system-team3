@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Vendor.module.scss';
 import * as actions from '../../store/actions';
 // import DiscountCard from '../../components/discountCard';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import VendorInfo from './components/VendorInfo/VendorInfo';
 import VendorDesc from './components/VendorDesc/VendorDesc';
-import DiscountsList from './components/DiscountsList/ListDiscounts';
-import discountsList from '../../mockData/discountsList';
+// import DiscountsList from './components/DiscountsList/ListDiscounts';
+// import discountsList from '../../mockData/discountsList';
 
 function Vendor() {
   const dispatch = useDispatch();
@@ -24,32 +23,32 @@ function Vendor() {
   const vendor = useSelector((state) => state.vendorReducer.vendor);
   console.log(vendor);
   return (
-    <div className={styles.vendorPage}>
-    <Header />
-    <div className={styles.blockVendor}>
-    { vendor && vendor.description
-      ? <Fragment> <VendorInfo
-      vendor = {vendor}
-    />
-    <VendorDesc description = {vendor.description} />
-    </Fragment>
-      : <p>Vendor is not defined</p>
-    }
-    </div>
-    <div>
-    <h2 className={styles.headers}>Active</h2>
-    <div className={styles.activeDiscounts}>
-    <DiscountsList discountsList={discountsList}/>
-    </div>
-    </div>
-    <div>
-    <h2 className={styles.headers}>Archieve</h2>
-    <div className={styles.activeDiscounts}>
-    <DiscountsList discountsList={discountsList}/>
-    </div>
-    </div>
-    <div className={styles.footer}><Footer /></div>
-    </div>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
+        <div className={styles.blockVendor}>
+          { vendor && vendor.description
+            ? <Fragment> <VendorInfo
+            vendor = {vendor}
+          />
+          <VendorDesc description = {vendor.description} />
+          </Fragment>
+            : <p>Vendor is not defined</p>
+          }
+          </div>
+          {/* <div>
+          <h2 className={styles.headers}>Active</h2>
+          <div className={styles.activeDiscounts}>
+          <DiscountsList discountsList={discountsList}/>
+          </div>
+          </div> */}
+          {/* <div>
+          <h2 className={styles.headers}>Archieve</h2>
+          <div className={styles.activeDiscounts}>
+          <DiscountsList discountsList={discountsList}/>
+          </div>
+          </div> */}
+        </div>
+    </PageWrapper>
   );
 }
 

@@ -1,0 +1,35 @@
+@import '../../variables.scss';
+.discountWrapper {
+  display: flex;
+  align-items: center;
+}
+.discount {
+  text-align: right;
+  background-color: $color--blue-dark;
+  color: $color--primary-white;
+  padding: 3px;
+  border-radius: 0 3px 3px 0;
+  position: relative;
+  margin-left: 32px;
+  &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -32px;
+      border: 12px solid transparent;
+      border-right: 20px solid $color--blue-dark;
+  }
+  &.amount {
+    background-color: $color--amount-tag;
+    &::before {
+      border-right-color: $color--amount-tag;
+    }
+  }
+  &.hot {
+    background-color: $color--hot-tag;
+    &::before {
+      border-right-color: $color--hot-tag;
+    }
+  }
+}

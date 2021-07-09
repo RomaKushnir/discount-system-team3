@@ -2,90 +2,31 @@
   display: flex;
   padding: 10px 0;
   align-items: flex-end;
-
-    @media(max-width: 1220px) {
-      padding: 10px;
-    }
-
-    @media(max-width: 450px) {
-      flex-direction: column;
-      align-items: center;
-    }
+  width: 100%;
 
     .filtersContainer {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       margin-bottom: 10px;
+      flex-wrap: wrap;
 
-        .smallColumn {
+        .filter {
+          padding: 0 10px;
+          margin-bottom: 10px;
+        }
+        .filterSort {
+          width: 200px;
+        }
+
+        .buttonContainer {
           display: flex;
-          justify-content: space-around;
-
-            .filter {
-              padding: 0 10px;
-            }
-
-            @media(max-width: 1100px) {
-              justify-content: space-between;
-            }
-
-            @media(max-width: 450px) {
-              flex-direction: column;
-            }
-
-        }
-    
-        @media(max-width: 1220px) {
-          flex-grow: 1;
-        }
-
-        @media(max-width: 850px) {
-          flex-direction: column;
+          width: 100px;
+          height: 38px;
+          align-self: flex-end;
+          margin-bottom: 10px;
         }
 
     }
 
-    .inputButtonColumn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .inputContainer {
-      display: flex;
-      margin-left: 0;
-      margin-bottom: 10px;
-      width: 200px;
-
-        @media(max-width: 1100px) {
-          margin-left: 20px;
-          margin-top: 20px;
-          justify-content: flex-start;
-        }
-
-        @media(max-width: 650px) {
-          margin-left: 10px;
-        }
-    }
-
-    .buttonContainer {
-      display: flex;
-      margin-right: 0;
-      margin-left: auto;
-      margin-bottom: 10px;
-      width: 130px;
-      height: 38px;
-      justify-content: flex-end;
-      align-self: flex-end;
-
-        @media(max-width: 1100px) {
-          margin-top: 20px;
-          margin-right: 50px;
-        }
-
-        @media(max-width: 450px) {
-          margin-right: auto;
-        }
-
-    }
 }

@@ -10,61 +10,33 @@ import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
 import VendorsList from './components/VendorsList';
 import * as actions from '../../store/actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import FiltersContainer from '../../components/FiltersContainer';
 import AddNewItemButton from '../../components/AddNewItemButton';
-import SelectField from '../../components/SelectField';
 import { vendorsSortOptions } from '../../utilities/sortOptions';
 import Pagination from '../../components/Pagination/Pagination';
-import {
-  getVendorsOptions,
-  getCountriesOptions,
-  getVendorsList,
-  getCitiesOptions
-  // getCategoriesOptions
-} from '../../store/selectors';
+import { getVendorsList } from '../../store/selectors';
+import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
+import isAdmin from '../../utilities/isAdmin';
 
 function Vendors() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
-  const [sortOption, setSortOption] = useState(vendorsSortOptions[0]);
-  const country = {
-    value: 'Ukraine',
-    label: 'Ukraine'
-  }; // temporary, should be user country
+  const vendors = useSelector(getVendorsList);
+  const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
+  const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
+  const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    // dispatch(actions.vendorActions.getVendors());
-    const payload = {
-      location_country: country.value || null,
-      location_city: null,
-      // discounts_category_id: params.category?.id || null,
-      title: null,
-      description: null,
-      sort: 'DESC' || null,
-      number: 0,
-      size: 6
-    };
-
-    console.log(payload);
-    const showMore = false;
-    dispatch(actions.vendorActions.getFilteredVendors({
-      filterParams: payload,
-      showMore
-    }));
-    dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, country.value]);
+    dispatch(actions.locationActions.getCities(vendorsFilters.country));
+    // eslint-disable-next-line
+  }, []);
 
-  const vendors = useSelector(getVendorsList);
-  const vendorsOptions = useSelector(getVendorsOptions);
-  const countriesOptions = useSelector(getCountriesOptions);
-  const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
-  const citiesOptions = useSelector(getCitiesOptions);
-  const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
-  // const categoriesOptions = useSelector(getCategoriesOptions);
+  useVendorsQueryChecker();
 
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
@@ -94,97 +66,90 @@ function Vendors() {
     setIsOpen(false);
   }, []);
 
-  const onApplyButtonClick = (params) => {
-    console.log(params);
-    const payload = {
-      location_country: params.country?.label || null,
-      location_city: params.city?.label || null,
-      // discounts_category_id: params.category?.id || null,
-      title: params.vendorSearch || null,
-      description: params.searchWord || null,
-      sort: sortOption.value || null,
-      number: 0,
-      size: 6
-    };
-
-    console.log(payload);
-    const showMore = false;
-    dispatch(actions.vendorActions.getFilteredVendors({
-      filterParams: payload,
-      showMore
-    }));
+  const onChangeCountry = (selectedCountry) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
-  const onSortFilter = (selectedOption) => {
-    console.log(selectedOption);
-    setSortOption(selectedOption);
+  const onChangeCity = (city) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ city: city?.label || null }));
+  };
+
+  const onChangeCategory = (category) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ category: category?.id || null }));
+  };
+
+  const onVendorSelectOptionChange = (selectedVendor) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ vendorTitle: selectedVendor?.label || '' }));
+  };
+
+  const onSearchInputChange = (descriptionSearchWord) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ description: descriptionSearchWord }));
+  };
+
+  const onSortFilterChange = (selectedOption) => {
+    dispatch(actions.vendorActions.updateVendorsFilters({ sort: selectedOption?.value || null }));
+  };
+
+  const onApplyButtonClick = () => {
+    dispatch(actions.vendorActions.clearGetVendorsStatus());
+    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: true }));
   };
 
   const onShowMoreClick = () => {
-    if (vendorsFiltersApplied.number < vendorsFiltersApplied.totalPages) {
-      vendorsFiltersApplied.number += 1;
-      const showMore = true;
-      dispatch(actions.vendorActions.getFilteredVendors({
-        filterParams: vendorsFiltersApplied,
-        showMore
-      }));
+    if (vendorsFiltersApplied.pageNumber < vendorsFiltersApplied.totalPages) {
+      dispatch(actions.vendorActions.updateVendorsFilters({ pageNumber: vendorsFilters.pageNumber += 1 }));
+      dispatch(actions.vendorActions.applyVendorsFilters({ showMore: true, rewriteUrl: false }));
     }
   };
 
-  console.log(vendors);
-  console.log(vendorsFiltersApplied);
   return (
-    <div className={styles.container}>
-      <div>
-        <Header />
-        <main className={styles.contentWrapper}>
-          <FiltersContainer
-            onApplyButtonClick={onApplyButtonClick}
-            countriesList={countriesOptions}
-            citiesList={citiesOptions}
-            // categoriesList={categoriesOptions}
-            vendorsList={vendorsOptions}
-          />
-          <div className={styles.vendorsActionsBlock}>
-            <AddNewItemButton
-              btnTitle="Add new vendor"
-              onAddNewItem={onModalOpen}
-              name = "add"
-            />
-            <SelectField
-              initialValue={sortOption}
-              options={vendorsSortOptions}
-              onChange={onSortFilter}
-              isClearable={false}
-              />
-          </div>
-          <Modal isOpen={isOpen} onClose={closeModal}>
-            <AddVendorModal
-              onSave={closeModal}
-              selectedVendor = {vendor}
-            />
-          </Modal>
-            <div>
-              {getVendorsStatus.loading === true
-                && <div className = {styles.loadingContainer}>
-                <CircularProgress />
-              </div>}
-              {getVendorsStatus.loading === false
-                && <>
-                <VendorsList
-                  vendors={vendors}
-                  onEdit = {onModalOpen}
-                  onDelete = {onDelete}
-                />
-                {vendorsFiltersApplied.number + 1 < vendorsFiltersApplied.totalPages
-                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
-                </>
-                }
-          </div>
-        </main>
+<PageWrapper>
+  <div className={styles.contentWrapper}>
+      <FiltersContainer
+        onApplyButtonClick={onApplyButtonClick}
+        onChangeCountry = {onChangeCountry}
+        onChangeCity = {onChangeCity}
+        onChangeCategory = {onChangeCategory}
+        onVendorSelectOptionChange = {onVendorSelectOptionChange}
+        onSearchInputChange = {onSearchInputChange}
+        filters = {vendorsFilters}
+        sortOptions ={vendorsSortOptions}
+        onSortFilterChange = {onSortFilterChange}
+      />
+      <div className={styles.vendorsActionsBlock}>
+        {isAdmin(user) && <AddNewItemButton
+          btnTitle="Add new vendor"
+          onAddNewItem={onModalOpen}
+          name = "add"
+        />}
       </div>
-      <Footer />
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        <AddVendorModal
+          onSave={closeModal}
+          selectedVendor = {vendor}
+        />
+      </Modal>
+        <div>
+          {getVendorsStatus.loading === true
+            && <div className = {styles.loadingContainer}>
+            <CircularProgress />
+          </div>}
+          {getVendorsStatus.loading === false
+            && <>
+            <VendorsList
+              vendors={vendors}
+              onEdit = {onModalOpen}
+              onDelete = {onDelete}
+            />
+            {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
+              && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+            </>
+            }
+      </div>
     </div>
+  </PageWrapper>
+
   );
 }
 

@@ -4,6 +4,7 @@ import customStyles from './SelectField.styles';
 
 function SelectField({
   initialValue,
+  value,
   options,
   label,
   onChange,
@@ -16,7 +17,8 @@ function SelectField({
   isMulti = false,
   error = '',
   onBlur,
-  name = ''
+  name = '',
+  onInputChange
 }) {
   return (
     <div className = {`${style.container} ${className}`}>
@@ -26,6 +28,7 @@ function SelectField({
         classNamePrefix = "select"
         name = {name}
         defaultValue = {initialValue}
+        value = {value}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}
@@ -35,6 +38,7 @@ function SelectField({
         isDisabled = {isDisabled}
         isMulti = {isMulti}
         onBlur = {onBlur}
+        onInputChange = {onInputChange}
       />
       <div className = {style.error}>{error}</div>
     </div>

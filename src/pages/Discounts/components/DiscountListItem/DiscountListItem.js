@@ -1,18 +1,16 @@
 import DiscountCard from '../../../../components/discountCard';
 import styles from './DiscountListItem.module.scss';
 
-function DiscountListItem({ discount, onClick }) {
+function DiscountListItem({
+  discount, onClick, isLike, onFavouriteClick
+}) {
   return (
     <li onClick = {(e) => onClick(e, discount.id)}>
       <DiscountCard
-        title = {discount.title}
-        category = {discount.category.title}
-        company = {discount.vendor.title}
-        description = {discount.description}
-        flatAmount = {discount.flatAmount}
-        discount = {discount.percentage}
+        discount = {discount}
         className = {styles.discountsCard}
-        img = {discount.imageUrl}
+        isLike = {isLike}
+        onFavouriteClick = {onFavouriteClick}
       />
     </li>
   );

@@ -1,7 +1,10 @@
-.vendorPage {
-  width: 80%;
-  height: 100%;
-  margin: auto;
+
+.contentWrapper {
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .blockVendor {
@@ -18,6 +21,11 @@
 }
 
 .activeDiscounts {
+  // list-style-type: none;
+  // display: grid;
+  // grid-template-columns: repeat(3, minmax(30%, 1fr));
+  // grid-gap: 16px;
+  margin: 16px 0;
   width: 100%;
   height: 100%;
   margin: 10px 0 40px 0;

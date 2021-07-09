@@ -8,40 +8,41 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import SelectField from '../../components/SelectField';
+import PageWrapper from '../../components/PageWrapper';
 import DiscountList from './components/DiscountList';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import CreateDiscount from './components/CreateDiscount';
-import {
-  getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
-  getDiscountsList
-} from '../../store/selectors';
+import { getDiscountsList } from '../../store/selectors';
 import { discountsSortOptions } from '../../utilities/sortOptions';
 import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
+import isAdmin from '../../utilities/isAdmin';
+import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
 
 function Discounts() {
+  // mock data for favourite discounts
+  const favourite = [];
+
   const dispatch = useDispatch();
 
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
+  const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
+  const discountsArray = useSelector(getDiscountsList);
+  const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
+  const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
+  const user = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    dispatch(actions.discountsActions.getDiscountsList());
-    dispatch(actions.locationActions.getLocationsList());
-  }, [dispatch]);
+    dispatch(actions.locationActions.getCountries());
+    dispatch(actions.categoryActions.getCategories());
+    dispatch(actions.locationActions.getCities(discountsFilters.country));
+    // eslint-disable-next-line
+  }, []);
 
-  const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-
-  const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
-
-  const discountsArray = useSelector(getDiscountsList);
+  useDiscountsQueryChecker();
 
   const onModalOpen = () => {
     setModalState(true);
@@ -52,16 +53,42 @@ function Discounts() {
   },
   [setModalState]);
 
-  const onApplyButtonClick = (parameters) => {
-    console.log(parameters);
+  const onChangeCountry = (selectedCountry) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
-  const onChange = () => {
-    console.log('change');
+  const onChangeCity = (city) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ city: city?.label || null }));
+  };
+
+  const onChangeCategory = (category) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null }));
+  };
+
+  const onVendorSelectOptionChange = (selectedVendor) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ vendorTitle: selectedVendor?.label || '' }));
+  };
+  const onSearchInputChange = (descriptionSearchWord) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({
+      shortDescription: descriptionSearchWord
+    }));
+  };
+
+  const onSortFilterChange = (selectedOption) => {
+    dispatch(actions.discountsActions.updateDiscountsFilters({ sort: selectedOption?.value || null }));
+  };
+
+  const onApplyButtonClick = () => {
+    dispatch(actions.discountsActions.clearGetDiscountsStatus());
+    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: true }));
   };
 
   const onShowMoreClick = () => {
-    console.log('show more');
+    if (discountsFiltersApplied.pageNumber < discountsFiltersApplied.totalPages) {
+      dispatch(actions.discountsActions.updateDiscountsFilters({ pageNumber: discountsFilters.pageNumber += 1 }));
+      dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: true, rewriteUrl: false }));
+    }
   };
   const onCardClick = useCallback((e, id) => {
     setIsDiscountModalShown(true);
@@ -76,33 +103,31 @@ function Discounts() {
   const onDeleteDiscount = useCallback((id) => {
     dispatch(actions.discountsActions.clearDeleteDiscountStatus());
     dispatch(actions.discountsActions.deleteDiscount(id));
-    // dispatch(actions.discountsActions.getDiscountsList());
     onDiscountModalClose();
   }, [dispatch]);
 
   return (
-    <div className = {styles.containerFluid}>
-      <div>
-        <Header/>
-        <main className = {styles.container}>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
           <FiltersContainer
             onApplyButtonClick = {onApplyButtonClick}
             className = {styles.discountsFilter}
-            countriesList={countriesOptions}
-            citiesList={citiesOptions}
-            categoriesList={[]}
+            onChangeCountry = { onChangeCountry}
+            onChangeCity = {onChangeCity}
+            onChangeCategory = {onChangeCategory}
+            onSearchInputChange = {onSearchInputChange}
+            onVendorSelectOptionChange = {onVendorSelectOptionChange}
+            onSortFilterChange
+            sortOptions ={discountsSortOptions}
+            onSortFilterChange = {onSortFilterChange}
+            filters = {discountsFilters}
             />
             <div className = {styles.discountsActions}>
-              <AddNewItemButton
+            {isAdmin(user) && <AddNewItemButton
                 btnTitle="Add new discount"
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
-              />
-              <SelectField
-                options = {discountsSortOptions}
-                initialValue = {discountsSortOptions[0]}
-                onChange = {onChange}
-              />
+              />}
             </div>
             <div className = {styles.discountsContainer}>
             {getDiscountsStatus.loading === true
@@ -114,27 +139,27 @@ function Discounts() {
               <DiscountList
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
+                favouriteDiscounts = {favourite}
               />
               <DiscountModal
                 discount = {discount}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
+                favouriteDiscounts = {favourite}
               />
-              <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />
+              {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
+                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
               </>
             }
             </div>
-          </main>
-        </div>
-
+          </div>
         <Modal isOpen={modalState} onClose={closeModal}>
           <CreateDiscount
             onModalClose={closeModal}
           />
         </Modal>
-      <Footer/>
-    </div>
+    </PageWrapper>
   );
 }
 

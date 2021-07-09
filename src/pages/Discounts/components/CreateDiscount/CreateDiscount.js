@@ -11,23 +11,25 @@ import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
   getLocationsOptions,
-  getVendorsOptions,
   getCountriesOptions,
   getCitiesGroupedByCountryOptions,
-  getCategoriesOptions
+  getCategoriesOptions,
+  getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
+import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
 
 function CreateDiscount({
   discount,
   onModalClose
 }) {
   const dispatch = useDispatch();
+  const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
-  const vendorsOptions = useSelector(getVendorsOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
   const locationOptions = useSelector(getLocationsOptions);
+  const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
   const initialVendorOptions = discount ? {
@@ -55,6 +57,7 @@ function CreateDiscount({
   const discountRequest = {
     title: discount ? discount.title : '',
     imageUrl: discount ? discount.imageUrl : '',
+    promocode: discount ? discount.promocode : '',
     description: discount ? discount.description : '',
     shortDescription: discount ? discount.shortDescription : '',
     flatAmount: discount ? discount.flatAmount : '',
@@ -75,9 +78,9 @@ function CreateDiscount({
     if (!countriesOptions.length || !citiesOptions.length) {
       dispatch(actions.locationActions.getLocationsList());
     }
-    if (!vendorsOptions.length) dispatch(actions.vendorActions.getVendors());
+
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, vendorsOptions, categoriesOptions]);
+  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
@@ -146,14 +149,16 @@ function CreateDiscount({
         />
         <div className={styles.twoColumnsWrapper}>
           <SelectField
-            options = {vendorsOptions}
+            options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor"
+            label = "Vendor (Min 3 chars)"
             name = "vendorId"
             placeholder = "Select vendor"
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
+            onInputChange={(characters) => onVendorSelectInputChange(characters)}
             error = {formik.errors.vendorId}
+            onBlur = {onVendorSelectBlur}
           />
           <SelectField
             options = {categoriesOptions}
@@ -197,6 +202,17 @@ function CreateDiscount({
           onValueChange = {formik.handleChange}
           onBlur={formik.handleBlur}
           error = {formik.errors.imageUrl}
+        />
+        <TextInput
+          placeholder = "Promo code"
+          label = "Promo code"
+          name = "promocode"
+          type = "text"
+          className={styles.inputContainer}
+          value = {formik.values.promocode}
+          onValueChange = {formik.handleChange}
+          onBlur={formik.handleBlur}
+          error = {formik.errors.promocode}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
           <label htmlFor="description">Full Description</label>

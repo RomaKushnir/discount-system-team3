@@ -1,64 +1,58 @@
 import React, {
   useState,
   useCallback,
-  useEffect,
-  Fragment
+  useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Categories.module.scss';
 import * as actions from '../../store/actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import PageWrapper from '../../components/PageWrapper';
 import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
-import CategoryList from './components/CategoryList';
+import CategoriesList from './components/CategoriesList';
 
 function Categories() {
   const [isOpen, setIsOpen] = useState(false);
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
-  console.log(categories);
-  // const categories = useSelector(getCategoriesList);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('Use Effect');
     dispatch(actions.categoryActions.getCategories());
-    console.log('Work');
+  }, [dispatch]);
+  const onDelete = useCallback((id) => {
+    dispatch(actions.categoryActions.clearDeleteCategoryStatus());
+    dispatch(actions.categoryActions.deleteCategory(id));
   }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
     setIsOpen(true);
 
-    console.log(id);
-
     if (e.target.name === 'edit') {
-      // const selectedCategory = categories.find((el) => el.id === id);
+      const selectedCategory = categories.find((el) => el.id === id);
 
-      // setCategory(selectedCategory);
+      setCategory(selectedCategory);
 
       setCategory({
-        imageUrl: 'https://picsum.photos/200?random=8',
+        // imageUrl: 'https://picsum.photos/200?random=8',
         title: 'Food',
         id: 5
       }); // temporary while we don't have list of categories
     } else {
       setCategory({
-        imageUrl: '',
+        // imageUrl: '',
         title: '',
         id: ''
       });
     }
-  // }, [dispatch, categories]);
-  }, []);
+  }, [categories]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
   }, []);
 
   return (
-    <div className = {styles.container}>
-      <Header/>
-      <main className={styles.contentWrapper}>
+    <PageWrapper>
+      <div className={styles.contentWrapper}>
       <div className={styles.row}>
         <AddNewItemButton
           btnTitle="Add new category"
@@ -67,10 +61,7 @@ function Categories() {
         />
       </div>
         <div className={styles.row}>
-        { categories
-          ? <Fragment><CategoryList categories={categories} /></Fragment>
-          : <p>Category is not defined</p>
-        }
+          <CategoriesList categories={categories} onDelete = {onDelete} onEdit={onModalOpen}/>
         </div>
         <Modal isOpen={isOpen} onClose={closeModal}>
           <AddCategoryModal
@@ -78,9 +69,8 @@ function Categories() {
             selectedCategory = {addCategory}
           />
       </Modal>
-      </main>
-      <Footer />
-    </div>
+      </div>
+      </PageWrapper>
   );
 }
 

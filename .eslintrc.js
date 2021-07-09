@@ -55,7 +55,7 @@ module.exports = {
     'no-useless-constructor': 'error',
     'no-prototype-builtins': 'off',
     'no-var': 'warn',
-    'no-unused-vars': ['error', { vars: 'local' }],
+    'no-unused-vars': ['error', { vars: 'local', ignoreRestSiblings: true }],
     'no-magic-numbers': ['warn', { ignore: [0, 1] }],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
