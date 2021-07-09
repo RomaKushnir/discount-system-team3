@@ -15,7 +15,7 @@ function DiscountList({ discounts, onCardClick, favouriteDiscounts }) {
     }
   };
 
-  const discountsList = discounts?.length
+  const discountsList = discounts?.length > 0
     ? discounts.map((discount) => <DiscountListItem
         discount = {discount}
         key = {discount.id}

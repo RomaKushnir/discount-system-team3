@@ -12,9 +12,7 @@ function DiscountTag({
         ? <div className={`${styles.discount} ${styles.amount}`}>
           - {flatAmount}$
           </div>
-        : <div className=
-            {`${styles.discount} ${styles.percent} ${percentage > CENTER_PERCENT ? styles.hot : null}`}
-          >
+        : <div className = {`${styles.discount} ${styles.percent} ${percentage > CENTER_PERCENT ? styles.hot : ''}`}>
           - {percentage}%
           </div>}
     </div>
