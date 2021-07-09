@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Formik, Form } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -26,6 +26,13 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
     }
   };
 
+  const initialFormData = useMemo(() => ({ countryCode: '', city: '', addressLine: '' }), []);
+  const validationSchema = useMemo(() => (
+    yup.object().shape({
+      countryCode: yup.string().nullable().required('The fiels is required')
+    })
+  ), []);
+
   useEffect(() => {
     if (createLocationStatus.success) {
       console.log('created location success', createdLocation);
@@ -41,14 +48,8 @@ const CreateLocation = ({ addLocationToVendor, onModalClose }) => {
   return (
     <div className={styles.createLocationWrapper}>
       <Formik
-        initialValues={{
-          countryCode: '',
-          city: '',
-          addressLine: ''
-        }}
-        validationSchema={yup.object().shape({
-          countryCode: yup.string().nullable().required('The fiels is required')
-        })}
+        initialValues={initialFormData}
+        validationSchema={validationSchema}
       >
         {(formikProps) => {
           const {

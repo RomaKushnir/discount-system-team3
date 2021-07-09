@@ -1,37 +1,41 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import styles from './AddLocation.module.scss';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
-import * as actions from '../../../../store/actions';
 import { getCitiesOptions, getCountriesOptions } from '../../../../store/selectors';
 
+const onApplyFilter = (filterData) => {
+  console.log('filterData', filterData);
+};
+
+const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
+  const { name } = options;
+  let value;
+  if (Array.isArray(selected)) {
+    value = selected;
+  } else {
+    value = selected && selected.value;
+  }
+  setFieldValue(name, value);
+};
+
 function AddLocation({ onModalClose, addLocationToVendor }) {
-  const dispatch = useDispatch();
   const citiesOptions = useSelector(getCitiesOptions);
   const countriesOptions = useSelector(getCountriesOptions);
 
-  const createOnSelectValueChange = (setFieldValue) => (selected, options) => {
-    const { name } = options;
-    let value;
-    if (Array.isArray(selected)) {
-      value = selected;
-    } else {
-      value = selected && selected.value;
-    }
-    setFieldValue(name, value);
-    if (name === 'countryCode') {
-      dispatch(actions.locationActions.getCities(value));
-    }
-    if (name === 'city') {
-      dispatch(actions.locationActions.getLocationsList(value));
-    }
-  };
-
-  const onApplyFilter = (filterData) => {
-    console.log('filterData', filterData);
-  };
+  const initialFiltersFormData = useMemo(() => ({ country: '' }), []);
+  const validationSchemaFilters = useMemo(() => (
+    yup.object().shape({
+      country: yup.string().nullable().required('The fiels is required')
+    })), []);
+  const initialLocationsFormData = useMemo(() => ({ location: [] }), []);
+  const validationSchemaLocations = useMemo(() => (
+    yup.object().shape({
+      location: yup.mixed().nullable().test('location', 'Choose at least one location', (val) => !val || val.length > 0)
+    })), []);
 
   const onChooseLocation = (locationData) => {
     console.log('locationData', locationData);
@@ -41,10 +45,8 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
   return (
     <div className={styles.chooseLocationWrapper}>
       <Formik
-        initialValues={{ countryCode: '' }}
-        validationSchema={yup.object().shape({
-          countryCode: yup.string().nullable().required('The fiels is required')
-        })}
+        initialValues={initialFiltersFormData}
+        validationSchema={validationSchemaFilters}
         onSubmit={onApplyFilter}
       >
         {(formikProps) => {
@@ -92,10 +94,8 @@ function AddLocation({ onModalClose, addLocationToVendor }) {
         }}
       </Formik>
       <Formik
-        initialValues={{ location: [] }}
-        validationSchema={yup.object().shape({
-          location: yup.mixed().nullable().test('location', 'Choose at least one location', (val) => val.length > 0)
-        })}
+        initialValues={initialLocationsFormData}
+        validationSchema={validationSchemaLocations}
         onSubmit={onChooseLocation}
       >
         {(formikProps) => {
