@@ -60,14 +60,10 @@ function FiltersContainer({
     ), [categoriesOptions, filters]
   );
 
-  console.log(filters);
-  console.log(categoriesOptions);
-  console.log(categoriesOptionsMemoized);
-
   const sortOptionMemoized = useMemo(
     () => sortOptions.find(
       (el) => el.value === filters.sort
-    ), [sortOptions, filters]
+    ) || null, [sortOptions, filters]
   );
 
   return (
