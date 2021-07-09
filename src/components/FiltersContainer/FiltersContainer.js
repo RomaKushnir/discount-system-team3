@@ -51,19 +51,19 @@ function FiltersContainer({
   const countryMemoized = useMemo(
     () => countriesOptions.find(
       (el) => el.countryCode === filters.country
-    ), [countriesOptions, filters]
+    ) || null, [countriesOptions, filters]
   );
 
   const categoriesOptionsMemoized = useMemo(
     () => categoriesOptions.find(
       (el) => el.id === Number(filters.category)
-    ), [categoriesOptions, filters]
+    ) || null, [categoriesOptions, filters]
   );
 
   const sortOptionMemoized = useMemo(
     () => sortOptions.find(
       (el) => el.value === filters.sort
-    ) || null, [sortOptions, filters]
+    ), [sortOptions, filters]
   );
 
   return (
