@@ -11,11 +11,8 @@ import * as actions from '../actions';
 
 export function* addCategory({ payload }) {
   const {
-    id, title, tags, deletedTags
+    id, title, tags
   } = payload;
-
-  console.log(payload);
-  console.log(id, title, tags, deletedTags);
 
   let response;
 
@@ -29,16 +26,13 @@ export function* addCategory({ payload }) {
     }
     toast.success('Category was successfully saved.');
     if (tags?.length > 0) {
-      const tagsAddingResponse = yield call(api.categories.addTagsToCategory, { categoryId: id, tags });
+      const tagsAddingResponse = yield call(api.categories.addTagsToCategory, {
+        categoryId: id || response.data.id, tags
+      });
 
-      console.log(tagsAddingResponse);
       yield put(actions.categoryActions.addTagsToCategorySuccess(tagsAddingResponse.data));
     }
-    if (deletedTags?.length > 0) {
-      const tagsDeletingResponse = yield call(api.categories.addTagsToCategory, { categoryId: id, tags: deletedTags });
-      console.log(tagsDeletingResponse);
-      yield put(actions.categoryActions.deleteTagsFromCategorySuccess(tagsDeletingResponse.data));
-    }
+    yield put(actions.categoryActions.getCategories());
   } catch (error) {
     yield put(actions.categoryActions.addCategoryFailure(error));
     toast.error(`Error: ${error.message}`);
@@ -49,7 +43,6 @@ export function* getCategories() {
   try {
     const response = yield call(api.categories.getCategories);
 
-    console.log(response);
     yield put(actions.categoryActions.getCategoriesSuccess(response.data));
   } catch (error) {
     yield put(actions.categoryActions.getCategoriesFailure(error));
@@ -62,21 +55,21 @@ export function* deleteCategory({ payload }) {
     yield call(api.categories.deleteCategory, payload);
 
     yield put(actions.categoryActions.deleteCategorySuccess(payload));
+    yield put(actions.categoryActions.getCategories());
+    toast.success('Category was successfully deleted.');
   } catch (error) {
     yield put(actions.categoryActions.deleteCategoryFailure(error));
   }
 }
 
 export function* addTagsToCategory({ payload }) {
-  console.log(payload);
   const { id, tags } = payload;
 
   try {
     const response = yield call(api.categories.addTagsToCategory, { categoryId: id, tags });
 
-    console.log(response);
     yield put(actions.categoryActions.addTagsToCategorySuccess(response.data));
-
+    yield put(actions.categoryActions.getCategories());
     toast.success('Tags were successfully saved.');
   } catch (error) {
     yield put(actions.categoryActions.addTagsToCategoryFailure(error));
@@ -85,15 +78,13 @@ export function* addTagsToCategory({ payload }) {
 }
 
 export function* deleteTagsFromCategory({ payload }) {
-  console.log(payload);
   const { id, tags } = payload;
 
   try {
     const response = yield call(api.categories.deleteTagsFromCategory, { categoryId: id, tags });
 
-    console.log(response);
     yield put(actions.categoryActions.deleteTagsFromCategorySuccess(response.data));
-
+    yield put(actions.categoryActions.getCategories());
     toast.success('Tags were successfully deleted.');
   } catch (error) {
     yield put(actions.categoryActions.deleteTagsFromCategoryFailure(error));

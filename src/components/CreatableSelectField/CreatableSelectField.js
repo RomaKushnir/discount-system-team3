@@ -17,7 +17,6 @@ function CreatableSelectField({
   onBlur,
   value
 }) {
-  console.log(initialValue);
   return (
     <div className = {style.container}>
       {label != null && <label className = {style.label}>{label}</label>}

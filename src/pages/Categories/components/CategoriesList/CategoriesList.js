@@ -10,7 +10,6 @@ import CategoryTag from '../CategoryTag';
 function CategoriesList({
   categories, onDelete, onEdit
 }) {
-  console.log(categories);
   return (
         <div>
       {categories.length

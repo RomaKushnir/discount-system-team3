@@ -6,9 +6,6 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import CreatableSelectField from '../../../../components/CreatableSelectField';
 import * as actions from '../../../../store/actions';
-// import {
-//   selectValidation, imageUrlValidation, idValidation, titleValidation
-// } from '../../../../utilities/validation';
 import {
   selectValidation,
   idValidation,
@@ -38,11 +35,13 @@ function AddCategoryModal({ onSave, selectedCategory }) {
   });
   const [touched, setTouched] = useState({ id: true, imageUrl: true, tags: true });
   const [isDisabled, setIsDisabled] = useState(false);
+  const [newTags, setNewTags] = useState([]);
   const [deletedTags, setDeletedTags] = useState([]);
 
   const addCategoryStatus = useSelector((state) => state.categoryReducer.addCategoryStatus);
   const addTagsStatus = useSelector((state) => state.categoryReducer.addTagsToCategoryStatus);
-  const tagsOptions = category.tags?.map((el) => ({ value: el.id, label: el.name }));
+  const deleteTagsStatus = useSelector((state) => state.categoryReducer.deleteTagsFromCategoryStatus);
+  const tagsOptions = category.tags?.map((el) => ({ ...el, value: el.id, label: el.name }));
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -114,15 +113,15 @@ function AddCategoryModal({ onSave, selectedCategory }) {
       && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       setIsDisabled(false);
-      console.log(category);
       if (category.title !== selectedCategory.title) {
-        dispatch(actions.categoryActions.addCategory({ ...category, tags }));
+        dispatch(actions.categoryActions.addCategory({ ...category, tags: newTags }));
       } else if (tags.length > 0) {
-        dispatch(actions.categoryActions.addTagsToCategory({ ...category, tags }));
-      } else if (deletedTags.length > 0) {
-        dispatch(actions.categoryActions.deleteTagsFromCategory({ ...category, deletedTags }));
+        dispatch(actions.categoryActions.addTagsToCategory({ id: category.id, tags: newTags }));
       } else {
         setIsDisabled(true);
+      }
+      if (deletedTags.length > 0) {
+        dispatch(actions.categoryActions.deleteTagsFromCategory({ id: category.id, tags: deletedTags }));
       }
     }
   };
@@ -134,34 +133,20 @@ function AddCategoryModal({ onSave, selectedCategory }) {
   };
 
   const handleTagsChange = (newValue, actionMeta) => {
-    console.group('Value Changed');
-    console.log(newValue);
-    console.log(actionMeta);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-
     if (actionMeta.action === 'create-option') {
-      // const newValuesOnly = new Set(newValue.filter((el) => !el.id).map((el) => ({ name: el.label })));
-
-      const newValuesOnly = new Map(newValue.filter((el) => !el.id).map((el) => ({ name: el.label })));
-      console.log(newValuesOnly);
-      setTags([...newValuesOnly]);
-      // const tagsObjects = [...newValue].map((el) => ({ name: el.label }));
-      // console.log(tagsObjects);
-      // setTags(tagsObjects);
+      const newValuesOnly = newValue.filter((el) => !el.id).map((el) => ({ name: el.label }));
+      setNewTags([...newValuesOnly]);
+      setTags([...newValue]);
     }
     if (actionMeta.action === 'remove-value') {
-      const tagsIds = [...newValue].map((el) => el.id);
-      console.log(tagsIds);
-      setDeletedTags(tagsIds);
+      setDeletedTags([...deletedTags, actionMeta.removedValue.id]);
     }
   };
 
-  console.log(tags);
-
   return (
     <div className = {styles.container}>
-      {addTagsStatus.loading === false && addTagsStatus.success
+      {((addTagsStatus.loading === false && addTagsStatus.success)
+      || (deleteTagsStatus.loading === false && deleteTagsStatus.success))
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
         <Button
