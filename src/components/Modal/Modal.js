@@ -2,7 +2,12 @@ import ReactDOM from 'react-dom';
 import { Close } from '@material-ui/icons';
 import styles from './Modal.module.scss';
 
-function Modal({ isOpen, onClose, children }) {
+function Modal({
+  isOpen,
+  onClose,
+  isOverlayTransparent = false,
+  children
+}) {
   const onContentClick = (e) => {
     e.stopPropagation();
   };
@@ -11,7 +16,10 @@ function Modal({ isOpen, onClose, children }) {
 
   if (!isOpen) return null;
   return ReactDOM.createPortal(
-     <div className={`${styles.overlay} ${styles[showModal]}`} onClick = {onClose}>
+     <div
+      className={`${styles.overlay} ${isOverlayTransparent ? styles.transparent : ''} ${styles[showModal]}`}
+      onClick = {onClose}
+     >
        <div className = {styles.contentContainer} onClick = {onContentClick}>
          <div className = {styles.closeButtonContainer}>
           <Close

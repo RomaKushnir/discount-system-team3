@@ -21,16 +21,29 @@ import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
 
 function Discounts() {
+  // mock data for favourite discounts
+  const favourite = [];
+
   const dispatch = useDispatch();
 
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
+
+  useEffect(() => {
+    dispatch(actions.locationActions.getLocationsList());
+    dispatch(actions.categoryActions.getCategories());
+    // dispatch(actions.locationActions.getCountries());
+  }, [dispatch]);
+
+  useDiscountsQueryChecker();
+
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
+  // const getCountries = useSelector((state) => state.locationReducer.countries);
 
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
@@ -137,12 +150,14 @@ function Discounts() {
               <DiscountList
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
+                favouriteDiscounts = {favourite}
               />
               <DiscountModal
                 discount = {discount}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
+                favouriteDiscounts = {favourite}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}

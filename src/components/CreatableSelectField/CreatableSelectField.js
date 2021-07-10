@@ -10,12 +10,13 @@ function CreatableSelectField({
   isLoading,
   isSearchable = true,
   isClearable = false,
-  className,
+  className = '',
   isDisabled = false,
-  isMulti,
+  isMulti = false,
   error = '',
   onBlur,
-  value
+  value,
+  name
 }) {
   return (
     <div className = {style.container}>
@@ -33,6 +34,7 @@ function CreatableSelectField({
         isMulti = {isMulti}
         onBlur = {onBlur}
         value = {value}
+        name = {name}
       />
       <div className = {style.error}>{error}</div>
     </div>

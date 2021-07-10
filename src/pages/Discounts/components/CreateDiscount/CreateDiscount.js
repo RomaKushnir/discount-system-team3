@@ -75,9 +75,9 @@ function CreateDiscount({
 
   // GET REQUIRED DATA FROM API
   useEffect(() => {
-    if (!countriesOptions.length || !citiesOptions.length) {
-      dispatch(actions.locationActions.getLocationsList());
-    }
+    // if (!countriesOptions.length || !citiesOptions.length) {
+    // dispatch(actions.locationActions.getLocationsList());
+    // }
 
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
   }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);

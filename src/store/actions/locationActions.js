@@ -94,3 +94,30 @@ export function clearGetCitiesStatus() {
     type: types.CLEAR_GET_CITIES_STATUS
   };
 }
+
+export function createLocation(payload) {
+  return {
+    type: types.CREATE_LOCATION,
+    payload
+  };
+}
+
+export function createLocationSuccess(payload) {
+  return {
+    type: types.CREATE_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function createLocationFailure(payload) {
+  return {
+    type: types.CREATE_LOCATION_FAILURE,
+    payload
+  };
+}
+
+export function clearCreateLocationStatus() {
+  return {
+    type: types.CLEAR_CREATE_LOCATION_STATUS
+  };
+}
