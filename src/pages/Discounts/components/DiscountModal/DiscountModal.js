@@ -42,8 +42,8 @@ function DiscountModal({
   const locationsList = discount && discount.locations
     ? discount.locations.map((location) => {
       const option = {
-        value: `${location.country}, ${location.city}`,
-        label: `${location.country}, ${location.city}`
+        value: `${location.countryCode}, ${location.city}, ${location.addressLine}`,
+        label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
       };
       return option;
     })
@@ -109,6 +109,7 @@ function DiscountModal({
           label = "Location"
           onChange = {onLocationChange}
           isClearable = {false}
+          value = {locationsList[0]}
         />
       </div>
       <div className = {styles.dates}>

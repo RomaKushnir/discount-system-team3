@@ -101,3 +101,30 @@ export function clearDiscountsFilters() {
     type: types.CLEAR_DISCOUNTS_FILTERS
   };
 }
+
+export function getVendorDiscounts(payload) {
+  return {
+    type: types.GET_VENDOR_DISCOUNTS,
+    payload
+  };
+}
+
+export function getVendorDiscountsSuccess(payload) {
+  return {
+    type: types.GET_VENDOR_DISCOUNTS_SUCCESS,
+    payload
+  };
+}
+
+export function getVendorDiscountsFailure(payload) {
+  return {
+    type: types.GET_VENDOR_DISCOUNTS_FAILURE,
+    payload
+  };
+}
+
+export function clearGetVendorDiscountsStatus() {
+  return {
+    type: types.CLEAR_GET_VENDOR_DISCOUNTS_STATUS
+  };
+}

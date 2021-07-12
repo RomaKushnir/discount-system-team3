@@ -20,7 +20,15 @@ const initialState = {
   createDiscountStatus: helpers.getDefaultState(),
   deleteDiscountStatus: helpers.getDefaultState(),
   discountsFilters: { ...defaultDiscountsFilter },
-  discountsFiltersApplied: { ...defaultDiscountsFilter }
+  discountsFiltersApplied: { ...defaultDiscountsFilter },
+  vendorDiscounts: [],
+  vendorDiscountsParams: {
+    pageNumber: 0,
+    size: 6,
+    totalElements: null,
+    totalPages: null
+  },
+  getVendorDiscountsStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -140,6 +148,43 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         discountsFilters: { ...defaultDiscountsFilter }
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS: {
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS_SUCCESS: {
+      const { discounts, showMore } = action.payload;
+      const {
+        content, number, size, totalElements, totalPages
+      } = discounts;
+
+      return {
+        ...state,
+        vendorDiscounts: showMore ? [...state.vendorDiscounts, ...content] : content,
+        getVendorDiscountsStatus: helpers.getSuccessState('Success!'),
+        vendorDiscountsParams: {
+          pageNumber: number,
+          size,
+          totalElements,
+          totalPages
+        }
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_VENDOR_DISCOUNTS_STATUS: {
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getDefaultState()
       };
     }
     default:

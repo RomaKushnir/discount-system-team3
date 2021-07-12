@@ -30,14 +30,6 @@ function Discounts() {
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [discount, setDiscount] = useState(null);
 
-  useEffect(() => {
-    dispatch(actions.locationActions.getLocationsList());
-    dispatch(actions.categoryActions.getCategories());
-    // dispatch(actions.locationActions.getCountries());
-  }, [dispatch]);
-
-  useDiscountsQueryChecker();
-
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
