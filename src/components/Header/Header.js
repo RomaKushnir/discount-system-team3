@@ -3,7 +3,6 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../../i18n';
-// import getLanguage from '../../utilities/getLanguage';
 import * as actions from '../../store/actions';
 import Routes from '../../routes';
 import styles from './Header.module.scss';
