@@ -4,6 +4,7 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import { useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Modal from '../../../../components/Modal';
 import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
@@ -17,6 +18,7 @@ import DiscountTag from '../../../../components/DiscountTag';
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
 }) {
+  const { t } = useTranslation();
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
@@ -71,13 +73,13 @@ function DiscountModal({
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
-      title = "Edit"
+      title = {t('edit')}
       type = "edit"
       onActionClick = {onEditClick}
       name = "edit"
     />
     <ItemActionButton
-      title = "Delete"
+      title = {t('delete')}
       type = "delete"
       onActionClick = {onDelete}
       name = "delete"
@@ -106,7 +108,7 @@ function DiscountModal({
         <SelectField
           initialValue = "Location"
           options = {locationsList}
-          label = "Location"
+          label = {t('location')}
           onChange = {onLocationChange}
           isClearable = {false}
         />
@@ -132,7 +134,7 @@ function DiscountModal({
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
-          title = "Activate"
+          title = {t('activate')}
           onActionClick = {onActivateClick}
           name = "activate"
         />

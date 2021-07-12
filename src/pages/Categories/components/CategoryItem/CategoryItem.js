@@ -1,5 +1,6 @@
 import { React } from 'react';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
+import { useTranslation } from 'react-i18next';
 import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 
@@ -8,6 +9,7 @@ function CategoryItem({
   onEdit,
   onDelete
 }) {
+  const { t } = useTranslation();
   return (
         <div className={styles.categoryBlock}>
         <KeyboardArrowDownOutlinedIcon />
@@ -16,7 +18,7 @@ function CategoryItem({
       </div>
       <div className={styles.buttons}>
       <ItemActionButton
-          title="Edit"
+          title={t('edit')}
           className={styles.editBtn}
           type="edit"
           name = "edit"
@@ -26,7 +28,7 @@ function CategoryItem({
           }}
         />
         <ItemActionButton
-          title="Delete"
+          title={t('delete')}
           className={styles.deleteBtn}
           type="delete"
           name = "delete"

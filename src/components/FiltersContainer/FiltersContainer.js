@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
@@ -26,6 +27,7 @@ function FiltersContainer({
   sortOptions,
   onSortFilterChange
 }) {
+  const { t } = useTranslation();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
@@ -73,14 +75,14 @@ function FiltersContainer({
             <SelectField
               value = {countryMemoized}
               options = {countriesOptions}
-              label = "Country"
+              label = {t('country')}
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
                 options = {citiesOptions}
-                label = "City"
+                label = {t('city')}
                 onChange = {onChangeCities}
                 value = {{ value: filters.city, label: filters.city }}
               />
@@ -88,7 +90,7 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {categoriesOptions}
-              label = "Category"
+              label = {t('category')}
               onChange = {onChangeCategories}
               value = {categoriesOptionsMemoized}
             />
@@ -97,7 +99,7 @@ function FiltersContainer({
             <SelectField
               options = {vendorsTypeaheadOptions}
               value = {{ value: filters.vendorTitle, label: filters.vendorTitle }}
-              label = "Vendor (Min 3 chars)"
+              label = {t('vendor_min_3_chars')}
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
               onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -107,9 +109,9 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <TextInput
               onValueChange = {onChangeSearchInput}
-              label = "Search"
+              label = {t('search')}
               name = "Search"
-              placeholder = "Search..."
+              placeholder = {`${t('search')}...`}
               type = "search"
               style = {inputStyles}
               value = {filters.description || filters.shortDescription || ''}
@@ -121,13 +123,13 @@ function FiltersContainer({
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
-              label = "Sort"
+              label = {t('sort')}
               className = {styles.filterSort}
             />
           </div>
         <div className = {styles.buttonContainer}>
         <Button
-          btnText = "Apply"
+          btnText = {t('apply')}
           onClick = {onApplyButtonClick}
         />
         </div>

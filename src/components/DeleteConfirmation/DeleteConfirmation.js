@@ -1,13 +1,15 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 import styles from './DeleteConfirmation.module.scss';
 import ItemActionButton from '../ItemActionButton';
 
 function DeleteConfirmation({
   onYesClick, onNoClick, status, itemTitle
 }) {
+  const { t } = useTranslation();
   return (
     <div className = {styles.container}>
-      <div className = {styles.question}>Are you sure you want to delete this {itemTitle}?</div>
+      <div className = {styles.question}>{`${t('are_you_sure_you_want_to_delete_this')} ${itemTitle}?`}</div>
       {status.loading === false && status.error
         && <div className = {styles.errorMessage}>
           {status.error.message}
@@ -15,14 +17,14 @@ function DeleteConfirmation({
       }
       <div className = {styles.buttonsContainer}>
         <ItemActionButton
-          title = "Yes"
+          title = {t('yes')}
           onActionClick = {onYesClick}
           type = "delete"
           className={styles.deleteBtn}
           name = "delete"
         />
         <ItemActionButton
-          title = "No"
+          title = {t('no')}
           onActionClick = {onNoClick}
           type = "normal"
           className={styles.normalBtn}

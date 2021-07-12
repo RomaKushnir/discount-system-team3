@@ -4,6 +4,7 @@ import React, {
   useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import styles from './Categories.module.scss';
 import * as actions from '../../store/actions';
 import PageWrapper from '../../components/PageWrapper';
@@ -13,6 +14,7 @@ import AddNewItemButton from '../../components/AddNewItemButton';
 import CategoriesList from './components/CategoriesList';
 
 function Categories() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
@@ -55,7 +57,7 @@ function Categories() {
       <div className={styles.contentWrapper}>
       <div className={styles.row}>
         <AddNewItemButton
-          btnTitle="Add new category"
+          btnTitle={t('add_new_category')}
           onAddNewItem={onModalOpen}
           name = "add"
         />

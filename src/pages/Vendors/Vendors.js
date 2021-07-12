@@ -5,6 +5,7 @@ import {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 import styles from './Vendors.module.scss';
 import Modal from '../../components/Modal';
 import AddVendorModal from './components/AddVendor';
@@ -20,6 +21,7 @@ import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 import isAdmin from '../../utilities/isAdmin';
 
 function Vendors() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
@@ -119,7 +121,7 @@ function Vendors() {
       />
       <div className={styles.vendorsActionsBlock}>
         {isAdmin(user) && <AddNewItemButton
-          btnTitle="Add new vendor"
+          btnTitle={t('add_new_vendor')}
           onAddNewItem={onModalOpen}
           name = "add"
         />}
@@ -143,7 +145,7 @@ function Vendors() {
               onDelete = {onDelete}
             />
             {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
-              && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+              && <Pagination btnTitle={t('show_more')}onShowMoreClick={onShowMoreClick} />}
             </>
             }
       </div>

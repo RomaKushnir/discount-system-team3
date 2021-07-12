@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
@@ -21,6 +22,7 @@ import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
 
 function Discounts() {
+  const { t } = useTranslation();
   // mock data for favourite discounts
   const favourite = [];
 
@@ -134,7 +136,7 @@ function Discounts() {
             />
             <div className = {styles.discountsActions}>
             {isAdmin(user) && <AddNewItemButton
-                btnTitle="Add new discount"
+                btnTitle={t('add_new_discount')}
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
               />}
@@ -159,7 +161,7 @@ function Discounts() {
                 favouriteDiscounts = {favourite}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
-                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+                  && <Pagination btnTitle={t('show_more')} onShowMoreClick={onShowMoreClick} />}
               </>
             }
             </div>

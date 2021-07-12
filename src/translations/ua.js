@@ -1,0 +1,30 @@
+const ua = {
+  country: 'Країна',
+  categories: 'Категорії',
+  statistics: 'Статистика',
+  vendors: 'Контрагенти',
+  my_discounts: 'Мої знижки',
+  favourites: 'Улюблені',
+  logout: 'Вийти',
+  city: 'Місто',
+  category: 'Категорія',
+  vendor_min_3_chars: 'Конрагент (min 3)',
+  search: 'Пошук',
+  sort: 'Сортувати',
+  apply: 'Застосувати',
+  add_new_vendor: 'Додати нового контрагента',
+  show_more: 'Показати більше',
+  delete: 'Видалити',
+  edit: 'Редагувати',
+  view: 'Переглянути',
+  yes: 'Так',
+  no: 'Ні ',
+  are_you_sure_you_want_to_delete_this: 'Ви впевнені, що хочете видалити',
+  delete_vendor: 'контрагента',
+  add_new_category: 'Додати нову категорію',
+  add_new_discount: 'Додати нову знижку',
+  location: 'Адреса',
+  activate: 'Активувати'
+};
+
+export default ua;
