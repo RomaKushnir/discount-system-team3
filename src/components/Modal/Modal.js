@@ -1,9 +1,11 @@
 import ReactDOM from 'react-dom';
 import { Close } from '@material-ui/icons';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './Modal.module.scss';
 
 function Modal({
   isOpen,
+  loadingStatus = false,
   onClose,
   isOverlayTransparent = false,
   children
@@ -27,7 +29,12 @@ function Modal({
             onClick={onClose}
           />
          </div>
-        <div className = {styles.content}>{children}</div>
+         {loadingStatus === true
+          && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+            </div>}
+          {loadingStatus === false
+          && <div className = {styles.content}>{children}</div>}
        </div>
      </div>, document.getElementById('modal-root')
   );

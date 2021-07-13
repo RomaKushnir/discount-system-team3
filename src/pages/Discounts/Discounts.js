@@ -43,6 +43,7 @@ function Discounts() {
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
   const discountById = useSelector((state) => state.discountsReducer.discountById);
+  const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
@@ -160,6 +161,7 @@ function Discounts() {
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
                 favouriteDiscounts = {favourite}
+                loadingStatus = {getDiscountByIdStatus.loading}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}
