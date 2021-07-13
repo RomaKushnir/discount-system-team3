@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -6,12 +7,14 @@ import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function CategoryItem({
   category,
   onEdit,
   onDelete
 }) {
+  const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   const deleteCategoryStatus = useSelector((state) => state.categoryReducer.deleteCategoryStatus);
 
@@ -35,7 +38,7 @@ function CategoryItem({
       </div>
       <div className={styles.buttons}>
       <ItemActionButton
-          title="Edit"
+          title={t(Vocabulary.EDIT)}
           className={styles.editBtn}
           type="edit"
           name = "edit"
@@ -45,7 +48,7 @@ function CategoryItem({
           }}
         />
         <ItemActionButton
-          title="Delete"
+          title={t(Vocabulary.DELETE)}
           className={styles.deleteBtn}
           type="delete"
           name = "delete"

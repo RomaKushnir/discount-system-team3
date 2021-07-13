@@ -4,6 +4,7 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import { useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Modal from '../../../../components/Modal';
 import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
@@ -13,10 +14,12 @@ import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
 import DiscountTag from '../../../../components/DiscountTag';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
 }) {
+  const { t } = useTranslation();
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
@@ -71,13 +74,13 @@ function DiscountModal({
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
-      title = "Edit"
+      title = {t(Vocabulary.EDIT)}
       type = "edit"
       onActionClick = {onEditClick}
       name = "edit"
     />
     <ItemActionButton
-      title = "Delete"
+      title = {t(Vocabulary.DELETE)}
       type = "delete"
       onActionClick = {onDelete}
       name = "delete"
@@ -106,7 +109,7 @@ function DiscountModal({
         <SelectField
           initialValue = "Location"
           options = {locationsList}
-          label = "Location"
+          label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
         />
@@ -132,7 +135,7 @@ function DiscountModal({
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
-          title = "Activate"
+          title = {t(Vocabulary.ACTIVATE)}
           onActionClick = {onActivateClick}
           name = "activate"
         />
@@ -152,7 +155,7 @@ function DiscountModal({
         <DeleteConfirmation
           onYesClick = {onYesClick}
           status = {deleteDiscountStatus}
-          itemTitle = "discount"
+          itemTitle = {t(Vocabulary.DELETE_DISCOUNT)}
           onNoClick = {() => setConfirmModalOpen(false)}
         />
       </Modal>
