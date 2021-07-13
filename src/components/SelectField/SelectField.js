@@ -19,10 +19,11 @@ function SelectField({
   onBlur,
   name = '',
   onInputChange,
-  menuPlacement = 'auto'
+  menuPlacement = 'auto',
+  containerStyle
 }) {
   return (
-    <div className = {`${style.container} ${className}`}>
+    <div className = {`${style.container} ${className}`} style = {containerStyle}>
       {label != null && <label className = {style.label}>{label}</label>}
       <Select
         styles = {customStyles}

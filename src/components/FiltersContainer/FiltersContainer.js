@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
@@ -9,6 +10,7 @@ import {
   getCategoriesOptions
 } from '../../store/selectors';
 import useVendorTypeahead from '../../utilities/useVendorTypeahead';
+import Vocabulary from '../../translations/vocabulary';
 
 const inputStyles = {
   width: '200px',
@@ -26,6 +28,7 @@ function FiltersContainer({
   sortOptions,
   onSortFilterChange
 }) {
+  const { t } = useTranslation();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
@@ -73,14 +76,14 @@ function FiltersContainer({
             <SelectField
               value = {countryMemoized}
               options = {countriesOptions}
-              label = "Country"
+              label = {t(Vocabulary.COUNTRY)}
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
                 options = {citiesOptions}
-                label = "City"
+                label = {t(Vocabulary.CITY)}
                 onChange = {onChangeCities}
                 value = {{ value: filters.city, label: filters.city }}
               />
@@ -88,7 +91,7 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {categoriesOptions}
-              label = "Category"
+              label = {t(Vocabulary.CATEGORY)}
               onChange = {onChangeCategories}
               value = {categoriesOptionsMemoized}
             />
@@ -97,7 +100,7 @@ function FiltersContainer({
             <SelectField
               options = {vendorsTypeaheadOptions}
               value = {{ value: filters.vendorTitle, label: filters.vendorTitle }}
-              label = "Vendor (Min 3 chars)"
+              label = {t(Vocabulary.VENDOR_MIN_3_CHARS)}
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
               onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -107,9 +110,9 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <TextInput
               onValueChange = {onChangeSearchInput}
-              label = "Search"
+              label = {t(Vocabulary.SEARCH)}
               name = "Search"
-              placeholder = "Search..."
+              placeholder = {`${t(Vocabulary.SEARCH)}...`}
               type = "search"
               style = {inputStyles}
               value = {filters.description || filters.shortDescription || ''}
@@ -121,13 +124,13 @@ function FiltersContainer({
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
-              label = "Sort"
+              label = {t(Vocabulary.SORT)}
               className = {styles.filterSort}
             />
           </div>
         <div className = {styles.buttonContainer}>
         <Button
-          btnText = "Apply"
+          btnText = {t(Vocabulary.APPLY)}
           onClick = {onApplyButtonClick}
         />
         </div>
