@@ -32,14 +32,7 @@ export function* addCategory({ payload }) {
 export function* getCategories() {
   try {
     const response = yield call(api.categories.getCategories);
-    const updatedResponse = response.data.map((el) => ({
-      ...el,
-      tags: [
-        { value: 'pizza', label: 'pizza' },
-        { value: 'water', label: 'water' }
-      ]
-    }));
-    yield put(actions.categoryActions.getCategoriesSuccess(updatedResponse));
+    yield put(actions.categoryActions.getCategoriesSuccess(response.data));
   } catch (error) {
     yield put(actions.categoryActions.getCategoriesFailure(error));
     toast.error(`Error: ${error.message}`);
