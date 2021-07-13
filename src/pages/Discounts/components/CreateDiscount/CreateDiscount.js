@@ -1,4 +1,6 @@
-import { useEffect, useCallback, useMemo } from 'react';
+import {
+  useEffect, useCallback, useMemo, useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -45,14 +47,16 @@ function CreateDiscount({
   }
     : null;
 
-  const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
-    value: el.id,
-    label: Object.values(el).join(', ')
-  })) : null), [discount]);
-
   const initialTagsOptions = useMemo(() => (discount ? discount.tags.map((el) => ({
     value: el.id,
     label: el.value
+  })) : null), [discount]);
+
+  const [tags, setTags] = useState(initialTagsOptions);
+
+  const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
+    value: el.id,
+    label: Object.values(el).join(', ')
   })) : null), [discount]);
 
   const locationsToRequst = useMemo(() => (discount && discount.locations.map((el) => (el.id))), [discount]);
@@ -73,11 +77,11 @@ function CreateDiscount({
     locationIds: discount ? locationsToRequst : [],
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
-    tags: discount ? discount.tags : [],
+    tagIds: discount ? discount.tags : []
     // mocked fields
-    perUser: 1,
-    price: 0,
-    quantity: 1
+    // perUser: 1,
+    // price: 0,
+    // quantity: 1
   };
 
   // GET REQUIRED DATA FROM API
@@ -120,6 +124,10 @@ function CreateDiscount({
     } else {
       value = selected && selected.value;
     }
+    console.log(name);
+    if (name === 'categoryId') {
+      setTags([]);
+    }
     formik.setFieldValue(name, value, true);
   };
 
@@ -129,10 +137,16 @@ function CreateDiscount({
 
   console.log(categoriesOptions);
   console.log(formik.values.categoryId);
+
   const tagsOptions = useMemo(() => (formik.values.categoryId ? categoriesOptions
-    .find((el) => el.id === formik.values.categoryId).tags : []), [formik.values.categoryId, categoriesOptions]);
+    .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
+    : []), [formik.values.categoryId, categoriesOptions]);
 
   console.log(tagsOptions);
+  console.log(formik.values);
+  console.log(formik.values.categoryId, discount?.category.id);
+
+  console.log(tags);
 
   return (
     <div className={styles.modalContent}>
@@ -187,7 +201,8 @@ function CreateDiscount({
         </div>
         <SelectField
           options = {tagsOptions}
-          initialValue = {initialTagsOptions}
+          // initialValue = {initialTagsOptions}
+          initialValue = {tags}
           label = "Tags"
           name = "tagIds"
           placeholder = "Select tag"
