@@ -155,6 +155,15 @@ function AddCategoryModal({ onSave, selectedCategory }) {
           type = "submit"
         />
       </div>}
+      {(addCategoryStatus.loading === false && addCategoryStatus.success)
+      && <div className = {styles.successMessageContainer}>
+        <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
+        <Button
+          btnText = "OK"
+          onClick = {onOkClick}
+          type = "submit"
+        />
+      </div>}
       {addCategoryStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
