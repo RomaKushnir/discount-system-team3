@@ -31,12 +31,12 @@ export const getLocationsOptions = createSelector(
   getLocationsList,
   (locations) => locations.reduce((res, location) => {
     const { id, ...data } = location;
-    const locationValues = Object.values(data);
-    const labelValue = locationValues.join(', ');
-    res.push({
-      value: id,
-      label: labelValue
-    });
+    if (data.addressLine !== '') {
+      res.push({
+        value: location,
+        label: data.addressLine
+      });
+    }
     return res;
   }, [])
 );
@@ -52,8 +52,8 @@ export const getCountriesOptions = createSelector(
 
 export const getCitiesOptions = createSelector(
   getCities,
-  (cities) => cities.map((el) => ({
-    value: el.city,
-    label: el.city
-  }))
+  (cities) => cities
+    .map((el) => el.city)
+    .filter((el, i, arr) => arr.indexOf(el) === i && el)
+    .map((el) => ({ value: el, label: el }))
 );
