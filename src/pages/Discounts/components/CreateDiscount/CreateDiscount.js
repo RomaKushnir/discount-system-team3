@@ -40,13 +40,19 @@ function CreateDiscount({
 
   const initialCategoryOptions = discount ? {
     value: discount.category.id,
-    label: discount.category.title
+    label: discount.category.title,
+    tags: discount.category.tags
   }
     : null;
 
   const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
     value: el.id,
     label: Object.values(el).join(', ')
+  })) : null), [discount]);
+
+  const initialTagsOptions = useMemo(() => (discount ? discount.tags.map((el) => ({
+    value: el.id,
+    label: el.value
   })) : null), [discount]);
 
   const locationsToRequst = useMemo(() => (discount && discount.locations.map((el) => (el.id))), [discount]);
@@ -67,6 +73,7 @@ function CreateDiscount({
     locationIds: discount ? locationsToRequst : [],
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
+    tags: discount ? discount.tags : [],
     // mocked fields
     perUser: 1,
     price: 0,
@@ -120,6 +127,13 @@ function CreateDiscount({
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
 
+  console.log(categoriesOptions);
+  console.log(formik.values.categoryId);
+  const tagsOptions = useMemo(() => (formik.values.categoryId ? categoriesOptions
+    .find((el) => el.id === formik.values.categoryId).tags : []), [formik.values.categoryId, categoriesOptions]);
+
+  console.log(tagsOptions);
+
   return (
     <div className={styles.modalContent}>
       {isFormSubmitted
@@ -171,17 +185,17 @@ function CreateDiscount({
             error = {formik.errors.categoryId}
           />
         </div>
-        {/* <SelectField
-          // options = {citiesOptions}
-          // initialValue = {transformedInitialLocation}
+        <SelectField
+          options = {tagsOptions}
+          initialValue = {initialTagsOptions}
           label = "Tags"
           name = "tagIds"
           placeholder = "Select tag"
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
-          // error = {formik.errors.tags}
-        /> */}
+          error = {formik.errors.tags}
+        />
         <SelectField
           options = {locationOptions}
           initialValue={initialLocationsOptions}
