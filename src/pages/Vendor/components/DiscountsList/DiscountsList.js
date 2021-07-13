@@ -6,7 +6,7 @@ import Pagination from '../../../../components/Pagination';
 import * as actions from '../../../../store/actions';
 import DiscountModal from '../../../Discounts/components/DiscountModal';
 
-const DiscountsList = ({ discountsList, vendorId }) => {
+const DiscountsList = ({ discountsList, vendorId, activeButton }) => {
   const dispatch = useDispatch();
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [selectedDiscount, setSelectedDiscount] = useState(null);
@@ -22,7 +22,7 @@ const DiscountsList = ({ discountsList, vendorId }) => {
         pageNumber: vendorDiscountsParams.pageNumber += 1,
         size: 6,
         showMore: true,
-        active: true
+        active: activeButton
       }));
     }
   };
@@ -36,8 +36,6 @@ const DiscountsList = ({ discountsList, vendorId }) => {
   const onDiscountModalClose = () => {
     setIsDiscountModalShown(false);
   };
-
-  console.log(discountsList);
 
   return (
     <>
