@@ -24,7 +24,6 @@ export function* addCategory({ payload }) {
       response = yield call(api.categories.updateCategory, { id, title });
       yield put(actions.categoryActions.updateCategorySuccess(response.data));
     }
-    toast.success('Category was successfully saved.');
     if (tags?.length > 0) {
       const tagsAddingResponse = yield call(api.categories.addTagsToCategory, {
         categoryId: id || response.data.id, tags
@@ -70,7 +69,7 @@ export function* addTagsToCategory({ payload }) {
 
     yield put(actions.categoryActions.addTagsToCategorySuccess(response.data));
     yield put(actions.categoryActions.getCategories());
-    toast.success('Tags were successfully saved.');
+    toast.success('Category was successfully saved.');
   } catch (error) {
     yield put(actions.categoryActions.addTagsToCategoryFailure(error));
     toast.error(`Error: ${error.message}`);

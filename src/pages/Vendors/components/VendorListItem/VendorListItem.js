@@ -28,7 +28,6 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       </figure>
       <div className={styles.textWrapper}>
         <p className={styles.vendorTitle}>{vendor.title}</p>
-        <p className={styles.vendorLocation}>{vendor.location.city}</p>
         <p className={styles.vendorDescription}>{vendor.description}</p>
       </div>
       <div className={styles.buttons}>
