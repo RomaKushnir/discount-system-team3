@@ -1,6 +1,4 @@
-import {
-  useEffect, useCallback, useMemo, useState
-} from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -49,13 +47,6 @@ function CreateDiscount({
     tags: discount.category.tags
   }
     : null;
-
-  const initialTagsOptions = useMemo(() => (discount ? discount.tags.map((el) => ({
-    value: el.id,
-    label: el.value
-  })) : null), [discount]);
-
-  const [tags, setTags] = useState(initialTagsOptions);
 
   const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
     value: el.id,
@@ -129,7 +120,7 @@ function CreateDiscount({
     }
     console.log(name);
     if (name === 'categoryId') {
-      setTags([]);
+      formik.setFieldValue('tagIds', [], true);
     }
     formik.setFieldValue(name, value, true);
   };
@@ -138,18 +129,17 @@ function CreateDiscount({
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
 
-  console.log(categoriesOptions);
-  console.log(formik.values.categoryId);
-
   const tagsOptions = useMemo(() => (formik.values.categoryId ? categoriesOptions
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  console.log(tagsOptions);
-  console.log(formik.values);
-  console.log(formik.values.categoryId, discount?.category.id);
+  const initialTagsOptions = useMemo(() => (formik.values.tagIds ? categoriesOptions
+    .find((el) => el.id === formik.values.categoryId)?.tags
+    .filter((tag) => formik.values.tagIds.includes(tag.id))
+    .map((tag) => ({ value: tag.id, label: tag.name }))
+    : []), [formik.values.categoryId, formik.values.tagIds, categoriesOptions]);
 
-  console.log(tags);
+  console.log(formik.values);
 
   return (
     <div className={styles.modalContent}>
@@ -204,8 +194,7 @@ function CreateDiscount({
         </div>
         <SelectField
           options = {tagsOptions}
-          // initialValue = {initialTagsOptions}
-          initialValue = {tags}
+          value = {initialTagsOptions}
           label = {t(Vocabulary.TAGS)}
           name = "tagIds"
           placeholder = {t(Vocabulary.SELECT_TAGS)}
