@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import style from './VendorInfo.module.scss';
 import SelectField from '../../../../components/SelectField';
 import combineLocation from '../../../../utilities/combineLocation';
@@ -9,7 +9,10 @@ function VendorInfo({
   const {
     title, locations, imageUrl, email
   } = vendor;
-  const locationOptions = locations.map((location) => combineLocation(location));
+
+  const locationOptionsMemoized = useMemo(
+    () => locations.map((location) => combineLocation(location)), [locations]
+  );
 
   return (
     <>
@@ -21,8 +24,8 @@ function VendorInfo({
         <h2>{title}</h2>
         <p>{email}</p>
         <SelectField
-          initialValue = {locationOptions[0]}
-          options = {locationOptions}
+          value = {locationOptionsMemoized[0]}
+          options = {locationOptionsMemoized}
           label = "Locations"
           isClearable = {false}
           className = {style.locationsSelect}
