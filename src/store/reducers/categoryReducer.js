@@ -6,7 +6,9 @@ const initialState = {
   deleteCategoryStatus: helpers.getDefaultState(),
   addCategoryStatus: helpers.getDefaultState(),
   category: null,
-  categoryStatus: helpers.getDefaultState()
+  categoryStatus: helpers.getDefaultState(),
+  addTagsToCategoryStatus: helpers.getDefaultState(),
+  deleteTagsFromCategoryStatus: helpers.getDefaultState()
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -109,6 +111,58 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteCategoryStatus: helpers.getDefaultState()
+      };
+    }
+    case types.ADD_TAGS_TO_CATEGORY: {
+      return {
+        ...state,
+        addTagsToCategoryStatus: helpers.getRequestState()
+      };
+    }
+    case types.ADD_TAGS_TO_CATEGORY_SUCCESS: {
+      const successMessage = 'Action successful!';
+      return {
+        ...state,
+        addTagsToCategoryStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.ADD_TAGS_TO_CATEGORY_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        addTagsToCategoryStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_ADD_TAGS_TO_CATEGORY_STATUS: {
+      return {
+        ...state,
+        addTagsToCategoryStatus: helpers.getDefaultState()
+      };
+    }
+    case types.DELETE_TAGS_FROM_CATEGORY: {
+      return {
+        ...state,
+        deleteTagsFromCategoryStatus: helpers.getRequestState()
+      };
+    }
+    case types.DELETE_TAGS_FROM_CATEGORY_SUCCESS: {
+      const successMessage = 'Action successful!';
+      return {
+        ...state,
+        deleteTagsFromCategoryStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.DELETE_TAGS_FROM_CATEGORY_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        deleteTagsFromCategoryStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_DELETE_TAGS_FROM_CATEGORY_STATUS: {
+      return {
+        ...state,
+        deleteTagsFromCategoryStatus: helpers.getDefaultState()
       };
     }
     default:
