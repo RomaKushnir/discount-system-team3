@@ -11,7 +11,7 @@ function CategoriesList({
   categories, onDelete, onEdit
 }) {
   return (
-        <div>
+        <div className={styles.categoriesList}>
       {categories.length
         ? categories.map(
           (category) => <Accordion key={category.id}>
@@ -19,12 +19,14 @@ function CategoriesList({
               <CategoryItem category={category} onDelete = {onDelete} onEdit={onEdit}/>
             </AccordionSummary>
               <AccordionDetails>
-                {category.tags.length
-                  ? category.tags.map(
-                    (tag) => <CategoryTag key={tag.value} tag={tag.value} />
-                  )
-                  : <p>There are no tags yet!</p>
-                }
+                <div className={styles.accordionDetails}>
+                  {category.tags.length
+                    ? category.tags.map(
+                      (tag) => <CategoryTag key={tag.id} tag={tag.name} />
+                    )
+                    : <p>There are no tags yet!</p>
+                  }
+                </div>
               </AccordionDetails>
           </Accordion>
         )
