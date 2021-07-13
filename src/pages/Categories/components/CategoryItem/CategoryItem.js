@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
@@ -22,9 +23,13 @@ function CategoryItem({
     e.stopPropagation();
     setModalOpen(true);
   }, []);
+  const [isItemOpen, setItemOpen] = useState(false);
   return (
-        <div className={styles.categoryBlock}>
-        <KeyboardArrowDownOutlinedIcon />
+        <div className={styles.categoryBlock} onClick = {() => setItemOpen(!isItemOpen)}>
+        {isItemOpen
+          ? <KeyboardArrowDownIcon />
+          : <KeyboardArrowUpIcon />
+        }
       <div className={styles.categoryText}>
         <p>{category.title}</p>
       </div>

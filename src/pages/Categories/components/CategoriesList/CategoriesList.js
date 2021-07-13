@@ -11,7 +11,7 @@ function CategoriesList({
   categories, onDelete, onEdit
 }) {
   return (
-        <div>
+        <div className={styles.categoriesList}>
       {categories.length
         ? categories.map(
           (category) => <Accordion key={category.id}>
