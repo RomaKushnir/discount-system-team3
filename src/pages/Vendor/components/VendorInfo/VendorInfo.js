@@ -25,6 +25,7 @@ function VendorInfo({
           options = {locationOptions}
           label = "Locations"
           isClearable = {false}
+          className = {style.locationsSelect}
         />
       </div>
       </div>
