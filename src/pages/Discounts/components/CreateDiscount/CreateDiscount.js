@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import validationSchema from '../../../../utilities/validationSchema';
 import styles from './CreateDiscount.module.scss';
 import TextInput from '../../../../components/TextInput';
@@ -19,11 +20,13 @@ import {
   getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
 import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function CreateDiscount({
   discount,
   onModalClose
 }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const countriesOptions = useSelector(getCountriesOptions);
@@ -154,7 +157,7 @@ function CreateDiscount({
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{createDiscountStatus.success}</div>
         <Button
-          btnText = "OK"
+          btnText = {t(Vocabulary.OK)}
           onClick = {onOkClick}
           type = "submit"
         />
@@ -165,8 +168,8 @@ function CreateDiscount({
       </div>}
       <form className={isFormSubmitted ? styles.formDisplayNone : ''}>
         <TextInput
-          placeholder = "Discount title"
-          label = "Title"
+          placeholder = {t(Vocabulary.DISCOUNT_TITLE)}
+          label = {t(Vocabulary.TITLE)}
           name = "title"
           type = "text"
           className={styles.inputContainer}
@@ -179,9 +182,9 @@ function CreateDiscount({
           <SelectField
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor (Min 3 chars)"
+            label = {t(Vocabulary.VENDOR_MIN_3_CHARS)}
             name = "vendorId"
-            placeholder = "Select vendor"
+            placeholder = {t(Vocabulary.SELECT_VENDOR)}
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
             onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -191,9 +194,9 @@ function CreateDiscount({
           <SelectField
             options = {categoriesOptions}
             initialValue = {initialCategoryOptions}
-            label = "Category"
+            label = {t(Vocabulary.CATEGORY)}
             name = "categoryId"
-            placeholder = "Select category"
+            placeholder = {t(Vocabulary.SELECT_CATEGORY)}
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
             error = {formik.errors.categoryId}
@@ -203,9 +206,9 @@ function CreateDiscount({
           options = {tagsOptions}
           // initialValue = {initialTagsOptions}
           initialValue = {tags}
-          label = "Tags"
+          label = {t(Vocabulary.TAGS)}
           name = "tagIds"
-          placeholder = "Select tag"
+          placeholder = {t(Vocabulary.SELECT_TAGS)}
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
@@ -214,7 +217,7 @@ function CreateDiscount({
         <SelectField
           options = {locationOptions}
           initialValue={initialLocationsOptions}
-          label = "Location"
+          label = {t(Vocabulary.LOCATION)}
           name = "locationIds"
           className={styles.inputContainer}
           isMulti={true}
@@ -222,8 +225,8 @@ function CreateDiscount({
           error = {formik.errors.locationIds}
         />
         <TextInput
-          placeholder = "Image Url"
-          label = "Image Url"
+          placeholder = {t(Vocabulary.IMAGE_URL)}
+          label = {t(Vocabulary.IMAGE_URL)}
           name = "imageUrl"
           type = "url"
           className={styles.inputContainer}
@@ -233,8 +236,8 @@ function CreateDiscount({
           error = {formik.errors.imageUrl}
         />
         <TextInput
-          placeholder = "Promo code"
-          label = "Promo code"
+          placeholder = {t(Vocabulary.PROMO_CODE)}
+          label = {t(Vocabulary.PROMO_CODE)}
           name = "promocode"
           type = "text"
           className={styles.inputContainer}
@@ -244,9 +247,9 @@ function CreateDiscount({
           error = {formik.errors.promocode}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
-          <label htmlFor="description">Full Description</label>
+          <label htmlFor="description">{t(Vocabulary.FULL_DESCRIPTION)}</label>
           <textarea
-            placeholder = "Full Description"
+            placeholder = {t(Vocabulary.FULL_DESCRIPTION)}
             id="description"
             name = "description"
             onChange = {formik.handleChange}
@@ -256,9 +259,9 @@ function CreateDiscount({
           <div className = {styles.error}>{formik.errors.description}</div>
         </div>
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
-          <label htmlFor="shortDescription">Short Description</label>
+          <label htmlFor="shortDescription">{t(Vocabulary.SHORT_DESCRIPTION)}</label>
           <textarea
-            placeholder = "Short Description"
+            placeholder = {t(Vocabulary.SHORT_DESCRIPTION)}
             id = "shortDescription"
             name = "shortDescription"
             className={styles.shortDescr}
@@ -271,8 +274,8 @@ function CreateDiscount({
         <div className={`${styles.discountDateSection} ${styles.twoColumnsWrapper}`}>
           <div className={styles.discountContainer}>
             <TextInput
-              placeholder = "Discount flat"
-              label = "Discount flat"
+              placeholder = {t(Vocabulary.DISCOUNT_FLAT)}
+              label = {t(Vocabulary.DISCOUNT_FLAT)}
               name = "flatAmount"
               type = "text"
               className={styles.inputContainer}
@@ -282,8 +285,8 @@ function CreateDiscount({
               disabled = {!!formik.values.percentage}
             />
             <TextInput
-              placeholder = "Discount %"
-              label = "Discount %"
+              placeholder = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
+              label = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               name = "percentage"
               type = "text"
               className={styles.inputContainer}
@@ -297,7 +300,7 @@ function CreateDiscount({
           </div>
           <div className={styles.dateContainer}>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
-              <label>From</label>
+              <label>{t(Vocabulary.FROM)}</label>
               <DatePicker
                 format="dd-MM-y"
                 name="startDate"
@@ -308,7 +311,7 @@ function CreateDiscount({
               />
             </div>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
-              <label>To</label>
+              <label>{t(Vocabulary.TO)}</label>
               <DatePicker
                 format="dd-MM-y"
                 name="expirationDate"
@@ -328,7 +331,7 @@ function CreateDiscount({
         </div>}
         <div className={styles.btnContainer}>
           <Button
-            btnText = "Save"
+            btnText = {t(Vocabulary.SAVE)}
             type = "submit"
             isDisabled = {!formik.isValid || !formik.dirty}
             onClick={formik.handleSubmit}

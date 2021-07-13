@@ -28,7 +28,23 @@ const en = {
   [Vocabulary.LOCATION]: 'Location',
   [Vocabulary.ACTIVATE]: 'Activate',
   [Vocabulary.ADMIN]: 'Admin',
-  [Vocabulary.DELETE_DISCOUNT]: 'discount'
+  [Vocabulary.DELETE_DISCOUNT]: 'discount',
+  [Vocabulary.OK]: 'OK',
+  [Vocabulary.DISCOUNT_TITLE]: 'Discount title',
+  [Vocabulary.TITLE]: 'Title',
+  [Vocabulary.SELECT_VENDOR]: 'Select vendor',
+  [Vocabulary.SELECT_CATEGORY]: 'Select category',
+  [Vocabulary.TAGS]: 'Tags',
+  [Vocabulary.SELECT_TAGS]: 'Select tags',
+  [Vocabulary.IMAGE_URL]: 'Image url',
+  [Vocabulary.PROMO_CODE]: 'Promo code',
+  [Vocabulary.FULL_DESCRIPTION]: 'Full description',
+  [Vocabulary.SHORT_DESCRIPTION]: 'Short description',
+  [Vocabulary.DISCOUNT_FLAT]: 'Discount flat',
+  [Vocabulary.DISCOUNT_PERCENTAGE]: 'Discount %',
+  [Vocabulary.FROM]: 'From',
+  [Vocabulary.TO]: 'To',
+  [Vocabulary.SAVE]: 'Save'
 };
 
 export default en;
