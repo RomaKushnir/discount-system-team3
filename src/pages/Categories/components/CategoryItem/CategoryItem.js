@@ -7,6 +7,7 @@ import styles from './CategoryItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function CategoryItem({
   category,
@@ -37,7 +38,7 @@ function CategoryItem({
       </div>
       <div className={styles.buttons}>
       <ItemActionButton
-          title={t('edit')}
+          title={t(Vocabulary.EDIT)}
           className={styles.editBtn}
           type="edit"
           name = "edit"
@@ -47,7 +48,7 @@ function CategoryItem({
           }}
         />
         <ItemActionButton
-          title={t('delete')}
+          title={t(Vocabulary.DELETE)}
           className={styles.deleteBtn}
           type="delete"
           name = "delete"

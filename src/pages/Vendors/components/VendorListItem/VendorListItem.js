@@ -8,6 +8,7 @@ import ItemActionButton from '../../../../components/ItemActionButton';
 import Modal from '../../../../components/Modal';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function VendorListItem({ vendor, onEdit, onDelete }) {
   const { t } = useTranslation();
@@ -35,14 +36,14 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
       <div className={styles.buttons}>
       {isAdmin(user) && <>
         <ItemActionButton
-            title={t('delete')}
+            title={t(Vocabulary.DELETE)}
             className={styles.deleteBtn}
             onActionClick={onDeleteClick}
             type="delete"
             name = "delete"
           />
           <ItemActionButton
-            title={t('edit')}
+            title={t(Vocabulary.EDIT)}
             className={styles.editBtn}
             type="edit"
             name = "edit"
@@ -56,7 +57,7 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
           onYesClick ={() => onDelete(vendor.id)}
           onNoClick ={() => setModalOpen(false)}
           status = {deleteVendorStatus}
-          itemTitle = {t('delete_vendor')}
+          itemTitle = {t(Vocabulary.DELETE_VENDOR)}
         />
       </Modal>
     </div>

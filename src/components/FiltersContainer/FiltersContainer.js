@@ -10,6 +10,7 @@ import {
   getCategoriesOptions
 } from '../../store/selectors';
 import useVendorTypeahead from '../../utilities/useVendorTypeahead';
+import Vocabulary from '../../translations/vocabulary';
 
 const inputStyles = {
   width: '200px',
@@ -75,14 +76,14 @@ function FiltersContainer({
             <SelectField
               value = {countryMemoized}
               options = {countriesOptions}
-              label = {t('country')}
+              label = {t(Vocabulary.COUNTRY)}
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
                 options = {citiesOptions}
-                label = {t('city')}
+                label = {t(Vocabulary.CITY)}
                 onChange = {onChangeCities}
                 value = {{ value: filters.city, label: filters.city }}
               />
@@ -90,7 +91,7 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {categoriesOptions}
-              label = {t('category')}
+              label = {t(Vocabulary.CATEGORY)}
               onChange = {onChangeCategories}
               value = {categoriesOptionsMemoized}
             />
@@ -99,7 +100,7 @@ function FiltersContainer({
             <SelectField
               options = {vendorsTypeaheadOptions}
               value = {{ value: filters.vendorTitle, label: filters.vendorTitle }}
-              label = {t('vendor_min_3_chars')}
+              label = {t(Vocabulary.VENDOR_MIN_3_CHARS)}
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
               onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -109,9 +110,9 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <TextInput
               onValueChange = {onChangeSearchInput}
-              label = {t('search')}
+              label = {t(Vocabulary.SEARCH)}
               name = "Search"
-              placeholder = {`${t('search')}...`}
+              placeholder = {`${t(Vocabulary.SEARCH)}...`}
               type = "search"
               style = {inputStyles}
               value = {filters.description || filters.shortDescription || ''}
@@ -123,13 +124,13 @@ function FiltersContainer({
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
-              label = {t('sort')}
+              label = {t(Vocabulary.SORT)}
               className = {styles.filterSort}
             />
           </div>
         <div className = {styles.buttonContainer}>
         <Button
-          btnText = {t('apply')}
+          btnText = {t(Vocabulary.APPLY)}
           onClick = {onApplyButtonClick}
         />
         </div>

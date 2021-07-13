@@ -12,6 +12,7 @@ import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import CategoriesList from './components/CategoriesList';
+import Vocabulary from '../../translations/vocabulary';
 
 function Categories() {
   const { t } = useTranslation();
@@ -52,7 +53,7 @@ function Categories() {
       <div className={styles.contentWrapper}>
       <div className={styles.row}>
         <AddNewItemButton
-          btnTitle={t('add_new_category')}
+          btnTitle={t(Vocabulary.ADD_NEW_CATEGORY)}
           onAddNewItem={onModalOpen}
           name = "add"
         />

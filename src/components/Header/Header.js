@@ -11,6 +11,7 @@ import styles from './Header.module.scss';
 import OutlineButton from '../OutlineButton';
 import isAdmin from '../../utilities/isAdmin';
 import SelectField from '../SelectField';
+import Vocabulary from '../../translations/vocabulary';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
@@ -49,21 +50,21 @@ function Header() {
         <nav className={`${styles.nav} ${isMobileMenuOpen ? styles.mobileNavOpened : ''}`}>
           <ul className={styles.navList}>
           <li className = {`${navItemStyles} ${styles.adminDropDownContainer}`} data-admin="true">
-            <p className={linkStyles}>Admin</p>
+            <p className={linkStyles}>{t(Vocabulary.ADMIN)}</p>
             <div className={styles.dropDown}>
               <p data-admin="true">
                 {isAdmin(user) && <NavLink
                   to={Routes.CATEGORIES}
                   className={linkStyles}
                   activeClassName={styles.activeClassName}
-                >Categories</NavLink>}
+                >{t(Vocabulary.CATEGORIES)}</NavLink>}
               </p>
               <p data-admin="true">
                 {isAdmin(user) && <NavLink
                   to={Routes.STATISTICS}
                   className={linkStyles}
                   activeClassName={styles.activeClassName}
-                >Statistics</NavLink>}
+                >{t(Vocabulary.STATISTICS)}</NavLink>}
               </p>
             </div>
           </li>
@@ -72,30 +73,32 @@ function Header() {
             to={Routes.VENDORS}
             className={linkStyles}
             activeClassName={styles.activeClassName}
-          >{t('vendors')}</NavLink>
+          >{t(Vocabulary.VENDORS)}</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={Routes.MY_DISCOUNTS}
             className={linkStyles}
             activeClassName={styles.activeClassName}
-          >{t('my_discounts')}</NavLink>
+          >{t(Vocabulary.MY_DISCOUNTS)}</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
           <NavLink
             to={Routes.FAVOURITES}
             className={linkStyles}
             activeClassName={styles.activeClassName}
-          >{t('favourites')}</NavLink>
+          >{t(Vocabulary.FAVOURITES)}</NavLink>
           </li>
           <li className = {navItemStyles} data-admin="false">
             <OutlineButton
-              btnText = "Logout"
+              btnText = {t(Vocabulary.LOGOUT)}
               onClick = {onLogoutClick}
               className = {styles.mobileLogoutButton}
             />
           </li>
         </ul>
+      </nav>
+      }
       <div className={styles.switchLang}>
         <SelectField
           value={Languages.find((el) => el.value === lang)}
@@ -105,10 +108,8 @@ function Header() {
           containerStyle = {{ width: '80px' }}
         />
       </div>
-        </nav>
-      }
       <OutlineButton
-        btnText = {t('logout')}
+        btnText = {t(Vocabulary.LOGOUT)}
         onClick = {onLogoutClick}
         className = {styles.desktopLogoutButton}
       />

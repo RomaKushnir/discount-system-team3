@@ -20,6 +20,7 @@ import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
 import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
+import Vocabulary from '../../translations/vocabulary';
 
 function Discounts() {
   const { t } = useTranslation();
@@ -137,7 +138,7 @@ function Discounts() {
             />
             <div className = {styles.discountsActions}>
             {isAdmin(user) && <AddNewItemButton
-                btnTitle={t('add_new_discount')}
+                btnTitle={t(Vocabulary.ADD_NEW_DISCOUNT)}
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
               />}
@@ -162,7 +163,7 @@ function Discounts() {
                 favouriteDiscounts = {favourite}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
-                  && <Pagination btnTitle={t('show_more')} onShowMoreClick={onShowMoreClick} />}
+                  && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}
               </>
             }
             </div>

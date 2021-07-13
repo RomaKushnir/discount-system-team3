@@ -19,6 +19,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import { getVendorsList } from '../../store/selectors';
 import useVendorsQueryChecker from '../../utilities/useVendorsQueryChecker';
 import isAdmin from '../../utilities/isAdmin';
+import Vocabulary from '../../translations/vocabulary';
 
 function Vendors() {
   const { t } = useTranslation();
@@ -122,7 +123,7 @@ function Vendors() {
       />
       <div className={styles.vendorsActionsBlock}>
         {isAdmin(user) && <AddNewItemButton
-          btnTitle={t('add_new_vendor')}
+          btnTitle={t(Vocabulary.ADD_NEW_VENDOR)}
           onAddNewItem={onModalOpen}
           name = "add"
         />}
@@ -146,7 +147,7 @@ function Vendors() {
               onDelete = {onDelete}
             />
             {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
-              && <Pagination btnTitle={t('show_more')}onShowMoreClick={onShowMoreClick} />}
+              && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)}onShowMoreClick={onShowMoreClick} />}
             </>
             }
       </div>

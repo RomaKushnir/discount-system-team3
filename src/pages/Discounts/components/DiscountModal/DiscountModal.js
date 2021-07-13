@@ -14,6 +14,7 @@ import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
 import DiscountTag from '../../../../components/DiscountTag';
+import Vocabulary from '../../../../translations/vocabulary';
 
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
@@ -73,13 +74,13 @@ function DiscountModal({
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
-      title = {t('edit')}
+      title = {t(Vocabulary.EDIT)}
       type = "edit"
       onActionClick = {onEditClick}
       name = "edit"
     />
     <ItemActionButton
-      title = {t('delete')}
+      title = {t(Vocabulary.DELETE)}
       type = "delete"
       onActionClick = {onDelete}
       name = "delete"
@@ -108,7 +109,7 @@ function DiscountModal({
         <SelectField
           initialValue = "Location"
           options = {locationsList}
-          label = {t('location')}
+          label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
         />
@@ -134,7 +135,7 @@ function DiscountModal({
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
-          title = {t('activate')}
+          title = {t(Vocabulary.ACTIVATE)}
           onActionClick = {onActivateClick}
           name = "activate"
         />
@@ -154,7 +155,7 @@ function DiscountModal({
         <DeleteConfirmation
           onYesClick = {onYesClick}
           status = {deleteDiscountStatus}
-          itemTitle = "discount"
+          itemTitle = {t(Vocabulary.DELETE_DISCOUNT)}
           onNoClick = {() => setConfirmModalOpen(false)}
         />
       </Modal>
