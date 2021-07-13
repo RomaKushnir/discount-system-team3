@@ -27,26 +27,21 @@ function Categories() {
     dispatch(actions.categoryActions.deleteCategory(id));
   }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
+    dispatch(actions.categoryActions.clearAddCategoryStatus());
+    dispatch(actions.categoryActions.clearAddTagsToCategoryStatus());
+    dispatch(actions.categoryActions.clearDeleteTagsFromCategoryStatus());
     setIsOpen(true);
 
     if (e.target.name === 'edit') {
       const selectedCategory = categories.find((el) => el.id === id);
-
       setCategory(selectedCategory);
-
-      setCategory({
-        // imageUrl: 'https://picsum.photos/200?random=8',
-        title: 'Food',
-        id: 5
-      }); // temporary while we don't have list of categories
     } else {
       setCategory({
-        // imageUrl: '',
         title: '',
         id: ''
       });
     }
-  }, [categories]);
+  }, [categories, dispatch]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);

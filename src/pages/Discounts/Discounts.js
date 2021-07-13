@@ -67,6 +67,7 @@ function Discounts() {
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ city: null }));
     dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 

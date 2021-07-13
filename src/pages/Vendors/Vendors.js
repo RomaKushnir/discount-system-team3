@@ -70,6 +70,7 @@ function Vendors() {
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.vendorActions.updateVendorsFilters({ city: null }));
     dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
