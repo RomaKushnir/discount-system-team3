@@ -26,10 +26,4 @@
       border-right-color: $color--amount-tag;
     }
   }
-  &.hot {
-    background-color: $color--hot-tag;
-    &::before {
-      border-right-color: $color--hot-tag;
-    }
-  }
 }
