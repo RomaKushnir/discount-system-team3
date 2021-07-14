@@ -6,7 +6,6 @@ import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import AddNewItemButton from '../../../../components/AddNewItemButton';
-// import LocationModal from '../LocationModal';
 import AddLocationModal from '../AddLocationModal';
 import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';

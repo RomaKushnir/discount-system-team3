@@ -16,7 +16,6 @@ function CreatableSelectField({
   isMulti = false,
   error = '',
   onBlur,
-  value,
   name
 }) {
   return (

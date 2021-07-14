@@ -42,6 +42,7 @@ function LocationModal({
     }
     if (name === 'city') {
       dispatch(actions.locationActions.getLocationsList(value));
+      setFieldValue('addressLine', { value: '', label: '' });
     }
     setFieldValue(name, selected);
   };
