@@ -1,7 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteForever from '@material-ui/icons/DeleteForever';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
@@ -9,126 +11,30 @@ import AddNewItemButton from '../../../../components/AddNewItemButton';
 import AddLocationModal from '../AddLocationModal';
 import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
-import {
-  idValidation,
-  titleValidation,
-  emailValidation,
-  imageUrlValidation,
-  companyDescriptionValidation,
-  selectValidation
-} from '../../../../utilities/validation';
 
-const validate = {
-  id: idValidation,
-  title: titleValidation,
-  email: emailValidation,
-  imageUrl: imageUrlValidation,
-  description: companyDescriptionValidation,
-  location: selectValidation
-};
-
-function AddVendorModal({ onSave, selectedVendor }) {
+function AddVendorModal({ closeModal, selectedVendor }) {
+  console.log('selectedVendor', selectedVendor);
   const dispatch = useDispatch();
 
-  const [vendor, setVendor] = useState(selectedVendor);
-  const [errors, setErrors] = useState({
-    id: '',
-    title: '',
-    locationIds: [],
-    email: '',
-    imageUrl: '',
-    description: ''
-  });
-  const [touched, setTouched] = useState({ id: true });
-  const [isDisabled, setIsDisabled] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [vendorLocations, setVendorLocations] = useState([]);
 
   const addVendorStatus = useSelector((state) => state.vendorReducer.addVendorStatus);
-  // const initialLocation = citiesOptions.find((el) => el.id === vendor.location?.id);
 
-  const onValueChange = (e) => {
-    const { name, value } = e.target;
+  const validationSchema = useMemo(() => (yup.object().shape({
+    title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
+    email: yup.string().email('Please, enter a valid email').required('The field is required'),
+    imageUrl: yup.string().matches(/https?:\/\/.*\./i, 'The link is not correct').required('The field is required'),
+    description: yup.string().min(3, 'The field needs to be at least 3 characters')
+      .max(500, 'The field needs to be less then 500 characters').required('The field is required'),
+    locations: yup.mixed().test('locations', 'At least one location is required', (val) => !val || val.length)
+  })
+  ), []);
 
-    setErrors({
-      ...errors,
-      [name]: ''
-    }); // remove whatever error was there previously
+  const isFormSubmitted = addVendorStatus.loading === false && addVendorStatus.success;
 
-    setIsDisabled(false);
-
-    setVendor({
-      ...vendor,
-      [name]: value
-    });
-
-    setTouched({
-      ...touched,
-      [name]: true
-    });
-  };
-
-  const onBlur = (e) => {
-    const { name, value } = e.target;
-
-    const error = validate[name](value);
-
-    setErrors({
-      ...errors,
-      ...error && { [name]: touched[name] && error }
-    });
-
-    setIsDisabled(false);
-  };
-
-  const onSaveButtonClick = (e) => {
-    e.preventDefault();
-
-    const formValidation = Object.keys(vendor).reduce(
-      (acc, key) => {
-        const newError = validate[key](vendor[key]);
-        const newTouched = { [key]: true };
-        return {
-          errors: {
-            ...acc.errors,
-            ...newError && { [key]: newError }
-          },
-          touched: {
-            ...acc.touched,
-            ...newTouched
-          }
-        };
-      },
-      {
-        errors: { ...errors },
-        touched: { ...touched }
-      }
-    );
-
-    setErrors(formValidation.errors);
-    setTouched(formValidation.touched);
-
-    const existingErrors = Object.values(formValidation.errors).filter((error) => error !== '');
-    const emptyFields = Object.values(formValidation.touched).filter((field) => field === '');
-
-    if (
-      existingErrors.length === 0 // no errors
-      && emptyFields.length === 0 // no empty fields
-      && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
-    ) {
-      setIsDisabled(false);
-      vendor.locationId = vendor.location.id;
-      console.log(vendor);
-      dispatch(actions.vendorActions.addVendor(vendor));
-    } else {
-      setIsDisabled(true);
-    }
-  };
-
-  const onOkClick = () => {
-    onSave();
-    dispatch(actions.vendorActions.clearAddVendorStatus());
-    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
+  let formikAccess = {};
+  const getFormikAccess = (setFieldValue, values) => {
+    formikAccess = { setFieldValue, values };
   };
 
   const openAddLocationModal = useCallback(() => {
@@ -140,12 +46,27 @@ function AddVendorModal({ onSave, selectedVendor }) {
   }, []);
 
   const addLocationToVendor = (location) => {
-    setVendorLocations([...vendorLocations, ...location]);
+    const { setFieldValue, values } = formikAccess;
+    const updatedLocations = [...values.locations, ...location];
+    setFieldValue('locations', updatedLocations);
   };
 
   const deleteLocationHandler = (id) => {
-    const filteredLocations = vendorLocations.filter((el) => el.id !== id);
-    setVendorLocations(filteredLocations);
+    const { setFieldValue, values } = formikAccess;
+    const filteredLocations = values.locations.filter((el) => el.id !== id);
+    setFieldValue('locations', filteredLocations);
+  };
+
+  const onVendorSubmit = (formData) => {
+    const { locations, ...dataRequest } = formData;
+    dataRequest.locationIds = formData.locations.map((el) => el.id);
+    dispatch(actions.vendorActions.addVendor(dataRequest));
+  };
+
+  const onOkClick = () => {
+    closeModal();
+    dispatch(actions.vendorActions.clearAddVendorStatus());
+    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
   };
 
   return (
@@ -163,92 +84,104 @@ function AddVendorModal({ onSave, selectedVendor }) {
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
       </div>}
-      <form>
-        <TextInput
-          onValueChange = {onValueChange}
-          placeholder = "Company name"
-          label = "Company name"
-          className={styles.inputContainer}
-          name = "title"
-          type = "text"
-          value = {vendor.title}
-          onBlur={onBlur}
-          required
-          touched = {touched.title}
-          error = {errors.title}
-        />
-        <TextInput
-          onValueChange = {onValueChange}
-          placeholder = "Email"
-          label = "Email"
-          className={styles.inputContainer}
-          name = "email"
-          type="email"
-          value = {vendor.email}
-          onBlur={onBlur}
-          required
-          touched = {touched.email}
-          error = {errors.email}
-        />
-        <TextInput
-          onValueChange = {onValueChange}
-          placeholder = "Image Url"
-          label = "Image Url"
-          name = "imageUrl"
-          type = "url"
-          className={styles.inputContainer}
-          value = {vendor.imageUrl}
-          onBlur={onBlur}
-          required
-          touched = {touched.imageUrl}
-          error = {errors.imageUrl}
-        />
-        <div className={styles.locationBlock}>
-          <div className={styles.locationsList}>
-            {vendorLocations && vendorLocations.map((el) => (
-              <div className={styles.locationItem} key={el.id}>
-                <p>
-                  {`${el.countryCode}${el.city ? `, ${el.city}` : ''}${el.addressLine ? `, ${el.addressLine}` : ''}`}
-                </p>
-                <DeleteForever
-                  className={styles.deleteBtn}
-                  onClick={() => deleteLocationHandler(el.id)}
+      <div className={isFormSubmitted ? styles.formDisplayNone : ''}>
+        <Formik
+          initialValues={selectedVendor}
+          validationSchema={validationSchema}
+          onSubmit={onVendorSubmit}
+        >
+          {(formikProps) => {
+            const {
+              handleBlur, handleChange, errors, values, setFieldValue, isValid, dirty
+            } = formikProps;
+
+            getFormikAccess(setFieldValue, values);// get setFieldValue at the component scope
+
+            return (
+              <Form>
+                <TextInput
+                  onValueChange = {handleChange}
+                  placeholder = "Company name"
+                  label = "Company name"
+                  className={styles.inputContainer}
+                  name = "title"
+                  type = "text"
+                  value = {values.title}
+                  onBlur={handleBlur}
+                  error = {errors.title}
                 />
-              </div>
-            ))}
-          </div>
-          <AddNewItemButton
-            btnTitle="Add location"
-            onAddNewItem={openAddLocationModal}
-            className={styles.AddBtnStyles}
-            iconSize="default"
-          />
-        </div>
-        <textarea
-          onChange = {onValueChange}
-          className = {styles.description}
-          placeholder = "Description"
-          value = {vendor.description}
-          name = "description"
-          onBlur={onBlur}
-          required
-          touched = {touched.description ? 1 : 0}
-        />
-        <div className = {styles.error}>{errors.description}</div>
-        {addVendorStatus.loading === false && addVendorStatus.error
-        && <div className = {styles.errorMessage}>
-          {addVendorStatus.error.message}
-        </div>
-        }
-        <div className = {styles.buttonContainer}>
-          <Button
-            btnText = "Submit"
-            onClick = {onSaveButtonClick}
-            isDisabled = {isDisabled}
-            type = "submit"
-          />
-        </div>
-      </form>
+                <TextInput
+                  onValueChange = {handleChange}
+                  placeholder = "Email"
+                  label = "Email"
+                  className={styles.inputContainer}
+                  name = "email"
+                  type="email"
+                  value = {values.email}
+                  onBlur={handleBlur}
+                  error = {errors.email}
+                />
+                <TextInput
+                  onValueChange = {handleChange}
+                  placeholder = "Image Url"
+                  label = "Image Url"
+                  name = "imageUrl"
+                  type = "url"
+                  className={styles.inputContainer}
+                  value = {values.imageUrl}
+                  onBlur={handleBlur}
+                  error = {errors.imageUrl}
+                />
+                <div className={styles.locationBlock}>
+                  <div className={styles.locationsList}>
+                  <AddNewItemButton
+                    btnTitle="Add location"
+                    onAddNewItem={openAddLocationModal}
+                    className={styles.AddBtnStyles}
+                    iconSize="default"
+                  />
+                    {/* {vendorLocations && vendorLocations.map((el) => ( */}
+                    {values.locations && values.locations.map((el) => (
+                      <div className={styles.locationItem} key={el.id}>
+                        <p>
+                          {`${el.countryCode}${el.city ? `, ${el.city}` : ''}
+                          ${el.addressLine ? `, ${el.addressLine}` : ''}`}
+                        </p>
+                        <DeleteForever
+                          className={styles.deleteBtn}
+                          onClick={() => deleteLocationHandler(el.id)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  {errors.locations && <p className = {styles.error}>{errors.locations}</p>}
+                </div>
+                <textarea
+                  onChange = {handleChange}
+                  className = {styles.description}
+                  placeholder = "Description"
+                  value = {values.description}
+                  name = "description"
+                  onBlur={handleBlur}
+                />
+                <div className = {styles.error}>{errors.description}</div>
+                {addVendorStatus.loading === false && addVendorStatus.error
+                && <div className = {styles.errorMessage}>
+                  {addVendorStatus.error.message}
+                </div>
+                }
+                <div className = {styles.buttonContainer}>
+                  <Button
+                    btnText = "Submit"
+                    isDisabled = {!isValid || !dirty}
+                    type = "submit"
+                  />
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>
       <Modal
         isOpen={isLocationModalOpen}
         onClose={closeAddLocationModal}

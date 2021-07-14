@@ -16,11 +16,10 @@ export const getVendorsFiltersApplied = (state) => state.vendorReducer.vendorsFi
 
 export function* addVendor({ payload }) {
   const { id, ...data } = payload;
-
   let response;
 
   try {
-    if (id === '') {
+    if (id === undefined) {
       response = yield call(api.vendors.addVendor, data);
       yield put(actions.vendorActions.addVendorSuccess(response.data));
     } else {
@@ -70,6 +69,7 @@ export function* getVendorById({ payload }) {
 }
 
 export function* applyVendorsFilters({ payload }) {
+  console.log('applyVendorsFilters', payload);
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 

@@ -84,8 +84,7 @@ function LocationModal({
       >
         {(formikProps) => {
           const {
-            handleBlur, setFieldValue, resetForm, values, errors
-            //  isValid, dirty, isSubmitting
+            handleBlur, setFieldValue, resetForm, values, errors, isValid, dirty
           } = formikProps;
           // console.log('formdata values', values);
           return (
@@ -133,7 +132,7 @@ function LocationModal({
               {createLocationStatus.error && <p>{createLocationStatus.error.message}</p>}
               <Button
                 btnText = "Add location"
-                // isDisabled = {!isValid || !dirty || isSubmitting}
+                isDisabled = {!isValid || !dirty}
                 className={styles.addLocationBtn}
                 type = "submit"
               />
