@@ -20,7 +20,8 @@ const initialState = {
   createDiscountStatus: helpers.getDefaultState(),
   deleteDiscountStatus: helpers.getDefaultState(),
   discountsFilters: { ...defaultDiscountsFilter },
-  discountsFiltersApplied: { ...defaultDiscountsFilter }
+  discountsFiltersApplied: { ...defaultDiscountsFilter },
+  activateDiscountStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -140,6 +141,32 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         discountsFilters: { ...defaultDiscountsFilter }
+      };
+    }
+    case types.ACTIVATE_DISCOUNT: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getRequestState()
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_SUCCESS: {
+      const successMessage = 'Discount is successfully activated';
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_ACTIVATE_DISCOUNT_STATUS: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getDefaultState()
       };
     }
     default:

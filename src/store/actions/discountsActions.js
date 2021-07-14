@@ -101,3 +101,30 @@ export function clearDiscountsFilters() {
     type: types.CLEAR_DISCOUNTS_FILTERS
   };
 }
+
+export function activateDiscount(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT,
+    payload
+  };
+}
+
+export function activateDiscountSuccess(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_SUCCESS,
+    payload
+  };
+}
+
+export function activateDiscountFailure(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_FAILURE,
+    payload
+  };
+}
+
+export function clearActivateDiscountStatus() {
+  return {
+    type: types.CLEAR_ACTIVATE_DISCOUNT_STATUS
+  };
+}

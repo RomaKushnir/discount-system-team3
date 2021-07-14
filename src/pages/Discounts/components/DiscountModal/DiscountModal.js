@@ -3,7 +3,7 @@ import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import { useCallback, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from '../../../../components/Modal';
 import styles from './DiscountModal.module.scss';
@@ -15,11 +15,13 @@ import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
 import DiscountTag from '../../../../components/DiscountTag';
 import Vocabulary from '../../../../translations/vocabulary';
+import * as actions from '../../../../store/actions';
 
 function DiscountModal({
   discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
 }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
@@ -56,7 +58,7 @@ function DiscountModal({
     setIsEditDiscountOpen(true);
   };
   const onActivateClick = () => {
-    console.log('activate');
+    dispatch(actions.discountsActions.activateDiscount({ discountId: discount.id, userId: user.id }));
   };
   const onDelete = useCallback(() => {
     setConfirmModalOpen(true);

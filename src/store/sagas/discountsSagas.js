@@ -70,11 +70,23 @@ export function* applyDiscountsFilters({ payload }) {
   yield put(actions.discountsActions.getDiscountsList({ serverSearchParams, showMore: payload.showMore }));
 }
 
+export function* activateDiscount({ payload }) {
+  try {
+    yield call(api.discounts.activateDiscount, payload);
+    yield put(actions.discountsActions.activateDiscountSuccess(payload));
+    toast.success('Discount was successfully activated.');
+  } catch (error) {
+    yield put(actions.discountsActions.activateDiscountFailure(error));
+    toast.error(`Error: ${error.response.data.message}`);
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_DISCOUNTS, getDiscounts),
     takeEvery(types.CREATE_DISCOUNT, createDiscount),
     takeEvery(types.DELETE_DISCOUNT, deleteDiscount),
-    takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters)
+    takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters),
+    takeEvery(types.ACTIVATE_DISCOUNT, activateDiscount)
   ]);
 }
