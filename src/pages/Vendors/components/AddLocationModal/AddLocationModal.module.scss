@@ -1,0 +1,24 @@
+.addLocationContainer {
+  width: 500px;
+  min-height: 400px;
+  padding: 0 10px 10px;
+  .inputContainer {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.twoColumnsWrapper {
+  display: flex;
+  justify-content: space-between;
+  & > div {
+    flex-basis: 45%;
+  }
+}
+
+
+.addLocationBtn {
+  display: block;
+  margin-left: auto;
+  margin-top: 40px;
+}

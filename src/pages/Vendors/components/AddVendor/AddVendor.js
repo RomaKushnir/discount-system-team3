@@ -6,7 +6,7 @@ import styles from './AddVendor.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import AddNewItemButton from '../../../../components/AddNewItemButton';
-import LocationModal from '../LocationModal';
+import AddLocationModal from '../AddLocationModal';
 import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
 import {
@@ -34,7 +34,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
   const [errors, setErrors] = useState({
     id: '',
     title: '',
-    location: '',
+    locationIds: [],
     email: '',
     imageUrl: '',
     description: ''
@@ -254,7 +254,7 @@ function AddVendorModal({ onSave, selectedVendor }) {
         onClose={closeAddLocationModal}
         isOverlayTransparent={isLocationModalOpen}
       >
-        <LocationModal
+        <AddLocationModal
           onModalClose={closeAddLocationModal}
           addLocationToVendor={addLocationToVendor}
         />

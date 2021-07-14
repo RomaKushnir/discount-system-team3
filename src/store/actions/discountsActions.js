@@ -101,3 +101,57 @@ export function clearDiscountsFilters() {
     type: types.CLEAR_DISCOUNTS_FILTERS
   };
 }
+
+export function activateDiscount(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT,
+    payload
+  };
+}
+
+export function activateDiscountSuccess(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_SUCCESS,
+    payload
+  };
+}
+
+export function activateDiscountFailure(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_FAILURE,
+    payload
+  };
+}
+
+export function clearActivateDiscountStatus() {
+  return {
+    type: types.CLEAR_ACTIVATE_DISCOUNT_STATUS
+  };
+}
+
+export function getDiscountById(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID,
+    payload
+  };
+}
+
+export function getDiscountByIdSuccess(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getDiscountByIdFailure(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_FAILURE,
+    payload
+  };
+}
+
+export function clearDiscountsByIdStatus() {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_CLEAR_STATUS
+  };
+}

@@ -18,7 +18,7 @@ import Vocabulary from '../../../../translations/vocabulary';
 import * as actions from '../../../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
+  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = ''
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ function DiscountModal({
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
   };
   const onActivateClick = () => {
-    console.log('activate');
+    dispatch(actions.discountsActions.activateDiscount({ discountId: discount.id, userId: user.id }));
   };
   const onDelete = useCallback(() => {
     setConfirmModalOpen(true);
@@ -152,10 +152,12 @@ function DiscountModal({
     <>
     <Modal
       isOpen = {isOpen}
+      loadingStatus = {loadingStatus}
       onClose = {onClose}
       children = {!isEditDiscountOpen
         ? content
         : <CreateDiscount discount={discount} onModalClose={onEditModalClose}/>}
+        modalContainerClasses = {modalContainerClasses}
     >
     </Modal>
     <Modal isOpen={confirmModalOpen} onClose={onCloseModal}>
