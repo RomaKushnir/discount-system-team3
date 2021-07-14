@@ -5,6 +5,7 @@ import customStyles from './CreatableSelectField.styles';
 function CreatableSelectField({
   label,
   initialValue,
+  value,
   options,
   onChange,
   isLoading,
@@ -15,16 +16,15 @@ function CreatableSelectField({
   isMulti = false,
   error = '',
   onBlur,
-  value,
   name
 }) {
   return (
-    <div className = {style.container}>
+    <div className = {`${style.container} ${className}`}>
       {label != null && <label className = {style.label}>{label}</label>}
       <CreatableSelect
         styles = {customStyles}
-        className = {className}
         defaultValue = {initialValue}
+        value = {value}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}
