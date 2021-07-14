@@ -71,7 +71,7 @@ function CreateDiscount({
     locationIds: discount ? locationsToRequst : [],
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
-    tagIds: discount ? discount.tags : []
+    tagIds: discount ? discount.tags.map((el) => el.id) : []
   };
 
   // GET REQUIRED DATA FROM API
@@ -81,6 +81,8 @@ function CreateDiscount({
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
+    console.log(formData);
+
     if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
@@ -119,6 +121,10 @@ function CreateDiscount({
       formik.setFieldValue('locationIds', [], true);
       setDiscountVendor(selected);
     }
+
+    if (name === 'tags') {
+      formik.setFieldValue('tagIds', value, true);
+    }
     formik.setFieldValue(name, value, true);
   };
 
@@ -130,16 +136,16 @@ function CreateDiscount({
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  const initialTagsOptions = useMemo(() => (formik.values.tagIds ? formik.values.tagIds
+  const initialTagsOptions = useMemo(() => (discount.tags ? discount.tags
     .map((tag) => ({ value: tag.id, label: tag.name }))
-    : []), [formik.values.tagIds]);
+    : []), [discount]);
 
   const locationOptions = useMemo(
     () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
   );
 
-  // console.log(formik.values);
-  // console.log(discountVendor);
+  console.log(formik.values);
+  console.log(initialTagsOptions);
 
   return (
     <div className={styles.modalContent}>
@@ -196,7 +202,7 @@ function CreateDiscount({
           options = {tagsOptions}
           initialValue = {initialTagsOptions}
           label = {t(Vocabulary.TAGS)}
-          name = "tagIds"
+          name = "tags"
           placeholder = {t(Vocabulary.SELECT_TAGS)}
           className={styles.inputContainer}
           isMulti={true}

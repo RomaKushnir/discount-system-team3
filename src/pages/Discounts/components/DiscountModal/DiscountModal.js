@@ -55,13 +55,10 @@ function DiscountModal({
     : null;
 
   const onEditClick = () => {
-    console.log('EDIT MODAL STATUS SET');
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
     setIsEditDiscountOpen(true);
   };
   const onEditModalClose = () => {
-    console.log('EDIT MODAL CLOSE');
-
     setIsEditDiscountOpen(false);
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
   };
@@ -81,8 +78,6 @@ function DiscountModal({
   const onLocationChange = () => {
     console.log('change location');
   };
-
-  console.log('EDITING DISCOUNT OPEN', isEditDiscountOpen);
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
