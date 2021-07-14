@@ -31,7 +31,6 @@ function Discounts() {
 
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
-  const [discount, setDiscount] = useState(null);
 
   useEffect(() => {
     dispatch(actions.locationActions.getLocationsList());
@@ -43,6 +42,8 @@ function Discounts() {
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
+  const discountById = useSelector((state) => state.discountsReducer.discountById);
+  const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
@@ -105,10 +106,9 @@ function Discounts() {
     }
   };
   const onCardClick = useCallback((e, id) => {
+    dispatch(actions.discountsActions.getDiscountById(id));
     setIsDiscountModalShown(true);
-    const selectedDiscount = discountsArray.find((el) => el.id === id);
-    setDiscount(selectedDiscount);
-  }, [discountsArray]);
+  }, [dispatch]);
 
   const onDiscountModalClose = () => {
     setIsDiscountModalShown(false);
@@ -156,11 +156,13 @@ function Discounts() {
                 favouriteDiscounts = {favourite}
               />
               <DiscountModal
-                discount = {discount}
+                discount = {discountById}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
                 favouriteDiscounts = {favourite}
+                loadingStatus = {getDiscountByIdStatus.loading}
+                modalContainerClasses = {styles.modalMinSize}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}

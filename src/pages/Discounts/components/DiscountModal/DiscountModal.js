@@ -18,7 +18,7 @@ import Vocabulary from '../../../../translations/vocabulary';
 import * as actions from '../../../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts
+  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = ''
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -147,10 +147,12 @@ function DiscountModal({
     <>
     <Modal
       isOpen = {isOpen}
+      loadingStatus = {loadingStatus}
       onClose = {onClose}
       children = {!isEditDiscountOpen
         ? content
         : <CreateDiscount discount={discount} onModalClose={onClose}/>}
+      modalContainerClasses = {modalContainerClasses}
     >
     </Modal>
     <Modal isOpen={confirmModalOpen} onClose={onCloseModal}>
