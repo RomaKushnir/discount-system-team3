@@ -1,4 +1,6 @@
-import { useEffect, useCallback, useMemo } from 'react';
+import {
+  useEffect, useCallback, useMemo, useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -11,14 +13,12 @@ import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
-  getLocationsOptions,
-  getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
   getCategoriesOptions,
   getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
 import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
 import Vocabulary from '../../../../translations/vocabulary';
+import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
   discount,
@@ -27,11 +27,9 @@ function CreateDiscount({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
-  const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  const [discountVendor, setDiscountVendor] = useState();
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
-  const locationOptions = useSelector(getLocationsOptions);
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
@@ -57,6 +55,8 @@ function CreateDiscount({
 
   const isFormSubmitted = createDiscountStatus.loading === false && createDiscountStatus.success;
 
+  console.log('SUBMIT', isFormSubmitted);
+
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
     title: discount ? discount.title : '',
@@ -72,20 +72,12 @@ function CreateDiscount({
     categoryId: discount ? discount.category.id : null,
     vendorId: discount ? discount.vendor.id : null,
     tagIds: discount ? discount.tags : []
-    // mocked fields
-    // perUser: 1,
-    // price: 0,
-    // quantity: 1
   };
 
   // GET REQUIRED DATA FROM API
   useEffect(() => {
-    // if (!countriesOptions.length || !citiesOptions.length) {
-    // dispatch(actions.locationActions.getLocationsList());
-    // }
-
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
+  }, [dispatch, categoriesOptions]);
 
   // FORM SUBMIT
   const submitHandler = (formData) => {
@@ -100,7 +92,7 @@ function CreateDiscount({
   const onOkClick = () => {
     onModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
-    dispatch(actions.discountsActions.getDiscountsList());
+    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
 
   const formik = useFormik({
@@ -111,6 +103,7 @@ function CreateDiscount({
 
   // SET SELECT VALUE INTO FORMIK STATE
   const onSelectValueChange = (selected, options) => {
+    console.log(selected, options);
     const { name } = options;
     let value;
     if (Array.isArray(selected)) {
@@ -121,6 +114,10 @@ function CreateDiscount({
     console.log(name);
     if (name === 'categoryId') {
       formik.setFieldValue('tagIds', [], true);
+    }
+    if (name === 'vendorId') {
+      formik.setFieldValue('locationIds', [], true);
+      setDiscountVendor(selected);
     }
     formik.setFieldValue(name, value, true);
   };
@@ -133,13 +130,16 @@ function CreateDiscount({
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  const initialTagsOptions = useMemo(() => (formik.values.tagIds ? categoriesOptions
-    .find((el) => el.id === formik.values.categoryId)?.tags
-    .filter((tag) => formik.values.tagIds.includes(tag.id))
+  const initialTagsOptions = useMemo(() => (formik.values.tagIds ? formik.values.tagIds
     .map((tag) => ({ value: tag.id, label: tag.name }))
-    : []), [formik.values.categoryId, formik.values.tagIds, categoriesOptions]);
+    : []), [formik.values.tagIds]);
 
-  console.log(formik.values);
+  const locationOptions = useMemo(
+    () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
+  );
+
+  // console.log(formik.values);
+  // console.log(discountVendor);
 
   return (
     <div className={styles.modalContent}>
@@ -194,7 +194,7 @@ function CreateDiscount({
         </div>
         <SelectField
           options = {tagsOptions}
-          value = {initialTagsOptions}
+          initialValue = {initialTagsOptions}
           label = {t(Vocabulary.TAGS)}
           name = "tagIds"
           placeholder = {t(Vocabulary.SELECT_TAGS)}
@@ -284,7 +284,7 @@ function CreateDiscount({
               onBlur={formik.handleBlur}
               disabled = {!!formik.values.flatAmount}
             />
-            {(formik.errors.flatAmount && formik.errors.percentage)
+            {(formik.errors.flatAmount || formik.errors.percentage)
             && <div className = {styles.error}>{formik.errors.flatAmount || formik.errors.percentage}</div>}
           </div>
           <div className={styles.dateContainer}>

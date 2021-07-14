@@ -89,6 +89,7 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.CLEAR_CREATE_DISCOUNT_STATUS: {
+      console.log('clear status');
       return {
         ...state,
         createDiscountStatus: helpers.getDefaultState()
