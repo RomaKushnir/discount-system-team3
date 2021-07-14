@@ -5,13 +5,14 @@ const initialState = {
   locationsList: [],
   selectedLocation: {},
   createdLocation: {},
+  countries: [],
+  cities: [],
   getLocationsStatus: helpers.getDefaultState(),
   getLocationByIdStatus: helpers.getDefaultState(),
-  countries: [],
   getCountriesStatus: helpers.getDefaultState(),
-  cities: [],
   getCitiesStatus: helpers.getDefaultState(),
-  createLocationStatus: helpers.getDefaultState()
+  createLocationStatus: helpers.getDefaultState(),
+  getCoordinatesStatus: helpers.getDefaultState()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -35,6 +36,12 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         getLocationsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_LOCATIONS_DATA: {
+      return {
+        ...state,
+        locationsList: []
       };
     }
     case types.GET_LOCATION_BY_ID: {
@@ -137,6 +144,12 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         createLocationStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_COORDINATES: {
+      return {
+        ...state,
+        getGeocodeStatus: helpers.getRequestState()
       };
     }
     default:

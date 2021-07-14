@@ -21,6 +21,12 @@ export function getLocationsListFailure(payload) {
   };
 }
 
+export function clearLocationsData() {
+  return {
+    type: types.CLEAR_LOCATIONS_DATA
+  };
+}
+
 export function getLocationById(payload) {
   return {
     type: types.GET_LOCATION_BY_ID,
@@ -119,5 +125,11 @@ export function createLocationFailure(payload) {
 export function clearCreateLocationStatus() {
   return {
     type: types.CLEAR_CREATE_LOCATION_STATUS
+  };
+}
+export function getCoordinates(payload) {
+  return {
+    type: types.GET_COORDINATES,
+    payload
   };
 }

@@ -108,7 +108,6 @@ export function getVendorDiscounts(payload) {
     payload
   };
 }
-
 export function getVendorDiscountsSuccess(payload) {
   return {
     type: types.GET_VENDOR_DISCOUNTS_SUCCESS,
@@ -126,5 +125,32 @@ export function getVendorDiscountsFailure(payload) {
 export function clearGetVendorDiscountsStatus() {
   return {
     type: types.CLEAR_GET_VENDOR_DISCOUNTS_STATUS
+  };
+}
+
+export function activateDiscount(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT,
+    payload
+  };
+}
+
+export function activateDiscountSuccess(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_SUCCESS,
+    payload
+  };
+}
+
+export function activateDiscountFailure(payload) {
+  return {
+    type: types.ACTIVATE_DISCOUNT_FAILURE,
+    payload
+  };
+}
+
+export function clearActivateDiscountStatus() {
+  return {
+    type: types.CLEAR_ACTIVATE_DISCOUNT_STATUS
   };
 }

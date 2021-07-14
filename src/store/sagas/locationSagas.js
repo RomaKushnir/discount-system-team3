@@ -57,9 +57,18 @@ export function* getCities({ payload }) {
 
 export function* createLocation({ payload }) {
   try {
-    const response = yield call(api.locations.createLocation, payload);
-    // console.log(response);
-    yield put(actions.locationActions.createLocationSuccess(response));
+    const { countryCode, city, addressLine } = payload;
+    const searchAddress = `${countryCode},${city},${addressLine}`;
+    const geocodeResponse = yield call(api.locations.getGeocode, searchAddress);
+    if (geocodeResponse.status === 'OK') {
+      const { lat: latitude, lng: longitude } = geocodeResponse.results[0].geometry.location;
+      const fullLocation = { ...payload, ...{ latitude, longitude } };
+      const response = yield call(api.locations.createLocation, fullLocation);
+      yield put(actions.locationActions.createLocationSuccess(response));
+      toast.success('Location successfully created');
+    } else {
+      toast.error('Please enter correct address');
+    }
   } catch (error) {
     console.error(error);
     console.log('SAGA', error.response.data);

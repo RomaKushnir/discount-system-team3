@@ -8,6 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { persistor, appStore } from './store';
 import * as actions from './store/actions';
+import './i18n';
 
 const token = localStorage.getItem('token');
 if (token) {

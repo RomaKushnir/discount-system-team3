@@ -28,7 +28,8 @@ const initialState = {
     totalElements: null,
     totalPages: null
   },
-  getVendorDiscountsStatus: helpers.getDefaultState()
+  getVendorDiscountsStatus: helpers.getDefaultState(),
+  activateDiscountStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -185,6 +186,32 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         getVendorDiscountsStatus: helpers.getDefaultState()
+      };
+    }
+    case types.ACTIVATE_DISCOUNT: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getRequestState()
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_SUCCESS: {
+      const successMessage = 'Discount is successfully activated';
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_ACTIVATE_DISCOUNT_STATUS: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getDefaultState()
       };
     }
     default:
