@@ -7,8 +7,8 @@ export const convertFilterParametersToUrl = (params) => {
     .filter((el) => query[el] !== null && query[el] !== '')
     .map((key) => `${key}:${encodeURIComponent(query[key])}`)
     .join(';')
-    .replace('country:', 'location.country.countryCode:')
-    .replace('city:', 'location.city:')
+    .replace('country:', 'locations.country.countryCode:')
+    .replace('city:', 'locations.city:')
     .replace('vendorTitle:', 'title*:*')
     .replace('description:', 'description*:*')
     .replace('category:', 'discounts.category.id:');
@@ -24,8 +24,8 @@ export const convertUrlToFilterParameters = (queryString) => {
   const modifiedString = queryString
     .replace('description*:*', 'description:')
     .replace('title*:*', 'vendorTitle:')
-    .replace('location.city:', 'city:')
-    .replace('location.country.countryCode:', 'country:')
+    .replace('locations.city:', 'city:')
+    .replace('locations.country.countryCode:', 'country:')
     .replace('discounts.category.id:', 'category:')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')

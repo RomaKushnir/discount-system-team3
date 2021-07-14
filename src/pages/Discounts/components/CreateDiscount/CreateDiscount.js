@@ -22,8 +22,7 @@ import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
   discount,
-  onModalClose,
-  onDiscountModalClose
+  onModalClose
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -85,23 +84,27 @@ function CreateDiscount({
   const submitHandler = ({ tags, ...data }) => {
     console.log(data);
 
-    let updatedFormData = {};
+    let formData = {};
 
     if (data.promocode === '') {
-      updatedFormData = { ...data, promocode: null };
+      formData = { ...data, promocode: null };
+    } else {
+      formData = { ...data };
     }
 
+    console.log(formData);
     if (discount) {
-      const formDataUpdate = { ...updatedFormData, id: discount.id };
+      const formDataUpdate = { ...formData, id: discount.id };
+
+      console.log(formDataUpdate);
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
-      dispatch(actions.discountsActions.createDiscount(updatedFormData));
+      dispatch(actions.discountsActions.createDiscount(formData));
     }
   };
 
   const onOkClick = () => {
     onModalClose();
-    onDiscountModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
     dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
@@ -152,19 +155,21 @@ function CreateDiscount({
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  const initialTagsOptions = useMemo(() => (formik.values.tags ? formik.values.tags
-    .map((tag) => {
-      console.log(formik.values.tags);
-      console.log(tag);
-      return tag;
-    })
-    : []), [formik.values.tags]);
+  // const initialTagsOptions = useMemo(() => (formik.values.tags ? formik.values.tags
+  //   .map((tag) => {
+  //     console.log(formik.values.tags);
+  //     console.log(tag);
+  //     return tag;
+  //   })
+  //   : []), [formik.values.tags]);
+
+  const initialTagsOptions = formik.values.tags || [];
 
   const locationOptions = useMemo(
     () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
   );
 
-  console.log(discount.tags);
+  // console.log(discount.tags);
   console.log(tagsOptions);
   console.log(formik.values);
   console.log(initialTagsOptions);
