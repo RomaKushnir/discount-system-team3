@@ -39,7 +39,7 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('locations.country.countryCode:', 'country:')
     .replace('category.id:', 'category:')
     .replace('tags.id~', 'tags:')
-    .replace('%2C', ',')
+    .replaceAll('%2C', ',')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')

@@ -79,11 +79,12 @@ function FiltersContainer({
     ) || null, [categoryTags]
   );
 
+  console.log(categoryTags);
   console.log(filters);
   console.log(tagsOptionsMemoized);
 
   const selectedTagsMemoized = useMemo(
-    () => (filters.tags ? filters.tags?.map(
+    () => (filters.tags ? filters.tags.split(',').map(
       (el) => tagsOptionsMemoized.find((tag) => el === tag.value)
     ) : null), [tagsOptionsMemoized, filters.tags]
   );
