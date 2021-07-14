@@ -58,7 +58,7 @@ export function* getCities({ payload }) {
 export function* createLocation({ payload }) {
   try {
     const { countryCode, city, addressLine } = payload;
-    const searchAddress = `${countryCode} ${city} ${addressLine}`;
+    const searchAddress = `${countryCode},${city},${addressLine}`;
     const geocodeResponse = yield call(api.locations.getGeocode, searchAddress);
     if (geocodeResponse.status === 'OK') {
       const { lat: latitude, lng: longitude } = geocodeResponse.results[0].geometry.location;
