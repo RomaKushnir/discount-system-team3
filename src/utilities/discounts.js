@@ -3,6 +3,16 @@ export const convertFilterParametersToUrl = (params) => {
     sort, pageNumber, size, totalElements, totalPages, ...query
   } = params;
 
+  console.log(query);
+  // const updatedQuery = {
+  //   ...query,
+  //   // tags: query.tags?.map((el) => encodeURIComponent(el))
+  //   // tags: query.tags?.map((el) => encodeURIComponent(el)).join()
+  //   tags: query.tags?.join(',')
+  // };
+
+  // console.log(updatedQuery);
+
   const str = Object.keys(query)
     .filter((el) => query[el] !== null && query[el] !== '')
     .map((key) => `${key}:${encodeURIComponent(query[key])}`)
@@ -11,7 +21,8 @@ export const convertFilterParametersToUrl = (params) => {
     .replace('city:', 'locations.city:')
     .replace('vendorTitle:', 'vendor.title*:*')
     .replace('shortDescription:', 'shortDescription*:*')
-    .replace('category:', 'category.id:');
+    .replace('category:', 'category.id:')
+    .replace('tags:', 'tags.id~');
 
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=${sort}`;
@@ -27,6 +38,8 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('locations.city:', 'city:')
     .replace('locations.country.countryCode:', 'country:')
     .replace('category.id:', 'category:')
+    .replace('tags.id~', 'tags:')
+    .replace('%2C', ',')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
