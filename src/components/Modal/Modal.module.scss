@@ -21,6 +21,7 @@
     max-height: 95%;
     overflow: auto;
     width: fit-content;
+    position: relative;
   }
 
   .closeButtonContainer {
@@ -49,6 +50,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.loadingContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 768px) {

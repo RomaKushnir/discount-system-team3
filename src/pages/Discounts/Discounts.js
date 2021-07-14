@@ -162,6 +162,7 @@ function Discounts() {
                 onDeleteDiscount = {onDeleteDiscount}
                 favouriteDiscounts = {favourite}
                 loadingStatus = {getDiscountByIdStatus.loading}
+                modalContainerClasses = {styles.modalMinSize}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}

@@ -8,7 +8,8 @@ function Modal({
   loadingStatus = false,
   onClose,
   isOverlayTransparent = false,
-  children
+  children,
+  modalContainerClasses = ''
 }) {
   const onContentClick = (e) => {
     e.stopPropagation();
@@ -22,7 +23,7 @@ function Modal({
       className={`${styles.overlay} ${isOverlayTransparent ? styles.transparent : ''} ${styles[showModal]}`}
       onClick = {onClose}
      >
-       <div className = {styles.contentContainer} onClick = {onContentClick}>
+       <div className = {`${styles.contentContainer} ${modalContainerClasses}`} onClick = {onContentClick}>
          <div className = {styles.closeButtonContainer}>
           <Close
             className = {styles.closeButton}
