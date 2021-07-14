@@ -40,7 +40,7 @@ const DiscountsList = ({ discountsList, vendorId, activeButton }) => {
   return (
     <>
     <div className={styles.row}>
-      {discountsList && discountsList.map(
+      {discountsList?.map(
         (discount) => <div onClick = {() => onCardClick(discount.id)} key = {discount.id}>
           <DiscountCard discount = {discount}/>
       </div>
