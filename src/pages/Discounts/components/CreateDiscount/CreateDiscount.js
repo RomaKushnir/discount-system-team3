@@ -22,7 +22,8 @@ import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
   discount,
-  onModalClose
+  onModalClose,
+  onDiscountModalClose
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -59,19 +60,20 @@ function CreateDiscount({
 
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
-    title: discount ? discount.title : '',
-    imageUrl: discount ? discount.imageUrl : '',
-    promocode: discount ? discount.promocode : '',
-    description: discount ? discount.description : '',
-    shortDescription: discount ? discount.shortDescription : '',
-    flatAmount: discount ? discount.flatAmount : '',
-    percentage: discount ? discount.percentage : '',
+    title: discount?.title || '',
+    imageUrl: discount?.imageUrl || '',
+    promocode: discount?.promocode || '',
+    description: discount?.description || '',
+    shortDescription: discount?.shortDescription || '',
+    flatAmount: discount?.flatAmount || '',
+    percentage: discount?.percentage || '',
     startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
     expirationDate: discount ? new Date(discount.expirationDate) : null,
     locationIds: discount ? locationsToRequst : [],
-    categoryId: discount ? discount.category.id : null,
-    vendorId: discount ? discount.vendor.id : null,
-    tagIds: discount ? discount.tags.map((el) => el.id) : []
+    categoryId: discount?.category.id || null,
+    vendorId: discount?.vendor.id || null,
+    tagIds: discount?.tags.map((el) => el.id) || [],
+    tags: discount?.tags.map((el) => ({ label: el.name, value: el.id })) || []
   };
 
   // GET REQUIRED DATA FROM API
@@ -80,19 +82,26 @@ function CreateDiscount({
   }, [dispatch, categoriesOptions]);
 
   // FORM SUBMIT
-  const submitHandler = (formData) => {
-    console.log(formData);
+  const submitHandler = ({ tags, ...data }) => {
+    console.log(data);
+
+    let updatedFormData = {};
+
+    if (data.promocode === '') {
+      updatedFormData = { ...data, promocode: null };
+    }
 
     if (discount) {
-      const formDataUpdate = { ...formData, id: discount.id };
+      const formDataUpdate = { ...updatedFormData, id: discount.id };
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
-      dispatch(actions.discountsActions.createDiscount(formData));
+      dispatch(actions.discountsActions.createDiscount(updatedFormData));
     }
   };
 
   const onOkClick = () => {
     onModalClose();
+    onDiscountModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
     dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
@@ -115,17 +124,24 @@ function CreateDiscount({
     }
     console.log(name);
     if (name === 'categoryId') {
+      console.log('CHANGE CATEGORY');
+      formik.setFieldValue('tags', [], true);
       formik.setFieldValue('tagIds', [], true);
+      console.log(formik.values);
     }
     if (name === 'vendorId') {
       formik.setFieldValue('locationIds', [], true);
       setDiscountVendor(selected);
     }
 
-    if (name === 'tags') {
-      formik.setFieldValue('tagIds', value, true);
-    }
     formik.setFieldValue(name, value, true);
+
+    if (name === 'tags') {
+      console.log(value);
+      console.log(selected);
+      formik.setFieldValue('tagIds', value, true);
+      formik.setFieldValue('tags', selected, true);
+    }
   };
 
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
@@ -136,14 +152,20 @@ function CreateDiscount({
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  const initialTagsOptions = useMemo(() => (discount.tags ? discount.tags
-    .map((tag) => ({ value: tag.id, label: tag.name }))
-    : []), [discount]);
+  const initialTagsOptions = useMemo(() => (formik.values.tags ? formik.values.tags
+    .map((tag) => {
+      console.log(formik.values.tags);
+      console.log(tag);
+      return tag;
+    })
+    : []), [formik.values.tags]);
 
   const locationOptions = useMemo(
     () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
   );
 
+  console.log(discount.tags);
+  console.log(tagsOptions);
   console.log(formik.values);
   console.log(initialTagsOptions);
 
@@ -200,7 +222,7 @@ function CreateDiscount({
         </div>
         <SelectField
           options = {tagsOptions}
-          initialValue = {initialTagsOptions}
+          value = {initialTagsOptions}
           label = {t(Vocabulary.TAGS)}
           name = "tags"
           placeholder = {t(Vocabulary.SELECT_TAGS)}

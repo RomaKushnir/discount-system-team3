@@ -156,7 +156,7 @@ function DiscountModal({
       onClose = {onClose}
       children = {!isEditDiscountOpen
         ? content
-        : <CreateDiscount discount={discount} onModalClose={onEditModalClose}/>}
+        : <CreateDiscount discount={discount} onModalClose={onEditModalClose} onDiscountModalClose = {onClose}/> }
         modalContainerClasses = {modalContainerClasses}
     >
     </Modal>
