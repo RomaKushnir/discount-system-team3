@@ -52,8 +52,5 @@ export const getCountriesOptions = createSelector(
 
 export const getCitiesOptions = createSelector(
   getCities,
-  (cities) => cities
-    .map((el) => el.city)
-    .filter((el, i, arr) => arr.indexOf(el) === i && el)
-    .map((el) => ({ value: el, label: el }))
+  (cities) => cities.map((city) => ({ value: city, label: city }))
 );

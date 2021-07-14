@@ -6,7 +6,7 @@ export const getLocationById = (locationId) => axios.get(`/locations/${locationI
 
 export const getCountries = () => axios.get('/locations/countries');
 
-export const getCities = (countryCode) => axios.get(`/locations/cities/?countryCode=${countryCode}`);
+export const getCities = (countryCode) => axios.get(`/locations/cities?countryCode=${countryCode}`);
 
 export const createLocation = (data) => axios.post('/locations', data);
 
