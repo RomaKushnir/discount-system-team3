@@ -50,9 +50,8 @@ function Vendors() {
       setVendor(selectedVendor);
     } else {
       setVendor({
-        id: '',
         title: '',
-        location: null,
+        locations: [],
         email: '',
         imageUrl: '',
         description: ''
@@ -130,7 +129,7 @@ function Vendors() {
       </div>
       <Modal isOpen={isOpen} onClose={closeModal}>
         <AddVendorModal
-          onSave={closeModal}
+          closeModal={closeModal}
           selectedVendor = {vendor}
         />
       </Modal>
