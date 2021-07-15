@@ -11,3 +11,5 @@ export const updateDiscount = (data) => axios.put(`/discounts/${data.id}`, data)
 export const deleteDiscount = (id) => axios.delete(`/discounts/${id}`);
 
 export const activateDiscount = (data) => axios.post('/user-discount', data);
+
+export const getDiscountInfo = ({ userId, discountId }) => axios.get(`/qrcode/${userId}/${discountId}`);

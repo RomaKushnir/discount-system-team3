@@ -39,17 +39,6 @@
     padding: 30px 10px;
   }
 
-  .inputsContainer {
-    height: 180px;
-    display: block;
-  }
-  .buttonContainer {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .loadingContainer {
     position: absolute;
     display: flex;
@@ -68,4 +57,10 @@
   .errorMessage {
     color: red
   }
+
+  .roundImg {
+    border-radius: 100%;
+    margin: 10px;
+  }
+
 }
