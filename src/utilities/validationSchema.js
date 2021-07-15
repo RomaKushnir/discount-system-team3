@@ -19,7 +19,8 @@ const schema = yup.object().shape({
   vendorId: yup.string().nullable().required('The field is required'),
   categoryId: yup.string().nullable().required('The field is required'),
   startDate: yup.date().nullable().required('Date fields are required'),
-  expirationDate: yup.date().nullable().required('Date fields are required')
+  expirationDate: yup.date().nullable().required('Date fields are required'),
+  tags: yup.mixed().test('tags', 'The field is required', (val) => !val || val.length)
 });
 
 export default schema;

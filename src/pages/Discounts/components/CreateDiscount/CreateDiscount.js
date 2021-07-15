@@ -215,6 +215,7 @@ function CreateDiscount({
           isMulti={true}
           onChange = {onSelectValueChange}
           error = {formik.errors.tags}
+          onBlur={formik.handleBlur}
         />
         <SelectField
           options = {locationOptions}

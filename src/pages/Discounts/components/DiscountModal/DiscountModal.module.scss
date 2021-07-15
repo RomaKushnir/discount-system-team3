@@ -66,8 +66,12 @@
 .tag {
   justify-content: flex-end;
 }
-.count {
-  font-size: .8rem;
+.tags {
+  display: flex;
+  font-size: .9rem;
+  li{
+    list-style: none;
+  }
 }
 .adminBtns {
   * + * {

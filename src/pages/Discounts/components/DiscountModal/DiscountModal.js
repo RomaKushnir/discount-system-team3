@@ -79,6 +79,8 @@ function DiscountModal({
     console.log('change location');
   };
 
+  const tagsList = discount?.tags.map((item, index) => (<li key = {item.id}>{ (index ? ', ' : '') + item.name}</li>));
+
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
       title = {t(Vocabulary.EDIT)}
@@ -136,9 +138,11 @@ function DiscountModal({
         flatAmount = {discount.flatAmount}
       />
     </div>
-    {/* <div className = {styles.row}>
-      <div className = {styles.count}>Available {discount.quantity} promotional codes</div>
-    </div> */}
+    <div className = {styles.row}>
+      <ul className = {styles.tags}>
+        {tagsList}
+      </ul>
+    </div>
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
