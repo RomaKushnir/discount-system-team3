@@ -1,59 +1,62 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './DiscountsList.module.scss';
 import DiscountCard from '../../../../components/discountCard/DiscountCard';
-import OutlineButton from '../../../../components/OutlineButton/OutlineButton';
+import Pagination from '../../../../components/Pagination';
+import * as actions from '../../../../store/actions';
+import DiscountModal from '../../../Discounts/components/DiscountModal';
 
-// var idx = idx + 1;
-// var countCards = countCards + 1;
+const DiscountsList = ({ discountsList, vendorId, activeButton }) => {
+  const dispatch = useDispatch();
+  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
+  const [selectedDiscount, setSelectedDiscount] = useState(null);
+  // mock data for favourite discounts
+  const favourite = [];
 
-function DiscountsList({ discountsList }) {
-  const [idx, setIdx] = useState(0);
-  const [countCards, setCountCards] = useState(3);
-  const resultArr = discountsList.slice(idx, countCards);
-  function onAddCards() {
-    if (discountsList.length > countCards) {
-      setIdx((prevCount) => prevCount + 3);
-      setCountCards((prevCount) => prevCount + 3);
-    } else {
-      setIdx((prevCount) => prevCount - 3);
-      setCountCards((prevCount) => prevCount - 3);
+  const vendorDiscountsParams = useSelector((state) => state.discountsReducer.vendorDiscountsParams);
+
+  const onShowMoreClick = () => {
+    if (vendorDiscountsParams.pageNumber < vendorDiscountsParams.totalPages) {
+      dispatch(actions.discountsActions.getVendorDiscounts({
+        vendorId,
+        pageNumber: vendorDiscountsParams.pageNumber += 1,
+        size: 6,
+        showMore: true,
+        active: activeButton
+      }));
     }
-    console.log(idx, countCards);
-  }
-  // console.log(idx, countCards);
+  };
+
+  const onCardClick = useCallback((id) => {
+    setIsDiscountModalShown(true);
+    const discount = discountsList.find((el) => el.id === id);
+    setSelectedDiscount(discount);
+  }, [discountsList]);
+
+  const onDiscountModalClose = () => {
+    setIsDiscountModalShown(false);
+  };
+
   return (
     <>
     <div className={styles.row}>
-      {resultArr.map(
-        (discountCard) => <DiscountCard
-          discount={discountCard}
-          key={discountCard.id}
-          title={discountCard.title}
-          category={discountCard.categoryId[discountCard.id]}
-          company={discountCard.vendorId[discountCard.id]}
-          description={discountCard.shortDescription}
-          discount={discountCard.percentage}
-          />
-      )
-      }
+      {discountsList?.map(
+        (discount) => <div onClick = {() => onCardClick(discount.id)} key = {discount.id}>
+          <DiscountCard discount = {discount}/>
+      </div>
+      )}
     </div>
-    <div className={styles.blockButtonCenter}><OutlineButton btnText="SHOW MORE" onClick={onAddCards}/></div>
+    <DiscountModal
+      discount = {selectedDiscount}
+      isOpen = {isDiscountModalShown}
+      onClose = {onDiscountModalClose}
+      favouriteDiscounts = {favourite}
+    />
+    <div className={styles.blockButtonCenter}>
+      {vendorDiscountsParams.pageNumber + 1 < vendorDiscountsParams.totalPages
+      && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}</div>
     </>
   );
-}
+};
 
 export default DiscountsList;
-
-/*
-discountsList.map(
-        (discountCard) => <DiscountCard
-          discount={discountCard}
-          key={discountCard.id}
-          title={discountCard.title}
-          category={discountCard.categoryId[discountCard.id]}
-          company={discountCard.vendorId[discountCard.id]}
-          description={discountCard.shortDescription}
-          discount={discountCard.percentage}
-          />
-      )
-*/

@@ -44,15 +44,13 @@ function DiscountModal({
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
-  const locationsList = discount && discount.locations
-    ? discount.locations.map((location) => {
-      const option = {
-        value: `${location.country}, ${location.city}`,
-        label: `${location.country}, ${location.city}`
-      };
-      return option;
-    })
-    : null;
+  const locationsList = discount ? discount.locations.map((location) => {
+    const option = {
+      value: `${location.countryCode}, ${location.city}, ${location.addressLine}`,
+      label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
+    };
+    return option;
+  }) : null;
 
   const onEditClick = () => {
     setIsEditDiscountOpen(true);
@@ -114,6 +112,7 @@ function DiscountModal({
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
+          value = {locationsList[0]}
         />
       </div>
       <div className = {styles.dates}>
