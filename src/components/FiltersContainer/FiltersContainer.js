@@ -51,7 +51,6 @@ function FiltersContainer({
 
   const onChangeCategories = (selectedOption) => {
     onChangeCategory(selectedOption);
-    console.log(selectedOption);
     setCategoryTags(selectedOption?.tags || []);
   };
 

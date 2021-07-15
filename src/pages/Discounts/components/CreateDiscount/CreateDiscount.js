@@ -82,7 +82,6 @@ function CreateDiscount({
       formData = { ...data };
     }
 
-    console.log(formData);
     if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
 
@@ -115,26 +114,27 @@ function CreateDiscount({
       value = selected && selected.value;
     }
 
-    if (name === 'categoryId') {
-      formik.setFieldValue('tags', [], true);
-      formik.setFieldValue('tagIds', [], true);
-    }
-    if (name === 'vendorId') {
-      formik.setFieldValue('locationIds', [], true);
-      formik.setFieldValue('locations', [], true);
-      setDiscountVendor(selected);
-    }
-
     formik.setFieldValue(name, value, true);
 
-    if (name === 'tags') {
-      formik.setFieldValue('tagIds', value, true);
-      formik.setFieldValue('tags', selected, true);
-    }
-
-    if (name === 'locations') {
-      formik.setFieldValue('locationIds', value, true);
-      formik.setFieldValue('locations', selected, true);
+    switch (name) {
+      case 'categoryId':
+        formik.setFieldValue('tags', [], true);
+        formik.setFieldValue('tagIds', [], true);
+        break;
+      case 'vendorId':
+        formik.setFieldValue('locationIds', [], true);
+        formik.setFieldValue('locations', [], true);
+        setDiscountVendor(selected);
+        break;
+      case 'tags':
+        formik.setFieldValue('tagIds', value, true);
+        formik.setFieldValue('tags', selected, true);
+        break;
+      case 'locations':
+        formik.setFieldValue('locationIds', value, true);
+        formik.setFieldValue('locations', selected, true);
+        break;
+      default:
     }
   };
 

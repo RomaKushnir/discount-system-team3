@@ -52,10 +52,11 @@ function DiscountModal({
     return option;
   }) : null;
 
-  const onEditClick = () => {
+  const onEditClick = useCallback(() => {
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
     setIsEditDiscountOpen(true);
-  };
+  }, [dispatch]);
+
   const onEditModalClose = () => {
     setIsEditDiscountOpen(false);
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
