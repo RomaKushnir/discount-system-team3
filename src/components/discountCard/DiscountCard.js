@@ -28,9 +28,22 @@ function DiscountCard({
       </div>
       <div className={`${style.row} ${style.descrTag}`}>
         <p className={style.description}>{discount.shortDescription}</p>
+      </div>
+      <div className={style.flexRow}>
+        <ul className={style.tagsWrapper}>
+          {discount.tags && discount.tags.reduce((res, el, i, arr) => {
+            if (i < 2) {
+              res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
+            } else if (arr.length - 1 === i) {
+              res.push(<li key={i}>{i + 1 - res.length ? `${i + 1 - res.length}+` : ''}</li>);
+            }
+            return res;
+          }, [])}
+        </ul>
         <DiscountTag
           percentage = {discount.percentage}
           flatAmount = {discount.flatAmount}
+          className={style.discountTag}
         />
       </div>
     </div>

@@ -2,10 +2,11 @@ import styles from './DiscountTag.module.scss';
 
 function DiscountTag({
   percentage,
-  flatAmount
+  flatAmount,
+  className
 }) {
   return (
-    <div className = {styles.discountWrapper}>
+    <div className = {`${styles.discountWrapper} ${className}`}>
       {percentage === 0 || !percentage
         ? <div className={`${styles.discount} ${styles.amount}`}>
           - {flatAmount}$

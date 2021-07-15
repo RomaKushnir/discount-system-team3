@@ -23,8 +23,10 @@ function DiscountModal({
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
+  const [selectedMapLocation, setSelectedMapLocation] = useState(null);
   const user = useSelector((state) => state.userReducer.user);
 
   const onFavouriteClick = (e, id) => {
@@ -41,13 +43,14 @@ function DiscountModal({
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
+    setSelectedMapLocation(null);
   });
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
   const locationsList = discount ? discount.locations.map((location) => {
     const option = {
-      value: `${location.countryCode}, ${location.city}, ${location.addressLine}`,
+      value: { lat: location.latitude, lng: location.longitude },
       label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
     };
     return option;
@@ -75,11 +78,11 @@ function DiscountModal({
     onDeleteDiscount(discount.id);
     setConfirmModalOpen(false);
   };
-  const onLocationChange = () => {
-    console.log('change location');
+  const onLocationChange = (selected) => {
+    setSelectedMapLocation(selected);
   };
 
-  const tagsList = discount?.tags.map((item, index) => (<li key = {item.id}>{ (index ? ', ' : '') + item.name}</li>));
+  const tagsList = discount?.tags.map((item) => (<li key={item.id}>#{item.name}&nbsp;</li>));
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
@@ -107,9 +110,11 @@ function DiscountModal({
       </div>
     </div>
     {isOpen && <div className={styles.mapContainer}>
-      <GoogleMap>
-
-      </GoogleMap>
+      <GoogleMap
+        locations={discount.locations}
+        onLocationChange={onLocationChange}
+        selectedLocation={selectedMapLocation ? selectedMapLocation.value : locationsList[0]}
+      />
     </div>}
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>
@@ -126,7 +131,7 @@ function DiscountModal({
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
-          value = {locationsList[0]}
+          value = {selectedMapLocation || locationsList[0]}
         />
       </div>
       <div className = {styles.dates}>

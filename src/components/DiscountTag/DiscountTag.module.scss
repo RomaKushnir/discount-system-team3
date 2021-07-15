@@ -11,6 +11,8 @@
   border-radius: 0 3px 3px 0;
   position: relative;
   margin-left: 32px;
+  height: 24px;
+  min-width: 55px;
   &::before {
       content: '';
       position: absolute;
