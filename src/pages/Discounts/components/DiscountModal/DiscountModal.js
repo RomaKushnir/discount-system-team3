@@ -10,6 +10,7 @@ import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
+import GoogleMap from '../../../../components/GoogleMap';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
@@ -95,6 +96,7 @@ function DiscountModal({
     />
   </div>;
   const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
+
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {`${styles.row} ${styles.info}`}>
       <div className = {styles.modalCategory}>
@@ -104,7 +106,11 @@ function DiscountModal({
         <StorefrontRoundedIcon/><p>{discount.vendor.title}</p>
       </div>
     </div>
-    <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
+    {isOpen && <div className={styles.mapContainer}>
+      <GoogleMap>
+
+      </GoogleMap>
+    </div>}
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>
       <div className = {styles.like} onClick = {(e) => onFavouriteClick(e, discount.id)}>

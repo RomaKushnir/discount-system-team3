@@ -17,6 +17,7 @@
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
     "formik": "^2.2.9",
+    "google-map-react": "^2.1.10",
     "history": "^4.10.1",
     "i18next": "^20.3.2",
     "i18next-browser-languagedetector": "^6.1.2",
