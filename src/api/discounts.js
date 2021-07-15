@@ -2,7 +2,7 @@ import axios from './axiosClient';
 
 export const getDiscounts = (params) => axios.get(`/discounts${params}`);
 
-export const getDiscountsById = (id) => axios.get(`/discounts/${id}`);
+export const getDiscountById = (id) => axios.get(`/discounts/${id}`);
 
 export const createDiscount = (data) => axios.post('/discounts', data);
 

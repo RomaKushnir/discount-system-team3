@@ -154,3 +154,30 @@ export function clearActivateDiscountStatus() {
     type: types.CLEAR_ACTIVATE_DISCOUNT_STATUS
   };
 }
+
+export function getDiscountById(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID,
+    payload
+  };
+}
+
+export function getDiscountByIdSuccess(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getDiscountByIdFailure(payload) {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_FAILURE,
+    payload
+  };
+}
+
+export function clearDiscountsByIdStatus() {
+  return {
+    type: types.GET_DISCOUNT_BY_ID_CLEAR_STATUS
+  };
+}

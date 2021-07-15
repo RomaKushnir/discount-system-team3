@@ -29,7 +29,9 @@ const initialState = {
     totalPages: null
   },
   getVendorDiscountsStatus: helpers.getDefaultState(),
-  activateDiscountStatus: helpers.getDefaultState()
+  activateDiscountStatus: helpers.getDefaultState(),
+  getDiscountByIdStatus: helpers.getDefaultState(),
+  discountById: null
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -212,6 +214,33 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         activateDiscountStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID: {
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getSuccessState('Action successful'),
+        discountById: payload
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_CLEAR_STATUS: {
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getDefaultState()
       };
     }
     default:
