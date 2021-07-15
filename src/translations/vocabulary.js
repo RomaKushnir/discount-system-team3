@@ -26,7 +26,23 @@ const Vocabulary = {
   LOCATION: ' location',
   ACTIVATE: 'activate',
   ADMIN: 'admin',
-  DELETE_DISCOUNT: 'delete_discount'
+  DELETE_DISCOUNT: 'delete_discount',
+  OK: 'ok',
+  DISCOUNT_TITLE: 'discount_title',
+  TITLE: 'title',
+  SELECT_VENDOR: 'select_vendor',
+  SELECT_CATEGORY: 'select_category',
+  TAGS: 'tags',
+  SELECT_TAGS: 'select_tags',
+  IMAGE_URL: 'image_url',
+  PROMO_CODE: 'promo_code',
+  FULL_DESCRIPTION: 'full_description',
+  SHORT_DESCRIPTION: 'short_description',
+  DISCOUNT_FLAT: 'discount_flat',
+  DISCOUNT_PERCENTAGE: 'discount_percentage',
+  FROM: 'from',
+  TO: 'to',
+  SAVE: 'save'
 };
 
 export default Vocabulary;

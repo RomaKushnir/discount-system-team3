@@ -22,7 +22,8 @@ export const getTypeaheadVendorsOptions = createSelector(
     const obj = {
       id: item.id,
       value: item.id,
-      label: item.title
+      label: item.title,
+      locations: item.locations
     };
     acc.push(obj);
     return acc;

@@ -8,7 +8,8 @@ export const getCategoriesOptions = createSelector(
     const obj = {
       id: item.id,
       value: item.id,
-      label: item.title
+      label: item.title,
+      tags: item.tags
     };
     acc.push(obj);
     return acc;

@@ -70,7 +70,12 @@ function Discounts() {
   };
 
   const onChangeCategory = (category) => {
-    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null, tags: null }));
+  };
+
+  const onChangeTags = (tags) => {
+    const tagIds = tags.map((el) => el.value);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ tags: tagIds || null }));
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
@@ -127,6 +132,7 @@ function Discounts() {
             sortOptions ={discountsSortOptions}
             onSortFilterChange = {onSortFilterChange}
             filters = {discountsFilters}
+            onChangeTags = {onChangeTags}
             />
             <div className = {styles.discountsActions}>
             {isAdmin(user) && <AddNewItemButton
