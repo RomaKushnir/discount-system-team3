@@ -4,12 +4,11 @@ import { useParams } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './InfoPage.module.scss';
 import * as actions from '../../store/actions';
+import getMonthAndDay from '../../utilities/getMonthAndDay';
 
 function InfoPage() {
   const dispatch = useDispatch();
   const { userId, discountId } = useParams();
-
-  console.log(userId, discountId);
 
   useEffect(() => {
     dispatch(actions.discountsActions.getDiscountInfo({ userId, discountId }));
@@ -18,8 +17,6 @@ function InfoPage() {
 
   const discountInfo = useSelector((state) => state.discountsReducer.discountInfo);
   const getDiscountInfoStatus = useSelector((state) => state.discountsReducer.getDiscountInfoStatus);
-
-  console.log(discountInfo);
 
   return (
     <div className = {styles.container}>
@@ -30,7 +27,21 @@ function InfoPage() {
           <CircularProgress />
         </div>}
         {discountInfo && <div>
-          <img className={styles.roundImg} src={discountInfo.imageUrl} alt={'vendor'} width="90" height="90"/>
+          <div className = {styles.userInfo}>
+            <img className={styles.image} src = {discountInfo.imageUrl}
+            alt={'vendor'} width="90" height="90"/>
+            <p>{discountInfo.firstName}, &nbsp; {discountInfo.firstName}</p>
+          </div>
+          <div className = {styles.discountInfo}>
+            <h3>{discountInfo.discountTitle}</h3>
+            {discountInfo.promocode && <h3>{discountInfo.promocode}</h3>}
+            <p>From: {getMonthAndDay(discountInfo.discountStartDate)}</p>
+            <p>To: {getMonthAndDay(discountInfo.discountExpirationDate)}</p>
+          </div>
+          <div className = {styles.vendorInfo}>
+            <p>{discountInfo.vendorTitle}</p>
+            <p><a href={`mailto:${discountInfo.vendorEmail}`}>{discountInfo.vendorEmail}</a> </p>
+          </div>
         </div>}
       </main>
     </div>
