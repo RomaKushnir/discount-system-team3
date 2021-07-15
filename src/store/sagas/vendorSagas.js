@@ -69,7 +69,6 @@ export function* getVendorById({ payload }) {
 }
 
 export function* applyVendorsFilters({ payload }) {
-  console.log('applyVendorsFilters', payload);
   const vendorsFiltersApplied = yield select(getVendorsFiltersApplied);
   const searchParams = convertFilterParametersToUrl(vendorsFiltersApplied);
 

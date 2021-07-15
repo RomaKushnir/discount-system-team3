@@ -55,6 +55,8 @@ function LocationModal({
     }
     return () => {
       dispatch(actions.locationActions.clearCreateLocationStatus());
+      dispatch(actions.locationActions.clearLocationsData());
+      dispatch(actions.locationActions.clearCitiesData());
     };
   // eslint-disable-next-line
   }, [createLocationStatus.success, createdLocation]);

@@ -113,6 +113,12 @@ const locationReducer = (state = initialState, action) => {
         getCitiesStatus: helpers.getErrorState(payload)
       };
     }
+    case types.CLEAR_CITIES_DATA: {
+      return {
+        ...state,
+        cities: []
+      };
+    }
     case types.CLEAR_GET_CITIES_STATUS: {
       return {
         ...state,

@@ -13,7 +13,6 @@ import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
 
 function AddVendorModal({ closeModal, selectedVendor }) {
-  console.log('selectedVendor', selectedVendor);
   const dispatch = useDispatch();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -134,25 +133,26 @@ function AddVendorModal({ closeModal, selectedVendor }) {
                 />
                 <div className={styles.locationBlock}>
                   <div className={styles.locationsList}>
-                  <AddNewItemButton
-                    btnTitle="Add location"
-                    onAddNewItem={openAddLocationModal}
-                    className={styles.AddBtnStyles}
-                    iconSize="default"
-                  />
-                    {/* {vendorLocations && vendorLocations.map((el) => ( */}
-                    {values.locations && values.locations.map((el) => (
-                      <div className={styles.locationItem} key={el.id}>
-                        <p>
-                          {`${el.countryCode}${el.city ? `, ${el.city}` : ''}
-                          ${el.addressLine ? `, ${el.addressLine}` : ''}`}
-                        </p>
-                        <DeleteForever
-                          className={styles.deleteBtn}
-                          onClick={() => deleteLocationHandler(el.id)}
-                        />
-                      </div>
-                    ))}
+                    <AddNewItemButton
+                      btnTitle="Add location"
+                      onAddNewItem={openAddLocationModal}
+                      className={styles.AddBtnStyles}
+                      iconSize="default"
+                    />
+                    {values.locations && <ul>
+                      {values.locations.map((el) => (
+                        <li className={styles.locationItem} key={el.id}>
+                          <p>
+                            {`${el.countryCode}${el.city ? `, ${el.city}` : ''}
+                            ${el.addressLine ? `, ${el.addressLine}` : ''}`}
+                          </p>
+                          <DeleteForever
+                            className={styles.deleteBtn}
+                            onClick={() => deleteLocationHandler(el.id)}
+                          />
+                        </li>
+                      ))}
+                    </ul>}
                   </div>
                   {errors.locations && <p className = {styles.error}>{errors.locations}</p>}
                 </div>
