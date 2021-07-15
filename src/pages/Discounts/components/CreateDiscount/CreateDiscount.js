@@ -46,16 +46,7 @@ function CreateDiscount({
   }
     : null;
 
-  const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
-    value: el.id,
-    label: Object.values(el).join(', ')
-  })) : null), [discount]);
-
-  const locationsToRequst = useMemo(() => (discount && discount.locations.map((el) => (el.id))), [discount]);
-
   const isFormSubmitted = createDiscountStatus.loading === false && createDiscountStatus.success;
-
-  console.log('SUBMIT', isFormSubmitted);
 
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
@@ -68,11 +59,12 @@ function CreateDiscount({
     percentage: discount?.percentage || '',
     startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
     expirationDate: discount ? new Date(discount.expirationDate) : null,
-    locationIds: discount ? locationsToRequst : [],
+    locationIds: discount?.locations.map((el) => el.id) || [],
     categoryId: discount?.category.id || null,
     vendorId: discount?.vendor.id || null,
     tagIds: discount?.tags.map((el) => el.id) || [],
-    tags: discount?.tags.map((el) => ({ label: el.name, value: el.id })) || []
+    tags: discount?.tags.map((el) => ({ label: el.name, value: el.id })) || [],
+    locations: discount?.locations.map((el) => ({ label: Object.values(el).join(', '), value: el.id })) || []
   };
 
   // GET REQUIRED DATA FROM API
@@ -81,9 +73,7 @@ function CreateDiscount({
   }, [dispatch, categoriesOptions]);
 
   // FORM SUBMIT
-  const submitHandler = ({ tags, ...data }) => {
-    console.log(data);
-
+  const submitHandler = ({ tags, locations, ...data }) => {
     let formData = {};
 
     if (data.promocode === '') {
@@ -117,7 +107,6 @@ function CreateDiscount({
 
   // SET SELECT VALUE INTO FORMIK STATE
   const onSelectValueChange = (selected, options) => {
-    console.log(selected, options);
     const { name } = options;
     let value;
     if (Array.isArray(selected)) {
@@ -125,25 +114,27 @@ function CreateDiscount({
     } else {
       value = selected && selected.value;
     }
-    console.log(name);
+
     if (name === 'categoryId') {
-      console.log('CHANGE CATEGORY');
       formik.setFieldValue('tags', [], true);
       formik.setFieldValue('tagIds', [], true);
-      console.log(formik.values);
     }
     if (name === 'vendorId') {
       formik.setFieldValue('locationIds', [], true);
+      formik.setFieldValue('locations', [], true);
       setDiscountVendor(selected);
     }
 
     formik.setFieldValue(name, value, true);
 
     if (name === 'tags') {
-      console.log(value);
-      console.log(selected);
       formik.setFieldValue('tagIds', value, true);
       formik.setFieldValue('tags', selected, true);
+    }
+
+    if (name === 'locations') {
+      formik.setFieldValue('locationIds', value, true);
+      formik.setFieldValue('locations', selected, true);
     }
   };
 
@@ -155,24 +146,13 @@ function CreateDiscount({
     .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
     : []), [formik.values.categoryId, categoriesOptions]);
 
-  // const initialTagsOptions = useMemo(() => (formik.values.tags ? formik.values.tags
-  //   .map((tag) => {
-  //     console.log(formik.values.tags);
-  //     console.log(tag);
-  //     return tag;
-  //   })
-  //   : []), [formik.values.tags]);
-
   const initialTagsOptions = formik.values.tags || [];
 
   const locationOptions = useMemo(
     () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
   );
 
-  // console.log(discount.tags);
-  console.log(tagsOptions);
-  console.log(formik.values);
-  console.log(initialTagsOptions);
+  const initialLocationsOptions = formik.values.locations || [];
 
   return (
     <div className={styles.modalContent}>
@@ -238,9 +218,9 @@ function CreateDiscount({
         />
         <SelectField
           options = {locationOptions}
-          initialValue={initialLocationsOptions}
+          value={initialLocationsOptions}
           label = {t(Vocabulary.LOCATION)}
-          name = "locationIds"
+          name = "locations"
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
