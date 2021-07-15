@@ -6,6 +6,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
@@ -39,7 +40,6 @@ function Discounts() {
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
-  // const getCountries = useSelector((state) => state.locationReducer.countries);
 
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
@@ -49,6 +49,17 @@ function Discounts() {
   }, []);
 
   useDiscountsQueryChecker();
+
+  const location = useLocation();
+  const discountId = location.pathname.split('/')[2] || null;
+
+  useEffect(() => {
+    if (discountId) {
+      dispatch(actions.discountsActions.getDiscountById(discountId));
+      setIsDiscountModalShown(true);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const onModalOpen = () => {
     setModalState(true);
