@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
@@ -26,7 +26,8 @@ function FiltersContainer({
   filters,
   onVendorSelectOptionChange,
   sortOptions,
-  onSortFilterChange
+  onSortFilterChange,
+  onChangeTags
 }) {
   const { t } = useTranslation();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
@@ -34,6 +35,7 @@ function FiltersContainer({
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
+  const [categoryTags, setCategoryTags] = useState([]);
 
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -49,6 +51,7 @@ function FiltersContainer({
 
   const onChangeCategories = (selectedOption) => {
     onChangeCategory(selectedOption);
+    setCategoryTags(selectedOption?.tags || []);
   };
 
   const countryMemoized = useMemo(
@@ -67,6 +70,18 @@ function FiltersContainer({
     () => sortOptions.find(
       (el) => el.value === filters.sort
     ), [sortOptions, filters]
+  );
+
+  const tagsOptionsMemoized = useMemo(
+    () => categoryTags.map(
+      (el) => ({ value: el.id, label: el.name })
+    ) || null, [categoryTags]
+  );
+
+  const selectedTagsMemoized = useMemo(
+    () => (filters.tags ? filters.tags?.map(
+      (el) => categoriesOptionsMemoized?.tags.find((tag) => Number(el) === tag.id)
+    )?.map((item) => ({ value: item?.id, label: item?.name })) : null), [filters.tags, categoriesOptionsMemoized]
   );
 
   return (
@@ -95,6 +110,15 @@ function FiltersContainer({
               onChange = {onChangeCategories}
               value = {categoriesOptionsMemoized}
             />
+          </div>
+          <div className = {styles.filter}>
+            {onChangeTags && <SelectField
+              options = {tagsOptionsMemoized}
+              label = {t(Vocabulary.TAGS)}
+              isMulti
+              onChange = {onChangeTags}
+              value = {selectedTagsMemoized}
+            />}
           </div>
           <div className = {styles.filter}>
             <SelectField

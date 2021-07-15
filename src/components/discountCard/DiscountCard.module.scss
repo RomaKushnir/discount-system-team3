@@ -1,6 +1,7 @@
 @import '../../variables.scss';
 .borderCard {
   width: 100%;
+  min-width: 280px;
   height: 100%;
   display: flex;
   border-radius: 10px;

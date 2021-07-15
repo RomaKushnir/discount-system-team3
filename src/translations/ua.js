@@ -28,7 +28,23 @@ const ua = {
   [Vocabulary.LOCATION]: 'Адреса',
   [Vocabulary.ACTIVATE]: 'Активувати',
   [Vocabulary.ADMIN]: 'Адміністратор',
-  [Vocabulary.DELETE_DISCOUNT]: 'знижку'
+  [Vocabulary.DELETE_DISCOUNT]: 'знижку',
+  [Vocabulary.OK]: 'OK',
+  [Vocabulary.DISCOUNT_TITLE]: 'Назва знижки',
+  [Vocabulary.TITLE]: 'Назва',
+  [Vocabulary.SELECT_VENDOR]: 'Оберіть контрагента',
+  [Vocabulary.SELECT_CATEGORY]: 'Оберіть категорію',
+  [Vocabulary.TAGS]: 'Теги',
+  [Vocabulary.SELECT_TAGS]: 'Оберіть теги',
+  [Vocabulary.IMAGE_URL]: 'Адреса зображення',
+  [Vocabulary.PROMO_CODE]: 'Промокод',
+  [Vocabulary.FULL_DESCRIPTION]: 'Повний опис',
+  [Vocabulary.SHORT_DESCRIPTION]: 'Короткий опис',
+  [Vocabulary.DISCOUNT_FLAT]: ' Знижка у валюті',
+  [Vocabulary.DISCOUNT_PERCENTAGE]: 'Знижка у %',
+  [Vocabulary.FROM]: 'З',
+  [Vocabulary.TO]: 'По',
+  [Vocabulary.SAVE]: 'Зберегти'
 };
 
 export default ua;

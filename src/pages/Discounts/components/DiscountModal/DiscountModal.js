@@ -44,18 +44,22 @@ function DiscountModal({
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
-  const locationsList = discount && discount.locations
-    ? discount.locations.map((location) => {
-      const option = {
-        value: `${location.country}, ${location.city}`,
-        label: `${location.country}, ${location.city}`
-      };
-      return option;
-    })
-    : null;
+  const locationsList = discount ? discount.locations.map((location) => {
+    const option = {
+      value: `${location.countryCode}, ${location.city}, ${location.addressLine}`,
+      label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
+    };
+    return option;
+  }) : null;
 
-  const onEditClick = () => {
+  const onEditClick = useCallback(() => {
+    dispatch(actions.discountsActions.clearCreateDiscountStatus());
     setIsEditDiscountOpen(true);
+  }, [dispatch]);
+
+  const onEditModalClose = () => {
+    setIsEditDiscountOpen(false);
+    dispatch(actions.discountsActions.clearCreateDiscountStatus());
   };
   const onActivateClick = () => {
     dispatch(actions.discountsActions.activateDiscount({ discountId: discount.id, userId: user.id }));
@@ -73,6 +77,8 @@ function DiscountModal({
   const onLocationChange = () => {
     console.log('change location');
   };
+
+  const tagsList = discount?.tags.map((item, index) => (<li key = {item.id}>{ (index ? ', ' : '') + item.name}</li>));
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
@@ -114,6 +120,7 @@ function DiscountModal({
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
+          value = {locationsList[0]}
         />
       </div>
       <div className = {styles.dates}>
@@ -131,9 +138,11 @@ function DiscountModal({
         flatAmount = {discount.flatAmount}
       />
     </div>
-    {/* <div className = {styles.row}>
-      <div className = {styles.count}>Available {discount.quantity} promotional codes</div>
-    </div> */}
+    <div className = {styles.row}>
+      <ul className = {styles.tags}>
+        {tagsList}
+      </ul>
+    </div>
     <div className = {styles.row}>
       {adminBtns}
       <ItemActionButton
@@ -151,8 +160,11 @@ function DiscountModal({
       onClose = {onClose}
       children = {!isEditDiscountOpen
         ? content
-        : <CreateDiscount discount={discount} onModalClose={onClose}/>}
-      modalContainerClasses = {modalContainerClasses}
+        : <CreateDiscount
+        discount={discount}
+        onModalClose={onEditModalClose}
+        /> }
+        modalContainerClasses = {modalContainerClasses}
     >
     </Modal>
     <Modal isOpen={confirmModalOpen} onClose={onCloseModal}>
