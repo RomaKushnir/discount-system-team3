@@ -3,16 +3,6 @@ export const convertFilterParametersToUrl = (params) => {
     sort, pageNumber, size, totalElements, totalPages, ...query
   } = params;
 
-  console.log(query);
-  // const updatedQuery = {
-  //   ...query,
-  //   // tags: query.tags?.map((el) => encodeURIComponent(el))
-  //   // tags: query.tags?.map((el) => encodeURIComponent(el)).join()
-  //   tags: query.tags?.join(',')
-  // };
-
-  // console.log(updatedQuery);
-
   const str = Object.keys(query)
     .filter((el) => query[el] !== null && query[el] !== '')
     .map((key) => `${key}:${encodeURIComponent(query[key])}`)
