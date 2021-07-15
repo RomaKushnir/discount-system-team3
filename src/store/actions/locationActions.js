@@ -101,6 +101,12 @@ export function clearGetCitiesStatus() {
   };
 }
 
+export function clearCitiesData() {
+  return {
+    type: types.CLEAR_CITIES_DATA
+  };
+}
+
 export function createLocation(payload) {
   return {
     type: types.CREATE_LOCATION,

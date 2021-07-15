@@ -21,7 +21,6 @@ function Modal({
   return ReactDOM.createPortal(
      <div
       className={`${styles.overlay} ${isOverlayTransparent ? styles.transparent : ''} ${styles[showModal]}`}
-      onClick = {onClose}
      >
        <div className = {`${styles.contentContainer} ${modalContainerClasses}`} onClick = {onContentClick}>
          <div className = {styles.closeButtonContainer}>

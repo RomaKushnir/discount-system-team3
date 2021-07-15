@@ -64,14 +64,8 @@
   }
 
   .successMessageContainer, .loadingContainer {
-    position: absolute;
     display: flex;
     flex-direction: column;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
@@ -90,5 +84,9 @@
   .AddBtnStyles {
     font-size: 16px;
     padding: 5px 13px 5px 8px;
+    margin-bottom: 10px;
   }
+}
+.formDisplayNone {
+  display: none;
 }
