@@ -51,6 +51,9 @@ export const convertUrlToFilterParameters = (queryString) => {
     if (key) {
       acc[key] = value;
     }
+    if (key === 'tags') {
+      acc[key] = value.split(',');
+    }
     return acc;
   }, {});
 
