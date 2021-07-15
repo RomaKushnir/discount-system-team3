@@ -80,6 +80,27 @@ export function* applyDiscountsFilters({ payload }) {
   yield put(actions.discountsActions.getDiscountsList({ serverSearchParams, showMore: payload.showMore }));
 }
 
+export function* getVendorDiscounts({ payload }) {
+  try {
+    const today = new Date();
+    const currentTime = today.toISOString().split('.')[0];
+
+    const periodParams = payload.active ? `expirationDate>${currentTime};` : `expirationDate<${currentTime};`;
+    const queryParams = `?query=vendor.id:${payload.vendorId};`;
+    const paginationParams = `&page=${payload.pageNumber}&size=${payload.size}`;
+    const searchParams = `${queryParams}${periodParams}${paginationParams}`;
+
+    const response = yield call(api.discounts.getVendorDiscounts, searchParams);
+
+    yield put(actions.discountsActions.getVendorDiscountsSuccess({
+      discounts: response.data, showMore: payload.showMore
+    }));
+  } catch (error) {
+    yield put(actions.discountsActions.getVendorDiscountsFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
 export function* activateDiscount({ payload }) {
   try {
     yield call(api.discounts.activateDiscount, payload);
@@ -97,6 +118,7 @@ export default function* watch() {
     takeEvery(types.CREATE_DISCOUNT, createDiscount),
     takeEvery(types.DELETE_DISCOUNT, deleteDiscount),
     takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters),
+    takeEvery(types.GET_VENDOR_DISCOUNTS, getVendorDiscounts),
     takeEvery(types.ACTIVATE_DISCOUNT, activateDiscount),
     takeEvery(types.GET_DISCOUNT_BY_ID, getDiscountById)
   ]);

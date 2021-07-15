@@ -1,40 +1,39 @@
-import React from 'react';
+import { useMemo } from 'react';
 import style from './VendorInfo.module.scss';
+import SelectField from '../../../../components/SelectField';
+import combineLocation from '../../../../utilities/combineLocation';
 
 function VendorInfo({
-  // title,
-  // img = 'https://picsum.photos/200/300',
-  // location,
-  // address1,
-  // address2,
-  // category1,
-  // category2,
-  // category3
   vendor
 }) {
-  console.log(vendor);
-  const { title, location, imageUrl } = vendor;
-  const { country, city } = location;
+  const {
+    title, locations, imageUrl, email
+  } = vendor;
+
+  const locationOptionsMemoized = useMemo(
+    () => locations.map((location) => combineLocation(location)), [locations]
+  );
+
   return (
-        <div>
-        { <div className={style.borderCard}>
-        <div className={style.col1}>
-          <img className={style.roundImg} src={imageUrl} alt={'vendor'} width="240" height="109"/>
-        </div>
-        <div className={style.col2}>
-          <div className={style.row}><h2>{title}</h2></div>
-          <div className={style.row}><p>{country}, {city}</p></div>
-          {/* <div className={style.row}><p>{address1}</p></div>
-          <div className={style.row}><p>{address2}</p></div> */}
-        <div className={style.row}>
-          {/* <div className={style.col3}><p>{category.title}</p></div> */}
-          {/* <div className={style.col3}><p>{category2}</p></div>
-          <div className={style.col3}><p>{category3}</p></div> */}
-        </div>
-        </div>
-        </div>
-        }
-        </div>
+    <>
+      { vendor && <div className={style.container}>
+      <div className={style.image}>
+        <img className={style.roundImg} src={imageUrl} alt={'vendor'} />
+      </div>
+      <div className={style.details}>
+        <h2>{title}</h2>
+        <p>{email}</p>
+        <SelectField
+          value = {locationOptionsMemoized[0]}
+          options = {locationOptionsMemoized}
+          label = "Locations"
+          isClearable = {false}
+          className = {style.locationsSelect}
+        />
+      </div>
+      </div>
+      }
+  </>
   );
 }
 

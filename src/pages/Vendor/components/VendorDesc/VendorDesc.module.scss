@@ -1,11 +1,14 @@
-.borderCard {
-    width: 600px;
-    height: 146px;
-    border-radius: 10px;
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
-    font-family: 'Reem Kufi', sans-serif;
-}
+.container {
+    min-width: 400px;
+    min-height: 150px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    padding: 10px;
 
-.textDesc {
-    padding: 15px;
+    @media(max-width: 1000px) {
+      min-width: 280px;
+      flex-direction: column;
+      min-height: unset;
+    }
 }
