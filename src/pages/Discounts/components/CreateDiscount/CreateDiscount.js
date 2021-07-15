@@ -225,7 +225,7 @@ function CreateDiscount({
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
-          error = {formik.errors.locationIds}
+          error = {formik.errors.locations}
         />
         <TextInput
           placeholder = {t(Vocabulary.IMAGE_URL)}

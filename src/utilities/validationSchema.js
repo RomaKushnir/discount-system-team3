@@ -15,12 +15,13 @@ const schema = yup.object().shape({
     .test('percentage', 'One discount field is required', function () {
       return (!this.parent.percentage && this.parent.flatAmount) || this.parent.percentage;
     }),
-  locationIds: yup.mixed().test('locationIds', 'The field is required', (val) => !val || val.length),
+  locations: yup.mixed().test('locations', 'The field is required', (val) => !val || val.length)
+    .required('The field is required'),
   vendorId: yup.string().nullable().required('The field is required'),
   categoryId: yup.string().nullable().required('The field is required'),
   startDate: yup.date().nullable().required('Date fields are required'),
   expirationDate: yup.date().nullable().required('Date fields are required'),
-  tags: yup.mixed().test('tags', 'The field is required', (val) => !val || val.length)
+  tags: yup.mixed().test('tags', 'The field is required', (val) => !val || val.length).required('The field is required')
 });
 
 export default schema;
