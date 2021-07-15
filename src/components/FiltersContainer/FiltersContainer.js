@@ -35,18 +35,7 @@ function FiltersContainer({
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
-  // const [selectedCategory, setSelectedCategory] = useState(categoriesOptions.find(
-  //   (el) => el.id === Number(filters.category)
-  // ) || null);
   const [categoryTags, setCategoryTags] = useState([]);
-
-  // const x = categoriesOptions.find(
-  //   (el) => el.id === Number(filters.category)
-  // ).tags;
-
-  // console.log(x);
-
-  // console.log(selectedCategory);
 
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -90,26 +79,11 @@ function FiltersContainer({
     ) || null, [categoryTags]
   );
 
-  console.log(categoriesOptionsMemoized);
-  console.log(categoryTags);
-  console.log(filters);
-  console.log(tagsOptionsMemoized);
-
-  // const x = useMemo(
-  //   () => (filters.tags ? filters.tags.split(',').map(
-  //     (el) => tagsOptionsMemoized.find((tag) => Number(el) === tag.value)
-  //   ) : null), [tagsOptionsMemoized, filters.tags]
-  // );
-
-  // console.log(x);
-
   const selectedTagsMemoized = useMemo(
     () => (filters.tags ? filters.tags?.map(
       (el) => categoriesOptionsMemoized?.tags.find((tag) => Number(el) === tag.id)
     )?.map((item) => ({ value: item?.id, label: item?.name })) : null), [filters.tags, categoriesOptionsMemoized]
   );
-
-  console.log(selectedTagsMemoized);
 
   return (
     <div className = {styles.container}>
