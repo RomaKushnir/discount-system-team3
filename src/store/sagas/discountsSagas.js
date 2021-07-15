@@ -118,7 +118,7 @@ export function* getDiscountInfo({ payload }) {
     yield put(actions.discountsActions.getDiscountInfoSuccess(response.data));
   } catch (error) {
     yield put(actions.discountsActions.getDiscountInfoFailure(error));
-    toast.error(`Error: ${error.response.data.message}`);
+    toast.error(`Error: ${error.response.data.error}`);
   }
 }
 

@@ -43,6 +43,11 @@ function InfoPage() {
             <p><a href={`mailto:${discountInfo.vendorEmail}`}>{discountInfo.vendorEmail}</a> </p>
           </div>
         </div>}
+        {getDiscountInfoStatus.loading === false && getDiscountInfoStatus.error
+          && <div className = {styles.errorMessage}>
+            {getDiscountInfoStatus.error.message}
+          </div>
+        }
       </main>
     </div>
   );
