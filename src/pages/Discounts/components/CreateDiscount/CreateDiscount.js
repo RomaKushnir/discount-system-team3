@@ -95,6 +95,7 @@ function CreateDiscount({
   const onOkClick = () => {
     onModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
+    dispatch(actions.discountsActions.getDiscountById(discount.id));
     dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
 
