@@ -51,7 +51,7 @@ function MyDiscounts() {
           qrcode = {qrCode}
           isOpen = {isQrModalOpen}
           onClose = {onQrModalClose}
-          loadingStatus = {getQRCodeStatus.loading}
+          loadingStatus = {getQRCodeStatus?.loading}
           modalContainerClasses = {styles.qrModal}
         />
       </div>

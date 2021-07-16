@@ -13,7 +13,7 @@ import {
 } from '../../../../utilities/validation';
 
 const inputStyles = {
-  width: '300px',
+  width: '100%',
   marginBottom: '10px'
 };
 

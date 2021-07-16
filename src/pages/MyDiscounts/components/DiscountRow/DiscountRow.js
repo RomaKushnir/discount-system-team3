@@ -23,7 +23,7 @@ function DiscountRow({ discount, onQRCodeClick }) {
           </div>
         : <div className = {styles.button}>
             <Button
-              btnText = "Show QR code"
+              btnText = "QR code"
               name = "qrcode"
               onClick = {() => onQRCodeClick(discount.id)}
             />

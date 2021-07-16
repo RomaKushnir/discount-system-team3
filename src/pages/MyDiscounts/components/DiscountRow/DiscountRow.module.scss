@@ -14,11 +14,16 @@
 }
 .button {
   padding-right: 10px;
+  justify-self: center;
 }
-.img > img{
+.img {
+  margin-right: 5px;
+  &> img{
   max-width: 100%;
   width: 3rem;
   height: 3rem;
   object-fit: cover;
   border-radius: 5px;
+
+  }
 }
