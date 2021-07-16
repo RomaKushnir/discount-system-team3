@@ -8,8 +8,6 @@ function PublicRoute({ component: Component, ...rest }) {
 
   const { from } = location.state || { from: { pathname: Routes.DISCOUNTS } };
 
-  console.log(from);
-
   return (
     <Route {...rest} component = {(props) => (
       isLoggedIn

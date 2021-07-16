@@ -7,8 +7,6 @@ function PrivateRoute({ component: Component, ...rest }) {
   const location = useLocation();
   const currentLocation = location.pathname;
 
-  console.log(currentLocation);
-
   return (
     <Route {...rest} component = {(props) => (
       isLoggedIn
