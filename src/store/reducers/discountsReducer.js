@@ -7,6 +7,7 @@ export const defaultDiscountsFilter = {
   category: null,
   tags: null,
   vendorTitle: '',
+  title: '',
   shortDescription: '',
   sort: 'expirationDate,ASC',
   pageNumber: 0,

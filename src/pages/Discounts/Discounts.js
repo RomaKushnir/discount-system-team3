@@ -94,7 +94,7 @@ function Discounts() {
   };
   const onSearchInputChange = (descriptionSearchWord) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({
-      shortDescription: descriptionSearchWord
+      shortDescription: descriptionSearchWord, title: descriptionSearchWord
     }));
   };
 

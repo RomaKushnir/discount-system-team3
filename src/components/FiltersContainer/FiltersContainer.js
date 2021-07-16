@@ -84,6 +84,14 @@ function FiltersContainer({
     )?.map((item) => ({ value: item?.id, label: item?.name })) : null), [filters.tags, categoriesOptionsMemoized]
   );
 
+  let searchInitialInput = '';
+
+  if (filters.title !== '') {
+    searchInitialInput = filters.title;
+  } else if (filters.shortDescription !== '') {
+    searchInitialInput = filters.shortDescription;
+  }
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -139,7 +147,7 @@ function FiltersContainer({
               placeholder = {`${t(Vocabulary.SEARCH)}...`}
               type = "search"
               style = {inputStyles}
-              value = {filters.description || filters.shortDescription || ''}
+              value = {searchInitialInput}
             />
           </div>
           <div className = {styles.filter}>
