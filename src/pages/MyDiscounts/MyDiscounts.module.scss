@@ -3,6 +3,15 @@
   margin: 0 auto;
   padding: 0 15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+}
+.title {
+  text-align: center;
+  margin: 15px 0 20px;
+}
+.qrModal {
+  min-width: 200px;
+  min-height: 200px;
 }

@@ -18,6 +18,8 @@ export const defaultDiscountsFilter = {
 
 const initialState = {
   discounts: [],
+  discountsByUser: [],
+  getDiscountsByUserStatus: helpers.getDefaultState(),
   getDiscountsStatus: helpers.getDefaultState(),
   createDiscountStatus: helpers.getDefaultState(),
   deleteDiscountStatus: helpers.getDefaultState(),
@@ -81,6 +83,33 @@ const discountsReducer = (state = initialState, action) => {
           pageNumber: defaultDiscountsFilter.pageNumber,
           size: defaultDiscountsFilter.size
         }
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER: {
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getSuccessState('Success!'),
+        discountsByUser: payload
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_DISCOUNTS_BY_USER_STATUS: {
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getDefaultState()
       };
     }
     case types.CREATE_DISCOUNT: {

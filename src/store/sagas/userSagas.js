@@ -21,12 +21,21 @@ export function* login({ payload }) {
   }
 }
 
+export function* getQRCode({ payload }) {
+  try {
+    const response = yield call(api.user.getQRCode, payload);
+    yield put(actions.userActions.getQRCodeSuccess(response));
+  } catch (error) {
+    yield put(actions.userActions.getQRCodeFailure(error.response.data));
+    toast.error(`Error: ${error.response.data.code}`);
+  }
+}
+
 export function* getUser() {
   try {
     const response = yield call(api.user.getUser);
     yield put(actions.userActions.getUserSuccess(response.data));
   } catch (error) {
-    console.error(error);
     yield put(actions.userActions.getUserFailure(error));
   }
 }
@@ -34,6 +43,7 @@ export function* getUser() {
 export default function* watch() {
   yield all([
     takeEvery(types.LOGIN, login),
-    takeEvery(types.GET_USER, getUser)
+    takeEvery(types.GET_USER, getUser),
+    takeEvery(types.GET_QRCODE, getQRCode)
   ]);
 }

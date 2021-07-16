@@ -94,7 +94,15 @@
     padding: 0 !important;
   }
 
-
+  .adminDropDownContainer {
+    .dropDown {
+      .navItemLink {
+        &:hover {
+          background-color: inherit;
+        }
+      }
+    }
+  }
 
   .nav {
     display: none;
@@ -122,6 +130,7 @@
     .activeClassName {
       border: none;
     }
+    
   }
 
   .adminDropDownContainer {

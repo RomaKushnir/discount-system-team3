@@ -36,6 +36,17 @@ export function* getDiscountById({ payload }) {
     toast.error(`Error: ${error.message}`);
   }
 }
+export function* getDiscountsByUser({ payload }) {
+  const param = `?query=users.user.id:${payload}`;
+  let response;
+  try {
+    response = yield call(api.discounts.getDiscounts, param);
+    yield put(actions.discountsActions.getDiscountsByUserSuccess(response.data.content));
+  } catch (error) {
+    yield put(actions.discountsActions.getDiscountsByUserFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
 
 export function* createDiscount({ payload }) {
   const { id, ...data } = payload;
@@ -131,6 +142,7 @@ export default function* watch() {
     takeEvery(types.GET_VENDOR_DISCOUNTS, getVendorDiscounts),
     takeEvery(types.ACTIVATE_DISCOUNT, activateDiscount),
     takeEvery(types.GET_DISCOUNT_BY_ID, getDiscountById),
-    takeEvery(types.GET_DISCOUNT_INFO, getDiscountInfo)
+    takeEvery(types.GET_DISCOUNT_INFO, getDiscountInfo),
+    takeEvery(types.GET_DISCOUNTS_BY_USER, getDiscountsByUser)
   ]);
 }

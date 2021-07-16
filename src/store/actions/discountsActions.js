@@ -27,6 +27,34 @@ export function clearGetDiscountsStatus() {
   };
 }
 
+export function getDiscountsByUser(payload) {
+  return {
+    type: types.GET_DISCOUNTS_BY_USER,
+    payload
+  };
+}
+
+export function getDiscountsByUserSuccess(payload) {
+  return {
+    type: types.GET_DISCOUNTS_BY_USER_SUCCESS,
+    payload
+  };
+}
+
+export function getDiscountsByUserFailure(payload) {
+  return {
+    type: types.GET_DISCOUNTS_BY_USER_FAILURE,
+    payload
+  };
+}
+
+export function clearGetDiscountsByUserStatus(payload) {
+  return {
+    type: types.CLEAR_GET_DISCOUNTS_BY_USER_STATUS,
+    payload
+  };
+}
+
 export function createDiscount(payload) {
   return {
     type: types.CREATE_DISCOUNT,
