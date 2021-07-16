@@ -7,6 +7,7 @@ export const defaultDiscountsFilter = {
   category: null,
   tags: null,
   vendorTitle: '',
+  title: '',
   shortDescription: '',
   sort: 'expirationDate,ASC',
   pageNumber: 0,
@@ -32,7 +33,9 @@ const initialState = {
   getVendorDiscountsStatus: helpers.getDefaultState(),
   activateDiscountStatus: helpers.getDefaultState(),
   getDiscountByIdStatus: helpers.getDefaultState(),
-  discountById: null
+  discountById: null,
+  discountInfo: null,
+  getDiscountInfoStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -242,6 +245,33 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         getDiscountByIdStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_DISCOUNT_INFO: {
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNT_INFO_SUCCESS: {
+      const successMessage = 'Success';
+      return {
+        ...state,
+        discountInfo: action.payload,
+        getDiscountInfoStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.GET_DISCOUNT_INFO_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_DISCOUNT_INFO_STATUS: {
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getDefaultState()
       };
     }
     default:

@@ -85,7 +85,6 @@ function CreateDiscount({
     if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
 
-      console.log(formDataUpdate);
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
       dispatch(actions.discountsActions.createDiscount(formData));
@@ -95,6 +94,7 @@ function CreateDiscount({
   const onOkClick = () => {
     onModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
+    dispatch(actions.discountsActions.getDiscountById(discount.id));
     dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
 

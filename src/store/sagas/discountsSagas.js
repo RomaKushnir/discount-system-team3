@@ -112,6 +112,16 @@ export function* activateDiscount({ payload }) {
   }
 }
 
+export function* getDiscountInfo({ payload }) {
+  try {
+    const response = yield call(api.discounts.getDiscountInfo, payload);
+    yield put(actions.discountsActions.getDiscountInfoSuccess(response.data));
+  } catch (error) {
+    yield put(actions.discountsActions.getDiscountInfoFailure(error));
+    toast.error(`Error: ${error.response.data.error}`);
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_DISCOUNTS, getDiscounts),
@@ -120,6 +130,7 @@ export default function* watch() {
     takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters),
     takeEvery(types.GET_VENDOR_DISCOUNTS, getVendorDiscounts),
     takeEvery(types.ACTIVATE_DISCOUNT, activateDiscount),
-    takeEvery(types.GET_DISCOUNT_BY_ID, getDiscountById)
+    takeEvery(types.GET_DISCOUNT_BY_ID, getDiscountById),
+    takeEvery(types.GET_DISCOUNT_INFO, getDiscountInfo)
   ]);
 }

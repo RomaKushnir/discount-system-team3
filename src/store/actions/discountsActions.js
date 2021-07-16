@@ -181,3 +181,30 @@ export function clearDiscountsByIdStatus() {
     type: types.GET_DISCOUNT_BY_ID_CLEAR_STATUS
   };
 }
+
+export function getDiscountInfo(payload) {
+  return {
+    type: types.GET_DISCOUNT_INFO,
+    payload
+  };
+}
+
+export function getDiscountInfoSuccess(payload) {
+  return {
+    type: types.GET_DISCOUNT_INFO_SUCCESS,
+    payload
+  };
+}
+
+export function getDiscountInfoFailure(payload) {
+  return {
+    type: types.GET_DISCOUNT_INFO_FAILURE,
+    payload
+  };
+}
+
+export function clearGetDiscountInfoStatus() {
+  return {
+    type: types.CLEAR_GET_DISCOUNT_INFO_STATUS
+  };
+}

@@ -8,7 +8,8 @@ const Routes = {
   CATEGORIES: '/categories',
   STATISTICS: '/statistics',
   FAVOURITES: '/favourites',
-  MY_DISCOUNTS: '/mydiscounts'
+  MY_DISCOUNTS: '/mydiscounts',
+  DISCOUNT_INFO: '/discountinfo/:userId/:discountId'
 };
 
 export default Routes;

@@ -22,7 +22,7 @@ function VendorInfo({
       </div>
       <div className={style.details}>
         <h2>{title}</h2>
-        <p>{email}</p>
+        <p><a href={`mailto:${email}`}>{email}</a></p>
         <SelectField
           value = {locationOptionsMemoized[0]}
           options = {locationOptionsMemoized}

@@ -9,7 +9,7 @@ import { emailValidation, passwordValidation } from '../../utilities/validation'
 import * as actions from '../../store/actions';
 
 const inputStyles = {
-  width: '330px',
+  width: '280px',
   height: '45px'
 };
 

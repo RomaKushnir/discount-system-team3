@@ -14,8 +14,8 @@
     text-transform: uppercase;
     font-size: 2rem;
     text-align: center;
-    margin-top: 5%;
-    margin-bottom: 30px;
+    margin-top: 3%;
+    margin-bottom: 20px;
     &Item {
       display: block;
       font-size: 3em;
@@ -24,7 +24,7 @@
 }
 .contentWrapper {
   width: 410px;
-  height: 320px;
+  height: 400px;
   background-color: $color--primary-white;
   padding: 30px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.27);
@@ -37,17 +37,6 @@
   @media(max-width: 400px) {
     width: 300px;
     padding: 30px 10px;
-  }
-
-  .inputsContainer {
-    height: 180px;
-    display: block;
-  }
-  .buttonContainer {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .loadingContainer {
@@ -68,4 +57,31 @@
   .errorMessage {
     color: red
   }
+
+  .image{
+    margin-bottom: 10px;
+  }
+
+  .userInfo {
+    padding: 20px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .discountInfo {
+    padding: 20px 0;
+    border-top: 1px solid  $color--blue-dark;
+
+    h3 {
+      padding: 10px 0;
+    }
+  }
+
+  .vendorInfo {
+    border-top: 1px solid  $color--blue-dark;
+    padding: 20px 0;
+
+  }
+
 }
