@@ -154,6 +154,7 @@ function Discounts() {
                 favouriteDiscounts = {favourite}
               />
               <DiscountModal
+                key= {discountById?.id}
                 discount = {discountById}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}

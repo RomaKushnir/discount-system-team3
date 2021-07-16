@@ -27,6 +27,7 @@ function DiscountModal({
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const [selectedMapLocation, setSelectedMapLocation] = useState(null);
+  const [mapZoom, setMapZoom] = useState(5);
   const user = useSelector((state) => state.userReducer.user);
 
   const onFavouriteClick = (e, id) => {
@@ -43,7 +44,6 @@ function DiscountModal({
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
-    setSelectedMapLocation(null);
   });
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -80,6 +80,7 @@ function DiscountModal({
   };
   const onLocationChange = (selected) => {
     setSelectedMapLocation(selected);
+    setMapZoom(10);
   };
 
   const tagsList = discount?.tags.map((item) => (<li key={item.id}>#{item.name}&nbsp;</li>));
@@ -114,6 +115,7 @@ function DiscountModal({
         locations={discount.locations}
         onLocationChange={onLocationChange}
         selectedLocation={selectedMapLocation ? selectedMapLocation.value : locationsList[0]}
+        zoom={mapZoom}
       />
     </div>}
     <div className = {styles.modalHeader}>
@@ -126,12 +128,12 @@ function DiscountModal({
     <div className = {styles.row}>
       <div className = {styles.modalLocation}>
         <SelectField
-          initialValue = "Location"
+          initialValue = {locationsList[0]}
           options = {locationsList}
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
-          value = {selectedMapLocation || locationsList[0]}
+          value = {selectedMapLocation}
         />
       </div>
       <div className = {styles.dates}>

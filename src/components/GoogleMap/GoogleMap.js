@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import GoogleMapReact from 'google-map-react';
 import GoogleMapMarker from '../GoogleMapMarker';
 
-function GoogleMap({ locations, selectedLocation }) {
+function GoogleMap({ locations, selectedLocation, zoom }) {
   const [hoveredKey, setHoveredKey] = useState(-1);
-  const defaultProps = {
-    center: selectedLocation.lat && selectedLocation.lng ? selectedLocation : { lat: 49.23278, lng: 28.48097 },
-    zoom: 10
 
-  };
+  const defaultProps = useMemo(() => ({
+    center: selectedLocation.lat && selectedLocation.lng ? selectedLocation : { lat: 49.23278, lng: 28.48097 },
+    zoom
+  }), [selectedLocation, zoom]);
+
   const Markers = locations.map((el) => (
     <GoogleMapMarker
       key={el.id}
