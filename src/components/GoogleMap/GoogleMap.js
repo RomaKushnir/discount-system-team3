@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import GoogleMapReact from 'google-map-react';
 import GoogleMapMarker from '../GoogleMapMarker';
 
@@ -20,13 +20,13 @@ function GoogleMap({ locations, selectedLocation, zoom }) {
     />
   ));
 
-  const onMarkerMouseEnter = (key) => {
+  const onMarkerMouseEnter = useCallback((key) => {
     setHoveredKey(key);
-  };
+  }, []);
 
-  const onMarkerMouseLeave = (key) => {
+  const onMarkerMouseLeave = useCallback((key) => {
     setHoveredKey(key);
-  };
+  }, []);
 
   return (
     <>

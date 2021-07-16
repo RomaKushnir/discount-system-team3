@@ -2,6 +2,8 @@
 .discountWrapper {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-basis: 90px;
 }
 .discount {
   text-align: right;
@@ -12,7 +14,8 @@
   position: relative;
   margin-left: 32px;
   height: 24px;
-  min-width: 55px;
+  min-width: 40px;
+  white-space: nowrap;
   &::before {
       content: '';
       position: absolute;

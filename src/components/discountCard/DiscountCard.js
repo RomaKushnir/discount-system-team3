@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
@@ -11,6 +12,15 @@ function DiscountCard({
   isLike,
   onFavouriteClick
 }) {
+  const cardTags = useMemo(() => (discount.tags.reduce((res, el, i, arr) => {
+    if (i < 2) {
+      res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
+    } else if (arr.length - 1 === i) {
+      res.push(<li key={i}>{i + 1 - res.length ? `${i + 1 - res.length}+` : ''}</li>);
+    }
+    return res;
+  }, [])), [discount]);
+
   return (
   <div className={`${style.borderCard} ${className}`}>
     <div className={style.col1}>
@@ -31,14 +41,15 @@ function DiscountCard({
       </div>
       <div className={style.flexRow}>
         <ul className={style.tagsWrapper}>
-          {discount.tags && discount.tags.reduce((res, el, i, arr) => {
+          {/* {discount.tags && discount.tags.reduce((res, el, i, arr) => {
             if (i < 2) {
               res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
             } else if (arr.length - 1 === i) {
               res.push(<li key={i}>{i + 1 - res.length ? `${i + 1 - res.length}+` : ''}</li>);
             }
             return res;
-          }, [])}
+          }, [])} */}
+          {cardTags}
         </ul>
         <DiscountTag
           percentage = {discount.percentage}

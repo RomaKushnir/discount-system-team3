@@ -152,7 +152,12 @@ function CreateDiscount({
     () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
   );
 
-  const initialLocationsOptions = formik.values.locations || [];
+  const initialLocationsOptions = useMemo(
+    () => (formik.values.locations.map((el) => ({
+      label: el.label.split(',').slice(0, 3).join(','),
+      value: el.value
+    }))) || [], [formik.values.locations]
+  );
 
   return (
     <div className={styles.modalContent}>
