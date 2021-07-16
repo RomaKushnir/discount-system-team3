@@ -10,6 +10,7 @@ import styles from './DiscountModal.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import CreateDiscount from '../CreateDiscount';
+import GoogleMap from '../../../../components/GoogleMap';
 import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 import isAdmin from '../../../../utilities/isAdmin';
 import SelectField from '../../../../components/SelectField';
@@ -22,8 +23,11 @@ function DiscountModal({
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
+  const [selectedMapLocation, setSelectedMapLocation] = useState(null);
+  const [mapZoom, setMapZoom] = useState(5);
   const user = useSelector((state) => state.userReducer.user);
 
   const onFavouriteClick = (e, id) => {
@@ -46,7 +50,7 @@ function DiscountModal({
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
   const locationsList = discount ? discount.locations.map((location) => {
     const option = {
-      value: `${location.countryCode}, ${location.city}, ${location.addressLine}`,
+      value: { lat: location.latitude, lng: location.longitude },
       label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
     };
     return option;
@@ -74,11 +78,12 @@ function DiscountModal({
     onDeleteDiscount(discount.id);
     setConfirmModalOpen(false);
   };
-  const onLocationChange = () => {
-    console.log('change location');
+  const onLocationChange = (selected) => {
+    setSelectedMapLocation(selected);
+    setMapZoom(10);
   };
 
-  const tagsList = discount?.tags.map((item, index) => (<li key = {item.id}>{ (index ? ', ' : '') + item.name}</li>));
+  const tagsList = discount?.tags.map((item) => (<li key={item.id}>#{item.name}&nbsp;</li>));
 
   const adminBtnsLayout = <div className = {styles.adminBtns}>
     <ItemActionButton
@@ -95,6 +100,7 @@ function DiscountModal({
     />
   </div>;
   const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
+
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {`${styles.row} ${styles.info}`}>
       <div className = {styles.modalCategory}>
@@ -104,7 +110,14 @@ function DiscountModal({
         <StorefrontRoundedIcon/><p>{discount.vendor.title}</p>
       </div>
     </div>
-    <div className = {styles.modalImg}><img src={discount.imageUrl}/></div>
+    {isOpen && <div className={styles.mapContainer}>
+      <GoogleMap
+        locations={discount.locations}
+        onLocationChange={onLocationChange}
+        selectedLocation={selectedMapLocation ? selectedMapLocation.value : locationsList[0]}
+        zoom={mapZoom}
+      />
+    </div>}
     <div className = {styles.modalHeader}>
       <div className = {styles.modalTitle}>{discount.title}</div>
       <div className = {styles.like} onClick = {(e) => onFavouriteClick(e, discount.id)}>
@@ -115,12 +128,12 @@ function DiscountModal({
     <div className = {styles.row}>
       <div className = {styles.modalLocation}>
         <SelectField
-          initialValue = "Location"
+          initialValue = {locationsList[0]}
           options = {locationsList}
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
           isClearable = {false}
-          value = {locationsList[0]}
+          value = {selectedMapLocation}
         />
       </div>
       <div className = {styles.dates}>
