@@ -85,7 +85,6 @@ function CreateDiscount({
     if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
 
-      console.log(formDataUpdate);
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
       dispatch(actions.discountsActions.createDiscount(formData));
