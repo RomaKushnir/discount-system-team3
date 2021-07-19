@@ -1,6 +1,6 @@
 import {
-  PieChart, Pie, Cell, Tooltip
-  // ResponsiveContainer
+  PieChart, Pie, Cell, Tooltip,
+  ResponsiveContainer
 } from 'recharts';
 
 const RADIAN = Math.PI / 180;
@@ -18,19 +18,19 @@ const renderCustomizedLabel = ({
   );
 };
 
-function PieChartComponent({ data, colors, title }) {
+function PieChartComponent({
+  data, colors, title
+}) {
   return (
-  // <ResponsiveContainer width="100%" height={600}>
-        <PieChart width={280} height={280}>
-        {/* <PieChart width="100%" height="100%"> */}
-        <text x={280 / 2} y={30} style={{ fontSize: 18 }} textAnchor="middle" dominantBaseline="top">{title}</text>
+      <ResponsiveContainer>
+        <PieChart width="100%" height="100%">
+        <text x={280 / 2} y={20} style={{ fontSize: 18 }} textAnchor="middle" dominantBaseline="top">{title}</text>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
             dataKey="value"
           >
             {data.map((entry, index) => (
@@ -39,7 +39,7 @@ function PieChartComponent({ data, colors, title }) {
           </Pie>
           <Tooltip />
         </PieChart>
-  // </ResponsiveContainer>
+  </ResponsiveContainer>
   );
 }
 
