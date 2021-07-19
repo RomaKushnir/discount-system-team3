@@ -52,19 +52,18 @@ function Vendor() {
     }));
   };
 
-  const activeButtonClass = activeButton ? 'buttonActive' : 'button';
-  const archiveButtonClass = archiveButton ? 'buttonActive' : 'button';
+  const activeButtonClass = activeButton ? 'active' : '';
+  const archiveButtonClass = archiveButton ? 'active' : '';
 
   return (
     <PageWrapper>
       <div className={styles.contentWrapper}>
         <div className={styles.blockVendor}>
           { vendor && vendor.description
-            ? <Fragment> <VendorInfo
-            vendor = {vendor}
-          />
-          <VendorDesc description = {vendor.description} />
-          </Fragment>
+            ? <Fragment>
+              <VendorInfo vendor = {vendor} className={styles.vendorInfo} />
+              <VendorDesc description = {vendor.description} className={styles.vendorDescription} />
+            </Fragment>
             : <p>Vendor is not defined</p>
           }
         </div>

@@ -7,7 +7,8 @@ const initialState = {
   user: null,
   getUserStatus: helpers.getDefaultState(),
   qrCode: null,
-  getQRCodeStatus: helpers.getDefaultState()
+  getQRCodeStatus: helpers.getDefaultState(),
+  mobileNavigationState: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -96,6 +97,13 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user: null,
         loginStatus: helpers.getDefaultState()
+      };
+    }
+    case types.SET_MOBILE_NAVIGATION: {
+      const { payload } = action;
+      return {
+        ...state,
+        mobileNavigationState: payload
       };
     }
     default:

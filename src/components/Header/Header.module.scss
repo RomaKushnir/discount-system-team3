@@ -49,6 +49,7 @@
   }
 }
 .nav {
+  margin: 0 auto;
   &List {
     display: flex;
     list-style: none;
@@ -73,6 +74,14 @@
   padding: 0 0 5px 0;
 }
 
+.switchLang {
+  margin-right: 10px;
+}
+
+.desktopLogoutButton {
+  padding: 0.6rem 1.5rem !important;
+}
+
 
 @media (min-width: 768px) {
   .mobileLogoutButton, .burgerMenuIcon {
@@ -83,10 +92,22 @@
 @media (max-width: 768px) {
   .header{
     position: relative;
-  }
-
-  html {
-    overflow:  hidden;
+    z-index: 1;
+    // for normal nav dropdown reaction
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: white;
+    }
+    & > *:not(.nav) {
+      position: relative;
+    }
+    // for normal nav dropdown reaction
   }
 
   .mobileLogoutButton {
@@ -105,16 +126,20 @@
   }
 
   .nav {
-    display: none;
     position: absolute;
     width: 100%;
-    background-color: white;
-    top: 100%;
+    top: -100vh;
     left: 0;
-    z-index: 1;
-    height: 1000px;
+    z-index: -1;
+    height: 100vh;
+    opacity: 0;
+    transition: 0.4s ease-in-out;
+    background-color: white;
+    padding-top: 20px;
     &.mobileNavOpened {
-      display: block;
+      opacity: 1;
+      left: 0;
+      top: 100%;
     }
     .navList {
       display: flex;
@@ -129,6 +154,7 @@
     }
     .activeClassName {
       border: none;
+      padding: 0;
     }
     
   }
@@ -150,7 +176,9 @@
       display: none;
     }
   }
-
+  .switchLang {
+    margin-right: 0;
+  }
   .langSelect {
     width: 50px;
   }
