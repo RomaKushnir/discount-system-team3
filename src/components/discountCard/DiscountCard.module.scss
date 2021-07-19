@@ -1,6 +1,7 @@
 @import '../../variables.scss';
 .borderCard {
   width: 100%;
+  min-width: 280px;
   height: 100%;
   display: flex;
   border-radius: 10px;
@@ -58,6 +59,9 @@
 
 .description {
   color: #8B8B8B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .disc {
@@ -98,4 +102,22 @@
   right: 10px;
   top: 10px;
   cursor: pointer;
+}
+
+.discountTag {
+  align-self: flex-end;
+}
+
+.flexRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tagsWrapper {
+  flex-basis: 73%;
+  li {
+    display: inline-block;
+    font-size: 0.9rem;
+  }
 }

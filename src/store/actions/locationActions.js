@@ -21,6 +21,12 @@ export function getLocationsListFailure(payload) {
   };
 }
 
+export function clearLocationsData() {
+  return {
+    type: types.CLEAR_LOCATIONS_DATA
+  };
+}
+
 export function getLocationById(payload) {
   return {
     type: types.GET_LOCATION_BY_ID,
@@ -92,5 +98,44 @@ export function getCitiesFailure(payload) {
 export function clearGetCitiesStatus() {
   return {
     type: types.CLEAR_GET_CITIES_STATUS
+  };
+}
+
+export function clearCitiesData() {
+  return {
+    type: types.CLEAR_CITIES_DATA
+  };
+}
+
+export function createLocation(payload) {
+  return {
+    type: types.CREATE_LOCATION,
+    payload
+  };
+}
+
+export function createLocationSuccess(payload) {
+  return {
+    type: types.CREATE_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function createLocationFailure(payload) {
+  return {
+    type: types.CREATE_LOCATION_FAILURE,
+    payload
+  };
+}
+
+export function clearCreateLocationStatus() {
+  return {
+    type: types.CLEAR_CREATE_LOCATION_STATUS
+  };
+}
+export function getCoordinates(payload) {
+  return {
+    type: types.GET_COORDINATES,
+    payload
   };
 }

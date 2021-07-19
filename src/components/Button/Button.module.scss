@@ -14,5 +14,7 @@
   }
   &:disabled {
     background-color: $color--gray;
+    cursor: default;
+    pointer-events: none;
   }
 }

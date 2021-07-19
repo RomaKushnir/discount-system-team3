@@ -27,6 +27,33 @@ export function clearLoginStatus() {
   };
 }
 
+export function getQRCode(payload) {
+  return {
+    type: types.GET_QRCODE,
+    payload
+  };
+}
+
+export function getQRCodeSuccess(payload) {
+  return {
+    type: types.GET_QRCODE_SUCCESS,
+    payload
+  };
+}
+
+export function getQRCodeFailure(payload) {
+  return {
+    type: types.GET_QRCODE_FAILURE,
+    payload
+  };
+}
+
+export function clearGetQRCodeStatus() {
+  return {
+    type: types.CLEAR_GET_QRCODE_STATUS
+  };
+}
+
 export function getUser() {
   return {
     type: types.GET_USER

@@ -5,6 +5,8 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
@@ -19,8 +21,10 @@ import DiscountModal from './components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
 import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
+import Vocabulary from '../../translations/vocabulary';
 
 function Discounts() {
+  const { t } = useTranslation();
   // mock data for favourite discounts
   const favourite = [];
 
@@ -28,9 +32,11 @@ function Discounts() {
 
   const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
-  const [discount, setDiscount] = useState(null);
+
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
+  const discountById = useSelector((state) => state.discountsReducer.discountById);
+  const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
@@ -44,6 +50,17 @@ function Discounts() {
 
   useDiscountsQueryChecker();
 
+  const location = useLocation();
+  const discountId = location.pathname.split('/')[2] || null;
+
+  useEffect(() => {
+    if (discountId) {
+      dispatch(actions.discountsActions.getDiscountById(discountId));
+      setIsDiscountModalShown(true);
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const onModalOpen = () => {
     setModalState(true);
   };
@@ -55,6 +72,7 @@ function Discounts() {
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ city: null }));
     dispatch(actions.locationActions.getCities(selectedCountry?.countryCode));
   };
 
@@ -63,7 +81,12 @@ function Discounts() {
   };
 
   const onChangeCategory = (category) => {
-    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null }));
+    dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null, tags: null }));
+  };
+
+  const onChangeTags = (tags) => {
+    const tagIds = tags.map((el) => el.value);
+    dispatch(actions.discountsActions.updateDiscountsFilters({ tags: tagIds || null }));
   };
 
   const onVendorSelectOptionChange = (selectedVendor) => {
@@ -71,7 +94,7 @@ function Discounts() {
   };
   const onSearchInputChange = (descriptionSearchWord) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({
-      shortDescription: descriptionSearchWord
+      shortDescription: descriptionSearchWord, title: descriptionSearchWord
     }));
   };
 
@@ -91,10 +114,9 @@ function Discounts() {
     }
   };
   const onCardClick = useCallback((e, id) => {
+    dispatch(actions.discountsActions.getDiscountById(id));
     setIsDiscountModalShown(true);
-    const selectedDiscount = discountsArray.find((el) => el.id === id);
-    setDiscount(selectedDiscount);
-  }, [discountsArray]);
+  }, [dispatch]);
 
   const onDiscountModalClose = () => {
     setIsDiscountModalShown(false);
@@ -121,10 +143,11 @@ function Discounts() {
             sortOptions ={discountsSortOptions}
             onSortFilterChange = {onSortFilterChange}
             filters = {discountsFilters}
+            onChangeTags = {onChangeTags}
             />
             <div className = {styles.discountsActions}>
             {isAdmin(user) && <AddNewItemButton
-                btnTitle="Add new discount"
+                btnTitle={t(Vocabulary.ADD_NEW_DISCOUNT)}
                 onAddNewItem={onModalOpen}
                 name = "add_discount"
               />}
@@ -142,14 +165,17 @@ function Discounts() {
                 favouriteDiscounts = {favourite}
               />
               <DiscountModal
-                discount = {discount}
+                key= {discountById?.id}
+                discount = {discountById}
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
                 favouriteDiscounts = {favourite}
+                loadingStatus = {getDiscountByIdStatus.loading}
+                modalContainerClasses = {styles.modalMinSize}
               />
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
-                  && <Pagination btnTitle="Show more" onShowMoreClick={onShowMoreClick} />}
+                  && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}
               </>
             }
             </div>

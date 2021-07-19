@@ -4,12 +4,15 @@ import * as helpers from '../helpers';
 const initialState = {
   locationsList: [],
   selectedLocation: {},
+  createdLocation: {},
+  countries: [],
+  cities: [],
   getLocationsStatus: helpers.getDefaultState(),
   getLocationByIdStatus: helpers.getDefaultState(),
-  countries: [],
   getCountriesStatus: helpers.getDefaultState(),
-  cities: [],
-  getCitiesStatus: helpers.getDefaultState()
+  getCitiesStatus: helpers.getDefaultState(),
+  createLocationStatus: helpers.getDefaultState(),
+  getCoordinatesStatus: helpers.getDefaultState()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -33,6 +36,12 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         getLocationsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_LOCATIONS_DATA: {
+      return {
+        ...state,
+        locationsList: []
       };
     }
     case types.GET_LOCATION_BY_ID: {
@@ -104,10 +113,49 @@ const locationReducer = (state = initialState, action) => {
         getCitiesStatus: helpers.getErrorState(payload)
       };
     }
+    case types.CLEAR_CITIES_DATA: {
+      return {
+        ...state,
+        cities: []
+      };
+    }
     case types.CLEAR_GET_CITIES_STATUS: {
       return {
         ...state,
         getCitiesStatus: helpers.getRequestState()
+      };
+    }
+    case types.CREATE_LOCATION: {
+      return {
+        ...state,
+        createLocationStatus: helpers.getRequestState()
+      };
+    }
+    case types.CREATE_LOCATION_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        createdLocation: payload.data,
+        createLocationStatus: helpers.getSuccessState('Success!')
+      };
+    }
+    case types.CREATE_LOCATION_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        createLocationStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_CREATE_LOCATION_STATUS: {
+      return {
+        ...state,
+        createLocationStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_COORDINATES: {
+      return {
+        ...state,
+        getGeocodeStatus: helpers.getRequestState()
       };
     }
     default:

@@ -5,7 +5,9 @@ const initialState = {
   loggedIn: false,
   loginStatus: helpers.getDefaultState(),
   user: null,
-  getUserStatus: helpers.getDefaultState()
+  getUserStatus: helpers.getDefaultState(),
+  qrCode: null,
+  getQRCodeStatus: helpers.getDefaultState()
 };
 
 const userReducer = (state = initialState, action) => {
@@ -36,6 +38,35 @@ const userReducer = (state = initialState, action) => {
         ...state,
         loggedIn: false,
         loginStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_QRCODE: {
+      return {
+        ...state,
+        getQRCodeStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_QRCODE_SUCCESS: {
+      const { payload } = action;
+      const successMessage = 'QR Code is found';
+      return {
+        ...state,
+        qrCode: payload,
+        getQRCodeStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.GET_QRCODE_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getQRCodeStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_QRCODE_STATUS: {
+      return {
+        ...state,
+        qrCode: null,
+        getQRCodeStatus: helpers.getDefaultState()
       };
     }
     case types.GET_USER: {

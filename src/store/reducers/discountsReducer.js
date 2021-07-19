@@ -5,7 +5,9 @@ export const defaultDiscountsFilter = {
   country: null,
   city: null,
   category: null,
+  tags: null,
   vendorTitle: '',
+  title: '',
   shortDescription: '',
   sort: 'expirationDate,ASC',
   pageNumber: 0,
@@ -16,11 +18,26 @@ export const defaultDiscountsFilter = {
 
 const initialState = {
   discounts: [],
+  discountsByUser: [],
+  getDiscountsByUserStatus: helpers.getDefaultState(),
   getDiscountsStatus: helpers.getDefaultState(),
   createDiscountStatus: helpers.getDefaultState(),
   deleteDiscountStatus: helpers.getDefaultState(),
   discountsFilters: { ...defaultDiscountsFilter },
-  discountsFiltersApplied: { ...defaultDiscountsFilter }
+  discountsFiltersApplied: { ...defaultDiscountsFilter },
+  vendorDiscounts: [],
+  vendorDiscountsParams: {
+    pageNumber: 0,
+    size: 6,
+    totalElements: null,
+    totalPages: null
+  },
+  getVendorDiscountsStatus: helpers.getDefaultState(),
+  activateDiscountStatus: helpers.getDefaultState(),
+  getDiscountByIdStatus: helpers.getDefaultState(),
+  discountById: null,
+  discountInfo: null,
+  getDiscountInfoStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -66,6 +83,33 @@ const discountsReducer = (state = initialState, action) => {
           pageNumber: defaultDiscountsFilter.pageNumber,
           size: defaultDiscountsFilter.size
         }
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER: {
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getSuccessState('Success!'),
+        discountsByUser: payload
+      };
+    }
+    case types.GET_DISCOUNTS_BY_USER_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_DISCOUNTS_BY_USER_STATUS: {
+      return {
+        ...state,
+        getDiscountsByUserStatus: helpers.getDefaultState()
       };
     }
     case types.CREATE_DISCOUNT: {
@@ -140,6 +184,123 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         discountsFilters: { ...defaultDiscountsFilter }
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS: {
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS_SUCCESS: {
+      const { discounts, showMore } = action.payload;
+      const {
+        content, number, size, totalElements, totalPages
+      } = discounts;
+
+      return {
+        ...state,
+        vendorDiscounts: showMore ? [...state.vendorDiscounts, ...content] : content,
+        getVendorDiscountsStatus: helpers.getSuccessState('Success!'),
+        vendorDiscountsParams: {
+          pageNumber: number,
+          size,
+          totalElements,
+          totalPages
+        }
+      };
+    }
+    case types.GET_VENDOR_DISCOUNTS_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_VENDOR_DISCOUNTS_STATUS: {
+      return {
+        ...state,
+        getVendorDiscountsStatus: helpers.getDefaultState()
+      };
+    }
+    case types.ACTIVATE_DISCOUNT: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getRequestState()
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_SUCCESS: {
+      const successMessage = 'Discount is successfully activated';
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.ACTIVATE_DISCOUNT_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_ACTIVATE_DISCOUNT_STATUS: {
+      return {
+        ...state,
+        activateDiscountStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID: {
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getSuccessState('Action successful'),
+        discountById: payload
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.GET_DISCOUNT_BY_ID_CLEAR_STATUS: {
+      return {
+        ...state,
+        getDiscountByIdStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_DISCOUNT_INFO: {
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_DISCOUNT_INFO_SUCCESS: {
+      const successMessage = 'Success';
+      return {
+        ...state,
+        discountInfo: action.payload,
+        getDiscountInfoStatus: helpers.getSuccessState(successMessage)
+      };
+    }
+    case types.GET_DISCOUNT_INFO_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_DISCOUNT_INFO_STATUS: {
+      return {
+        ...state,
+        getDiscountInfoStatus: helpers.getDefaultState()
       };
     }
     default:

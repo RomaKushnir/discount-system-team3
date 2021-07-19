@@ -3,21 +3,24 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.css';
 import 'normalize.css';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import appStorage from './store';
+import { persistor, appStore } from './store';
 import * as actions from './store/actions';
+import './i18n';
 
 const token = localStorage.getItem('token');
 if (token) {
-  appStorage.dispatch(actions.userActions.loginSuccess());
-  appStorage.dispatch(actions.userActions.getUser());
+  appStore.dispatch(actions.userActions.loginSuccess());
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={appStorage}>
-      <App />
+    <Provider store={appStore}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

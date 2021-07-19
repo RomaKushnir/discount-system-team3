@@ -11,9 +11,6 @@
     align-items: flex-end;
     flex-wrap: wrap;
   }
-  &Category {
-    width: 100%;
-  }
   &Title {
     font-size: 1.5rem;
     text-transform: capitalize;
@@ -22,17 +19,12 @@
   &Descr {
     margin: 20px 0;
   }
-  &Img {
-    width: 400px;
-    height: 200px;
-    margin-top: 10px;
-    img {
-      width: 400px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-  }
+}
+.mapContainer {
+  width: 400px;
+  height: 220px;
+  margin-top: 10px;
+  border-radius: 4px;
 }
 .vendorName {
   font-size: 1.2rem;
@@ -69,8 +61,12 @@
 .tag {
   justify-content: flex-end;
 }
-.count {
-  font-size: .8rem;
+.tags {
+  display: flex;
+  font-size: .9rem;
+  li{
+    list-style: none;
+  }
 }
 .adminBtns {
   * + * {

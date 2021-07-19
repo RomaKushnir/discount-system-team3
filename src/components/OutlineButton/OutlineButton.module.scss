@@ -19,3 +19,13 @@
     cursor: pointer;
   }
 }
+
+@media(max-width: 768px) {
+  .btnBordered {
+    &:hover {
+      background-color: inherit;
+      color: inherit;
+      transform: scale(1.05);
+    }
+  } 
+}

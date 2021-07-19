@@ -19,6 +19,7 @@ import MyDiscounts from './pages/MyDiscounts';
 import Categories from './pages/Categories';
 import Vendors from './pages/Vendors';
 import isAdmin from './utilities/isAdmin';
+import InfoPage from './pages/InfoPage';
 
 function App() {
   const user = useSelector((state) => state.userReducer.user);
@@ -26,6 +27,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
+          <PublicRoute path = {Routes.DISCOUNT_INFO} component = {InfoPage}/>
           <PublicRoute path = {Routes.ROOT} component = {Login} exact = {true}/>
           <PublicRoute path = {Routes.LOGIN} component = {Login}/>
           <PrivateRoute path = {Routes.DISCOUNTS} component = {Discounts}/>

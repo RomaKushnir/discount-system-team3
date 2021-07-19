@@ -55,11 +55,33 @@ export function* getCities({ payload }) {
   }
 }
 
+export function* createLocation({ payload }) {
+  try {
+    const { countryCode, city, addressLine } = payload;
+    const searchAddress = `${countryCode},${city},${addressLine}`;
+    const geocodeResponse = yield call(api.locations.getGeocode, searchAddress);
+    if (geocodeResponse.status === 'OK') {
+      const { lat: latitude, lng: longitude } = geocodeResponse.results[0].geometry.location;
+      const fullLocation = { ...payload, ...{ latitude, longitude } };
+      const response = yield call(api.locations.createLocation, fullLocation);
+      yield put(actions.locationActions.createLocationSuccess(response));
+      toast.success('Location successfully created');
+    } else {
+      toast.error('Please enter correct address');
+    }
+  } catch (error) {
+    console.error(error);
+    console.log('SAGA', error.response.data);
+    yield put(actions.locationActions.createLocationFailure(error.response.data));
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_LOCATIONS_LIST, getLocations),
     takeEvery(types.GET_LOCATION_BY_ID, getLocationById),
     takeEvery(types.GET_COUNTRIES, getCountries),
-    takeEvery(types.GET_CITIES, getCities)
+    takeEvery(types.GET_CITIES, getCities),
+    takeEvery(types.CREATE_LOCATION, createLocation)
   ]);
 }

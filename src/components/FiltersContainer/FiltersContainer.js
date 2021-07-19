@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
 import Button from '../Button';
 import SelectField from '../SelectField';
@@ -9,6 +10,7 @@ import {
   getCategoriesOptions
 } from '../../store/selectors';
 import useVendorTypeahead from '../../utilities/useVendorTypeahead';
+import Vocabulary from '../../translations/vocabulary';
 
 const inputStyles = {
   width: '200px',
@@ -24,13 +26,16 @@ function FiltersContainer({
   filters,
   onVendorSelectOptionChange,
   sortOptions,
-  onSortFilterChange
+  onSortFilterChange,
+  onChangeTags
 }) {
+  const { t } = useTranslation();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
+  const [categoryTags, setCategoryTags] = useState([]);
 
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -46,6 +51,7 @@ function FiltersContainer({
 
   const onChangeCategories = (selectedOption) => {
     onChangeCategory(selectedOption);
+    setCategoryTags(selectedOption?.tags || []);
   };
 
   const countryMemoized = useMemo(
@@ -66,6 +72,26 @@ function FiltersContainer({
     ), [sortOptions, filters]
   );
 
+  const tagsOptionsMemoized = useMemo(
+    () => categoryTags.map(
+      (el) => ({ value: el.id, label: el.name })
+    ) || null, [categoryTags]
+  );
+
+  const selectedTagsMemoized = useMemo(
+    () => (filters.tags ? filters.tags?.map(
+      (el) => categoriesOptionsMemoized?.tags.find((tag) => Number(el) === tag.id)
+    )?.map((item) => ({ value: item?.id, label: item?.name })) : null), [filters.tags, categoriesOptionsMemoized]
+  );
+
+  let searchInitialInput = '';
+
+  if (filters.title !== '') {
+    searchInitialInput = filters.title;
+  } else if (filters.shortDescription !== '') {
+    searchInitialInput = filters.shortDescription;
+  }
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -73,14 +99,14 @@ function FiltersContainer({
             <SelectField
               value = {countryMemoized}
               options = {countriesOptions}
-              label = "Country"
+              label = {t(Vocabulary.COUNTRY)}
               onChange = {onChangeCountries}
             />
             </div>
             <div className = {styles.filter}>
               <SelectField
                 options = {citiesOptions}
-                label = "City"
+                label = {t(Vocabulary.CITY)}
                 onChange = {onChangeCities}
                 value = {{ value: filters.city, label: filters.city }}
               />
@@ -88,16 +114,25 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <SelectField
               options = {categoriesOptions}
-              label = "Category"
+              label = {t(Vocabulary.CATEGORY)}
               onChange = {onChangeCategories}
               value = {categoriesOptionsMemoized}
             />
           </div>
           <div className = {styles.filter}>
+            {onChangeTags && <SelectField
+              options = {tagsOptionsMemoized}
+              label = {t(Vocabulary.TAGS)}
+              isMulti
+              onChange = {onChangeTags}
+              value = {selectedTagsMemoized}
+            />}
+          </div>
+          <div className = {styles.filter}>
             <SelectField
               options = {vendorsTypeaheadOptions}
               value = {{ value: filters.vendorTitle, label: filters.vendorTitle }}
-              label = "Vendor (Min 3 chars)"
+              label = {t(Vocabulary.VENDOR_MIN_3_CHARS)}
               name = "vendorId"
               onChange = {(option) => onVendorSelectOptionChange(option)}
               onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -107,12 +142,12 @@ function FiltersContainer({
           <div className = {styles.filter}>
             <TextInput
               onValueChange = {onChangeSearchInput}
-              label = "Search"
+              label = {t(Vocabulary.SEARCH)}
               name = "Search"
-              placeholder = "Search..."
+              placeholder = {`${t(Vocabulary.SEARCH)}...`}
               type = "search"
               style = {inputStyles}
-              value = {filters.description || filters.shortDescription || ''}
+              value = {searchInitialInput}
             />
           </div>
           <div className = {styles.filter}>
@@ -121,13 +156,13 @@ function FiltersContainer({
               options={sortOptions}
               onChange={onSortFilterChange}
               isClearable={false}
-              label = "Sort"
+              label = {t(Vocabulary.SORT)}
               className = {styles.filterSort}
             />
           </div>
         <div className = {styles.buttonContainer}>
         <Button
-          btnText = "Apply"
+          btnText = {t(Vocabulary.APPLY)}
           onClick = {onApplyButtonClick}
         />
         </div>

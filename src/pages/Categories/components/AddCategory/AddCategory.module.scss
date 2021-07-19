@@ -19,6 +19,7 @@
     .buttonContainer {
       display: flex;
       justify-content: flex-end;
+      margin-top: 20px;
       padding: 40px 0 0 0;
     }
 
@@ -47,7 +48,7 @@
     }
 
     .creatableSelect {
-      width: 300px;
+      width: 100%;
       height: 100%;
     }
 }

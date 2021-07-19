@@ -10,8 +10,10 @@ export const convertFilterParametersToUrl = (params) => {
     .replace('country:', 'locations.country.countryCode:')
     .replace('city:', 'locations.city:')
     .replace('vendorTitle:', 'vendor.title*:*')
-    .replace('shortDescription:', 'shortDescription*:*')
-    .replace('category:', 'category.id:');
+    .replace('title:', 'title?*:*')
+    .replace('shortDescription:', 'shortDescription?*:*')
+    .replace('category:', 'category.id:')
+    .replace('tags:', 'tags.id~');
 
   const queryParams = `?query=${str};`;
   const sortParams = `&sort=${sort}`;
@@ -22,11 +24,14 @@ export const convertFilterParametersToUrl = (params) => {
 
 export const convertUrlToFilterParameters = (queryString) => {
   const modifiedString = queryString
-    .replace('shortDescription*:*', 'shortDescription:')
+    .replace('title?*:*', 'title:')
+    .replace('shortDescription?*:*', 'shortDescription:')
     .replace('vendor.title*:*', 'vendorTitle:')
     .replace('locations.city:', 'city:')
     .replace('locations.country.countryCode:', 'country:')
     .replace('category.id:', 'category:')
+    .replace('tags.id~', 'tags:')
+    .replaceAll('%2C', ',')
     .replace('?query=', '')
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
@@ -37,6 +42,9 @@ export const convertUrlToFilterParameters = (queryString) => {
     const [key, value] = el.split(':');
     if (key) {
       acc[key] = value;
+    }
+    if (key === 'tags') {
+      acc[key] = value.split(',');
     }
     return acc;
   }, {});

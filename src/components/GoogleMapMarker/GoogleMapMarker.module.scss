@@ -1,0 +1,27 @@
+@import '../../variables.scss';
+// SET ADEQUATE MARKER POSITION
+.markerWrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  &.hovered {
+    .marker {
+      color: $color--blue-dark;
+      transform: scale(1.4);
+    }
+  }
+}
+.marker {
+  color: red;
+  // color: $color--blue-light;
+}
+
+.infoBox {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  background-color: white;
+  padding: 3px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  white-space: nowrap;
+}

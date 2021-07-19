@@ -5,25 +5,26 @@ import customStyles from './CreatableSelectField.styles';
 function CreatableSelectField({
   label,
   initialValue,
+  value,
   options,
   onChange,
   isLoading,
   isSearchable = true,
   isClearable = false,
-  className,
+  className = '',
   isDisabled = false,
-  isMulti,
+  isMulti = false,
   error = '',
-  onBlur
+  onBlur,
+  name
 }) {
-  console.log(initialValue);
   return (
-    <div className = {style.container}>
+    <div className = {`${style.container} ${className}`}>
       {label != null && <label className = {style.label}>{label}</label>}
       <CreatableSelect
         styles = {customStyles}
-        className = {className}
         defaultValue = {initialValue}
+        value = {value}
         isLoading = {isLoading}
         isClearable = {isClearable}
         isSearchable = {isSearchable}
@@ -32,6 +33,8 @@ function CreatableSelectField({
         isDisabled = {isDisabled}
         isMulti = {isMulti}
         onBlur = {onBlur}
+        value = {value}
+        name = {name}
       />
       <div className = {style.error}>{error}</div>
     </div>

@@ -33,3 +33,8 @@
     background-color: #fff;
   }
 }
+.modalMinSize {
+  min-width: 400px;
+  min-height: 140px;
+  transition: all .5s;
+}

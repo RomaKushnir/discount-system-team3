@@ -18,10 +18,12 @@ function SelectField({
   error = '',
   onBlur,
   name = '',
-  onInputChange
+  onInputChange,
+  menuPlacement = 'auto',
+  containerStyle
 }) {
   return (
-    <div className = {`${style.container} ${className}`}>
+    <div className = {`${style.container} ${className}`} style = {containerStyle}>
       {label != null && <label className = {style.label}>{label}</label>}
       <Select
         styles = {customStyles}
@@ -39,6 +41,7 @@ function SelectField({
         isMulti = {isMulti}
         onBlur = {onBlur}
         onInputChange = {onInputChange}
+        menuPlacement = {menuPlacement}
       />
       <div className = {style.error}>{error}</div>
     </div>

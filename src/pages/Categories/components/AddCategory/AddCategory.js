@@ -1,48 +1,47 @@
 import { useState } from 'react';
-// import { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styles from './AddCategory.module.scss';
 import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
-// import CreatableSelectField from '../../../../components/CreatableSelectField';
+import CreatableSelectField from '../../../../components/CreatableSelectField';
 import * as actions from '../../../../store/actions';
-// import {
-//   selectValidation, imageUrlValidation, idValidation, titleValidation
-// } from '../../../../utilities/validation';
 import {
-  // selectValidation,
-  // imageUrlValidation,
-  idValidation, titleValidation
+  selectValidation,
+  idValidation,
+  titleValidation
 } from '../../../../utilities/validation';
 
 const inputStyles = {
-  width: '300px',
+  width: '100%',
   marginBottom: '10px'
 };
 
 const validate = {
   id: idValidation,
-  // imageUrl: imageUrlValidation,
-  title: titleValidation
-  // tags: selectValidation
+  title: titleValidation,
+  tags: selectValidation
 };
 
 function AddCategoryModal({ onSave, selectedCategory }) {
   const dispatch = useDispatch();
 
   const [category, setCategory] = useState(selectedCategory);
-  // const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([]);
   const [errors, setErrors] = useState({
     id: '',
-    // imageUrl: '',
-    title: ''
-    // tags: ''
+    title: '',
+    tags: ''
   });
   const [touched, setTouched] = useState({ id: true, imageUrl: true, tags: true });
   const [isDisabled, setIsDisabled] = useState(false);
+  const [newTags, setNewTags] = useState([]);
+  const [deletedTags, setDeletedTags] = useState([]);
 
   const addCategoryStatus = useSelector((state) => state.categoryReducer.addCategoryStatus);
+  const addTagsStatus = useSelector((state) => state.categoryReducer.addTagsToCategoryStatus);
+  const deleteTagsStatus = useSelector((state) => state.categoryReducer.deleteTagsFromCategoryStatus);
+  const tagsOptions = category.tags?.map((el) => ({ ...el, value: el.id, label: el.name }));
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
@@ -114,34 +113,49 @@ function AddCategoryModal({ onSave, selectedCategory }) {
       && Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       setIsDisabled(false);
-      console.log(category);
-      dispatch(actions.categoryActions.addCategory(category)); // dispatch category and array with new tags
-    } else {
-      setIsDisabled(true);
+      if (category.title !== selectedCategory.title) {
+        dispatch(actions.categoryActions.addCategory({ ...category, tags: newTags }));
+      } else if (tags.length > 0) {
+        dispatch(actions.categoryActions.addTagsToCategory({ id: category.id, tags: newTags }));
+      } else {
+        setIsDisabled(true);
+      }
+      if (deletedTags.length > 0) {
+        dispatch(actions.categoryActions.deleteTagsFromCategory({ id: category.id, tags: deletedTags }));
+      }
     }
   };
 
   const onOkClick = () => {
     onSave();
     dispatch(actions.categoryActions.clearAddCategoryStatus());
-    // dispatch(actions.categoryActions.getCategories()); // uncomment when we have redux flow for this
+    dispatch(actions.categoryActions.getCategories());
   };
 
-  // const handleTagsChange = useCallback(() => (newValue, actionMeta) => {
-  //   console.group('Value Changed');
-  //   console.log(newValue);
-  //   console.log(actionMeta);
-  //   console.log(`action: ${actionMeta.action}`);
-  //   console.groupEnd();
-  //   const newValuesOnly = new Set(newValue.filter((el) => !el.id).map((el) => el.value));
-  //   setTags([...newValuesOnly]);
-  // }, []);
-
-  // console.log(tags);
+  const handleTagsChange = (newValue, actionMeta) => {
+    if (actionMeta.action === 'create-option') {
+      const newValuesOnly = newValue.filter((el) => !el.id).map((el) => ({ name: el.label }));
+      setNewTags([...newValuesOnly]);
+      setTags([...newValue]);
+    }
+    if (actionMeta.action === 'remove-value') {
+      setDeletedTags([...deletedTags, actionMeta.removedValue.id]);
+    }
+  };
 
   return (
     <div className = {styles.container}>
-      {addCategoryStatus.loading === false && addCategoryStatus.success
+      {((addTagsStatus.loading === false && addTagsStatus.success)
+      || (deleteTagsStatus.loading === false && deleteTagsStatus.success))
+      && <div className = {styles.successMessageContainer}>
+        <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
+        <Button
+          btnText = "OK"
+          onClick = {onOkClick}
+          type = "submit"
+        />
+      </div>}
+      {(addCategoryStatus.loading === false && addCategoryStatus.success)
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
         <Button
@@ -170,14 +184,15 @@ function AddCategoryModal({ onSave, selectedCategory }) {
           error = {errors.title}
           className = {styles.title}
         />
-        {/* <CreatableSelectField
+        <CreatableSelectField
           isMulti
           label = "Tags"
-          options = {tags}
+          options = {tagsOptions || null}
           onChange = {handleTagsChange}
           error = {errors.tags}
           className = {styles.creatableSelect}
-        /> */}
+          initialValue = {tagsOptions}
+        />
       </div>
       {addCategoryStatus.loading === false && addCategoryStatus.error
       && <div className = {styles.errorMessage}>

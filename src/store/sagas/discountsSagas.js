@@ -27,6 +27,27 @@ export function* getDiscounts({ payload }) {
   }
 }
 
+export function* getDiscountById({ payload }) {
+  try {
+    const response = yield call(api.discounts.getDiscountById, payload);
+    yield put(actions.discountsActions.getDiscountByIdSuccess(response.data));
+  } catch (error) {
+    yield put(actions.discountsActions.getDiscountByIdFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+export function* getDiscountsByUser({ payload }) {
+  const param = `?query=users.user.id:${payload}`;
+  let response;
+  try {
+    response = yield call(api.discounts.getDiscounts, param);
+    yield put(actions.discountsActions.getDiscountsByUserSuccess(response.data.content));
+  } catch (error) {
+    yield put(actions.discountsActions.getDiscountsByUserFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
 export function* createDiscount({ payload }) {
   const { id, ...data } = payload;
   let response;
@@ -70,11 +91,58 @@ export function* applyDiscountsFilters({ payload }) {
   yield put(actions.discountsActions.getDiscountsList({ serverSearchParams, showMore: payload.showMore }));
 }
 
+export function* getVendorDiscounts({ payload }) {
+  try {
+    const today = new Date();
+    const currentTime = today.toISOString().split('.')[0];
+
+    const periodParams = payload.active ? `expirationDate>${currentTime};` : `expirationDate<${currentTime};`;
+    const queryParams = `?query=vendor.id:${payload.vendorId};`;
+    const paginationParams = `&page=${payload.pageNumber}&size=${payload.size}`;
+    const searchParams = `${queryParams}${periodParams}${paginationParams}`;
+
+    const response = yield call(api.discounts.getVendorDiscounts, searchParams);
+
+    yield put(actions.discountsActions.getVendorDiscountsSuccess({
+      discounts: response.data, showMore: payload.showMore
+    }));
+  } catch (error) {
+    yield put(actions.discountsActions.getVendorDiscountsFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
+export function* activateDiscount({ payload }) {
+  try {
+    yield call(api.discounts.activateDiscount, payload);
+    yield put(actions.discountsActions.activateDiscountSuccess(payload));
+    toast.success('Discount was successfully activated.');
+  } catch (error) {
+    yield put(actions.discountsActions.activateDiscountFailure(error));
+    toast.error(`Error: ${error.response.data.message}`);
+  }
+}
+
+export function* getDiscountInfo({ payload }) {
+  try {
+    const response = yield call(api.discounts.getDiscountInfo, payload);
+    yield put(actions.discountsActions.getDiscountInfoSuccess(response.data));
+  } catch (error) {
+    yield put(actions.discountsActions.getDiscountInfoFailure(error));
+    toast.error(`Error: ${error.response.data.error}`);
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.GET_DISCOUNTS, getDiscounts),
     takeEvery(types.CREATE_DISCOUNT, createDiscount),
     takeEvery(types.DELETE_DISCOUNT, deleteDiscount),
-    takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters)
+    takeEvery(types.APPLY_DISCOUNTS_FILTERS, applyDiscountsFilters),
+    takeEvery(types.GET_VENDOR_DISCOUNTS, getVendorDiscounts),
+    takeEvery(types.ACTIVATE_DISCOUNT, activateDiscount),
+    takeEvery(types.GET_DISCOUNT_BY_ID, getDiscountById),
+    takeEvery(types.GET_DISCOUNT_INFO, getDiscountInfo),
+    takeEvery(types.GET_DISCOUNTS_BY_USER, getDiscountsByUser)
   ]);
 }

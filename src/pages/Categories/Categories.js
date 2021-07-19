@@ -4,6 +4,7 @@ import React, {
   useEffect
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import styles from './Categories.module.scss';
 import * as actions from '../../store/actions';
 import PageWrapper from '../../components/PageWrapper';
@@ -11,8 +12,10 @@ import Modal from '../../components/Modal';
 import AddCategoryModal from './components/AddCategory';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import CategoriesList from './components/CategoriesList';
+import Vocabulary from '../../translations/vocabulary';
 
 function Categories() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
@@ -25,26 +28,21 @@ function Categories() {
     dispatch(actions.categoryActions.deleteCategory(id));
   }, [dispatch]);
   const onModalOpen = useCallback((e, id) => {
+    dispatch(actions.categoryActions.clearAddCategoryStatus());
+    dispatch(actions.categoryActions.clearAddTagsToCategoryStatus());
+    dispatch(actions.categoryActions.clearDeleteTagsFromCategoryStatus());
     setIsOpen(true);
 
     if (e.target.name === 'edit') {
       const selectedCategory = categories.find((el) => el.id === id);
-
       setCategory(selectedCategory);
-
-      setCategory({
-        // imageUrl: 'https://picsum.photos/200?random=8',
-        title: 'Food',
-        id: 5
-      }); // temporary while we don't have list of categories
     } else {
       setCategory({
-        // imageUrl: '',
         title: '',
         id: ''
       });
     }
-  }, [categories]);
+  }, [categories, dispatch]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -55,7 +53,7 @@ function Categories() {
       <div className={styles.contentWrapper}>
       <div className={styles.row}>
         <AddNewItemButton
-          btnTitle="Add new category"
+          btnTitle={t(Vocabulary.ADD_NEW_CATEGORY)}
           onAddNewItem={onModalOpen}
           name = "add"
         />

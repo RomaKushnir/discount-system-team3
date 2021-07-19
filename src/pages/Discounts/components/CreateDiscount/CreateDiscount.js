@@ -1,8 +1,11 @@
-import { useEffect, useCallback, useMemo } from 'react';
+import {
+  useEffect, useCallback, useMemo, useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import validationSchema from '../../../../utilities/validationSchema';
 import styles from './CreateDiscount.module.scss';
 import TextInput from '../../../../components/TextInput';
@@ -10,25 +13,23 @@ import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {
-  getLocationsOptions,
-  getCountriesOptions,
-  getCitiesGroupedByCountryOptions,
   getCategoriesOptions,
   getTypeaheadVendorsOptions
 } from '../../../../store/selectors';
 import useVendorTypeahead from '../../../../utilities/useVendorTypeahead';
+import Vocabulary from '../../../../translations/vocabulary';
+import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
   discount,
   onModalClose
 }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [onVendorSelectInputChange, onVendorSelectBlur] = useVendorTypeahead();
-  const countriesOptions = useSelector(getCountriesOptions);
-  const citiesOptions = useSelector(getCitiesGroupedByCountryOptions);
+  const [discountVendor, setDiscountVendor] = useState();
   const categoriesOptions = useSelector(getCategoriesOptions);
   const createDiscountStatus = useSelector((state) => state.discountsReducer.createDiscountStatus);
-  const locationOptions = useSelector(getLocationsOptions);
   const vendorsTypeaheadOptions = useSelector(getTypeaheadVendorsOptions);
 
   // SET INITIAL VALUE TO SELECTS
@@ -40,52 +41,50 @@ function CreateDiscount({
 
   const initialCategoryOptions = discount ? {
     value: discount.category.id,
-    label: discount.category.title
+    label: discount.category.title,
+    tags: discount.category.tags
   }
     : null;
-
-  const initialLocationsOptions = useMemo(() => (discount ? discount.locations.map((el) => ({
-    value: el.id,
-    label: Object.values(el).join(', ')
-  })) : null), [discount]);
-
-  const locationsToRequst = useMemo(() => (discount && discount.locations.map((el) => (el.id))), [discount]);
 
   const isFormSubmitted = createDiscountStatus.loading === false && createDiscountStatus.success;
 
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
-    title: discount ? discount.title : '',
-    imageUrl: discount ? discount.imageUrl : '',
-    promocode: discount ? discount.promocode : '',
-    description: discount ? discount.description : '',
-    shortDescription: discount ? discount.shortDescription : '',
-    flatAmount: discount ? discount.flatAmount : '',
-    percentage: discount ? discount.percentage : '',
+    title: discount?.title || '',
+    imageUrl: discount?.imageUrl || '',
+    promocode: discount?.promocode || '',
+    description: discount?.description || '',
+    shortDescription: discount?.shortDescription || '',
+    flatAmount: discount?.flatAmount || '',
+    percentage: discount?.percentage || '',
     startDate: discount ? new Date(discount.startDate) : new Date(Date.now()),
     expirationDate: discount ? new Date(discount.expirationDate) : null,
-    locationIds: discount ? locationsToRequst : [],
-    categoryId: discount ? discount.category.id : null,
-    vendorId: discount ? discount.vendor.id : null,
-    // mocked fields
-    perUser: 1,
-    price: 0,
-    quantity: 1
+    locationIds: discount?.locations.map((el) => el.id) || [],
+    categoryId: discount?.category.id || null,
+    vendorId: discount?.vendor.id || null,
+    tagIds: discount?.tags.map((el) => el.id) || [],
+    tags: discount?.tags.map((el) => ({ label: el.name, value: el.id })) || [],
+    locations: discount?.locations.map((el) => ({ label: Object.values(el).join(', '), value: el.id })) || []
   };
 
   // GET REQUIRED DATA FROM API
   useEffect(() => {
-    if (!countriesOptions.length || !citiesOptions.length) {
-      dispatch(actions.locationActions.getLocationsList());
-    }
-
     if (!categoriesOptions.length) dispatch(actions.categoryActions.getCategories());
-  }, [dispatch, countriesOptions, citiesOptions, categoriesOptions]);
+  }, [dispatch, categoriesOptions]);
 
   // FORM SUBMIT
-  const submitHandler = (formData) => {
+  const submitHandler = ({ tags, locations, ...data }) => {
+    let formData = {};
+
+    if (data.promocode === '') {
+      formData = { ...data, promocode: null };
+    } else {
+      formData = { ...data };
+    }
+
     if (discount) {
       const formDataUpdate = { ...formData, id: discount.id };
+
       dispatch(actions.discountsActions.createDiscount(formDataUpdate));
     } else {
       dispatch(actions.discountsActions.createDiscount(formData));
@@ -95,7 +94,10 @@ function CreateDiscount({
   const onOkClick = () => {
     onModalClose();
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
-    dispatch(actions.discountsActions.getDiscountsList());
+    if (discount?.id) {
+      dispatch(actions.discountsActions.getDiscountById(discount.id));
+    }
+    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
   };
 
   const formik = useFormik({
@@ -113,12 +115,51 @@ function CreateDiscount({
     } else {
       value = selected && selected.value;
     }
+
     formik.setFieldValue(name, value, true);
+
+    switch (name) {
+      case 'categoryId':
+        formik.setFieldValue('tags', [], true);
+        formik.setFieldValue('tagIds', [], true);
+        break;
+      case 'vendorId':
+        formik.setFieldValue('locationIds', [], true);
+        formik.setFieldValue('locations', [], true);
+        setDiscountVendor(selected);
+        break;
+      case 'tags':
+        formik.setFieldValue('tagIds', value, true);
+        formik.setFieldValue('tags', selected, true);
+        break;
+      case 'locations':
+        formik.setFieldValue('locationIds', value, true);
+        formik.setFieldValue('locations', selected, true);
+        break;
+      default:
+    }
   };
 
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
+
+  const tagsOptions = useMemo(() => (formik.values.categoryId ? categoriesOptions
+    .find((el) => el.id === formik.values.categoryId).tags.map((tag) => ({ value: tag.id, label: tag.name }))
+    : []), [formik.values.categoryId, categoriesOptions]);
+
+  const initialTagsOptions = formik.values.tags || [];
+
+  const locationOptions = useMemo(
+    () => discountVendor?.locations.map((location) => combineLocation(location)) || [], [discountVendor]
+  );
+
+  const initialLocationsOptions = useMemo(
+    () => (formik.values.locations.map((el) => ({
+      label: el.label.split(',').slice(0, 3).join(','),
+      value: el.value
+    }))) || [], [formik.values.locations]
+  );
 
   return (
     <div className={styles.modalContent}>
@@ -126,7 +167,7 @@ function CreateDiscount({
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{createDiscountStatus.success}</div>
         <Button
-          btnText = "OK"
+          btnText = {t(Vocabulary.OK)}
           onClick = {onOkClick}
           type = "submit"
         />
@@ -137,8 +178,8 @@ function CreateDiscount({
       </div>}
       <form className={isFormSubmitted ? styles.formDisplayNone : ''}>
         <TextInput
-          placeholder = "Discount title"
-          label = "Title"
+          placeholder = {t(Vocabulary.DISCOUNT_TITLE)}
+          label = {t(Vocabulary.TITLE)}
           name = "title"
           type = "text"
           className={styles.inputContainer}
@@ -151,9 +192,9 @@ function CreateDiscount({
           <SelectField
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
-            label = "Vendor (Min 3 chars)"
+            label = {t(Vocabulary.VENDOR_MIN_3_CHARS)}
             name = "vendorId"
-            placeholder = "Select vendor"
+            placeholder = {t(Vocabulary.SELECT_VENDOR)}
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
             onInputChange={(characters) => onVendorSelectInputChange(characters)}
@@ -163,38 +204,39 @@ function CreateDiscount({
           <SelectField
             options = {categoriesOptions}
             initialValue = {initialCategoryOptions}
-            label = "Category"
+            label = {t(Vocabulary.CATEGORY)}
             name = "categoryId"
-            placeholder = "Select category"
+            placeholder = {t(Vocabulary.SELECT_CATEGORY)}
             className={styles.inputContainer}
             onChange = {onSelectValueChange}
             error = {formik.errors.categoryId}
           />
         </div>
-        {/* <SelectField
-          // options = {citiesOptions}
-          // initialValue = {transformedInitialLocation}
-          label = "Tags"
-          name = "tagIds"
-          placeholder = "Select tag"
+        <SelectField
+          options = {tagsOptions}
+          value = {initialTagsOptions}
+          label = {t(Vocabulary.TAGS)}
+          name = "tags"
+          placeholder = {t(Vocabulary.SELECT_TAGS)}
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
-          // error = {formik.errors.tags}
-        /> */}
+          error = {formik.errors.tags}
+          onBlur={formik.handleBlur}
+        />
         <SelectField
           options = {locationOptions}
-          initialValue={initialLocationsOptions}
-          label = "Location"
-          name = "locationIds"
+          value={initialLocationsOptions}
+          label = {t(Vocabulary.LOCATION)}
+          name = "locations"
           className={styles.inputContainer}
           isMulti={true}
           onChange = {onSelectValueChange}
-          error = {formik.errors.locationIds}
+          error = {formik.errors.locations}
         />
         <TextInput
-          placeholder = "Image Url"
-          label = "Image Url"
+          placeholder = {t(Vocabulary.IMAGE_URL)}
+          label = {t(Vocabulary.IMAGE_URL)}
           name = "imageUrl"
           type = "url"
           className={styles.inputContainer}
@@ -204,8 +246,8 @@ function CreateDiscount({
           error = {formik.errors.imageUrl}
         />
         <TextInput
-          placeholder = "Promo code"
-          label = "Promo code"
+          placeholder = {t(Vocabulary.PROMO_CODE)}
+          label = {t(Vocabulary.PROMO_CODE)}
           name = "promocode"
           type = "text"
           className={styles.inputContainer}
@@ -215,9 +257,9 @@ function CreateDiscount({
           error = {formik.errors.promocode}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
-          <label htmlFor="description">Full Description</label>
+          <label htmlFor="description">{t(Vocabulary.FULL_DESCRIPTION)}</label>
           <textarea
-            placeholder = "Full Description"
+            placeholder = {t(Vocabulary.FULL_DESCRIPTION)}
             id="description"
             name = "description"
             onChange = {formik.handleChange}
@@ -227,9 +269,9 @@ function CreateDiscount({
           <div className = {styles.error}>{formik.errors.description}</div>
         </div>
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
-          <label htmlFor="shortDescription">Short Description</label>
+          <label htmlFor="shortDescription">{t(Vocabulary.SHORT_DESCRIPTION)}</label>
           <textarea
-            placeholder = "Short Description"
+            placeholder = {t(Vocabulary.SHORT_DESCRIPTION)}
             id = "shortDescription"
             name = "shortDescription"
             className={styles.shortDescr}
@@ -242,8 +284,8 @@ function CreateDiscount({
         <div className={`${styles.discountDateSection} ${styles.twoColumnsWrapper}`}>
           <div className={styles.discountContainer}>
             <TextInput
-              placeholder = "Discount flat"
-              label = "Discount flat"
+              placeholder = {t(Vocabulary.DISCOUNT_FLAT)}
+              label = {t(Vocabulary.DISCOUNT_FLAT)}
               name = "flatAmount"
               type = "text"
               className={styles.inputContainer}
@@ -253,8 +295,8 @@ function CreateDiscount({
               disabled = {!!formik.values.percentage}
             />
             <TextInput
-              placeholder = "Discount %"
-              label = "Discount %"
+              placeholder = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
+              label = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               name = "percentage"
               type = "text"
               className={styles.inputContainer}
@@ -263,12 +305,12 @@ function CreateDiscount({
               onBlur={formik.handleBlur}
               disabled = {!!formik.values.flatAmount}
             />
-            {(formik.errors.flatAmount && formik.errors.percentage)
+            {(formik.errors.flatAmount || formik.errors.percentage)
             && <div className = {styles.error}>{formik.errors.flatAmount || formik.errors.percentage}</div>}
           </div>
           <div className={styles.dateContainer}>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
-              <label>From</label>
+              <label>{t(Vocabulary.FROM)}</label>
               <DatePicker
                 format="dd-MM-y"
                 name="startDate"
@@ -279,7 +321,7 @@ function CreateDiscount({
               />
             </div>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
-              <label>To</label>
+              <label>{t(Vocabulary.TO)}</label>
               <DatePicker
                 format="dd-MM-y"
                 name="expirationDate"
@@ -299,7 +341,7 @@ function CreateDiscount({
         </div>}
         <div className={styles.btnContainer}>
           <Button
-            btnText = "Save"
+            btnText = {t(Vocabulary.SAVE)}
             type = "submit"
             isDisabled = {!formik.isValid || !formik.dirty}
             onClick={formik.handleSubmit}
