@@ -42,7 +42,9 @@ const Vocabulary = {
   DISCOUNT_PERCENTAGE: 'discount_percentage',
   FROM: 'from',
   TO: 'to',
-  SAVE: 'save'
+  SAVE: 'save',
+  UPDATE: 'update',
+  EXPORT_TO_EXCEL: 'export_to_excel'
 };
 
 export default Vocabulary;

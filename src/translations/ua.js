@@ -44,7 +44,9 @@ const ua = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Знижка у %',
   [Vocabulary.FROM]: 'З',
   [Vocabulary.TO]: 'По',
-  [Vocabulary.SAVE]: 'Зберегти'
+  [Vocabulary.SAVE]: 'Зберегти',
+  [Vocabulary.UPDATE]: 'Оновити',
+  [Vocabulary.EXPORT_TO_EXCEL]: 'Експортувати в excel'
 };
 
 export default ua;

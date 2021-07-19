@@ -44,7 +44,9 @@ const en = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Discount %',
   [Vocabulary.FROM]: 'From',
   [Vocabulary.TO]: 'To',
-  [Vocabulary.SAVE]: 'Save'
+  [Vocabulary.SAVE]: 'Save',
+  [Vocabulary.UPDATE]: 'Update',
+  [Vocabulary.EXPORT_TO_EXCEL]: 'Export to excel'
 };
 
 export default en;

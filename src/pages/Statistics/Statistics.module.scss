@@ -3,6 +3,74 @@
   margin: 0 auto;
   padding: 0 15px;
   display: flex;
+  flex-direction: column;
+}
+.dateButtonsContainer {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+
+  .buttons {
+    display: flex;
+
+    @media(max-width: 450px) {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .button {
+      height: 40px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+
+      @media(max-width: 450px) {
+        width: 100%;
+      }
+    }
+  }
+
+  .dateContainer {
+    display: flex;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    @media(max-width: 619px) {
+      justify-content: center;
+    }
+
+    .labelInputRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      @media(max-width: 619px) {
+        width: 280px;
+      }
+
+      .label {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+      .customDatePicker {
+        width: 100%;
+        max-width: 170px;
+        margin-right: 10px;
+        & > div {
+          border: 1px solid #C4C4C4;
+          padding: 5px 8px;
+          border-radius: 10px;
+        }
+      }
+    }
+    
+  }
+}
+
+
+.pieChart {
+  width: 300px;
+  height: 300px;
 }
