@@ -3,10 +3,14 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './translations/en';
 import ua from './translations/ua';
+import ru from './translations/ru';
 
 const resources = {
   en: {
     translation: en
+  },
+  ru: {
+    translation: ru
   },
   ua: {
     translation: ua
@@ -33,8 +37,11 @@ export const Languages = [
     label: 'en'
   },
   {
+    value: 'ru',
+    label: 'ru'
+  },
+  {
     value: 'ua',
     label: 'ua'
   }
-
 ];
