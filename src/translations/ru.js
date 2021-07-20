@@ -44,7 +44,12 @@ const ru = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Скидка в %',
   [Vocabulary.FROM]: 'С',
   [Vocabulary.TO]: 'По',
-  [Vocabulary.SAVE]: 'Сохранить'
+  [Vocabulary.SAVE]: 'Сохранить',
+  [Vocabulary.UNSUBSCRIBE]: 'Отписаться',
+  [Vocabulary.SUBSCRIBE]: 'Подписаться',
+  [Vocabulary.LOCATIONS]: 'Адреса',
+  [Vocabulary.ACTIVE]: 'Активные',
+  [Vocabulary.ARCHIVE]: 'Архив'
 };
 
 export default ru;

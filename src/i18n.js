@@ -17,13 +17,10 @@ const resources = {
   }
 };
 
-const lng = localStorage.getItem('lang');
-
 i18n.use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng,
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false

@@ -79,3 +79,10 @@ export function clearGetUserStatus() {
     type: types.CLEAR_GET_USER_STATUS
   };
 }
+
+export function changeLanguage(payload) {
+  return {
+    type: types.CHANGE_LANGUAGE,
+    payload
+  };
+}

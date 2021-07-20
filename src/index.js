@@ -10,8 +10,6 @@ import { persistor, appStore } from './store';
 import * as actions from './store/actions';
 import './i18n';
 
-localStorage.setItem('lang', 'en');
-
 const token = localStorage.getItem('token');
 if (token) {
   appStore.dispatch(actions.userActions.loginSuccess());
