@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import {
-  BrowserRouter,
+  Router,
   Switch,
   Redirect
 } from 'react-router-dom';
@@ -20,11 +20,12 @@ import Categories from './pages/Categories';
 import Vendors from './pages/Vendors';
 import isAdmin from './utilities/isAdmin';
 import InfoPage from './pages/InfoPage';
+import history from './history';
 
 function App() {
   const user = useSelector((state) => state.userReducer.user);
   return (
-    <BrowserRouter>
+    <Router history = {history}>
       <div className="App">
         <Switch>
           <PublicRoute path = {Routes.DISCOUNT_INFO} component = {InfoPage}/>
@@ -44,7 +45,7 @@ function App() {
         </Switch>
         <ToastContainer/>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
