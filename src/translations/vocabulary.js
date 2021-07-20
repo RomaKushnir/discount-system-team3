@@ -42,7 +42,12 @@ const Vocabulary = {
   DISCOUNT_PERCENTAGE: 'discount_percentage',
   FROM: 'from',
   TO: 'to',
-  SAVE: 'save'
+  SAVE: 'save',
+  UNSUBSCRIBE: 'unsubscribe',
+  SUBSCRIBE: 'subscribe',
+  LOCATIONS: 'locations',
+  ACTIVE: 'active',
+  ARCHIVE: 'archive'
 };
 
 export default Vocabulary;

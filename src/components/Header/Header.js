@@ -46,7 +46,7 @@ function Header() {
     [dispatch]
   );
 
-  useEffect(() => () => {
+  useEffect(() => {
     dispatch(actions.userActions.setMobileNavigation(false));
   }, [dispatch]);
 

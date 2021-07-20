@@ -28,11 +28,26 @@
     width: 100%;
     max-width: 450px;
   }
-
-  .subscribeBtn {
-    padding: 0.6rem 1rem;
-    width: 100%;
-    text-transform: capitalize;
+  .subscribeContainer {
+    button {
+      padding: 0.55rem 1rem;
+      width: 100%;
+      text-transform: capitalize;
+      border: 1px solid transparent;
+      &.unsubscribeBtn {
+        border-color: $color--gray-dark;
+        background-color: transparent;
+        color: $color--gray-dark;
+        &:hover {
+          border: 1px solid $color--gray-dark;
+          background-color: $color--gray-dark;
+          color: white;
+        }
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+    }
   }
 }
 
