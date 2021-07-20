@@ -53,6 +53,7 @@
 
     @media(max-width: 619px) {
       justify-content: center;
+      margin-right: 0;
     }
 
     .labelInputRow {
@@ -84,23 +85,26 @@
   }
 }
 .dataContainers {
-  background-color: pink;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 10px;
 
   .list {
     width: 600px;
-    padding-top: 20px;
+    margin-top: 20px;
     line-height: 1.8;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: plum;
 
     .listTitle {
-      padding-bottom: 20px;
+      padding-bottom: 5px;
       font-size: 20px;
+
+      @media(max-width: 1259px){
+        padding-bottom: 10px;
+      }
     }
 
     .discount {
@@ -111,8 +115,13 @@
 
 .pieChart {
   width: 600px;
-  height: 350px;
-  background-color: mediumspringgreen;
+  height: 330px;
+  display: flex;
+  justify-content: center;
+
+  @media(max-width: 1259px){
+    margin-bottom: 30px;
+  }
 
   @media(max-width: 700px){
     width: 500px;

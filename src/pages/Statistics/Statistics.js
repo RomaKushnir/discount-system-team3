@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
@@ -13,30 +13,13 @@ import Vocabulary from '../../translations/vocabulary';
 import COLORS from '../../utilities/chartColorOptions';
 import history from '../../history';
 import Routes from '../../routes';
-
-function getMonthStart() {
-  const today = new Date(Date.now());
-
-  const formattedMonth = today.toLocaleDateString('en-GB', {
-    month: '2-digit'
-  });
-
-  return `${formattedMonth}-01-${today.getFullYear()}`;
-}
-
-function formatDate(value) {
-  const formattedDate = value.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  }).split('/').join('.');
-
-  return `${formattedDate}`;
-}
+import DiscountModal from '../Discounts/components/DiscountModal';
+import { getMonthStart, formatDate } from '../../utilities/dateFormat';
 
 function Statistics() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
   const [period, setPeriod] = useState(
     {
       dateFrom: new Date(getMonthStart()),
@@ -55,6 +38,7 @@ function Statistics() {
 
   const statistics = useSelector((state) => state.statisticsReducer.statistics);
   const getStatistics = useSelector((state) => state.statisticsReducer.getStatisticsStatus);
+  const discountById = useSelector((state) => state.discountsReducer.discountById);
 
   const categoryStatistics = statistics?.popularCategoriesStats.map((el, index) => ({
     name: el.title,
@@ -84,8 +68,14 @@ function Statistics() {
     dispatch(actions.statisticsActions.getStatistics(formattedPeriod));
   };
 
-  console.log(statistics);
-
+  const onExcelExport = () => {
+    console.log('export to excel');
+    const formattedPeriod = {
+      dateFrom: formatDate(period.dateFrom),
+      dateTo: formatDate(period.dateTo)
+    };
+    dispatch(actions.statisticsActions.getStatisticsExport(formattedPeriod));
+  };
   const onCellClick = (vendorId) => {
     if (!vendorId) {
       return;
@@ -93,12 +83,21 @@ function Statistics() {
     history.push(generatePath(Routes.VENDOR_ID, { id: vendorId }));
   };
 
-  const onDiscountClick = (discountId) => {
+  const onDiscountClick = useCallback((discountId) => {
     if (!discountId) {
       return;
     }
+    setIsDiscountModalShown(true);
+    dispatch(actions.discountsActions.getDiscountById(discountId));
+    const formattedPeriod = {
+      dateFrom: formatDate(period.dateFrom),
+      dateTo: formatDate(period.dateTo)
+    };
+    dispatch(actions.statisticsActions.getStatistics(formattedPeriod));
+  }, [dispatch, period.dateFrom, period.dateTo]);
 
-    console.log(discountId);
+  const onDiscountModalClose = () => {
+    setIsDiscountModalShown(false);
   };
 
   if (getStatistics.loading) {
@@ -153,7 +152,7 @@ function Statistics() {
             <div className = {styles.button}>
               <Button
                 btnText = {t(Vocabulary.EXPORT_TO_EXCEL)}
-                onClick = {onUpdate}
+                onClick = {onExcelExport}
                 className = {styles.button}
               />
             </div>
@@ -180,7 +179,8 @@ function Statistics() {
             <div className = {styles.listTitle}>Most viewed discounts (since inception)</div>
             <ul className = {styles.listItems}>
               {statistics?.popularDiscountsStats.map((el) => (
-              <li key = {el.id} onClick = {() => onDiscountClick(el.id)} className = {styles.discount}>
+              <li key = {el.id || el.othersTitle}
+                onClick = {() => onDiscountClick(el.id)} className = {styles.discount}>
                 {el.quantity || el.othersQuantity} - {el.title || el.othersTitle}
               </li>))}
             </ul>
@@ -194,6 +194,12 @@ function Statistics() {
           </div>}
         </div>
       </div>
+      <DiscountModal
+        discount = {discountById}
+        isOpen = {isDiscountModalShown}
+        onClose = {onDiscountModalClose}
+        doNotShowAdminButtons = {true}
+      />
     </PageWrapper>
   );
 }

@@ -22,7 +22,7 @@ function PieChartComponent({
 }) {
   return (
       <ResponsiveContainer>
-        <PieChart width="100%" height="100%">
+        <PieChart width="100%" height="85%">
         <text x={width / 2} y={20} style={{ fontSize: 18 }} textAnchor="middle" dominantBaseline="top">{title}</text>
           <Pie
             data={data}
@@ -49,6 +49,7 @@ function PieChartComponent({
             color: item.color,
             value: `${item.value} - ${item.name}`
           }))}
+          height="15%"
           />
           <Tooltip />
         </PieChart>
