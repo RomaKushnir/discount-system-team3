@@ -4,8 +4,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
 import { generatePath } from 'react-router';
-// import * as FileSaver from 'file-saver';
-// import * as XLSX from 'xlsx';
 import * as actions from '../../store/actions';
 import styles from './Statistics.module.scss';
 import PageWrapper from '../../components/PageWrapper';
@@ -17,7 +15,6 @@ import history from '../../history';
 import Routes from '../../routes';
 import DiscountModal from '../Discounts/components/DiscountModal';
 import { getMonthStart, formatDate } from '../../utilities/dateFormat';
-// import ExportToExcel from '../../components/ExportToExcel';
 
 function Statistics() {
   const dispatch = useDispatch();
@@ -44,7 +41,6 @@ function Statistics() {
   const getStatistics = useSelector((state) => state.statisticsReducer.getStatisticsStatus);
   const discountById = useSelector((state) => state.discountsReducer.discountById);
   const statisticsExport = useSelector((state) => state.statisticsReducer.statisticsExport);
-  // const getStatisticsExportStatus = useSelector((state) => state.statisticsReducer.getStatisticsStatus);
 
   const categoryStatistics = statistics?.popularCategoriesStats.map((el, index) => ({
     name: el.title,
@@ -76,14 +72,24 @@ function Statistics() {
   };
 
   const onExcelExport = () => {
-    const link = document.createElement('a');
-    const url = window.URL.createObjectURL(new Blob([statisticsExport]));
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'file.xlsx');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const formattedPeriod = {
+      dateFrom: formatDate(period.dateFrom),
+      dateTo: formatDate(period.dateTo)
+    };
+
+    const fileName = `Statistics${formattedPeriod.dateFrom.split('.')
+      .join('_')}-${formattedPeriod.dateFrom.split('.').join('_')}.xlsx`;
+
+    if (statisticsExport) {
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(new Blob([statisticsExport]));
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
   const onCellClick = (vendorId) => {
     if (!vendorId) {
@@ -164,7 +170,6 @@ function Statistics() {
                 onClick = {onExcelExport}
                 className = {styles.button}
               />
-              {/* <ExportToExcel apiData={statisticsExport} fileName="Statistics" /> */}
             </div>
           </div>
         </div>
