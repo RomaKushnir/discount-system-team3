@@ -107,6 +107,18 @@
       }
     }
 
+
+    table, th, td {
+      border: 1px solid #C4C4C4;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+
+    .quantity {
+      text-align: right;
+    }
+
+
     .discount {
       cursor: pointer;
     }

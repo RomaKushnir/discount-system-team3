@@ -178,34 +178,54 @@ function Statistics() {
             <PieChartComponent
               data = {categoryStatistics}
               width = "280"
-              title = "Activated discounts by category"
+              title = {t(Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY)}
             />
           </div>}
           { vendorStatistics && <div className = {styles.pieChart}>
             <PieChartComponent
               data = {vendorStatistics}
               width = "280"
-              title = "Activated discounts by vendor"
+              title = {t(Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR)}
               onCellClick = {onCellClick}
               cursor = "pointer"
             />
           </div>}
           { statistics?.popularDiscountsStats && <div className = {styles.list}>
-            <div className = {styles.listTitle}>Most viewed discounts (since inception)</div>
-            <ul className = {styles.listItems}>
-              {statistics?.popularDiscountsStats.map((el) => (
-              <li key = {el.id || el.othersTitle}
-                onClick = {() => onDiscountClick(el.id)} className = {styles.discount}>
-                {el.quantity || el.othersQuantity} - {el.title || el.othersTitle}
-              </li>))}
-            </ul>
+            <div className = {styles.listTitle}>{t(Vocabulary.MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION)}</div>
+            <table className = {styles.listItems}>
+              <thead>
+                <tr>
+                  <th>{t(Vocabulary.TITLE)}</th>
+                  <th>{t(Vocabulary.VIEWS)}</th>
+                </tr>
+                </thead>
+              <tbody>
+                {statistics?.popularDiscountsStats.map((el) => (
+                  <tr key = {el.id || el.othersTitle}
+                    onClick = {() => onDiscountClick(el.id)} className = {styles.discount}>
+                    <td>{el.title || el.othersTitle}</td>
+                    <td className = {styles.quantity}>{el.quantity || el.othersQuantity}</td>
+                  </tr>))}
+              </tbody>
+            </table>
           </div>}
           { statistics?.mostActiveUsersStats && <div className = {styles.list}>
-            <div className = {styles.listTitle}>Most active users</div>
-            <ul className = {styles.listItems}>
-              {statistics?.mostActiveUsersStats.map((el) => (
-              <li key = {el.id}>{el.quantity} - {el.lastName} {el.firstName}, {el.email}</li>))}
-            </ul>
+            <div className = {styles.listTitle}>{t(Vocabulary.MOST_ACTIVE_USERS)}</div>
+            <table className = {styles.listItems}>
+              <thead>
+                <tr>
+                  <th>{t(Vocabulary.USER_NAME_AND_EMAIL)}</th>
+                  <th>{t(Vocabulary.DISCOUNT_QUANTITY)}</th>
+                </tr>
+                </thead>
+              <tbody>
+                {statistics?.mostActiveUsersStats.map((el) => (
+                <tr key = {el.id}>
+                  <td>{el.lastName} {el.firstName}, {el.email}</td>
+                  <td className = {styles.quantity}>{el.quantity}</td>
+                </tr>))}
+              </tbody>
+            </table>
           </div>}
         </div>
       </div>

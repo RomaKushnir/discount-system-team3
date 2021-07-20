@@ -46,7 +46,20 @@ const en = {
   [Vocabulary.TO]: 'To',
   [Vocabulary.SAVE]: 'Save',
   [Vocabulary.UPDATE]: 'Update',
-  [Vocabulary.EXPORT_TO_EXCEL]: 'Export to excel'
+  [Vocabulary.EXPORT_TO_EXCEL]: 'Export to excel',
+  [Vocabulary.UNSUBSCRIBE]: 'Unsubscribe',
+  [Vocabulary.SUBSCRIBE]: 'Subscribe',
+  [Vocabulary.LOCATIONS]: 'Locations',
+  [Vocabulary.ACTIVE]: 'Active',
+  [Vocabulary.ARCHIVE]: 'Archive',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Activated discounts by category',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR]: 'Activated discounts by vendor',
+  [Vocabulary.MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION]: 'Most viewed discounts (since inception)',
+  [Vocabulary.VIEWS]: 'Views',
+  [Vocabulary.MOST_ACTIVE_USERS]: 'Most active users',
+  [Vocabulary.USER_NAME_AND_EMAIL]: 'User name and email',
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Discounts quantity'
+
 };
 
 export default en;
