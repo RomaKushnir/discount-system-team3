@@ -174,18 +174,18 @@ function Statistics() {
           </div>
         </div>
         <div className = {styles.dataContainers}>
-          { categoryStatistics && <div className = {styles.pieChart}>
+          { categoryStatistics && <div className = {styles.pieChartContainer}>
+          <div className = {styles.chartTitle}>{t(Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY)}</div>
             <PieChartComponent
               data = {categoryStatistics}
               width = "280"
-              title = {t(Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY)}
             />
           </div>}
-          { vendorStatistics && <div className = {styles.pieChart}>
+          { vendorStatistics && <div className = {styles.pieChartContainer}>
+          <div className = {styles.chartTitle}>{t(Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR)}</div>
             <PieChartComponent
               data = {vendorStatistics}
               width = "280"
-              title = {t(Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR)}
               onCellClick = {onCellClick}
               cursor = "pointer"
             />
