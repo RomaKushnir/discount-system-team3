@@ -20,7 +20,6 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
   const language = useSelector((state) => state.userReducer.language);
-  console.log(language);
   const [lang, setLang] = useState(language);
   const { t, i18n } = useTranslation();
   const changeLanguage = (option) => {
