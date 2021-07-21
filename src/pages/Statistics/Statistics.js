@@ -43,14 +43,14 @@ function Statistics() {
   const statisticsExport = useSelector((state) => state.statisticsReducer.statisticsExport);
 
   const categoryStatistics = statistics?.popularCategoriesStats.map((el, index) => ({
-    name: el.title,
-    value: el.quantity,
+    name: el.title || el.othersTitle,
+    value: el.quantity || el.othersQuantity,
     color: COLORS[index]
   }));
 
   const vendorStatistics = statistics?.popularVendorsStats.map((el, index) => ({
-    name: el.title,
-    value: el.quantity,
+    name: el.title || el.othersTitle,
+    value: el.quantity || el.othersQuantity,
     id: el.id,
     color: COLORS[index]
   }));
