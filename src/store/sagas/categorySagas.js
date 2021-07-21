@@ -58,6 +58,7 @@ export function* deleteCategory({ payload }) {
     toast.success('Category was successfully deleted.');
   } catch (error) {
     yield put(actions.categoryActions.deleteCategoryFailure(error));
+    toast.error(`Error: ${error.response.data.message}`);
   }
 }
 
@@ -86,8 +87,8 @@ export function* deleteTagsFromCategory({ payload }) {
     yield put(actions.categoryActions.getCategories());
     toast.success('Tags were successfully deleted.');
   } catch (error) {
-    yield put(actions.categoryActions.deleteTagsFromCategoryFailure(error));
-    toast.error(`Error: ${error.message}`);
+    yield put(actions.categoryActions.deleteTagsFromCategoryFailure(error.response.data));
+    toast.error(`Error: ${error.response.data.message}`);
   }
 }
 

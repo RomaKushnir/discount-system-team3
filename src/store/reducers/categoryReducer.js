@@ -8,7 +8,8 @@ const initialState = {
   category: null,
   categoryStatus: helpers.getDefaultState(),
   addTagsToCategoryStatus: helpers.getDefaultState(),
-  deleteTagsFromCategoryStatus: helpers.getDefaultState()
+  deleteTagsFromCategoryStatus: helpers.getDefaultState(),
+  createCategoryModalStatus: false
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -163,6 +164,12 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteTagsFromCategoryStatus: helpers.getDefaultState()
+      };
+    }
+    case types.CREATE_CATEGORY_MODAL_STATUS: {
+      return {
+        ...state,
+        createCategoryModalStatus: action.payload
       };
     }
     default:

@@ -25,7 +25,8 @@ const initialState = {
   vendorsFilters: { ...defaultVendorsFilter },
   vendorsFiltersApplied: { ...defaultVendorsFilter },
   vendorsTypeahead: [],
-  getTypeaheadVendorsStatus: helpers.getDefaultState()
+  getTypeaheadVendorsStatus: helpers.getDefaultState(),
+  addVendorModalStatus: false
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -217,6 +218,12 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorsFilters: { ...defaultVendorsFilter }
+      };
+    }
+    case types.ADD_VENDOR_MODAL_STATUS: {
+      return {
+        ...state,
+        addVendorModalStatus: action.payload
       };
     }
     default:

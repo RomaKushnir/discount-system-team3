@@ -159,3 +159,11 @@ export function clearVendorsFilters() {
     type: types.CLEAR_VENDORS_FILTERS
   };
 }
+
+export function addVendorModalStatus(payload) {
+  return {
+    type: types.ADD_VENDOR_MODAL_STATUS,
+    payload
+
+  };
+}

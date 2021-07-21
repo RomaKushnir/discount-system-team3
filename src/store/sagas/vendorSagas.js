@@ -34,6 +34,7 @@ export function* addVendor({ payload }) {
         rewriteUrl: false
       }
     ));
+    yield put(actions.vendorActions.addVendorModalStatus(false));
     toast.success('Vendor was successfully saved.');
   } catch (error) {
     yield put(actions.vendorActions.addVendorFailure(error));

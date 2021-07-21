@@ -140,3 +140,10 @@ export function clearDeleteTagsFromCategoryStatus() {
     type: types.CLEAR_DELETE_TAGS_FROM_CATEGORY_STATUS
   };
 }
+
+export function createCategoryModalStatus(payload) {
+  return {
+    type: types.CREATE_CATEGORY_MODAL_STATUS,
+    payload
+  };
+}
