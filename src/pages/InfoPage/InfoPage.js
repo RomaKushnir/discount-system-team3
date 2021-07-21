@@ -34,13 +34,12 @@ function InfoPage() {
           </div>
           <div className = {styles.discountInfo}>
             <h3>{discountInfo.discountTitle}</h3>
-            {discountInfo.promocode && <h3>{discountInfo.promocode}</h3>}
-            <p>From: {getMonthAndDay(discountInfo.discountStartDate)}</p>
-            <p>To: {getMonthAndDay(discountInfo.discountExpirationDate)}</p>
+            {discountInfo.promocode && <p><strong>Promocode: </strong>{discountInfo.promocode}</p>}
+            <p><strong>From: </strong>{getMonthAndDay(discountInfo.discountStartDate)}</p>
+            <p><strong>To: </strong>{getMonthAndDay(discountInfo.discountExpirationDate)}</p>
           </div>
           <div className = {styles.vendorInfo}>
-            <p>{discountInfo.vendorTitle}</p>
-            <p><a href={`mailto:${discountInfo.vendorEmail}`}>{discountInfo.vendorEmail}</a> </p>
+            <p><strong>Vendor: </strong>{discountInfo.vendorTitle}</p>
           </div>
         </div>}
         {getDiscountInfoStatus.loading === false && getDiscountInfoStatus.error
