@@ -45,6 +45,7 @@ function Discounts() {
     dispatch(actions.locationActions.getCountries());
     dispatch(actions.categoryActions.getCategories());
     dispatch(actions.locationActions.getCities(discountsFilters.country));
+    dispatch(actions.discountsActions.getDiscountsByUser(user?.id));
     // eslint-disable-next-line
   }, []);
 

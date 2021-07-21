@@ -66,10 +66,8 @@ export function* getVendors({ payload }) {
 }
 
 export function* getVendorById({ payload }) {
-  console.log(payload);
   try {
     const response = yield call(api.vendors.getVendorById, payload);
-    console.log(response);
     yield put(actions.vendorActions.getVendorByIdSuccess(response.data));
   } catch (error) {
     yield put(actions.vendorActions.getVendorByIdFailure(error));
@@ -107,6 +105,42 @@ export function* getTypeaheadVendors({ payload }) {
   }
 }
 
+export function* getSubscribedVendors() {
+  try {
+    const response = yield call(api.vendors.getSubscribedVendors);
+    yield put(actions.vendorActions.getSubscribedVendorsSuccess(response.data));
+  } catch (error) {
+    yield put(actions.vendorActions.getSubscribedVendorsFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
+export function* vendorSubscribe({ payload }) {
+  try {
+    yield call(api.vendors.vendorSubscribe, payload);
+
+    const msg = 'You have been successfully subscribed';
+    yield put(actions.vendorActions.vendorSubscribeSuccess(payload));
+    toast.success(msg);
+  } catch (error) {
+    yield put(actions.vendorActions.vendorSubscribeFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
+export function* vendorUnsubscribe({ payload }) {
+  try {
+    yield call(api.vendors.vendorUnsubscribe, payload);
+
+    const msg = 'You have been unsubscribed';
+    yield put(actions.vendorActions.vendorUnsubscribeSuccess(payload));
+    toast.success(msg);
+  } catch (error) {
+    yield put(actions.vendorActions.vendorUnsubscribeFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_VENDOR, addVendor),
@@ -114,6 +148,9 @@ export default function* watch() {
     takeEvery(types.GET_VENDORS, getVendors),
     takeEvery(types.GET_VENDOR_BY_ID, getVendorById),
     takeEvery(types.APPLY_VENDORS_FILTERS, applyVendorsFilters),
-    takeEvery(types.GET_TYPEAHEAD_VENDORS, getTypeaheadVendors)
+    takeEvery(types.GET_TYPEAHEAD_VENDORS, getTypeaheadVendors),
+    takeEvery(types.GET_SUBSCRIBED_VENDORS, getSubscribedVendors),
+    takeEvery(types.VENDOR_SUBSCRIBE, vendorSubscribe),
+    takeEvery(types.VENDOR_UNSUBSCRIBE, vendorUnsubscribe)
   ]);
 }

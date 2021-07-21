@@ -19,7 +19,8 @@ import Vocabulary from '../../../../translations/vocabulary';
 import * as actions from '../../../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = ''
+  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = '',
+  doNotShowAdminButtons
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function DiscountModal({
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
+  const userDiscounts = useSelector((state) => state.discountsReducer.discountsByUser);
   const locationsList = discount ? discount.locations.map((location) => {
     const option = {
       value: { lat: location.latitude, lng: location.longitude },
@@ -55,6 +57,8 @@ function DiscountModal({
     };
     return option;
   }) : null;
+
+  const [isActivateDisabled, setIsActivateDisabled] = useState(!!userDiscounts?.find((el) => el.id === discount?.id));
 
   const onEditClick = useCallback(() => {
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
@@ -67,6 +71,7 @@ function DiscountModal({
   };
   const onActivateClick = () => {
     dispatch(actions.discountsActions.activateDiscount({ discountId: discount.id, userId: user.id }));
+    setIsActivateDisabled(true);
   };
   const onDelete = useCallback(() => {
     setConfirmModalOpen(true);
@@ -99,7 +104,7 @@ function DiscountModal({
       name = "delete"
     />
   </div>;
-  const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
+  const adminBtns = isAdmin(user) && !doNotShowAdminButtons ? adminBtnsLayout : null;
 
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {`${styles.row} ${styles.info}`}>
@@ -162,6 +167,8 @@ function DiscountModal({
           title = {t(Vocabulary.ACTIVATE)}
           onActionClick = {onActivateClick}
           name = "activate"
+          isDisabled = {isActivateDisabled}
+          type = {isActivateDisabled ? 'disabled' : 'normal'}
         />
     </div>
   </div> : null;

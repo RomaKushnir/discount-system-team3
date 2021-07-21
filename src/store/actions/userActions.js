@@ -79,3 +79,17 @@ export function clearGetUserStatus() {
     type: types.CLEAR_GET_USER_STATUS
   };
 }
+
+export function setMobileNavigation(payload) {
+  return {
+    type: types.SET_MOBILE_NAVIGATION,
+    payload
+  };
+}
+
+export function changeLanguage(payload) {
+  return {
+    type: types.CHANGE_LANGUAGE,
+    payload
+  };
+}
