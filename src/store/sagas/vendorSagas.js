@@ -57,10 +57,8 @@ export function* getVendors({ payload }) {
 }
 
 export function* getVendorById({ payload }) {
-  console.log(payload);
   try {
     const response = yield call(api.vendors.getVendorById, payload);
-    console.log(response);
     yield put(actions.vendorActions.getVendorByIdSuccess(response.data));
   } catch (error) {
     yield put(actions.vendorActions.getVendorByIdFailure(error));
