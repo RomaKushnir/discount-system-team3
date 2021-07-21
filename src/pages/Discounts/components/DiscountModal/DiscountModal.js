@@ -19,7 +19,8 @@ import Vocabulary from '../../../../translations/vocabulary';
 import * as actions from '../../../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = ''
+  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = '',
+  doNotShowAdminButtons
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -103,7 +104,7 @@ function DiscountModal({
       name = "delete"
     />
   </div>;
-  const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
+  const adminBtns = isAdmin(user) && !doNotShowAdminButtons ? adminBtnsLayout : null;
 
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {`${styles.row} ${styles.info}`}>

@@ -5,6 +5,7 @@ import vendorSagas from './vendorSagas';
 import categorySagas from './categorySagas';
 import userSagas from './userSagas';
 import discountsSagas from './discountsSagas';
+import statisticsSagas from './statisticsSagas';
 
 export default function* rootSaga() {
   yield all([
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     locationSagas(),
     categorySagas(),
     userSagas(),
-    discountsSagas()
+    discountsSagas(),
+    statisticsSagas()
   ]);
 }

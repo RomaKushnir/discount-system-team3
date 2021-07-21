@@ -2,13 +2,13 @@ import * as types from '../actionTypes';
 import * as helpers from '../helpers';
 
 export const defaultDiscountsFilter = {
+  title: '',
+  shortDescription: '',
   country: null,
   city: null,
   category: null,
   tags: null,
   vendorTitle: '',
-  title: '',
-  shortDescription: '',
   sort: 'expirationDate,ASC',
   pageNumber: 0,
   size: 6,

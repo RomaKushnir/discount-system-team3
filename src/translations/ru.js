@@ -45,11 +45,20 @@ const ru = {
   [Vocabulary.FROM]: 'С',
   [Vocabulary.TO]: 'По',
   [Vocabulary.SAVE]: 'Сохранить',
+  [Vocabulary.UPDATE]: 'Обновить',
+  [Vocabulary.EXPORT_TO_EXCEL]: 'Експортировать в excel',
   [Vocabulary.UNSUBSCRIBE]: 'Отписаться',
   [Vocabulary.SUBSCRIBE]: 'Подписаться',
   [Vocabulary.LOCATIONS]: 'Адреса',
   [Vocabulary.ACTIVE]: 'Активные',
-  [Vocabulary.ARCHIVE]: 'Архив'
+  [Vocabulary.ARCHIVE]: 'Архив',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Активированные скидки в разрезе категорий',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR]: 'Активированные скидки в разрезе контрагентов',
+  [Vocabulary.MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION]: 'Скидки с наибольшим количеством просмотров (за весь период)',
+  [Vocabulary.VIEWS]: 'Просмотры',
+  [Vocabulary.MOST_ACTIVE_USERS]: 'Наиболее активные пользователи',
+  [Vocabulary.USER_NAME_AND_EMAIL]: 'Имя и електронный адрес пользователя',
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Количестао скидок'
 };
 
 export default ru;

@@ -43,11 +43,20 @@ const Vocabulary = {
   FROM: 'from',
   TO: 'to',
   SAVE: 'save',
+  UPDATE: 'update',
+  EXPORT_TO_EXCEL: 'export_to_excel',
   UNSUBSCRIBE: 'unsubscribe',
   SUBSCRIBE: 'subscribe',
   LOCATIONS: 'locations',
   ACTIVE: 'active',
-  ARCHIVE: 'archive'
+  ARCHIVE: 'archive',
+  ACTIVATED_DISCOUNTS_BY_CATEGORY: 'activated_discounts_by_category',
+  ACTIVATED_DISCOUNTS_BY_VENDOR: 'activated_discounts_by_vendor',
+  MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION: 'most_viewed_discounts_(since_inception)',
+  VIEWS: 'views',
+  MOST_ACTIVE_USERS: 'most_active_users',
+  USER_NAME_AND_EMAIL: 'user_name_and_email',
+  DISCOUNT_QUANTITY: 'discounts_quantity'
 };
 
 export default Vocabulary;
