@@ -86,3 +86,10 @@ export function setMobileNavigation(payload) {
     payload
   };
 }
+
+export function changeLanguage(payload) {
+  return {
+    type: types.CHANGE_LANGUAGE,
+    payload
+  };
+}
