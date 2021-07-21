@@ -292,7 +292,6 @@ export function clearDeleteDiscountsFromFavouritesStatus() {
 }
 
 export function getFavourites(payload) {
-  console.log(payload);
   return {
     type: types.GET_FAVOURITES,
     payload

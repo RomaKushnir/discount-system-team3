@@ -19,7 +19,6 @@ function DiscountCard({
   const user = useSelector((state) => state.userReducer.user);
   const favourites = useSelector((state) => state.discountsReducer.favourites);
   const [isLike, setIsLike] = useState(Boolean(favourites.find((el) => el.id === discount.id)));
-  console.log(isLike);
 
   const cardTags = useMemo(() => (discount.tags.reduce((res, el, i, arr) => {
     if (i < 2) {

@@ -156,11 +156,9 @@ export function* deleteDiscountsFromFavourites({ payload }) {
 }
 
 export function* getFavourites({ payload }) {
-  console.log(payload);
   const param = `?query=userFavorites.id:${payload}`;
   try {
     const response = yield call(api.discounts.getDiscounts, param);
-    console.log(response);
     yield put(actions.discountsActions.getFavouritesSuccess(response.data.content));
   } catch (error) {
     yield put(actions.discountsActions.getFavouritesFailure(error));

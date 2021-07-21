@@ -358,7 +358,6 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.GET_FAVOURITES: {
-      console.log(action.payload);
       return {
         ...state,
         getFavouritesStatus: helpers.getRequestState()

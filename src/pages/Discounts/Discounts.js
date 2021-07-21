@@ -34,7 +34,6 @@ function Discounts() {
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
   const discountsArray = useSelector(getDiscountsList);
   const discountById = useSelector((state) => state.discountsReducer.discountById);
-  console.log(discountById);
   const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
