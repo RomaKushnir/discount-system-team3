@@ -4,7 +4,7 @@ import styles from './DiscountsList.module.scss';
 import DiscountCard from '../../../../components/discountCard/DiscountCard';
 import Pagination from '../../../../components/Pagination';
 import * as actions from '../../../../store/actions';
-import DiscountModal from '../../../Discounts/components/DiscountModal';
+import DiscountModal from '../../../../components/DiscountModal';
 
 const DiscountsList = ({ discountsList, vendorId, activeButton }) => {
   const dispatch = useDispatch();
