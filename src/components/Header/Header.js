@@ -69,7 +69,7 @@ function Header() {
         <nav className={`${styles.nav} ${isMobileNavOpen ? styles.mobileNavOpened : ''}`}>
           <ul className={styles.navList}>
           <li className = {`${navItemStyles} ${styles.adminDropDownContainer}`} data-admin="true">
-            <p className={linkStyles}>{t(Vocabulary.ADMIN)}</p>
+            {isAdmin(user) && <p className={linkStyles}>{t(Vocabulary.ADMIN)}</p>}
             <div className={styles.dropDown}>
               <p data-admin="true">
                 {isAdmin(user) && <NavLink

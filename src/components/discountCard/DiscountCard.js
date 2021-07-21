@@ -16,7 +16,7 @@ function DiscountCard({
     if (i < 2) {
       res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
     } else if (arr.length - 1 === i) {
-      res.push(<li key={el.id}>{i + 1 - res.length ? `${i + 1 - res.length}+` : ''}</li>);
+      res.push(<li key={el.id}>{i + 1 - res.length ? ` +${i + 1 - res.length}` : ''}</li>);
     }
     return res;
   }, [])), [discount]);
@@ -41,14 +41,6 @@ function DiscountCard({
       </div>
       <div className={style.flexRow}>
         <ul className={style.tagsWrapper}>
-          {/* {discount.tags && discount.tags.reduce((res, el, i, arr) => {
-            if (i < 2) {
-              res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
-            } else if (arr.length - 1 === i) {
-              res.push(<li key={i}>{i + 1 - res.length ? `${i + 1 - res.length}+` : ''}</li>);
-            }
-            return res;
-          }, [])} */}
           {cardTags}
         </ul>
         <DiscountTag
