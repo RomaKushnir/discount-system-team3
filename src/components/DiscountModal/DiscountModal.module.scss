@@ -1,0 +1,81 @@
+@import '../../variables.scss';
+
+.modalContent {
+  max-width: 400px;
+}
+
+.modal {
+  &Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  &Title {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    margin-top: 15px;
+  }
+  &Descr {
+    margin: 20px 0;
+  }
+}
+.mapContainer {
+  width: 400px;
+  height: 220px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+.vendorName {
+  font-size: 1.2rem;
+  text-transform: initial;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+.modalCategory,
+.vendor {
+  display: flex;
+  align-items: center;
+  p {
+    margin-left: 3px;
+  }
+}
+.dates {
+  * + * {
+    margin-top: 5px;
+  }
+}
+.startDate,
+.expDate {
+  display: flex;
+  justify-content: space-between;
+}
+.dateValue {
+  font-weight: bold;
+  margin-left: 5px;
+}
+.tag {
+  justify-content: flex-end;
+}
+.tags {
+  display: flex;
+  font-size: .9rem;
+  li{
+    list-style: none;
+  }
+}
+.adminBtns {
+  * + * {
+    margin-left: 5px;
+  }
+}
+.currency {
+  font-size: .8rem;
+}
+.like {
+  cursor: pointer;
+}
