@@ -37,7 +37,11 @@ const initialState = {
   getDiscountByIdStatus: helpers.getDefaultState(),
   discountById: null,
   discountInfo: null,
-  getDiscountInfoStatus: helpers.getDefaultState()
+  getDiscountInfoStatus: helpers.getDefaultState(),
+  favourites: [],
+  getFavouritesStatus: helpers.getDefaultState(),
+  addDiscountsToFavouritesStatus: helpers.getDefaultState(),
+  deleteDiscountFromFavouritesStatus: helpers.getDefaultState()
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -301,6 +305,84 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         getDiscountInfoStatus: helpers.getDefaultState()
+      };
+    }
+    case types.ADD_DISCOUNTS_TO_FAVOURITES: {
+      return {
+        ...state,
+        addDiscountsToFavouritesStatus: helpers.getRequestState()
+      };
+    }
+    case types.ADD_DISCOUNTS_TO_FAVOURITES_SUCCESS: {
+      return {
+        ...state,
+        addDiscountsToFavouritesStatus: helpers.getSuccessState('Success!')
+      };
+    }
+    case types.ADD_DISCOUNTS_TO_FAVOURITES_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        addDiscountsToFavouritesStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_ADD_DISCOUNTS_TO_FAVOURITES_STATUS: {
+      return {
+        ...state,
+        addDiscountsToFavouritesStatus: helpers.getDefaultState()
+      };
+    }
+    case types.DELETE_DISCOUNTS_FROM_FAVOURITES: {
+      return {
+        ...state,
+        deleteDiscountFromFavouritesStatus: helpers.getRequestState()
+      };
+    }
+    case types.DELETE_DISCOUNTS_FROM_FAVOURITES_SUCCESS: {
+      return {
+        ...state,
+        deleteDiscountFromFavouritesStatus: helpers.getSuccessState('Success!')
+      };
+    }
+    case types.DELETE_DISCOUNTS_FROM_FAVOURITES_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        deleteDiscountFromFavouritesStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_DELETE_DISCOUNTS_FROM_FAVOURITES_STATUS: {
+      return {
+        ...state,
+        deleteDiscountFromFavouritesStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_FAVOURITES: {
+      console.log(action.payload);
+      return {
+        ...state,
+        getFavouritesStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_FAVOURITES_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getFavouritesStatus: helpers.getSuccessState('Success!'),
+        favourites: payload
+      };
+    }
+    case types.GET_FAVOURITES_FAILURE: {
+      return {
+        ...state,
+        getFavouritesStatus: helpers.getErrorState()
+      };
+    }
+    case types.CLEAR_GET_FAVOURITES_STATUS: {
+      return {
+        ...state,
+        getFavouritesStatus: helpers.getDefaultState(),
+        favourites: []
       };
     }
     default:
