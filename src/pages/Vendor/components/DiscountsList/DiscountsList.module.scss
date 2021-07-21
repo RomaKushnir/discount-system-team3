@@ -1,6 +1,7 @@
 .row {
   display: grid;
   grid-template-columns: repeat(3, minmax(30%, 1fr));
+  justify-content: center;
   grid-gap: 16px;
   margin: 16px 0;
 }
@@ -19,3 +20,16 @@
     padding: 8px 16px;
     font-size: 16px;
   }
+
+  
+@media (max-width: 1200px) {
+  .row {
+    grid-template-columns: repeat(2, minmax(45%, 500px));
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: minmax(280px, 500px);
+  }
+}

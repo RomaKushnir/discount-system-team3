@@ -44,7 +44,12 @@ const ua = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Знижка у %',
   [Vocabulary.FROM]: 'З',
   [Vocabulary.TO]: 'По',
-  [Vocabulary.SAVE]: 'Зберегти'
+  [Vocabulary.SAVE]: 'Зберегти',
+  [Vocabulary.UNSUBSCRIBE]: 'Відписатись',
+  [Vocabulary.SUBSCRIBE]: 'Підписатись',
+  [Vocabulary.LOCATIONS]: 'Адреси',
+  [Vocabulary.ACTIVE]: 'Активні',
+  [Vocabulary.ARCHIVE]: 'Архів'
 };
 
 export default ua;

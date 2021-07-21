@@ -44,7 +44,12 @@ const en = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Discount %',
   [Vocabulary.FROM]: 'From',
   [Vocabulary.TO]: 'To',
-  [Vocabulary.SAVE]: 'Save'
+  [Vocabulary.SAVE]: 'Save',
+  [Vocabulary.UNSUBSCRIBE]: 'Unsubscribe',
+  [Vocabulary.SUBSCRIBE]: 'Subscribe',
+  [Vocabulary.LOCATIONS]: 'Locations',
+  [Vocabulary.ACTIVE]: 'Active',
+  [Vocabulary.ARCHIVE]: 'Archive'
 };
 
 export default en;
