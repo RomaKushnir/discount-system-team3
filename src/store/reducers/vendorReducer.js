@@ -25,7 +25,11 @@ const initialState = {
   vendorsFilters: { ...defaultVendorsFilter },
   vendorsFiltersApplied: { ...defaultVendorsFilter },
   vendorsTypeahead: [],
-  getTypeaheadVendorsStatus: helpers.getDefaultState()
+  getTypeaheadVendorsStatus: helpers.getDefaultState(),
+  subscribedVendors: [],
+  subscribedVendorsStatus: helpers.getDefaultState(),
+  vendorSubscribeStatus: helpers.getDefaultState(),
+  vendorUnsubscribeStatus: helpers.getDefaultState()
 };
 
 const vendorReducer = (state = initialState, action) => {
@@ -217,6 +221,87 @@ const vendorReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorsFilters: { ...defaultVendorsFilter }
+      };
+    }
+    case types.GET_SUBSCRIBED_VENDORS: {
+      return {
+        ...state,
+        subscribedVendorsStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_SUBSCRIBED_VENDORS_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        subscribedVendors: payload,
+        subscribedVendorsStatus: helpers.getSuccessState(payload)
+      };
+    }
+    case types.GET_SUBSCRIBED_VENDORS_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        subscribedVendorsStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_SUBSCRIBED_VENDORS_STATUS: {
+      return {
+        ...state,
+        subscribedVendorsStatus: helpers.getDefaultState()
+      };
+    }
+    case types.VENDOR_SUBSCRIBE: {
+      return {
+        ...state,
+        vendorSubscribeStatus: helpers.getRequestState()
+      };
+    }
+    case types.VENDOR_SUBSCRIBE_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        subscribedVendors: [...state.subscribedVendors, payload],
+        vendorSubscribeStatus: helpers.getSuccessState(payload)
+      };
+    }
+    case types.VENDOR_SUBSCRIBE_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        vendorSubscribeStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_VENDOR_SUBSCRIBE_STATUS: {
+      return {
+        ...state,
+        vendorSubscribeStatus: helpers.getDefaultState()
+      };
+    }
+    case types.VENDOR_UNSUBSCRIBE: {
+      return {
+        ...state,
+        vendorUnsubscribeStatus: helpers.getRequestState()
+      };
+    }
+    case types.VENDOR_UNSUBSCRIBE_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        subscribedVendors: state.subscribedVendors.filter((el) => el !== payload),
+        vendorUnsubscribeStatus: helpers.getSuccessState(payload)
+      };
+    }
+    case types.VENDOR_UNSUBSCRIBE_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        vendorUnsubscribeStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_VENDOR_UNSUBSCRIBE_STATUS: {
+      return {
+        ...state,
+        vendorUnsubscribeStatus: helpers.getDefaultState()
       };
     }
     default:

@@ -59,7 +59,6 @@ const en = {
   [Vocabulary.MOST_ACTIVE_USERS]: 'Most active users',
   [Vocabulary.USER_NAME_AND_EMAIL]: 'User name and email',
   [Vocabulary.DISCOUNT_QUANTITY]: 'Discounts quantity'
-
 };
 
 export default en;

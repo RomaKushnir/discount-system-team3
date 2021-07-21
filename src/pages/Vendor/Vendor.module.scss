@@ -2,19 +2,26 @@
   
 .contentWrapper {
   margin: 0 auto;
-  padding: 0 15px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 
   .blockVendor {
     display: flex;
+    justify-content: space-between;
     padding: 10px 0;
+    border-bottom: 1px solid $color--gray-light;
 
-    @media(max-width: 1000px) {
-      flex-direction: column;
-    };
+    .vendorInfo {
+      flex: 1 0 40%;
+      margin-right: 2vw;
+    }
+
+    .vendorDescription {
+      flex: 1 1 60%;
+    }
   }
+
   
   .loadingContainer {
     position: absolute;
@@ -30,36 +37,61 @@
     z-index: 10;
     background-color: white;
   }
-  
+
   .buttonsContainer {
-    width: 280px;
     display: flex;
-    justify-content: space-between;
-  }
-
-  .button {
-    color: $color--gray-dark;
-    background-color: transparent;
-    box-sizing: border-box;
-    border: none;
-    padding: 5px 10px;
-    transition: all .5s;
-    font-size: 1rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 10px;
-
-    &:hover {
-      color: $color--blue-dark;
-      border: 1px solid $color--blue-dark;
-
-    }
-
-    &Active {
-      color: $color--blue-dark;
-      border: 1px solid $color--blue-dark;
+    align-items: center;
+    margin-top: 15px;
+    button {
+      color: $color--gray-dark;
       background-color: transparent;
+      box-sizing: border-box;
+      border: none;
+      padding: 4px 15px;
+      transition: all .5s;
+      font-size: 1.2rem;
+      cursor: pointer;
       border-radius: 10px;
+      border: 1px solid transparent;
+      &:first-child {
+        margin-right: 15px;
+      }
+      &:hover {
+        color: $color--blue-dark;
+        border: 1px solid $color--blue-dark;
+  
+      }
+  
+      &.active {
+        color: $color--blue-dark;
+        border: 1px solid $color--blue-dark;
+        background-color: transparent;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .contentWrapper {
+    .blockVendor {
+      flex-direction: column;
+      .vendorDescription {
+        margin: 10px 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .contentWrapper {
+    .blockVendor {
+      .vendorInfo {
+        margin: 0;
+      }
+    }
+    .buttonsContainer {
+      justify-content: center;
     }
   }
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import style from './VendorDesc.module.scss';
 
-function VendorInfo({ description }) {
+function VendorInfo({ description, className }) {
   return (
     <>
-      { description && <div className={style.container}>{description}</div>
+      { description && <div className={`${style.container} ${className}`}>{description}</div>
       }
     </>
   );

@@ -8,6 +8,7 @@ const initialState = {
   getUserStatus: helpers.getDefaultState(),
   qrCode: null,
   getQRCodeStatus: helpers.getDefaultState(),
+  mobileNavigationState: false,
   language: 'en'
 };
 
@@ -97,6 +98,13 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user: null,
         loginStatus: helpers.getDefaultState()
+      };
+    }
+    case types.SET_MOBILE_NAVIGATION: {
+      const { payload } = action;
+      return {
+        ...state,
+        mobileNavigationState: payload
       };
     }
     case types.CHANGE_LANGUAGE: {

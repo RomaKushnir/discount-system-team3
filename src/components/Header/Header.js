@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -28,9 +28,9 @@ function Header() {
     i18n.changeLanguage(lng);
     dispatch(actions.userActions.changeLanguage(lng));
   };
-  const [isMobileMenuOpen, setMenuOpen] = useState(false);
 
   const user = useSelector((state) => state.userReducer.user);
+  const isMobileNavOpen = useSelector((state) => state.userReducer.mobileNavigationState);
 
   const onLogoutClick = () => {
     localStorage.removeItem('token');
@@ -39,18 +39,37 @@ function Header() {
     history.push(Routes.ROOT);
   };
 
+  const mobileNavHandler = useCallback(
+    (navState) => {
+      dispatch(actions.userActions.setMobileNavigation(navState));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    dispatch(actions.userActions.setMobileNavigation(false));
+  }, [dispatch]);
+
   return (
     <header className={styles.header}>
       <Link className={styles.logo} to="/">Discount<span className={styles.logoItem}>App</span></Link>
-      { isMobileMenuOpen
-        ? <CloseIcon className={styles.burgerMenuIcon} onClick={() => setMenuOpen(!isMobileMenuOpen)}/>
-        : <MenuIcon className={styles.burgerMenuIcon} onClick={() => setMenuOpen(!isMobileMenuOpen)}/>
+      { isMobileNavOpen
+        ? <CloseIcon
+            className={styles.burgerMenuIcon}
+            onClick={() => mobileNavHandler(false)}
+            fontSize = "large"
+          />
+        : <MenuIcon
+            className={styles.burgerMenuIcon}
+            onClick={() => mobileNavHandler(true)}
+            fontSize = "large"
+          />
       }
       {
-        <nav className={`${styles.nav} ${isMobileMenuOpen ? styles.mobileNavOpened : ''}`}>
+        <nav className={`${styles.nav} ${isMobileNavOpen ? styles.mobileNavOpened : ''}`}>
           <ul className={styles.navList}>
           <li className = {`${navItemStyles} ${styles.adminDropDownContainer}`} data-admin="true">
-            <p className={linkStyles}>{t(Vocabulary.ADMIN)}</p>
+            {isAdmin(user) && <p className={linkStyles}>{t(Vocabulary.ADMIN)}</p>}
             <div className={styles.dropDown}>
               <p data-admin="true">
                 {isAdmin(user) && <NavLink

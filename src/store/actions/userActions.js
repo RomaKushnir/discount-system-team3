@@ -80,6 +80,13 @@ export function clearGetUserStatus() {
   };
 }
 
+export function setMobileNavigation(payload) {
+  return {
+    type: types.SET_MOBILE_NAVIGATION,
+    payload
+  };
+}
+
 export function changeLanguage(payload) {
   return {
     type: types.CHANGE_LANGUAGE,
