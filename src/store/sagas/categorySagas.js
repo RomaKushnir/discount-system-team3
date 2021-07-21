@@ -32,6 +32,9 @@ export function* addCategory({ payload }) {
       yield put(actions.categoryActions.addTagsToCategorySuccess(tagsAddingResponse.data));
     }
     yield put(actions.categoryActions.getCategories());
+    yield put(actions.categoryActions.clearAddCategoryStatus());
+    yield put(actions.categoryActions.createCategoryModalStatus(false));
+    toast.success('Category was successfully saved.');
   } catch (error) {
     yield put(actions.categoryActions.addCategoryFailure(error));
     toast.error(`Error: ${error.message}`);
@@ -70,6 +73,8 @@ export function* addTagsToCategory({ payload }) {
 
     yield put(actions.categoryActions.addTagsToCategorySuccess(response.data));
     yield put(actions.categoryActions.getCategories());
+    yield put(actions.categoryActions.clearAddCategoryStatus());
+    yield put(actions.categoryActions.createCategoryModalStatus(false));
     toast.success('Category was successfully saved.');
   } catch (error) {
     yield put(actions.categoryActions.addTagsToCategoryFailure(error));
@@ -85,6 +90,8 @@ export function* deleteTagsFromCategory({ payload }) {
 
     yield put(actions.categoryActions.deleteTagsFromCategorySuccess(response.data));
     yield put(actions.categoryActions.getCategories());
+    yield put(actions.categoryActions.clearAddCategoryStatus());
+    yield put(actions.categoryActions.createCategoryModalStatus(false));
     toast.success('Tags were successfully deleted.');
   } catch (error) {
     yield put(actions.categoryActions.deleteTagsFromCategoryFailure(error.response.data));
