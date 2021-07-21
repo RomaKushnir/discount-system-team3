@@ -19,14 +19,14 @@ const navItemStyles = styles.navItem;
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const language = localStorage.getItem('lang');
+  const language = useSelector((state) => state.userReducer.language);
   const [lang, setLang] = useState(language);
   const { t, i18n } = useTranslation();
   const changeLanguage = (option) => {
     const lng = option.value;
     setLang(lng);
     i18n.changeLanguage(lng);
-    localStorage.setItem('lang', lng);
+    dispatch(actions.userActions.changeLanguage(lng));
   };
   const [isMobileMenuOpen, setMenuOpen] = useState(false);
 
