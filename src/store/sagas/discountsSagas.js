@@ -56,8 +56,13 @@ export function* createDiscount({ payload }) {
       response = yield call(api.discounts.createDiscount, data);
     } else {
       response = yield call(api.discounts.updateDiscount, payload);
+      yield put(actions.discountsActions.getDiscountById(payload.id));
     }
     yield put(actions.discountsActions.createDiscountSuccess(response.data));
+    yield put(actions.discountsActions.clearCreateDiscountStatus());
+    yield put(actions.discountsActions.updateDiscountsFilters({ pageNumber: 0 }));
+    yield put(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
+    yield put(actions.discountsActions.createDiscountModalStatus(false));
     toast.success('Discount was successfully saved.');
   } catch (error) {
     yield put(actions.discountsActions.createDiscountFailure(error));

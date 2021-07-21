@@ -88,7 +88,6 @@ function LocationModal({
           const {
             handleBlur, setFieldValue, resetForm, values, errors, isValid, dirty
           } = formikProps;
-          // console.log('formdata values', values);
           return (
             <Form className={styles.createLocationForm}>
               <div className={styles.twoColumnsWrapper}>
