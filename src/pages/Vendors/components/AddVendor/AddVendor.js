@@ -60,17 +60,18 @@ function AddVendorModal({ closeModal, selectedVendor }) {
     const { locations, ...dataRequest } = formData;
     dataRequest.locationIds = formData.locations.map((el) => el.id);
     dispatch(actions.vendorActions.addVendor(dataRequest));
+    closeModal();
   };
 
-  const onOkClick = () => {
-    closeModal();
-    dispatch(actions.vendorActions.clearAddVendorStatus());
-    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
-  };
+  // const onOkClick = () => {
+  //   closeModal();
+  //   dispatch(actions.vendorActions.clearAddVendorStatus());
+  //   dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
+  // };
 
   return (
     <div className = {`${styles.container} ${isLocationModalOpen ? styles.hidden : ''}`}>
-      {addVendorStatus.loading === false && addVendorStatus.success
+      {/* {addVendorStatus.loading === false && addVendorStatus.success
       && <div className = {styles.successMessageContainer}>
         <div className = {styles.successMessage}>{addVendorStatus.success}</div>
         <Button
@@ -78,7 +79,7 @@ function AddVendorModal({ closeModal, selectedVendor }) {
           onClick = {onOkClick}
           type = "submit"
         />
-      </div>}
+      </div>} */}
       {addVendorStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />

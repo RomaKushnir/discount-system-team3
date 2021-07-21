@@ -26,6 +26,14 @@ export function* addVendor({ payload }) {
       response = yield call(api.vendors.updateVendor, payload);
       yield put(actions.vendorActions.updateVendorSuccess(response.data));
     }
+    yield put(actions.vendorActions.updateVendorsFilters({ pageNumber: 0 }));
+    yield put(actions.vendorActions.clearAddVendorStatus());
+    yield put(actions.vendorActions.applyVendorsFilters(
+      {
+        showMore: false,
+        rewriteUrl: false
+      }
+    ));
     toast.success('Vendor was successfully saved.');
   } catch (error) {
     yield put(actions.vendorActions.addVendorFailure(error));
