@@ -166,7 +166,6 @@ export function addVendorModalStatus(payload) {
     payload
   };
 }
-
 export function getSubscribedVendors() {
   return {
     type: types.GET_SUBSCRIBED_VENDORS

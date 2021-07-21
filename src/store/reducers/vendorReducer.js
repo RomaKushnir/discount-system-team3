@@ -230,6 +230,7 @@ const vendorReducer = (state = initialState, action) => {
         addVendorModalStatus: action.payload
       };
     }
+
     case types.GET_SUBSCRIBED_VENDORS: {
       return {
         ...state,
