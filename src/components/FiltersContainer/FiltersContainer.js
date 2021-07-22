@@ -85,6 +85,8 @@ function FiltersContainer({
     searchInitialInput = filters.shortDescription;
   }
 
+  const ConditionalWrapper = ({ condition, wrapper, children }) => (condition ? wrapper(children) : children);
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -97,13 +99,23 @@ function FiltersContainer({
             />
             </div>
             <div className = {styles.filter}>
-              <SelectField
-                options = {citiesOptions}
-                label = {t(Vocabulary.CITY)}
-                onChange = {onChangeCities}
-                value = {{ value: filters.city, label: filters.city }}
-                isDisabled = {!filters.country}
-              />
+              <ConditionalWrapper
+                condition={!filters.country}
+                wrapper={(children) => (
+                  <div className = {styles.tooltip}>
+                    {children}
+                    <span className = {styles.tooltiptext}>Choose country first</span>
+                  </div>
+                )}
+                >
+                  <SelectField
+                    options = {citiesOptions}
+                    label = {t(Vocabulary.CITY)}
+                    onChange = {onChangeCities}
+                    value = {{ value: filters.city, label: filters.city }}
+                    isDisabled = {!filters.country}
+                  />
+                </ConditionalWrapper>
             </div>
           <div className = {styles.filter}>
             <SelectField
@@ -114,14 +126,24 @@ function FiltersContainer({
             />
           </div>
           <div className = {styles.filter}>
-            {onChangeTags && <SelectField
-              options = {tagsOptions}
-              label = {t(Vocabulary.TAGS)}
-              isMulti
-              onChange = {onChangeTags}
-              value = {selectedTagsMemoized}
-              isDisabled = {!filters.category}
-            />}
+            {onChangeTags && <ConditionalWrapper
+              condition={!filters.category}
+              wrapper={(children) => (
+                <div className = {styles.tooltip}>
+                  {children}
+                  <span className = {styles.tooltiptext}>Choose category first</span>
+                </div>
+              )}
+              >
+                <SelectField
+                options = {tagsOptions}
+                label = {t(Vocabulary.TAGS)}
+                isMulti
+                onChange = {onChangeTags}
+                value = {selectedTagsMemoized}
+                isDisabled = {!filters.category}
+                />
+              </ConditionalWrapper>}
           </div>
           <div className = {styles.filter}>
             <SelectField
