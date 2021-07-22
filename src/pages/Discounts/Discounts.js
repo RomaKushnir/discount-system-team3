@@ -49,6 +49,14 @@ function Discounts() {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (discountsFiltersApplied.category) {
+      dispatch(actions.categoryActions.getTagsByCategory(discountsFiltersApplied.category));
+    }
+
+    // eslint-disable-next-line
+  }, [discountsFiltersApplied.category]);
+
   useDiscountsQueryChecker();
 
   const location = useLocation();
@@ -83,6 +91,10 @@ function Discounts() {
 
   const onChangeCategory = (category) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null, tags: null }));
+    if (category) {
+      console.log(category?.id);
+      dispatch(actions.categoryActions.getTagsByCategory(category?.id));
+    }
   };
 
   const onChangeTags = (tags) => {

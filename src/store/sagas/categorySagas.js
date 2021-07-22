@@ -91,12 +91,24 @@ export function* deleteTagsFromCategory({ payload }) {
   }
 }
 
+export function* getTagsByCategory({ payload }) {
+  try {
+    const response = yield call(api.categories.getTagsByCategory, payload);
+
+    yield put(actions.categoryActions.getTagsByCategorySuccess(response.data));
+  } catch (error) {
+    yield put(actions.categoryActions.getTagsByCategoryFailure(error));
+    toast.error(`Error: ${error.message}`);
+  }
+}
+
 export default function* watch() {
   yield all([
     takeEvery(types.ADD_CATEGORY, addCategory),
     takeEvery(types.DELETE_CATEGORY, deleteCategory),
     takeEvery(types.GET_CATEGORIES, getCategories),
     takeEvery(types.ADD_TAGS_TO_CATEGORY, addTagsToCategory),
-    takeEvery(types.DELETE_TAGS_FROM_CATEGORY, deleteTagsFromCategory)
+    takeEvery(types.DELETE_TAGS_FROM_CATEGORY, deleteTagsFromCategory),
+    takeEvery(types.GET_TAGS_BY_CATEGORY, getTagsByCategory)
   ]);
 }

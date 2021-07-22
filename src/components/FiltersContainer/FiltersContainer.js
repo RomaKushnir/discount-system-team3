@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
@@ -7,7 +7,7 @@ import SelectField from '../SelectField';
 import TextInput from '../TextInput';
 import {
   getTypeaheadVendorsOptions, getCountriesOptions, getCitiesOptions,
-  getCategoriesOptions
+  getCategoriesOptions, getTagsOptions
 } from '../../store/selectors';
 import useVendorTypeahead from '../../utilities/useVendorTypeahead';
 import Vocabulary from '../../translations/vocabulary';
@@ -35,7 +35,7 @@ function FiltersContainer({
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
-  const [categoryTags, setCategoryTags] = useState([]);
+  const tagsOptions = useSelector(getTagsOptions);
 
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -51,7 +51,6 @@ function FiltersContainer({
 
   const onChangeCategories = (selectedOption) => {
     onChangeCategory(selectedOption);
-    setCategoryTags(selectedOption?.tags || []);
   };
 
   const countryMemoized = useMemo(
@@ -70,12 +69,6 @@ function FiltersContainer({
     () => sortOptions.find(
       (el) => el.value === filters.sort
     ), [sortOptions, filters]
-  );
-
-  const tagsOptionsMemoized = useMemo(
-    () => categoryTags.map(
-      (el) => ({ value: el.id, label: el.name })
-    ) || null, [categoryTags]
   );
 
   const selectedTagsMemoized = useMemo(
@@ -109,6 +102,7 @@ function FiltersContainer({
                 label = {t(Vocabulary.CITY)}
                 onChange = {onChangeCities}
                 value = {{ value: filters.city, label: filters.city }}
+                isDisabled = {!filters.country}
               />
             </div>
           <div className = {styles.filter}>
@@ -121,11 +115,12 @@ function FiltersContainer({
           </div>
           <div className = {styles.filter}>
             {onChangeTags && <SelectField
-              options = {tagsOptionsMemoized}
+              options = {tagsOptions}
               label = {t(Vocabulary.TAGS)}
               isMulti
               onChange = {onChangeTags}
               value = {selectedTagsMemoized}
+              isDisabled = {!filters.category}
             />}
           </div>
           <div className = {styles.filter}>
