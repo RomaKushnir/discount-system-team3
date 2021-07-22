@@ -11,6 +11,7 @@ import styles from './CreateDiscount.module.scss';
 import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
+import FileInput from '../../../../components/FileInput';
 import * as actions from '../../../../store/actions';
 import {
   getCategoriesOptions,
@@ -140,6 +141,8 @@ function CreateDiscount({
     }
   };
 
+  const fileChangeHandler = useCallback((file) => formik.setFieldValue('imageUrl', file), [formik]);
+
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
   const expirationDateHandler = useCallback((value) => formik.setFieldValue('expirationDate', value), [formik]);
@@ -234,16 +237,10 @@ function CreateDiscount({
           onChange = {onSelectValueChange}
           error = {formik.errors.locations}
         />
-        <TextInput
-          placeholder = {t(Vocabulary.IMAGE_URL)}
-          label = {t(Vocabulary.IMAGE_URL)}
-          name = "imageUrl"
-          type = "url"
-          className={styles.inputContainer}
-          value = {formik.values.imageUrl}
-          onValueChange = {formik.handleChange}
-          onBlur={formik.handleBlur}
-          error = {formik.errors.imageUrl}
+        <FileInput
+          image={formik.values.imageUrl}
+          fileChangeHandler={fileChangeHandler}
+          name="imageUrl"
         />
         <TextInput
           placeholder = {t(Vocabulary.PROMO_CODE)}

@@ -50,12 +50,18 @@ export function* getDiscountsByUser({ payload }) {
 
 export function* createDiscount({ payload }) {
   const { id, ...data } = payload;
+  const formData = { ...data };
   let response;
   try {
+    if (data.imageUrl && typeof data.imageUrl === 'object') {
+      const responseImageUrl = yield call(api.images.uploadImage, data.imageUrl);
+      formData.imageUrl = responseImageUrl.data.url;
+    }
+
     if (!id) {
-      response = yield call(api.discounts.createDiscount, data);
+      response = yield call(api.discounts.createDiscount, formData);
     } else {
-      response = yield call(api.discounts.updateDiscount, payload);
+      response = yield call(api.discounts.updateDiscount, { ...formData, id });
     }
     yield put(actions.discountsActions.createDiscountSuccess(response.data));
     toast.success('Discount was successfully saved.');

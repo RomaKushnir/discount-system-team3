@@ -56,7 +56,9 @@ const Vocabulary = {
   VIEWS: 'views',
   MOST_ACTIVE_USERS: 'most_active_users',
   USER_NAME_AND_EMAIL: 'user_name_and_email',
-  DISCOUNT_QUANTITY: 'discounts_quantity'
+  DISCOUNT_QUANTITY: 'discounts_quantity',
+  UPLOAD_IMAGE: 'upload_image',
+  CLEAR: 'clear'
 };
 
 export default Vocabulary;

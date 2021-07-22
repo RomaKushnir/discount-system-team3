@@ -5,6 +5,7 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import style from './DiscountCard.module.scss';
 import DiscountTag from '../DiscountTag';
+import noImg from '../../assets/images/noImg.png';
 
 function DiscountCard({
   discount,
@@ -24,7 +25,11 @@ function DiscountCard({
   return (
   <div className={`${style.borderCard} ${className}`}>
     <div className={style.col1}>
-      <img className={style.roundImg} src={discount.imageUrl} alt={'vendor'} width="90" height="90"/>
+      <img
+        className={style.roundImg}
+        src={discount.imageUrl ? discount.imageUrl : noImg}
+        alt={discount.title}
+      />
     </div>
     <div className={style.col2}>
       <div className={`${style.row} ${style.titleWrapper}`}>

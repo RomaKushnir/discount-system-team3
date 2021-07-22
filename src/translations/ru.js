@@ -58,7 +58,9 @@ const ru = {
   [Vocabulary.VIEWS]: 'Просмотры',
   [Vocabulary.MOST_ACTIVE_USERS]: 'Наиболее активные пользователи',
   [Vocabulary.USER_NAME_AND_EMAIL]: 'Имя и електронный адрес пользователя',
-  [Vocabulary.DISCOUNT_QUANTITY]: 'Количестао скидок'
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Количество скидок',
+  [Vocabulary.UPLOAD_IMAGE]: 'Загрузить картинку',
+  [Vocabulary.CLEAR]: 'Очистить'
 };
 
 export default ru;

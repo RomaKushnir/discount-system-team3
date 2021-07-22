@@ -58,7 +58,9 @@ const ua = {
   [Vocabulary.VIEWS]: 'Перегляди',
   [Vocabulary.MOST_ACTIVE_USERS]: 'Найбільш активні користувачі',
   [Vocabulary.USER_NAME_AND_EMAIL]: 'Ім\'я та електронна адреса користувача',
-  [Vocabulary.DISCOUNT_QUANTITY]: 'Кількість знижок'
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Кількість знижок',
+  [Vocabulary.UPLOAD_IMAGE]: 'Завантажити картинку',
+  [Vocabulary.CLEAR]: 'Очистити'
 
 };
 

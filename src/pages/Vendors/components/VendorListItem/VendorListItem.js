@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import noImg from '../../../../assets/images/noImg.png';
 import Routes from '../../../../routes';
 import styles from './VendorListItem.module.scss';
 import ItemActionButton from '../../../../components/ItemActionButton';
@@ -27,7 +28,10 @@ function VendorListItem({ vendor, onEdit, onDelete }) {
   return (
     <div className={styles.itemWrapper}>
       <figure className={styles.imgWrapper}>
-        <img src={vendor.imageUrl} alt={vendor.title} />
+        <img
+          src={vendor.imageUrl ? vendor.imageUrl : noImg}
+          alt={vendor.title}
+        />
       </figure>
       <div className={styles.textWrapper}>
         <p className={styles.vendorTitle}>{vendor.title}</p>

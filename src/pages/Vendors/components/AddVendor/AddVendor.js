@@ -9,6 +9,7 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import AddNewItemButton from '../../../../components/AddNewItemButton';
 import AddLocationModal from '../AddLocationModal';
+import FileInput from '../../../../components/FileInput';
 import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
 
@@ -22,7 +23,6 @@ function AddVendorModal({ closeModal, selectedVendor }) {
   const validationSchema = useMemo(() => (yup.object().shape({
     title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
     email: yup.string().email('Please, enter a valid email').required('The field is required'),
-    imageUrl: yup.string().matches(/https?:\/\/.*\./i, 'The link is not correct').required('The field is required'),
     description: yup.string().min(3, 'The field needs to be at least 3 characters')
       .max(500, 'The field needs to be less then 500 characters').required('The field is required'),
     locations: yup.mixed().test('locations', 'At least one location is required', (val) => !val || val.length)
@@ -55,6 +55,8 @@ function AddVendorModal({ closeModal, selectedVendor }) {
     const filteredLocations = values.locations.filter((el) => el.id !== id);
     setFieldValue('locations', filteredLocations);
   };
+
+  const fileChangeHandler = (file) => formikAccess.setFieldValue('imageUrl', file);
 
   const onVendorSubmit = (formData) => {
     const { locations, ...dataRequest } = formData;
@@ -120,16 +122,10 @@ function AddVendorModal({ closeModal, selectedVendor }) {
                   onBlur={handleBlur}
                   error = {errors.email}
                 />
-                <TextInput
-                  onValueChange = {handleChange}
-                  placeholder = "Image Url"
-                  label = "Image Url"
-                  name = "imageUrl"
-                  type = "url"
-                  className={styles.inputContainer}
-                  value = {values.imageUrl}
-                  onBlur={handleBlur}
-                  error = {errors.imageUrl}
+                <FileInput
+                  image={values.imageUrl}
+                  fileChangeHandler={fileChangeHandler}
+                  name="imageUrl"
                 />
                 <div className={styles.locationBlock}>
                   <div className={styles.locationsList}>

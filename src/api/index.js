@@ -4,6 +4,7 @@ import * as categories from './categories';
 import * as user from './user';
 import * as discounts from './discounts';
 import * as statistics from './statistics';
+import * as images from './images';
 
 export {
   locations,
@@ -11,5 +12,6 @@ export {
   categories,
   user,
   discounts,
-  statistics
+  statistics,
+  images
 };
