@@ -34,6 +34,7 @@ function Header() {
 
   const onLogoutClick = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('vendorVisit');
     dispatch(actions.userActions.clearLoginStatus());
     dispatch(actions.userActions.clearGetUserStatus());
     history.push(Routes.ROOT);

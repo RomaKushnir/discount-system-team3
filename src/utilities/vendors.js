@@ -31,6 +31,7 @@ export const convertUrlToFilterParameters = (queryString) => {
     .replace('&sort=title,', 'sort:')
     .replace('&', ';')
     .replace('=', ':')
+    .replaceAll('%20', ' ')
     .split(';');
 
   const queryParamsObject = modifiedString.reduce((acc, el) => {

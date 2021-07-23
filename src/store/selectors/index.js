@@ -10,7 +10,7 @@ import {
   getVendorsOptions,
   getTypeaheadVendorsOptions
 } from './vendors';
-import { getCategoriesOptions } from './categories';
+import { getCategoriesOptions, getTagsOptions } from './categories';
 import { getDiscountsList } from './discounts';
 
 export {
@@ -23,5 +23,6 @@ export {
   getCategoriesOptions,
   getLocationsOptions,
   getDiscountsList,
-  getTypeaheadVendorsOptions
+  getTypeaheadVendorsOptions,
+  getTagsOptions
 };
