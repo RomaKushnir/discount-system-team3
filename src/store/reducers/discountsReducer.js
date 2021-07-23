@@ -37,7 +37,8 @@ const initialState = {
   getDiscountByIdStatus: helpers.getDefaultState(),
   discountById: null,
   discountInfo: null,
-  getDiscountInfoStatus: helpers.getDefaultState()
+  getDiscountInfoStatus: helpers.getDefaultState(),
+  createDiscountModalStatus: false
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -301,6 +302,12 @@ const discountsReducer = (state = initialState, action) => {
       return {
         ...state,
         getDiscountInfoStatus: helpers.getDefaultState()
+      };
+    }
+    case types.CREATE_DISCOUNT_MODAL_STATUS: {
+      return {
+        ...state,
+        createDiscountModalStatus: action.payload
       };
     }
     default:

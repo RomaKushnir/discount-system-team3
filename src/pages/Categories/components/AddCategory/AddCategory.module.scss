@@ -23,7 +23,7 @@
       padding: 40px 0 0 0;
     }
 
-    .successMessageContainer, .loadingContainer {
+    .loadingContainer {
       position: absolute;
       display: flex;
       flex-direction: column;
@@ -37,9 +37,6 @@
       z-index: 10;
       background-color: white;
 
-        .successMessage {
-          margin-bottom: 20px;
-        }
     }
 
     .errorMessage {
