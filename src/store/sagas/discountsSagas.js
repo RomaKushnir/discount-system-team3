@@ -52,11 +52,20 @@ export function* createDiscount({ payload }) {
   const { id, ...data } = payload;
   let response;
   try {
+    if (data.imageUrl && typeof data.imageUrl === 'object') {
+      const responseImageUrl = yield call(api.images.uploadImage, data.imageUrl);
+      if (responseImageUrl.status === 200) {
+        data.imageUrl = responseImageUrl.data.url;
+      } else {
+        throw new Error('Can not upload image');
+      }
+    }
+
     if (!id) {
       response = yield call(api.discounts.createDiscount, data);
     } else {
-      response = yield call(api.discounts.updateDiscount, payload);
-      yield put(actions.discountsActions.getDiscountById(payload.id));
+      response = yield call(api.discounts.updateDiscount, { ...data, id });
+      yield put(actions.discountsActions.getDiscountById(id));
     }
     yield put(actions.discountsActions.createDiscountSuccess(response.data));
     yield put(actions.discountsActions.clearCreateDiscountStatus());
@@ -66,7 +75,7 @@ export function* createDiscount({ payload }) {
     toast.success('Discount was successfully saved.');
   } catch (error) {
     yield put(actions.discountsActions.createDiscountFailure(error));
-    toast.error(`Error: ${error.message}`);
+    toast.error(`Error: ${error?.message || error}`);
   }
 }
 

@@ -383,7 +383,7 @@ const discountsReducer = (state = initialState, action) => {
         ...state,
         getFavouritesStatus: helpers.getDefaultState(),
         favourites: []
-      }
+      };
     }
     case types.CREATE_DISCOUNT_MODAL_STATUS: {
       return {

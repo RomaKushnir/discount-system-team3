@@ -9,7 +9,9 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import AddNewItemButton from '../../../../components/AddNewItemButton';
 import AddLocationModal from '../AddLocationModal';
+import FileInput from '../../../../components/FileInput';
 import Modal from '../../../../components/Modal';
+import SUPPORTED_IMG_FORMATS from '../../../../utilities/supportedFormats';
 import * as actions from '../../../../store/actions';
 
 function AddVendorModal({ selectedVendor }) {
@@ -21,8 +23,15 @@ function AddVendorModal({ selectedVendor }) {
 
   const validationSchema = useMemo(() => (yup.object().shape({
     title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
-    email: yup.string().email('Please, enter a valid email').required('The field is required'),
-    imageUrl: yup.string().matches(/https?:\/\/.*\./i, 'The link is not correct').required('The field is required'),
+    email: yup.string().email('Please, enter a valid email'),
+    phoneNumber: yup.number().typeError('Field value should be a number').nullable(),
+    imageUrl: yup.mixed().nullable().test('imageUrl', 'Wrong file type', (file) => {
+      if (file && typeof file === 'object') {
+        console.log('file yup', file.type);
+        return SUPPORTED_IMG_FORMATS.includes(file.type);
+      }
+      return true;
+    }),
     description: yup.string().min(3, 'The field needs to be at least 3 characters')
       .max(500, 'The field needs to be less then 500 characters').required('The field is required'),
     locations: yup.mixed().test('locations', 'At least one location is required', (val) => !val || val.length)
@@ -55,6 +64,8 @@ function AddVendorModal({ selectedVendor }) {
     const filteredLocations = values.locations.filter((el) => el.id !== id);
     setFieldValue('locations', filteredLocations);
   };
+
+  const fileChangeHandler = (file) => formikAccess.setFieldValue('imageUrl', file);
 
   const onVendorSubmit = (formData) => {
     const { locations, ...dataRequest } = formData;
@@ -107,14 +118,19 @@ function AddVendorModal({ selectedVendor }) {
                 />
                 <TextInput
                   onValueChange = {handleChange}
-                  placeholder = "Image Url"
-                  label = "Image Url"
-                  name = "imageUrl"
-                  type = "url"
+                  placeholder = "Phone number"
+                  label = "Phone Number"
                   className={styles.inputContainer}
-                  value = {values.imageUrl}
+                  name = "phoneNumber"
+                  type="text"
+                  value = {values.phoneNumber}
                   onBlur={handleBlur}
-                  error = {errors.imageUrl}
+                  error = {errors.phoneNumber}
+                />
+                <FileInput
+                  image={values.imageUrl}
+                  fileChangeHandler={fileChangeHandler}
+                  name="imageUrl"
                 />
                 <div className={styles.locationBlock}>
                   <div className={styles.locationsList}>

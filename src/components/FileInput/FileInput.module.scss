@@ -1,0 +1,52 @@
+@import '../../variables.scss';
+
+.imageBlock {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .imagePreviewWrap {
+    height: 100px;
+    margin-right: 40px;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  .imageInputWrap {
+    display: flex;
+    align-items: center;
+    .clearBtn {
+      border-radius: 5px;
+      border: 1px solid $color--gray-dark;
+      color: $color--gray-dark;
+      background-color: transparent;
+      padding: 5px 10px;
+      margin-right: 10px;
+      &:hover {
+        background-color: $color--gray-dark;
+        border-color: $color--gray-dark;
+        color: #FFFFFF;
+      }
+    }
+    label {
+      display: inline-block;
+      border-radius: 5px;
+      border: 1px solid $color--blue-dark;
+      color: $color--blue-dark;
+      background-color: transparent;
+      padding: 5px 10px;
+      cursor: pointer;
+      &:hover {
+        border-color: $color--blue-dark;
+        background-color: $color--blue-dark;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+.error {
+  color: red;
+  padding-top: 3px;
+  text-align: right;
+}

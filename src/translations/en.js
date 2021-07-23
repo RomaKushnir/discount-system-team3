@@ -58,7 +58,9 @@ const en = {
   [Vocabulary.VIEWS]: 'Views',
   [Vocabulary.MOST_ACTIVE_USERS]: 'Most active users',
   [Vocabulary.USER_NAME_AND_EMAIL]: 'User name and email',
-  [Vocabulary.DISCOUNT_QUANTITY]: 'Discounts quantity'
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Discounts quantity',
+  [Vocabulary.UPLOAD_IMAGE]: 'Upload image',
+  [Vocabulary.CLEAR]: 'Clear'
 };
 
 export default en;
