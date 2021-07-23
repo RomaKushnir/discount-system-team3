@@ -160,6 +160,12 @@ export function clearVendorsFilters() {
   };
 }
 
+export function addVendorModalStatus(payload) {
+  return {
+    type: types.ADD_VENDOR_MODAL_STATUS,
+    payload
+  };
+}
 export function getSubscribedVendors() {
   return {
     type: types.GET_SUBSCRIBED_VENDORS

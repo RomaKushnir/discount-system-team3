@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import * as types from '../actionTypes';
 import * as api from '../../api';
 import * as actions from '../actions';
+import history from '../../history';
 
 export function* login({ payload }) {
   try {
@@ -35,6 +36,11 @@ export function* getUser() {
   try {
     const response = yield call(api.user.getUser);
     yield put(actions.userActions.getUserSuccess(response.data));
+    yield put(actions.discountsActions.updateDiscountsFilters({ country: response.data.location.countryCode }));
+    history.push({
+      pathname: '/discounts',
+      search: `?query=locations.country.countryCode:${response.data.location.countryCode}`
+    });
   } catch (error) {
     yield put(actions.userActions.getUserFailure(error));
   }

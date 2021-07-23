@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './FiltersContainer.module.scss';
@@ -7,7 +7,7 @@ import SelectField from '../SelectField';
 import TextInput from '../TextInput';
 import {
   getTypeaheadVendorsOptions, getCountriesOptions, getCitiesOptions,
-  getCategoriesOptions
+  getCategoriesOptions, getTagsOptions
 } from '../../store/selectors';
 import useVendorTypeahead from '../../utilities/useVendorTypeahead';
 import Vocabulary from '../../translations/vocabulary';
@@ -35,7 +35,7 @@ function FiltersContainer({
   const countriesOptions = useSelector(getCountriesOptions);
   const citiesOptions = useSelector(getCitiesOptions);
   const categoriesOptions = useSelector(getCategoriesOptions);
-  const [categoryTags, setCategoryTags] = useState([]);
+  const tagsOptions = useSelector(getTagsOptions);
 
   const onChangeSearchInput = (e) => {
     onSearchInputChange(e.target.value);
@@ -51,7 +51,6 @@ function FiltersContainer({
 
   const onChangeCategories = (selectedOption) => {
     onChangeCategory(selectedOption);
-    setCategoryTags(selectedOption?.tags || []);
   };
 
   const countryMemoized = useMemo(
@@ -72,12 +71,6 @@ function FiltersContainer({
     ), [sortOptions, filters]
   );
 
-  const tagsOptionsMemoized = useMemo(
-    () => categoryTags.map(
-      (el) => ({ value: el.id, label: el.name })
-    ) || null, [categoryTags]
-  );
-
   const selectedTagsMemoized = useMemo(
     () => (filters.tags ? filters.tags?.map(
       (el) => categoriesOptionsMemoized?.tags.find((tag) => Number(el) === tag.id)
@@ -92,6 +85,8 @@ function FiltersContainer({
     searchInitialInput = filters.shortDescription;
   }
 
+  const ConditionalWrapper = ({ condition, wrapper, children }) => (condition ? wrapper(children) : children);
+
   return (
     <div className = {styles.container}>
       <div className = {styles.filtersContainer}>
@@ -104,12 +99,23 @@ function FiltersContainer({
             />
             </div>
             <div className = {styles.filter}>
-              <SelectField
-                options = {citiesOptions}
-                label = {t(Vocabulary.CITY)}
-                onChange = {onChangeCities}
-                value = {{ value: filters.city, label: filters.city }}
-              />
+              <ConditionalWrapper
+                condition={!filters.country}
+                wrapper={(children) => (
+                  <div className = {styles.tooltip}>
+                    {children}
+                    <span className = {styles.tooltiptext}>Choose country first</span>
+                  </div>
+                )}
+                >
+                  <SelectField
+                    options = {citiesOptions}
+                    label = {t(Vocabulary.CITY)}
+                    onChange = {onChangeCities}
+                    value = {{ value: filters.city, label: filters.city }}
+                    isDisabled = {!filters.country}
+                  />
+                </ConditionalWrapper>
             </div>
           <div className = {styles.filter}>
             <SelectField
@@ -120,13 +126,24 @@ function FiltersContainer({
             />
           </div>
           <div className = {styles.filter}>
-            {onChangeTags && <SelectField
-              options = {tagsOptionsMemoized}
-              label = {t(Vocabulary.TAGS)}
-              isMulti
-              onChange = {onChangeTags}
-              value = {selectedTagsMemoized}
-            />}
+            {onChangeTags && <ConditionalWrapper
+              condition={!filters.category}
+              wrapper={(children) => (
+                <div className = {styles.tooltip}>
+                  {children}
+                  <span className = {styles.tooltiptext}>Choose category first</span>
+                </div>
+              )}
+              >
+                <SelectField
+                options = {tagsOptions}
+                label = {t(Vocabulary.TAGS)}
+                isMulti
+                onChange = {onChangeTags}
+                value = {selectedTagsMemoized}
+                isDisabled = {!filters.category}
+                />
+              </ConditionalWrapper>}
           </div>
           <div className = {styles.filter}>
             <SelectField

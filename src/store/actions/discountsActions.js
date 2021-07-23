@@ -236,3 +236,89 @@ export function clearGetDiscountInfoStatus() {
     type: types.CLEAR_GET_DISCOUNT_INFO_STATUS
   };
 }
+export function addDiscountsToFavourites(payload) {
+  return {
+    type: types.ADD_DISCOUNTS_TO_FAVOURITES,
+    payload
+  };
+}
+
+export function addDiscountsToFavouritesSuccess(payload) {
+  return {
+    type: types.ADD_DISCOUNTS_TO_FAVOURITES_SUCCESS,
+    payload
+  };
+}
+
+export function addDiscountsToFavouritesFailure(payload) {
+  return {
+    type: types.ADD_DISCOUNTS_TO_FAVOURITES_FAILURE,
+    payload
+  };
+}
+
+export function clearAddDiscountsToFavouritesStatus() {
+  return {
+    type: types.CLEAR_GET_FAVOURITES_STATUS
+  };
+}
+
+export function deleteDiscountsFromFavourites(payload) {
+  return {
+    type: types.DELETE_DISCOUNTS_FROM_FAVOURITES,
+    payload
+  };
+}
+
+export function deleteDiscountsFromFavouritesSuccess(payload) {
+  return {
+    type: types.DELETE_DISCOUNTS_FROM_FAVOURITES_SUCCESS,
+    payload
+  };
+}
+
+export function deleteDiscountsFromFavouritesFailure(payload) {
+  return {
+    type: types.DELETE_DISCOUNTS_FROM_FAVOURITES_FAILURE,
+    payload
+  };
+}
+
+export function clearDeleteDiscountsFromFavouritesStatus() {
+  return {
+    type: types.CLEAR_DELETE_DISCOUNTS_FROM_FAVOURITES_STATUS
+  };
+}
+
+export function getFavourites(payload) {
+  return {
+    type: types.GET_FAVOURITES,
+    payload
+  };
+}
+
+export function getFavouritesSuccess(payload) {
+  return {
+    type: types.GET_FAVOURITES_SUCCESS,
+    payload
+  };
+}
+
+export function getFavouritesFailure(payload) {
+  return {
+    type: types.GET_FAVOURITES_FAILURE,
+    payload
+  };
+}
+
+export function clearGetFavouritesStatus() {
+  return {
+    type: types.CLEAR_GET_FAVOURITES_STATUS
+  };
+}
+export function createDiscountModalStatus(payload) {
+  return {
+    type: types.CREATE_DISCOUNT_MODAL_STATUS,
+    payload
+  };
+}

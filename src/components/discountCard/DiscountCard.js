@@ -1,18 +1,26 @@
-import { useMemo } from 'react';
+import {
+  useMemo, useCallback, useState
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
+import * as actions from '../../store/actions';
 import style from './DiscountCard.module.scss';
 import DiscountTag from '../DiscountTag';
 import noImg from '../../assets/images/noImg.png';
 
 function DiscountCard({
   discount,
-  className = '',
-  isLike,
-  onFavouriteClick
+  className = ''
 }) {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.userReducer.user);
+  const favourites = useSelector((state) => state.discountsReducer.favourites);
+  const [isLike, setIsLike] = useState(Boolean(favourites.find((el) => el.id === discount.id)));
+
   const cardTags = useMemo(() => (discount.tags.reduce((res, el, i, arr) => {
     if (i < 2) {
       res.push(<li key={el.id}>{`#${el.name}`}&nbsp;</li>);
@@ -21,6 +29,20 @@ function DiscountCard({
     }
     return res;
   }, [])), [discount]);
+
+  const onFavouriteClick = useCallback((e) => {
+    e.stopPropagation();
+    const params = {
+      discountId: discount.id,
+      userId: user.id
+    };
+    if (isLike) {
+      dispatch(actions.discountsActions.deleteDiscountsFromFavourites(params));
+    } else {
+      dispatch(actions.discountsActions.addDiscountsToFavourites(params));
+    }
+    setIsLike(!isLike);
+  }, [dispatch, discount.id, user.id, isLike]);
 
   return (
   <div className={`${style.borderCard} ${className}`}>
@@ -55,7 +77,7 @@ function DiscountCard({
         />
       </div>
     </div>
-    <div className = {style.like} onClick = {(e) => onFavouriteClick(e, discount.id)}>
+    <div className = {style.like} onClick = {(e) => onFavouriteClick(e)}>
       {isLike ? <FavoriteRoundedIcon color = "error" /> : <FavoriteBorderRoundedIcon />}
     </div>
   </div>

@@ -140,3 +140,36 @@ export function clearDeleteTagsFromCategoryStatus() {
     type: types.CLEAR_DELETE_TAGS_FROM_CATEGORY_STATUS
   };
 }
+
+export function getTagsByCategory(payload) {
+  return {
+    type: types.GET_TAGS_BY_CATEGORY,
+    payload
+  };
+}
+
+export function getTagsByCategorySuccess(payload) {
+  return {
+    type: types.GET_TAGS_BY_CATEGORY_SUCCESS,
+    payload
+  };
+}
+
+export function getTagsByCategoryFailure(payload) {
+  return {
+    type: types.GET_TAGS_BY_CATEGORY_FAILURE,
+    payload
+  };
+}
+
+export function clearGetTagsByCategoryStatus() {
+  return {
+    type: types.CLEAR_GET_TAGS_BY_CATEGORY_STATUS
+  };
+}
+export function createCategoryModalStatus(payload) {
+  return {
+    type: types.CREATE_CATEGORY_MODAL_STATUS,
+    payload
+  };
+}

@@ -63,19 +63,6 @@
     color: red;
   }
 
-  .successMessageContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    background-color: white;
-
-    .successMessage {
-      margin-bottom: 20px;
-    }
-  }
-
   .loadingContainer {
     position: absolute;
     top: 0;

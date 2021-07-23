@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './FileInput.module.scss';
 import ItemActionButton from '../ItemActionButton';
@@ -13,7 +13,10 @@ function FileInput({
 }) {
   const { t } = useTranslation();
   const fileInput = useRef('');
-  const imageUrl = !image || typeof image === 'string' ? image : URL.createObjectURL(image);
+  const imageUrl = useMemo(
+    () => (!image || typeof image === 'string' ? image : URL.createObjectURL(image)),
+    [image]
+  );
 
   const onFileChange = (file) => {
     fileChangeHandler(file);

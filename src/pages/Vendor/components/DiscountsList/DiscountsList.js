@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './DiscountsList.module.scss';
-import DiscountCard from '../../../../components/discountCard/DiscountCard';
+import DiscountCard from '../../../../components/discountCard';
 import Pagination from '../../../../components/Pagination';
 import * as actions from '../../../../store/actions';
-import DiscountModal from '../../../Discounts/components/DiscountModal';
+import DiscountModal from '../../../../components/DiscountModal';
 
 const DiscountsList = ({ discountsList, vendorId, activeButton }) => {
   const dispatch = useDispatch();

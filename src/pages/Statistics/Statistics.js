@@ -13,7 +13,7 @@ import Vocabulary from '../../translations/vocabulary';
 import COLORS from '../../utilities/chartColorOptions';
 import history from '../../history';
 import Routes from '../../routes';
-import DiscountModal from '../Discounts/components/DiscountModal';
+import DiscountModal from '../../components/DiscountModal';
 import { getMonthStart, formatDate } from '../../utilities/dateFormat';
 
 function Statistics() {

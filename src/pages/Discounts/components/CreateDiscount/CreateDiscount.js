@@ -22,8 +22,7 @@ import Vocabulary from '../../../../translations/vocabulary';
 import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
-  discount,
-  onModalClose
+  discount
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -92,15 +91,6 @@ function CreateDiscount({
     }
   };
 
-  const onOkClick = () => {
-    onModalClose();
-    dispatch(actions.discountsActions.clearCreateDiscountStatus());
-    if (discount?.id) {
-      dispatch(actions.discountsActions.getDiscountById(discount.id));
-    }
-    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
-  };
-
   const formik = useFormik({
     initialValues: discountRequest,
     validationSchema,
@@ -166,15 +156,6 @@ function CreateDiscount({
 
   return (
     <div className={styles.modalContent}>
-      {isFormSubmitted
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{createDiscountStatus.success}</div>
-        <Button
-          btnText = {t(Vocabulary.OK)}
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
       {createDiscountStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
