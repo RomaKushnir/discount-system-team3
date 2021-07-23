@@ -68,7 +68,7 @@ function Statistics() {
     dispatch(actions.statisticsActions.getStatistics(formattedPeriod));
   };
 
-  const onExcelExport = async () => {
+  const onExcelExport = () => {
     const formattedPeriod = {
       dateFrom: formatDate(period.dateFrom),
       dateTo: formatDate(period.dateTo)
