@@ -12,7 +12,7 @@ import AddLocationModal from '../AddLocationModal';
 import Modal from '../../../../components/Modal';
 import * as actions from '../../../../store/actions';
 
-function AddVendorModal({ closeModal, selectedVendor }) {
+function AddVendorModal({ selectedVendor }) {
   const dispatch = useDispatch();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -62,23 +62,8 @@ function AddVendorModal({ closeModal, selectedVendor }) {
     dispatch(actions.vendorActions.addVendor(dataRequest));
   };
 
-  const onOkClick = () => {
-    closeModal();
-    dispatch(actions.vendorActions.clearAddVendorStatus());
-    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
-  };
-
   return (
     <div className = {`${styles.container} ${isLocationModalOpen ? styles.hidden : ''}`}>
-      {addVendorStatus.loading === false && addVendorStatus.success
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{addVendorStatus.success}</div>
-        <Button
-          btnText = "OK"
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
       {addVendorStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />

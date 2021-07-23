@@ -15,3 +15,5 @@ export const addTagsToCategory = (data) => axios.post(`/categories/${data.catego
 export const deleteTagsFromCategory = (data) => axios.delete(
   `/categories/${data.categoryId}/tags`, { data: data.tags }
 );
+
+export const getTagsByCategory = (categoryId) => axios.get(`tags/category/${categoryId}`);

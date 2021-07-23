@@ -23,7 +23,7 @@ const validate = {
   tags: selectValidation
 };
 
-function AddCategoryModal({ onSave, selectedCategory }) {
+function AddCategoryModal({ selectedCategory }) {
   const dispatch = useDispatch();
 
   const [category, setCategory] = useState(selectedCategory);
@@ -39,8 +39,6 @@ function AddCategoryModal({ onSave, selectedCategory }) {
   const [deletedTags, setDeletedTags] = useState([]);
 
   const addCategoryStatus = useSelector((state) => state.categoryReducer.addCategoryStatus);
-  const addTagsStatus = useSelector((state) => state.categoryReducer.addTagsToCategoryStatus);
-  const deleteTagsStatus = useSelector((state) => state.categoryReducer.deleteTagsFromCategoryStatus);
   const tagsOptions = category.tags?.map((el) => ({ ...el, value: el.id, label: el.name }));
 
   const onValueChange = (e) => {
@@ -126,12 +124,6 @@ function AddCategoryModal({ onSave, selectedCategory }) {
     }
   };
 
-  const onOkClick = () => {
-    onSave();
-    dispatch(actions.categoryActions.clearAddCategoryStatus());
-    dispatch(actions.categoryActions.getCategories());
-  };
-
   const handleTagsChange = (newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
       const newValuesOnly = newValue.filter((el) => !el.id).map((el) => ({ name: el.label }));
@@ -145,25 +137,6 @@ function AddCategoryModal({ onSave, selectedCategory }) {
 
   return (
     <div className = {styles.container}>
-      {((addTagsStatus.loading === false && addTagsStatus.success)
-      || (deleteTagsStatus.loading === false && deleteTagsStatus.success))
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
-        <Button
-          btnText = "OK"
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
-      {(addCategoryStatus.loading === false && addCategoryStatus.success)
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{addCategoryStatus.success}</div>
-        <Button
-          btnText = "OK"
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
       {addCategoryStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />

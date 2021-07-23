@@ -236,7 +236,6 @@ export function clearGetDiscountInfoStatus() {
     type: types.CLEAR_GET_DISCOUNT_INFO_STATUS
   };
 }
-
 export function addDiscountsToFavourites(payload) {
   return {
     type: types.ADD_DISCOUNTS_TO_FAVOURITES,
@@ -315,5 +314,11 @@ export function getFavouritesFailure(payload) {
 export function clearGetFavouritesStatus() {
   return {
     type: types.CLEAR_GET_FAVOURITES_STATUS
+  };
+}
+export function createDiscountModalStatus(payload) {
+  return {
+    type: types.CREATE_DISCOUNT_MODAL_STATUS,
+    payload
   };
 }

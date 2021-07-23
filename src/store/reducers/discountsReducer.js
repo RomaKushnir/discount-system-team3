@@ -41,7 +41,8 @@ const initialState = {
   favourites: [],
   getFavouritesStatus: helpers.getDefaultState(),
   addDiscountsToFavouritesStatus: helpers.getDefaultState(),
-  deleteDiscountFromFavouritesStatus: helpers.getDefaultState()
+  deleteDiscountFromFavouritesStatus: helpers.getDefaultState(),
+  createDiscountModalStatus: false
 };
 
 const discountsReducer = (state = initialState, action) => {
@@ -382,6 +383,12 @@ const discountsReducer = (state = initialState, action) => {
         ...state,
         getFavouritesStatus: helpers.getDefaultState(),
         favourites: []
+      }
+    }
+    case types.CREATE_DISCOUNT_MODAL_STATUS: {
+      return {
+        ...state,
+        createDiscountModalStatus: action.payload
       };
     }
     default:

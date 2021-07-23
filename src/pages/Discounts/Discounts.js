@@ -28,7 +28,6 @@ function Discounts() {
 
   const dispatch = useDispatch();
 
-  const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
@@ -43,6 +42,7 @@ function Discounts() {
   useEffect(() => {
     dispatch(actions.discountsActions.getFavourites(user.id));
   }, [user.id, dispatch]);
+  const createDiscountModalStatus = useSelector(((state) => state.discountsReducer.createDiscountModalStatus));
 
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
@@ -51,6 +51,14 @@ function Discounts() {
     dispatch(actions.discountsActions.getDiscountsByUser(user?.id));
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (discountsFiltersApplied.category) {
+      dispatch(actions.categoryActions.getTagsByCategory(discountsFiltersApplied.category));
+    }
+
+    // eslint-disable-next-line
+  }, [discountsFiltersApplied.category]);
 
   useDiscountsQueryChecker();
 
@@ -66,13 +74,12 @@ function Discounts() {
   }, []);
 
   const onModalOpen = () => {
-    setModalState(true);
+    dispatch(actions.discountsActions.createDiscountModalStatus(true));
   };
 
-  const closeModal = useCallback(() => {
-    setModalState(false);
-  },
-  [setModalState]);
+  const closeModal = () => {
+    dispatch(actions.discountsActions.createDiscountModalStatus(true));
+  };
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
@@ -86,6 +93,10 @@ function Discounts() {
 
   const onChangeCategory = (category) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ category: category?.id || null, tags: null }));
+    if (category) {
+      console.log(category?.id);
+      dispatch(actions.categoryActions.getTagsByCategory(category?.id));
+    }
   };
 
   const onChangeTags = (tags) => {
@@ -183,10 +194,8 @@ function Discounts() {
             }
             </div>
           </div>
-        <Modal isOpen={modalState} onClose={closeModal}>
-          <CreateDiscount
-            onModalClose={closeModal}
-          />
+        <Modal isOpen={createDiscountModalStatus} onClose={closeModal}>
+          <CreateDiscount/>
         </Modal>
     </PageWrapper>
   );

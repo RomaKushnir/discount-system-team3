@@ -8,7 +8,10 @@ const initialState = {
   category: null,
   categoryStatus: helpers.getDefaultState(),
   addTagsToCategoryStatus: helpers.getDefaultState(),
-  deleteTagsFromCategoryStatus: helpers.getDefaultState()
+  deleteTagsFromCategoryStatus: helpers.getDefaultState(),
+  categoryTags: [],
+  getTagsByCategoryStatus: helpers.getDefaultState(),
+  createCategoryModalStatus: false
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -74,8 +77,7 @@ const categoryReducer = (state = initialState, action) => {
       const { payload } = action;
       return {
         ...state,
-        categoryStatus: helpers.getErrorState(payload),
-        categories: payload
+        categoryStatus: helpers.getErrorState(payload)
       };
     }
     case types.CLEAR_GET_CATEGORIES_STATUS: {
@@ -163,6 +165,40 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteTagsFromCategoryStatus: helpers.getDefaultState()
+      };
+    }
+    case types.GET_TAGS_BY_CATEGORY: {
+      return {
+        ...state,
+        getTagsByCategoryStatus: helpers.getRequestState()
+      };
+    }
+    case types.GET_TAGS_BY_CATEGORY_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        getTagsByCategoryStatus: helpers.getSuccessState('Action success'),
+        categoryTags: payload
+      };
+    }
+    case types.GET_TAGS_BY_CATEGORY_FAILURE: {
+      const { payload } = action;
+      return {
+        ...state,
+        getTagsByCategoryStatus: helpers.getErrorState(payload)
+      };
+    }
+    case types.CLEAR_GET_TAGS_BY_CATEGORY_STATUS: {
+      return {
+        ...state,
+        getTagsByCategoryStatus: helpers.getDefaultState()
+
+      };
+    }
+    case types.CREATE_CATEGORY_MODAL_STATUS: {
+      return {
+        ...state,
+        createCategoryModalStatus: action.payload
       };
     }
     default:

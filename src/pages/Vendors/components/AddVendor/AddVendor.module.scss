@@ -63,7 +63,7 @@
     color: red;
   }
 
-  .successMessageContainer, .loadingContainer {
+  .loadingContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,9 +71,6 @@
     z-index: 10;
     background-color: white;
 
-    .successMessage {
-      margin-bottom: 20px;
-    }
   }
 
   .errorMessage {
