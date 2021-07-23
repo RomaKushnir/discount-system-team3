@@ -102,3 +102,31 @@
     }
   }
 }
+@media (max-width: 425px) {
+  .imgWrapper {
+    width: 80px;
+    height: 65px;
+  }
+}
+@media (max-width: 375px) {
+  .itemWrapper {
+    flex-wrap: wrap;
+  }
+  .textWrapper {
+    flex: 1 1 68%;
+  }
+  .buttons {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: initial;
+  }
+}
+@media (max-width: 320px) {
+  .textWrapper {
+    width: 67%;
+  }
+  .imgWrapper {
+    width: 65px;
+  }
+}

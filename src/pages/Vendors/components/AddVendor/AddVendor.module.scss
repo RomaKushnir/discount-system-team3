@@ -87,3 +87,20 @@
 .formDisplayNone {
   display: none;
 }
+
+@media (max-width: 425px) {
+  .container {
+    width: initial;
+    min-width: 385px;
+  }
+}
+@media (max-width: 375px) {
+  .container {
+    min-width: 340px;
+  }
+}
+@media (max-width: 320px) {
+  .container {
+    min-width: 285px;
+  }
+}

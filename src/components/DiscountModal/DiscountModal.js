@@ -137,7 +137,7 @@ function DiscountModal({
       </div>
     </div>
     <div className = {styles.modalDescr}>{discount.description}</div>
-    <div className = {styles.row}>
+    <div className = {`${styles.row} ${styles.flexWrap}`}>
       <div className = {styles.modalLocation}>
         <SelectField
           initialValue = {locationsList[0]}

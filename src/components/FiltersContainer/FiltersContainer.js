@@ -13,8 +13,7 @@ import useVendorTypeahead from '../../utilities/useVendorTypeahead';
 import Vocabulary from '../../translations/vocabulary';
 
 const inputStyles = {
-  width: '200px',
-  marginRight: '10px'
+  width: '200px'
 };
 
 function FiltersContainer({

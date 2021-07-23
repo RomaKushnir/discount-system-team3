@@ -12,3 +12,12 @@
 .categoriesList {
     margin: 10px 0;
 }
+
+@media(max-width: 425px) {
+    .accordionDetails {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px 0;
+        width: 100%;
+    }
+}
