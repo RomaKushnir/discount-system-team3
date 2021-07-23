@@ -42,7 +42,7 @@ function DiscountCard({
       dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
     setIsLike(!isLike);
-  }, [dispatch, discount.id, user.id, isLike]);
+  }, [dispatch, discount, user, isLike]);
 
   return (
   <div className={`${style.borderCard} ${className}`}>

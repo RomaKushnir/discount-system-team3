@@ -40,8 +40,8 @@ function Discounts() {
   const favourites = useSelector((state) => state.discountsReducer.favourites);
 
   useEffect(() => {
-    dispatch(actions.discountsActions.getFavourites(user.id));
-  }, [user.id, dispatch]);
+    dispatch(actions.discountsActions.getFavourites(user?.id));
+  }, [user, dispatch]);
   const createDiscountModalStatus = useSelector(((state) => state.discountsReducer.createDiscountModalStatus));
 
   useEffect(() => {

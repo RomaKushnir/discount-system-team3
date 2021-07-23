@@ -118,7 +118,7 @@ function AddVendorModal({ selectedVendor }) {
                 />
                 <TextInput
                   onValueChange = {handleChange}
-                  placeholder = "Phone number"
+                  placeholder = "+380*********"
                   label = "Phone Number"
                   className={styles.inputContainer}
                   name = "phoneNumber"

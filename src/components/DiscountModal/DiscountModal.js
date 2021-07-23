@@ -43,7 +43,7 @@ function DiscountModal({
       dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
     setIsLike(!isLike);
-  }, [dispatch, user.id, isLike]);
+  }, [dispatch, user, isLike]);
 
   // clean up edit modal state
   useEffect(() => () => {
