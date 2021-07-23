@@ -8,7 +8,8 @@ function FileInput({
   name,
   fileChangeHandler,
   image,
-  className
+  className,
+  error
 }) {
   const { t } = useTranslation();
   const fileInput = useRef('');
@@ -19,30 +20,33 @@ function FileInput({
   };
 
   return (
-    <div className={`${styles.imageBlock} ${className}`}>
-      {!!image && <div className={styles.imagePreviewWrap}>
-        <img src={imageUrl} />
-      </div>}
-      <div className={styles.imageInputWrap}>
-        {!!image && <ItemActionButton
-          title={t(Vocabulary.CLEAR)}
-          onActionClick={() => onFileChange('')}
-          className={styles.clearBtn}
-        />}
-        <label htmlFor="image">
-        {t(Vocabulary.UPLOAD_IMAGE)}
-        </label>
-        <input
-          ref={fileInput}
-          onChange={() => onFileChange(fileInput.current.files[0])}
-          type="file"
-          name={name}
-          id="image"
-          accept="image/*"
-          hidden
-        />
+    <>
+      <div className={`${styles.imageBlock} ${className}`}>
+        {!!image && <div className={styles.imagePreviewWrap}>
+          <img src={imageUrl} />
+        </div>}
+        <div className={styles.imageInputWrap}>
+          {!!image && <ItemActionButton
+            title={t(Vocabulary.CLEAR)}
+            onActionClick={() => onFileChange(null)}
+            className={styles.clearBtn}
+          />}
+          {!image && <label htmlFor="image">
+            {t(Vocabulary.UPLOAD_IMAGE)}
+          </label>}
+          <input
+            ref={fileInput}
+            onChange={() => onFileChange(fileInput.current.files[0])}
+            type="file"
+            name={name}
+            id="image"
+            accept="image/*"
+            hidden
+          />
+      </div>
     </div>
-  </div>
+    <div className = {styles.error}>{error}</div>
+  </>
   );
 }
 

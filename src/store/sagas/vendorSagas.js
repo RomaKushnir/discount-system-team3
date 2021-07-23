@@ -16,19 +16,22 @@ export const getVendorsFiltersApplied = (state) => state.vendorReducer.vendorsFi
 
 export function* addVendor({ payload }) {
   const { id, ...data } = payload;
-  const formData = { ...data };
   let response;
   try {
     if (data.imageUrl && typeof data.imageUrl === 'object') {
       const responseImageUrl = yield call(api.images.uploadImage, data.imageUrl);
-      formData.imageUrl = responseImageUrl.data.url;
+      if (responseImageUrl.status === 200) {
+        data.imageUrl = responseImageUrl.data.url;
+      } else {
+        throw new Error('Can not upload image');
+      }
     }
 
     if (id === undefined) {
-      response = yield call(api.vendors.addVendor, formData);
+      response = yield call(api.vendors.addVendor, data);
       yield put(actions.vendorActions.addVendorSuccess(response.data));
     } else {
-      response = yield call(api.vendors.updateVendor, { ...formData, id });
+      response = yield call(api.vendors.updateVendor, { ...data, id });
       yield put(actions.vendorActions.updateVendorSuccess(response.data));
     }
     toast.success('Vendor was successfully saved.');

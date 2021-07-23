@@ -65,7 +65,7 @@ export function* createLocation({ payload }) {
       const fullLocation = { ...payload, ...{ latitude, longitude } };
       const response = yield call(api.locations.createLocation, fullLocation);
       yield put(actions.locationActions.createLocationSuccess(response));
-      toast.success('Location successfully created');
+      // toast.success('Location successfully created');
     } else {
       toast.error('Please enter correct address');
     }

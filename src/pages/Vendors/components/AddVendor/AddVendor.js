@@ -11,6 +11,7 @@ import AddNewItemButton from '../../../../components/AddNewItemButton';
 import AddLocationModal from '../AddLocationModal';
 import FileInput from '../../../../components/FileInput';
 import Modal from '../../../../components/Modal';
+import SUPPORTED_IMG_FORMATS from '../../../../utilities/supportedFormats';
 import * as actions from '../../../../store/actions';
 
 function AddVendorModal({ closeModal, selectedVendor }) {
@@ -22,7 +23,15 @@ function AddVendorModal({ closeModal, selectedVendor }) {
 
   const validationSchema = useMemo(() => (yup.object().shape({
     title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
-    email: yup.string().email('Please, enter a valid email').required('The field is required'),
+    email: yup.string().email('Please, enter a valid email'),
+    phoneNumber: yup.number().typeError('Field value should be a number').nullable(),
+    imageUrl: yup.mixed().nullable().test('imageUrl', 'Wrong file type', (file) => {
+      if (file && typeof file === 'object') {
+        console.log('file yup', file.type);
+        return SUPPORTED_IMG_FORMATS.includes(file.type);
+      }
+      return true;
+    }),
     description: yup.string().min(3, 'The field needs to be at least 3 characters')
       .max(500, 'The field needs to be less then 500 characters').required('The field is required'),
     locations: yup.mixed().test('locations', 'At least one location is required', (val) => !val || val.length)
@@ -121,6 +130,17 @@ function AddVendorModal({ closeModal, selectedVendor }) {
                   value = {values.email}
                   onBlur={handleBlur}
                   error = {errors.email}
+                />
+                <TextInput
+                  onValueChange = {handleChange}
+                  placeholder = "Phone number"
+                  label = "Phone Number"
+                  className={styles.inputContainer}
+                  name = "phoneNumber"
+                  type="text"
+                  value = {values.phoneNumber}
+                  onBlur={handleBlur}
+                  error = {errors.phoneNumber}
                 />
                 <FileInput
                   image={values.imageUrl}

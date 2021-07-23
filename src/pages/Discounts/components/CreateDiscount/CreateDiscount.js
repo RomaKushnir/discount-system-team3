@@ -52,7 +52,7 @@ function CreateDiscount({
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
     title: discount?.title || '',
-    imageUrl: discount?.imageUrl || '',
+    imageUrl: discount?.imageUrl || null,
     promocode: discount?.promocode || '',
     description: discount?.description || '',
     shortDescription: discount?.shortDescription || '',
@@ -241,6 +241,7 @@ function CreateDiscount({
           image={formik.values.imageUrl}
           fileChangeHandler={fileChangeHandler}
           name="imageUrl"
+          error={formik.errors.imageUrl}
         />
         <TextInput
           placeholder = {t(Vocabulary.PROMO_CODE)}
