@@ -5,47 +5,54 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Modal from '../../../../components/Modal';
+import Modal from '../Modal';
 import styles from './DiscountModal.module.scss';
-import ItemActionButton from '../../../../components/ItemActionButton';
-import getMonthAndDay from '../../../../utilities/getMonthAndDay';
-import CreateDiscount from '../CreateDiscount';
-import GoogleMap from '../../../../components/GoogleMap';
-import DeleteConfirmation from '../../../../components/DeleteConfirmation';
-import isAdmin from '../../../../utilities/isAdmin';
-import SelectField from '../../../../components/SelectField';
-import DiscountTag from '../../../../components/DiscountTag';
-import Vocabulary from '../../../../translations/vocabulary';
-import * as actions from '../../../../store/actions';
+import ItemActionButton from '../ItemActionButton';
+import getMonthAndDay from '../../utilities/getMonthAndDay';
+import CreateDiscount from '../../pages/Discounts/components/CreateDiscount';
+import GoogleMap from '../GoogleMap';
+import DeleteConfirmation from '../DeleteConfirmation';
+import isAdmin from '../../utilities/isAdmin';
+import SelectField from '../SelectField';
+import DiscountTag from '../DiscountTag';
+import Vocabulary from '../../translations/vocabulary';
+import * as actions from '../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = '',
-  doNotShowAdminButtons
+  discount, onClose, isOpen, onDeleteDiscount, loadingStatus, modalContainerClasses = '', doNotShowAdminButtons
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
   const [selectedMapLocation, setSelectedMapLocation] = useState(null);
   const [mapZoom, setMapZoom] = useState(5);
   const user = useSelector((state) => state.userReducer.user);
+  const favourites = useSelector((state) => state.discountsReducer.favourites);
+  const [isLike, setIsLike] = useState(null);
 
-  const onFavouriteClick = (e, id) => {
+  const onFavouriteClick = useCallback((e, id) => {
     e.stopPropagation();
+    const params = {
+      discountId: id,
+      userId: user.id
+    };
     if (isLike) {
-      favouriteDiscounts.filter((el) => el !== id);
-      setIsLike(false);
+      dispatch(actions.discountsActions.deleteDiscountsFromFavourites(params));
     } else {
-      favouriteDiscounts.push(id);
-      setIsLike(true);
+      dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
-  };
+    setIsLike(!isLike);
+  }, [dispatch, user.id, isLike]);
 
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
   });
+
+  useEffect(() => {
+    if (discount) setIsLike(Boolean(favourites.find((el) => el.id === discount.id)));
+  }, [discount, favourites]);
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);

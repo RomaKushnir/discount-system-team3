@@ -11,13 +11,13 @@ import * as actions from '../../store/actions';
 import styles from './Discounts.module.scss';
 import FiltersContainer from '../../components/FiltersContainer';
 import PageWrapper from '../../components/PageWrapper';
-import DiscountList from './components/DiscountList';
+import DiscountList from '../../components/DiscountList';
 import AddNewItemButton from '../../components/AddNewItemButton';
 import Modal from '../../components/Modal';
 import CreateDiscount from './components/CreateDiscount';
 import { getDiscountsList } from '../../store/selectors';
 import { discountsSortOptions } from '../../utilities/sortOptions';
-import DiscountModal from './components/DiscountModal';
+import DiscountModal from '../../components/DiscountModal';
 import Pagination from '../../components/Pagination/Pagination';
 import isAdmin from '../../utilities/isAdmin';
 import useDiscountsQueryChecker from '../../utilities/useDiscountsQueryChecker';
@@ -25,8 +25,6 @@ import Vocabulary from '../../translations/vocabulary';
 
 function Discounts() {
   const { t } = useTranslation();
-  // mock data for favourite discounts
-  const favourite = [];
 
   const dispatch = useDispatch();
 
@@ -39,6 +37,11 @@ function Discounts() {
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
+  const favourites = useSelector((state) => state.discountsReducer.favourites);
+
+  useEffect(() => {
+    dispatch(actions.discountsActions.getFavourites(user.id));
+  }, [user.id, dispatch]);
   const createDiscountModalStatus = useSelector(((state) => state.discountsReducer.createDiscountModalStatus));
 
   useEffect(() => {
@@ -174,7 +177,6 @@ function Discounts() {
               <DiscountList
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
-                favouriteDiscounts = {favourite}
               />
               <DiscountModal
                 key= {discountById?.id}
@@ -182,7 +184,7 @@ function Discounts() {
                 isOpen = {isDiscountModalShown}
                 onClose = {onDiscountModalClose}
                 onDeleteDiscount = {onDeleteDiscount}
-                favouriteDiscounts = {favourite}
+                favouriteDiscounts = {favourites}
                 loadingStatus = {getDiscountByIdStatus.loading}
                 modalContainerClasses = {styles.modalMinSize}
               />

@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import PageWrapper from '../../components/PageWrapper';
 import VendorInfo from './components/VendorInfo/VendorInfo';
 import VendorDesc from './components/VendorDesc/VendorDesc';
-import DiscountsList from './components/DiscountsList/DiscountsList';
+import DiscountsList from './components/DiscountsList';
 import Vocabulary from '../../translations/vocabulary';
 
 function Vendor() {
