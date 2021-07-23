@@ -167,3 +167,9 @@ export function clearGetTagsByCategoryStatus() {
     type: types.CLEAR_GET_TAGS_BY_CATEGORY_STATUS
   };
 }
+export function createCategoryModalStatus(payload) {
+  return {
+    type: types.CREATE_CATEGORY_MODAL_STATUS,
+    payload
+  };
+}

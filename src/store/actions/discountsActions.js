@@ -236,3 +236,10 @@ export function clearGetDiscountInfoStatus() {
     type: types.CLEAR_GET_DISCOUNT_INFO_STATUS
   };
 }
+
+export function createDiscountModalStatus(payload) {
+  return {
+    type: types.CREATE_DISCOUNT_MODAL_STATUS,
+    payload
+  };
+}

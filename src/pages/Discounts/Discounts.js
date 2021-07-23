@@ -30,7 +30,6 @@ function Discounts() {
 
   const dispatch = useDispatch();
 
-  const [modalState, setModalState] = useState(false);
   const [isDiscountModalShown, setIsDiscountModalShown] = useState(false);
 
   const getDiscountsStatus = useSelector((state) => state.discountsReducer.getDiscountsStatus);
@@ -40,6 +39,7 @@ function Discounts() {
   const discountsFilters = useSelector((state) => state.discountsReducer.discountsFilters);
   const discountsFiltersApplied = useSelector((state) => state.discountsReducer.discountsFiltersApplied);
   const user = useSelector((state) => state.userReducer.user);
+  const createDiscountModalStatus = useSelector(((state) => state.discountsReducer.createDiscountModalStatus));
 
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
@@ -71,13 +71,12 @@ function Discounts() {
   }, []);
 
   const onModalOpen = () => {
-    setModalState(true);
+    dispatch(actions.discountsActions.createDiscountModalStatus(true));
   };
 
-  const closeModal = useCallback(() => {
-    setModalState(false);
-  },
-  [setModalState]);
+  const closeModal = () => {
+    dispatch(actions.discountsActions.createDiscountModalStatus(true));
+  };
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.discountsActions.updateDiscountsFilters({ country: selectedCountry?.countryCode || null }));
@@ -193,10 +192,8 @@ function Discounts() {
             }
             </div>
           </div>
-        <Modal isOpen={modalState} onClose={closeModal}>
-          <CreateDiscount
-            onModalClose={closeModal}
-          />
+        <Modal isOpen={createDiscountModalStatus} onClose={closeModal}>
+          <CreateDiscount/>
         </Modal>
     </PageWrapper>
   );
