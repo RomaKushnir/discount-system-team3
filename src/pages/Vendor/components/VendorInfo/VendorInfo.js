@@ -5,6 +5,7 @@ import style from './VendorInfo.module.scss';
 import SelectField from '../../../../components/SelectField';
 import combineLocation from '../../../../utilities/combineLocation';
 import Button from '../../../../components/Button';
+import noImg from '../../../../assets/images/noImg.png';
 import * as actions from '../../../../store/actions';
 import Vocabulary from '../../../../translations/vocabulary';
 
@@ -40,7 +41,11 @@ function VendorInfo({ vendor, className }) {
       { vendor && <div className={`${style.container} ${className}`}>
         <div className={`${style.infoTop} ${style.gridRow}`}>
           <div className={style.imageWrapper}>
-            <img className={style.roundImg} src={imageUrl} alt={'vendor'} />
+            <img
+              className={style.roundImg}
+              src={imageUrl || noImg}
+              alt={title}
+            />
           </div>
           <div className={style.details}>
             <h2>{title}</h2>
