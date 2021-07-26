@@ -59,3 +59,20 @@
     }
 
 }
+
+@media(max-width: 425px) {
+  .container {
+    justify-content: center;
+  }
+  .filtersContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    .filtersContainer {
+      .buttonContainer {
+        align-self: initial;
+      }
+    }
+  }
+}

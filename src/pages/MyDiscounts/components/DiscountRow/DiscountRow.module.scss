@@ -24,6 +24,116 @@
   height: 3rem;
   object-fit: cover;
   border-radius: 5px;
+  }
+}
 
+@media (max-width: 1024px) {
+  .discountContainer {
+    grid-template-columns: .05fr .15fr .15fr .32fr .23fr .1fr .1fr;
+  }
+}
+@media (max-width: 768px) {
+  .discountContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    & > * {
+      justify-content: flex-start;
+    }
+  }
+  .img {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .vendor {
+    grid-area: 1 / 2 / 2 / 6;
+  }
+  .category {
+    grid-area: 1 / 6 / 2 / 8;
+  }
+  .title {
+    grid-area: 2 / 2 / 3 / 4;
+  }
+  .button {
+    grid-area: 2 / 6 / 3 / 8;
+    justify-self: initial;
+  }
+  .expDate {
+    grid-area: 2 / 4 / 3 / 5;
+  }
+  .tag {
+    grid-area: 2 / 5 / 3 / 6;
+    justify-self: flex-start;
+  }
+}
+@media (max-width: 576px) {
+  .discountContainer {
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .title {
+    grid-area: 2 / 2 / 3 / 6;
+  }
+  .expDate {
+    grid-area: 2 / 6 / 3 / 7;
+  }
+  .tag {
+    grid-area: 2 / 7 / 3 / 8;
+  }
+  .button {
+    grid-area: 3 / 2 / 4 / 5;
+  }
+}
+@media (max-width: 425px) {
+  .discountContainer {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
+  .img {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .vendor {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .category {
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  .title {
+    grid-area: 3 / 1 / 4 / 3;
+  }
+  .expDate {
+    grid-area: 4 / 1 / 5 / 2;
+  }
+  .tag {
+    grid-area: 1 / 2 / 2 / 3;
+    justify-self: flex-end;
+  }
+  .button {
+    grid-area: 4 / 2 / 5 / 3;
+    justify-self: flex-end;
+    padding: 0;
+  }
+}
+@media (max-width: 320px) {
+  .discountContainer {
+    grid-template-rows: repeat(5, min-content);
+    & > * {
+      margin: 5px 0;
+    }
+  }
+  .vendor {
+    grid-area: 2 / 1 / 3 / 3;
+  }
+  .category {
+    grid-area: 3 / 1 / 4 / 3;
+  }
+  .title {
+    grid-area: 4 / 1 / 5 / 3;
+  }
+  .expDate {
+    grid-area: 5 / 1 / 6 / 2;
+  }
+  .button {
+    grid-area: 5 / 2 / 6 / 3;
   }
 }
