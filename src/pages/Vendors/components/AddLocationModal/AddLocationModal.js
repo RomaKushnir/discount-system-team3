@@ -20,8 +20,7 @@ function LocationModal({
   }), []);
   const validationSchema = useMemo(() => (
     yup.object().shape({
-      countryCode: yup.object().nullable().test('countryCode', 'The fiels is required',
-        (obj) => (obj && obj?.value))
+      countryCode: yup.object().nullable().required('The field is required')
     })
   ), []);
 
