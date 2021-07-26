@@ -5,7 +5,7 @@ function DiscountListItem({
   discount, onClick
 }) {
   return (
-    <li onClick = {(e) => onClick(e, discount.id)}>
+    <li onClick = {() => onClick(discount.id)}>
       <DiscountCard
         discount = {discount}
         className = {styles.discountsCard}

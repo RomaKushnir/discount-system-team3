@@ -21,7 +21,7 @@ function Favourites() {
     if (!favourites.length) dispatch(actions.discountsActions.getFavourites(user.id));
   }, [dispatch, user.id, favourites]);
 
-  const onCardClick = useCallback((e, id) => {
+  const onCardClick = useCallback((id) => {
     dispatch(actions.discountsActions.getDiscountById(id));
     setIsDiscountModalShown(true);
   }, [dispatch]);
@@ -68,7 +68,7 @@ function Favourites() {
               onFavouriteClick = {onFavouriteClick}
             />
             <DiscountModal
-              key= {discountById?.id}
+              key = {discountById?.id}
               discount = {discountById}
               isOpen = {isDiscountModalShown}
               onClose = {onDiscountModalClose}
