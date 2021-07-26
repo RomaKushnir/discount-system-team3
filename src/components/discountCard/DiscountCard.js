@@ -19,6 +19,8 @@ function DiscountCard({
 
   const user = useSelector((state) => state.userReducer.user);
   const favourites = useSelector((state) => state.discountsReducer.favourites);
+  const deleteFavoriteStatus = useSelector((state) => state.discountsReducer.deleteDiscountFromFavouritesStatus);
+  const addFavoriteStatus = useSelector((state) => state.discountsReducer.addDiscountsToFavouritesStatus);
   const [isLike, setIsLike] = useState(Boolean(favourites.find((el) => el.id === discount.id)));
 
   const cardTags = useMemo(() => (discount.tags.reduce((res, el, i, arr) => {
@@ -29,12 +31,15 @@ function DiscountCard({
     }
     return res;
   }, [])), [discount]);
-
+  // eslint-disable-next-line consistent-return
   const onFavouriteClick = useCallback((e) => {
+    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
     e.stopPropagation();
+
     const params = {
       discountId: discount.id,
-      userId: user.id
+      userId: user.id,
+      discount
     };
     if (isLike) {
       dispatch(actions.discountsActions.deleteDiscountsFromFavourites(params));
@@ -42,7 +47,7 @@ function DiscountCard({
       dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
     setIsLike(!isLike);
-  }, [dispatch, discount, user, isLike]);
+  }, [dispatch, discount, user, isLike, addFavoriteStatus, deleteFavoriteStatus]);
 
   return (
   <div className={`${style.borderCard} ${className}`}>
