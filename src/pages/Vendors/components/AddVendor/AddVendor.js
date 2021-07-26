@@ -23,11 +23,10 @@ function AddVendorModal({ selectedVendor }) {
 
   const validationSchema = useMemo(() => (yup.object().shape({
     title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
-    email: yup.string().email('Please, enter a valid email'),
+    email: yup.string().nullable().email('Please, enter a valid email'),
     phoneNumber: yup.number().typeError('Field value should be a number').nullable(),
     imageUrl: yup.mixed().nullable().test('imageUrl', 'Wrong file type', (file) => {
       if (file && typeof file === 'object') {
-        console.log('file yup', file.type);
         return SUPPORTED_IMG_FORMATS.includes(file.type);
       }
       return true;
@@ -70,6 +69,7 @@ function AddVendorModal({ selectedVendor }) {
   const onVendorSubmit = (formData) => {
     const { locations, ...dataRequest } = formData;
     dataRequest.locationIds = formData.locations.map((el) => el.id);
+    dataRequest.email = dataRequest.email || null;
     dispatch(actions.vendorActions.addVendor(dataRequest));
   };
 

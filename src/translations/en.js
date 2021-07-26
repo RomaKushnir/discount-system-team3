@@ -50,6 +50,7 @@ const en = {
   [Vocabulary.UNSUBSCRIBE]: 'Unsubscribe',
   [Vocabulary.SUBSCRIBE]: 'Subscribe',
   [Vocabulary.LOCATIONS]: 'Locations',
+  [Vocabulary.ALL_LOCATIONS]: 'All locations',
   [Vocabulary.ACTIVE]: 'Active',
   [Vocabulary.ARCHIVE]: 'Archive',
   [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Activated discounts by category',

@@ -50,6 +50,7 @@ const ru = {
   [Vocabulary.UNSUBSCRIBE]: 'Отписаться',
   [Vocabulary.SUBSCRIBE]: 'Подписаться',
   [Vocabulary.LOCATIONS]: 'Адреса',
+  [Vocabulary.ALL_LOCATIONS]: 'Все адреса',
   [Vocabulary.ACTIVE]: 'Активные',
   [Vocabulary.ARCHIVE]: 'Архив',
   [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Активированные скидки в разрезе категорий',
