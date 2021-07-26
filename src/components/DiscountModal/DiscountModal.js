@@ -2,7 +2,9 @@ import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import { useCallback, useState, useEffect } from 'react';
+import {
+  useCallback, useState, useEffect, useMemo
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from '../Modal';
@@ -23,10 +25,13 @@ function DiscountModal({
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const allLocationsOption = useMemo(() => ({
+    value: null, label: t(Vocabulary.ALL_LOCATIONS)
+  }), [t]);
 
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
-  const [selectedMapLocation, setSelectedMapLocation] = useState(null);
-  const [mapZoom, setMapZoom] = useState(5);
+  const [selectedMapLocation, setSelectedMapLocation] = useState(allLocationsOption);
+  const [mapZoom, setMapZoom] = useState(null);
   const user = useSelector((state) => state.userReducer.user);
   const favourites = useSelector((state) => state.discountsReducer.favourites);
   const [isLike, setIsLike] = useState(null);
@@ -57,13 +62,17 @@ function DiscountModal({
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
   const userDiscounts = useSelector((state) => state.discountsReducer.discountsByUser);
-  const locationsList = discount ? discount.locations.map((location) => {
-    const option = {
-      value: { lat: location.latitude, lng: location.longitude },
-      label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
-    };
-    return option;
-  }) : null;
+  const locationsList = useMemo(() => {
+    if (discount) {
+      const mappedLocations = discount.locations.map((location) => ({
+        value: { lat: location.latitude, lng: location.longitude },
+        label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
+      }));
+      mappedLocations.unshift(allLocationsOption);
+      return mappedLocations;
+    }
+    return null;
+  }, [discount, allLocationsOption]);
 
   const [isActivateDisabled, setIsActivateDisabled] = useState(!!userDiscounts?.find((el) => el.id === discount?.id));
 
@@ -92,7 +101,8 @@ function DiscountModal({
   };
   const onLocationChange = (selected) => {
     setSelectedMapLocation(selected);
-    setMapZoom(10);
+    if (selected.value !== null) setMapZoom(13);
+    else setMapZoom(null);
   };
 
   const tagsList = discount?.tags.map((item) => (<li key={item.id}>#{item.name}&nbsp;</li>));
@@ -126,7 +136,7 @@ function DiscountModal({
       <GoogleMap
         locations={discount.locations}
         onLocationChange={onLocationChange}
-        selectedLocation={selectedMapLocation ? selectedMapLocation.value : locationsList[0]}
+        selectedLocation={selectedMapLocation.value}
         zoom={mapZoom}
       />
     </div>}
@@ -140,7 +150,7 @@ function DiscountModal({
     <div className = {styles.row}>
       <div className = {styles.modalLocation}>
         <SelectField
-          initialValue = {locationsList[0]}
+          initialValue = {locationsList[0].value}
           options = {locationsList}
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}

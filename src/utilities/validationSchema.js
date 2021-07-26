@@ -14,10 +14,13 @@ const schema = yup.object().shape({
     return true;
   }),
   flatAmount: yup.number().typeError('Field value should be a number').nullable()
+    .min(1)
     .test('flatAmount', 'One discount field is required', function () {
       return (!this.parent.flatAmount && this.parent.percentage) || this.parent.flatAmount;
     }),
   percentage: yup.number().typeError('Field value should be a number').nullable()
+    .min(1)
+    .max(100)
     .test('percentage', 'One discount field is required', function () {
       return (!this.parent.percentage && this.parent.flatAmount) || this.parent.percentage;
     }),

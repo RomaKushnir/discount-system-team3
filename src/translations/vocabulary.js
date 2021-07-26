@@ -48,6 +48,7 @@ const Vocabulary = {
   UNSUBSCRIBE: 'unsubscribe',
   SUBSCRIBE: 'subscribe',
   LOCATIONS: 'locations',
+  ALL_LOCATIONS: 'all_locations',
   ACTIVE: 'active',
   ARCHIVE: 'archive',
   ACTIVATED_DISCOUNTS_BY_CATEGORY: 'activated_discounts_by_category',

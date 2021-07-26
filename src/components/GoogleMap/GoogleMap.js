@@ -6,8 +6,8 @@ function GoogleMap({ locations, selectedLocation, zoom }) {
   const [hoveredKey, setHoveredKey] = useState(-1);
 
   const defaultProps = useMemo(() => ({
-    center: selectedLocation.lat && selectedLocation.lng ? selectedLocation : { lat: 51.53278, lng: 29.48097 },
-    zoom
+    center: selectedLocation || { lat: 51.53278, lng: 29.48097 },
+    zoom: zoom || 4
   }), [selectedLocation, zoom]);
 
   const Markers = locations.map((el) => (

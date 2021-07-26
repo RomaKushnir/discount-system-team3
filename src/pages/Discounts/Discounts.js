@@ -78,7 +78,7 @@ function Discounts() {
   };
 
   const closeModal = () => {
-    dispatch(actions.discountsActions.createDiscountModalStatus(true));
+    dispatch(actions.discountsActions.createDiscountModalStatus(false));
   };
 
   const onChangeCountry = (selectedCountry) => {
@@ -194,7 +194,10 @@ function Discounts() {
             }
             </div>
           </div>
-        <Modal isOpen={createDiscountModalStatus} onClose={closeModal}>
+        <Modal
+          isOpen={createDiscountModalStatus}
+          onClose={closeModal}
+        >
           <CreateDiscount/>
         </Modal>
     </PageWrapper>

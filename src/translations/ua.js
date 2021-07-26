@@ -50,6 +50,7 @@ const ua = {
   [Vocabulary.UNSUBSCRIBE]: 'Відписатись',
   [Vocabulary.SUBSCRIBE]: 'Підписатись',
   [Vocabulary.LOCATIONS]: 'Адреси',
+  [Vocabulary.ALL_LOCATIONS]: 'Всі адреси',
   [Vocabulary.ACTIVE]: 'Активні',
   [Vocabulary.ARCHIVE]: 'Архів',
   [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Активовані знижки в розрізі категорій',

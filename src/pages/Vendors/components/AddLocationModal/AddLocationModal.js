@@ -111,7 +111,6 @@ function LocationModal({
                   placeholder="City"
                   className={styles.inputContainer}
                   onChange={createOnSelectValueChange(setFieldValue, resetForm)}
-                  // value={citiesOptionsAPI.find((el) => el.value === values.city) || null}
                   value={values.city?.value ? values.city : null}
                   onBlur={handleBlur}
                   isSearchable={true}
@@ -124,7 +123,6 @@ function LocationModal({
                 placeholder="Address line"
                 className={styles.inputContainer}
                 onChange={createOnSelectValueChange(setFieldValue, resetForm)}
-                // value={locationsOptionsAPI.find((el) => el.value === values.addressLine) || null}
                 value={values.addressLine?.value ? values.addressLine : null}
                 onBlur={handleBlur}
                 isSearchable={true}
@@ -133,7 +131,7 @@ function LocationModal({
               {createLocationStatus.error && <p>{createLocationStatus.error.message}</p>}
               <Button
                 btnText = "Add location"
-                isDisabled = {!isValid || !dirty}
+                isDisabled = {!isValid || !dirty || createLocationStatus.loading}
                 className={styles.addLocationBtn}
                 type = "submit"
               />

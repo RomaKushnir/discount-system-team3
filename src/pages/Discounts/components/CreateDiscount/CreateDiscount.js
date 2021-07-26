@@ -173,6 +173,17 @@ function CreateDiscount({
           error = {formik.errors.title}
         />
         <div className={styles.twoColumnsWrapper}>
+          <TextInput
+            placeholder = {t(Vocabulary.PROMO_CODE)}
+            label = {t(Vocabulary.PROMO_CODE)}
+            name = "promocode"
+            type = "text"
+            className={styles.inputContainer}
+            value = {formik.values.promocode}
+            onValueChange = {formik.handleChange}
+            onBlur={formik.handleBlur}
+            error = {formik.errors.promocode}
+          />
           <SelectField
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
@@ -185,17 +196,27 @@ function CreateDiscount({
             error = {formik.errors.vendorId}
             onBlur = {onVendorSelectBlur}
           />
-          <SelectField
-            options = {categoriesOptions}
-            initialValue = {initialCategoryOptions}
-            label = {t(Vocabulary.CATEGORY)}
-            name = "categoryId"
-            placeholder = {t(Vocabulary.SELECT_CATEGORY)}
-            className={styles.inputContainer}
-            onChange = {onSelectValueChange}
-            error = {formik.errors.categoryId}
-          />
         </div>
+        <SelectField
+          options = {locationOptions}
+          value={initialLocationsOptions}
+          label = {t(Vocabulary.LOCATION)}
+          name = "locations"
+          className={styles.inputContainer}
+          isMulti={true}
+          onChange = {onSelectValueChange}
+          error = {formik.errors.locations}
+        />
+        <SelectField
+          options = {categoriesOptions}
+          initialValue = {initialCategoryOptions}
+          label = {t(Vocabulary.CATEGORY)}
+          name = "categoryId"
+          placeholder = {t(Vocabulary.SELECT_CATEGORY)}
+          className={styles.inputContainer}
+          onChange = {onSelectValueChange}
+          error = {formik.errors.categoryId}
+        />
         <SelectField
           options = {tagsOptions}
           value = {initialTagsOptions}
@@ -208,32 +229,11 @@ function CreateDiscount({
           error = {formik.errors.tags}
           onBlur={formik.handleBlur}
         />
-        <SelectField
-          options = {locationOptions}
-          value={initialLocationsOptions}
-          label = {t(Vocabulary.LOCATION)}
-          name = "locations"
-          className={styles.inputContainer}
-          isMulti={true}
-          onChange = {onSelectValueChange}
-          error = {formik.errors.locations}
-        />
         <FileInput
           image={formik.values.imageUrl}
           fileChangeHandler={fileChangeHandler}
           name="imageUrl"
           error={formik.errors.imageUrl}
-        />
-        <TextInput
-          placeholder = {t(Vocabulary.PROMO_CODE)}
-          label = {t(Vocabulary.PROMO_CODE)}
-          name = "promocode"
-          type = "text"
-          className={styles.inputContainer}
-          value = {formik.values.promocode}
-          onValueChange = {formik.handleChange}
-          onBlur={formik.handleBlur}
-          error = {formik.errors.promocode}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
           <label htmlFor="description">{t(Vocabulary.FULL_DESCRIPTION)}</label>
@@ -266,7 +266,7 @@ function CreateDiscount({
               placeholder = {t(Vocabulary.DISCOUNT_FLAT)}
               label = {t(Vocabulary.DISCOUNT_FLAT)}
               name = "flatAmount"
-              type = "text"
+              type = "number"
               className={styles.inputContainer}
               value = {formik.values.flatAmount}
               onValueChange = {formik.handleChange}
@@ -277,7 +277,9 @@ function CreateDiscount({
               placeholder = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               label = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               name = "percentage"
-              type = "text"
+              type = "number"
+              min = "0"
+              max = "100"
               className={styles.inputContainer}
               onValueChange = {formik.handleChange}
               value = {formik.values.percentage}
@@ -297,6 +299,7 @@ function CreateDiscount({
                 value={formik.values.startDate}
                 onChange={startDateHandler}
                 returnValue="start"
+                minDate={new Date(Date.now())}
               />
             </div>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
@@ -308,6 +311,7 @@ function CreateDiscount({
                 value={formik.values.expirationDate}
                 onChange={expirationDateHandler}
                 returnValue="end"
+                minDate={new Date(new Date().getTime() + (24 * 60 * 60 * 1000))}
               />
             </div>
             {(formik.errors.startDate || formik.errors.expirationDate)
