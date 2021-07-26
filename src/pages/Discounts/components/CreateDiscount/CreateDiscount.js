@@ -111,21 +111,21 @@ function CreateDiscount({
 
     switch (name) {
       case 'categoryId':
-        formik.setFieldValue('tags', [], true);
-        formik.setFieldValue('tagIds', [], true);
+        formik.setFieldValue('tags', [], false);
+        formik.setFieldValue('tagIds', [], false);
         break;
       case 'vendorId':
-        formik.setFieldValue('locationIds', [], true);
-        formik.setFieldValue('locations', [], true);
+        formik.setFieldValue('locationIds', [], false);
+        formik.setFieldValue('locations', [], false);
         setDiscountVendor(selected);
         break;
       case 'tags':
-        formik.setFieldValue('tagIds', value, true);
-        formik.setFieldValue('tags', selected, true);
+        formik.setFieldValue('tagIds', value);
+        formik.setFieldValue('tags', selected);
         break;
       case 'locations':
-        formik.setFieldValue('locationIds', value, true);
-        formik.setFieldValue('locations', selected, true);
+        formik.setFieldValue('locationIds', value);
+        formik.setFieldValue('locations', selected);
         break;
       default:
     }
@@ -227,7 +227,6 @@ function CreateDiscount({
           isMulti={true}
           onChange = {onSelectValueChange}
           error = {formik.errors.tags}
-          onBlur={formik.handleBlur}
         />
         <FileInput
           image={formik.values.imageUrl}
