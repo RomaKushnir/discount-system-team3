@@ -1,3 +1,4 @@
+@import '../../variables.scss';
 .container {
   display: flex;
   padding: 10px 0;
@@ -29,7 +30,49 @@
             padding: 0.7rem 2rem;
           }
         }
+
+        .tooltip {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 200px;
+          background-color: $color--blue-light;
+
+          color: $color--primary-white;
+          text-align: center;
+          border-radius: 6px;
+          padding: 8px 0;
+          bottom: 100%;
+          left: 50%;
+          margin-left: -100px; 
+          position: absolute;
+          z-index: 1;
+        }
+        
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+        }
           
     }
 
+}
+
+@media(max-width: 425px) {
+  .container {
+    justify-content: center;
+  }
+  .filtersContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    .filtersContainer {
+      .buttonContainer {
+        align-self: initial;
+      }
+    }
+  }
 }

@@ -24,13 +24,13 @@ import Vocabulary from '../../translations/vocabulary';
 function Vendors() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
   const [vendor, setVendor] = useState(null);
   const vendors = useSelector(getVendorsList);
   const getVendorsStatus = useSelector((state) => state.vendorReducer.getVendorsStatus);
   const vendorsFiltersApplied = useSelector((state) => state.vendorReducer.vendorsFiltersApplied);
   const vendorsFilters = useSelector((state) => state.vendorReducer.vendorsFilters);
   const user = useSelector((state) => state.userReducer.user);
+  const addVendorModalStatus = useSelector((state) => state.vendorReducer.addVendorModalStatus);
 
   useEffect(() => {
     dispatch(actions.locationActions.getCountries());
@@ -42,7 +42,7 @@ function Vendors() {
   useVendorsQueryChecker();
 
   const onModalOpen = useCallback((e, id) => {
-    setIsOpen(true);
+    dispatch(actions.vendorActions.addVendorModalStatus(true));
     dispatch(actions.locationActions.getLocationsList());
 
     if (e.target.name === 'edit') {
@@ -65,8 +65,8 @@ function Vendors() {
   }, [dispatch]);
 
   const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+    dispatch(actions.vendorActions.addVendorModalStatus(false));
+  }, [dispatch]);
 
   const onChangeCountry = (selectedCountry) => {
     dispatch(actions.vendorActions.updateVendorsFilters({ country: selectedCountry?.countryCode || null }));
@@ -127,9 +127,8 @@ function Vendors() {
           name = "add"
         />}
       </div>
-      <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal isOpen={addVendorModalStatus} onClose={closeModal}>
         <AddVendorModal
-          closeModal={closeModal}
           selectedVendor = {vendor}
         />
       </Modal>

@@ -20,8 +20,7 @@ function LocationModal({
   }), []);
   const validationSchema = useMemo(() => (
     yup.object().shape({
-      countryCode: yup.object().nullable().test('countryCode', 'The fiels is required',
-        (obj) => (obj && obj?.value))
+      countryCode: yup.object().nullable().required('The field is required')
     })
   ), []);
 
@@ -88,7 +87,6 @@ function LocationModal({
           const {
             handleBlur, setFieldValue, resetForm, values, errors, isValid, dirty
           } = formikProps;
-          // console.log('formdata values', values);
           return (
             <Form className={styles.createLocationForm}>
               <div className={styles.twoColumnsWrapper}>
@@ -112,7 +110,6 @@ function LocationModal({
                   placeholder="City"
                   className={styles.inputContainer}
                   onChange={createOnSelectValueChange(setFieldValue, resetForm)}
-                  // value={citiesOptionsAPI.find((el) => el.value === values.city) || null}
                   value={values.city?.value ? values.city : null}
                   onBlur={handleBlur}
                   isSearchable={true}
@@ -125,7 +122,6 @@ function LocationModal({
                 placeholder="Address line"
                 className={styles.inputContainer}
                 onChange={createOnSelectValueChange(setFieldValue, resetForm)}
-                // value={locationsOptionsAPI.find((el) => el.value === values.addressLine) || null}
                 value={values.addressLine?.value ? values.addressLine : null}
                 onBlur={handleBlur}
                 isSearchable={true}
@@ -134,7 +130,7 @@ function LocationModal({
               {createLocationStatus.error && <p>{createLocationStatus.error.message}</p>}
               <Button
                 btnText = "Add location"
-                isDisabled = {!isValid || !dirty}
+                isDisabled = {!isValid || !dirty || createLocationStatus.loading}
                 className={styles.addLocationBtn}
                 type = "submit"
               />

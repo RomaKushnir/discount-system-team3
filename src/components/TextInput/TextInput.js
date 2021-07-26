@@ -13,7 +13,9 @@ function TextInput(
     error,
     required = false,
     className = '',
-    disabled = false
+    disabled = false,
+    min = '',
+    max = ''
   }
 ) {
   return (
@@ -31,6 +33,8 @@ function TextInput(
         onBlur = {onBlur}
         required = {required}
         disabled = {disabled}
+        min = {min}
+        max = {max}
       />
       {error && <div className = {styles.error}>{error}</div>}
     </div>

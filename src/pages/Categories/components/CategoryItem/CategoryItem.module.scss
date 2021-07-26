@@ -52,3 +52,25 @@
 	border-bottom: 1px solid #c0c0c0;
 	margin-bottom: 5px;
 }
+
+@media(max-width: 425px) {
+  .categoryBlock {
+    height: initial;
+    padding: 0;
+  }
+  .buttons {
+    flex-direction: column;
+    & > * + * {
+      margin-top: 10px;
+    }
+    .editBtn {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .categoryText {
+    white-space: initial;
+  }
+}

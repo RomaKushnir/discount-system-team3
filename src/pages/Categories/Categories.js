@@ -16,10 +16,10 @@ import Vocabulary from '../../translations/vocabulary';
 
 function Categories() {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
   const [addCategory, setCategory] = useState(null); // temporary while we don't have categories list
   const categories = useSelector((state) => state.categoryReducer.categories);
-  const dispatch = useDispatch();
+  const createCategoryModalStatus = useSelector((state) => state.categoryReducer.createCategoryModalStatus);
   useEffect(() => {
     dispatch(actions.categoryActions.getCategories());
   }, [dispatch]);
@@ -31,7 +31,7 @@ function Categories() {
     dispatch(actions.categoryActions.clearAddCategoryStatus());
     dispatch(actions.categoryActions.clearAddTagsToCategoryStatus());
     dispatch(actions.categoryActions.clearDeleteTagsFromCategoryStatus());
-    setIsOpen(true);
+    dispatch(actions.categoryActions.createCategoryModalStatus(true));
 
     if (e.target.name === 'edit') {
       const selectedCategory = categories.find((el) => el.id === id);
@@ -45,8 +45,8 @@ function Categories() {
   }, [categories, dispatch]);
 
   const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+    dispatch(actions.categoryActions.createCategoryModalStatus(false));
+  }, [dispatch]);
 
   return (
     <PageWrapper>
@@ -61,9 +61,9 @@ function Categories() {
         <div className={styles.row}>
           <CategoriesList categories={categories} onDelete = {onDelete} onEdit={onModalOpen}/>
         </div>
-        <Modal isOpen={isOpen} onClose={closeModal}>
+        <Modal isOpen={createCategoryModalStatus} onClose={closeModal}>
           <AddCategoryModal
-            onSave={closeModal}
+            // onSave={closeModal}
             selectedCategory = {addCategory}
           />
       </Modal>

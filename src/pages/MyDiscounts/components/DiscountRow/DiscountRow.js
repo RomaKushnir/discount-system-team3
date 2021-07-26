@@ -1,3 +1,5 @@
+import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
+import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import Button from '../../../../components/Button';
 import styles from './DiscountRow.module.scss';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
@@ -9,13 +11,13 @@ function DiscountRow({ discount, onQRCodeClick }) {
   return (
     <div className = {styles.discountContainer}>
       <div className = {styles.img}><img alt = {discount.title} src = {discount.imageUrl}/></div>
-      <div className = {styles.vendor}>{discount.vendor.title}</div>
-      <div className = {styles.category}>{discount.category.title}</div>
+      <div className = {styles.vendor}><StorefrontRoundedIcon/>{discount.vendor.title}</div>
+      <div className = {styles.category}><CategoryRoundedIcon/>{discount.category.title}</div>
       <div className = {styles.title}>{discount.title}</div>
       {discountDate < currentDate
         ? <div className = {styles.button}>
             <Button
-              btnText = "Show QR code"
+              btnText = "QR code"
               name = "qrcode"
               onClick = {() => onQRCodeClick(discount.id)}
               isDisabled = {true}

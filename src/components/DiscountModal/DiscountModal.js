@@ -2,59 +2,84 @@ import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import CategoryRoundedIcon from '@material-ui/icons/CategoryRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import { useCallback, useState, useEffect } from 'react';
+import {
+  useCallback, useState, useEffect, useMemo
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Modal from '../../../../components/Modal';
+import Modal from '../Modal';
 import styles from './DiscountModal.module.scss';
-import ItemActionButton from '../../../../components/ItemActionButton';
-import getMonthAndDay from '../../../../utilities/getMonthAndDay';
-import CreateDiscount from '../CreateDiscount';
-import GoogleMap from '../../../../components/GoogleMap';
-import DeleteConfirmation from '../../../../components/DeleteConfirmation';
-import isAdmin from '../../../../utilities/isAdmin';
-import SelectField from '../../../../components/SelectField';
-import DiscountTag from '../../../../components/DiscountTag';
-import Vocabulary from '../../../../translations/vocabulary';
-import * as actions from '../../../../store/actions';
+import ItemActionButton from '../ItemActionButton';
+import getMonthAndDay from '../../utilities/getMonthAndDay';
+import CreateDiscount from '../../pages/Discounts/components/CreateDiscount';
+import GoogleMap from '../GoogleMap';
+import DeleteConfirmation from '../DeleteConfirmation';
+import isAdmin from '../../utilities/isAdmin';
+import SelectField from '../SelectField';
+import DiscountTag from '../DiscountTag';
+import Vocabulary from '../../translations/vocabulary';
+import * as actions from '../../store/actions';
 
 function DiscountModal({
-  discount, onClose, isOpen, onDeleteDiscount, favouriteDiscounts, loadingStatus, modalContainerClasses = ''
+  discount, onClose, isOpen, onDeleteDiscount, loadingStatus, modalContainerClasses = '', doNotShowAdminButtons
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const allLocationsOption = useMemo(() => ({
+    value: null, label: t(Vocabulary.ALL_LOCATIONS)
+  }), [t]);
 
-  const [isLike, setIsLike] = useState(false);
   const [isEditDiscountOpen, setIsEditDiscountOpen] = useState(false);
-  const [selectedMapLocation, setSelectedMapLocation] = useState(null);
-  const [mapZoom, setMapZoom] = useState(5);
+  const [selectedMapLocation, setSelectedMapLocation] = useState(allLocationsOption);
+  const [mapZoom, setMapZoom] = useState(null);
   const user = useSelector((state) => state.userReducer.user);
+  const favourites = useSelector((state) => state.discountsReducer.favourites);
+  const deleteFavoriteStatus = useSelector((state) => state.discountsReducer.deleteDiscountFromFavouritesStatus);
+  const addFavoriteStatus = useSelector((state) => state.discountsReducer.addDiscountsToFavouritesStatus);
+  const [isLike, setIsLike] = useState(null);
 
-  const onFavouriteClick = (e, id) => {
+  // eslint-disable-next-line consistent-return
+  const onFavouriteClick = useCallback((e, id) => {
+    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
     e.stopPropagation();
+    const params = {
+      discountId: id,
+      userId: user.id,
+      discount
+    };
     if (isLike) {
-      favouriteDiscounts.filter((el) => el !== id);
-      setIsLike(false);
+      dispatch(actions.discountsActions.deleteDiscountsFromFavourites(params));
     } else {
-      favouriteDiscounts.push(id);
-      setIsLike(true);
+      dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
-  };
+    setIsLike(!isLike);
+  }, [dispatch, user, isLike, discount, addFavoriteStatus, deleteFavoriteStatus]);
 
   // clean up edit modal state
   useEffect(() => () => {
     if (isEditDiscountOpen) setIsEditDiscountOpen(false);
   });
 
+  useEffect(() => {
+    if (discount) setIsLike(Boolean(favourites.find((el) => el.id === discount.id)));
+  }, [discount, favourites]);
+
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteDiscountStatus = useSelector((state) => state.discountsReducer.deleteDiscountStatus);
-  const locationsList = discount ? discount.locations.map((location) => {
-    const option = {
-      value: { lat: location.latitude, lng: location.longitude },
-      label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
-    };
-    return option;
-  }) : null;
+  const userDiscounts = useSelector((state) => state.discountsReducer.discountsByUser);
+  const locationsList = useMemo(() => {
+    if (discount) {
+      const mappedLocations = discount.locations.map((location) => ({
+        value: { lat: location.latitude, lng: location.longitude },
+        label: `${location.countryCode}, ${location.city}, ${location.addressLine}`
+      }));
+      mappedLocations.unshift(allLocationsOption);
+      return mappedLocations;
+    }
+    return null;
+  }, [discount, allLocationsOption]);
+
+  const [isActivateDisabled, setIsActivateDisabled] = useState(!!userDiscounts?.find((el) => el.id === discount?.id));
 
   const onEditClick = useCallback(() => {
     dispatch(actions.discountsActions.clearCreateDiscountStatus());
@@ -67,6 +92,7 @@ function DiscountModal({
   };
   const onActivateClick = () => {
     dispatch(actions.discountsActions.activateDiscount({ discountId: discount.id, userId: user.id }));
+    setIsActivateDisabled(true);
   };
   const onDelete = useCallback(() => {
     setConfirmModalOpen(true);
@@ -80,7 +106,8 @@ function DiscountModal({
   };
   const onLocationChange = (selected) => {
     setSelectedMapLocation(selected);
-    setMapZoom(10);
+    if (selected.value !== null) setMapZoom(13);
+    else setMapZoom(null);
   };
 
   const tagsList = discount?.tags.map((item) => (<li key={item.id}>#{item.name}&nbsp;</li>));
@@ -99,7 +126,7 @@ function DiscountModal({
       name = "delete"
     />
   </div>;
-  const adminBtns = isAdmin(user) ? adminBtnsLayout : null;
+  const adminBtns = isAdmin(user) && !doNotShowAdminButtons ? adminBtnsLayout : null;
 
   const content = discount ? <div className = {styles.modalContent}>
     <div className = {`${styles.row} ${styles.info}`}>
@@ -114,7 +141,7 @@ function DiscountModal({
       <GoogleMap
         locations={discount.locations}
         onLocationChange={onLocationChange}
-        selectedLocation={selectedMapLocation ? selectedMapLocation.value : locationsList[0]}
+        selectedLocation={selectedMapLocation.value}
         zoom={mapZoom}
       />
     </div>}
@@ -125,10 +152,10 @@ function DiscountModal({
       </div>
     </div>
     <div className = {styles.modalDescr}>{discount.description}</div>
-    <div className = {styles.row}>
+    <div className = {`${styles.row} ${styles.flexWrap}`}>
       <div className = {styles.modalLocation}>
         <SelectField
-          initialValue = {locationsList[0]}
+          initialValue = {locationsList[0].value}
           options = {locationsList}
           label = {t(Vocabulary.LOCATION)}
           onChange = {onLocationChange}
@@ -162,6 +189,8 @@ function DiscountModal({
           title = {t(Vocabulary.ACTIVATE)}
           onActionClick = {onActivateClick}
           name = "activate"
+          isDisabled = {isActivateDisabled}
+          type = {isActivateDisabled ? 'disabled' : 'normal'}
         />
     </div>
   </div> : null;

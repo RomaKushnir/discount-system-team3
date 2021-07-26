@@ -159,3 +159,89 @@ export function clearVendorsFilters() {
     type: types.CLEAR_VENDORS_FILTERS
   };
 }
+
+export function addVendorModalStatus(payload) {
+  return {
+    type: types.ADD_VENDOR_MODAL_STATUS,
+    payload
+  };
+}
+export function getSubscribedVendors() {
+  return {
+    type: types.GET_SUBSCRIBED_VENDORS
+  };
+}
+
+export function getSubscribedVendorsSuccess(payload) {
+  return {
+    type: types.GET_SUBSCRIBED_VENDORS_SUCCESS,
+    payload
+  };
+}
+
+export function getSubscribedVendorsFailure(payload) {
+  return {
+    type: types.GET_SUBSCRIBED_VENDORS_FAILURE,
+    payload
+  };
+}
+
+export function clearSubscribedVendorsStatus() {
+  return {
+    type: types.CLEAR_SUBSCRIBED_VENDORS_STATUS
+  };
+}
+
+export function vendorSubscribe(payload) {
+  return {
+    type: types.VENDOR_SUBSCRIBE,
+    payload
+  };
+}
+
+export function vendorSubscribeSuccess(payload) {
+  return {
+    type: types.VENDOR_SUBSCRIBE_SUCCESS,
+    payload
+  };
+}
+
+export function vendorSubscribeFailure(payload) {
+  return {
+    type: types.VENDOR_SUBSCRIBE_FAILURE,
+    payload
+  };
+}
+
+export function clearVendorSubscribeStatus() {
+  return {
+    type: types.CLEAR_VENDOR_SUBSCRIBE_STATUS
+  };
+}
+
+export function vendorUnsubscribe(payload) {
+  return {
+    type: types.VENDOR_UNSUBSCRIBE,
+    payload
+  };
+}
+
+export function vendorUnsubscribeSuccess(payload) {
+  return {
+    type: types.VENDOR_UNSUBSCRIBE_SUCCESS,
+    payload
+  };
+}
+
+export function vendorUnsubscribeFailure(payload) {
+  return {
+    type: types.VENDOR_UNSUBSCRIBE_FAILURE,
+    payload
+  };
+}
+
+export function clearVendorUnsubscribeStatus() {
+  return {
+    type: types.CLEAR_VENDOR_UNSUBSCRIBE_STATUS
+  };
+}

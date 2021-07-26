@@ -44,7 +44,25 @@ const ua = {
   [Vocabulary.DISCOUNT_PERCENTAGE]: 'Знижка у %',
   [Vocabulary.FROM]: 'З',
   [Vocabulary.TO]: 'По',
-  [Vocabulary.SAVE]: 'Зберегти'
+  [Vocabulary.SAVE]: 'Зберегти',
+  [Vocabulary.UPDATE]: 'Оновити',
+  [Vocabulary.EXPORT_TO_EXCEL]: 'Експортувати в excel',
+  [Vocabulary.UNSUBSCRIBE]: 'Відписатись',
+  [Vocabulary.SUBSCRIBE]: 'Підписатись',
+  [Vocabulary.LOCATIONS]: 'Адреси',
+  [Vocabulary.ALL_LOCATIONS]: 'Всі адреси',
+  [Vocabulary.ACTIVE]: 'Активні',
+  [Vocabulary.ARCHIVE]: 'Архів',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY]: 'Активовані знижки в розрізі категорій',
+  [Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR]: 'Активовані знижки в розрізі контрагентів',
+  [Vocabulary.MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION]: 'Знижки з найбільшою кількістю переглядів (за весь період)',
+  [Vocabulary.VIEWS]: 'Перегляди',
+  [Vocabulary.MOST_ACTIVE_USERS]: 'Найбільш активні користувачі',
+  [Vocabulary.USER_NAME_AND_EMAIL]: 'Ім\'я та електронна адреса користувача',
+  [Vocabulary.DISCOUNT_QUANTITY]: 'Кількість знижок',
+  [Vocabulary.UPLOAD_IMAGE]: 'Завантажити картинку',
+  [Vocabulary.CLEAR]: 'Очистити'
+
 };
 
 export default ua;

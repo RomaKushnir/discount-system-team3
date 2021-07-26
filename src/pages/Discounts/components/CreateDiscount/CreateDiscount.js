@@ -11,6 +11,7 @@ import styles from './CreateDiscount.module.scss';
 import TextInput from '../../../../components/TextInput';
 import SelectField from '../../../../components/SelectField';
 import Button from '../../../../components/Button';
+import FileInput from '../../../../components/FileInput';
 import * as actions from '../../../../store/actions';
 import {
   getCategoriesOptions,
@@ -21,8 +22,7 @@ import Vocabulary from '../../../../translations/vocabulary';
 import combineLocation from '../../../../utilities/combineLocation';
 
 function CreateDiscount({
-  discount,
-  onModalClose
+  discount
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ function CreateDiscount({
   // DEFINE VALUES THAT ARE REQUESTED
   const discountRequest = {
     title: discount?.title || '',
-    imageUrl: discount?.imageUrl || '',
+    imageUrl: discount?.imageUrl || null,
     promocode: discount?.promocode || '',
     description: discount?.description || '',
     shortDescription: discount?.shortDescription || '',
@@ -91,15 +91,6 @@ function CreateDiscount({
     }
   };
 
-  const onOkClick = () => {
-    onModalClose();
-    dispatch(actions.discountsActions.clearCreateDiscountStatus());
-    if (discount?.id) {
-      dispatch(actions.discountsActions.getDiscountById(discount.id));
-    }
-    dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: false, rewriteUrl: false }));
-  };
-
   const formik = useFormik({
     initialValues: discountRequest,
     validationSchema,
@@ -120,25 +111,27 @@ function CreateDiscount({
 
     switch (name) {
       case 'categoryId':
-        formik.setFieldValue('tags', [], true);
-        formik.setFieldValue('tagIds', [], true);
+        formik.setFieldValue('tags', [], false);
+        formik.setFieldValue('tagIds', [], false);
         break;
       case 'vendorId':
-        formik.setFieldValue('locationIds', [], true);
-        formik.setFieldValue('locations', [], true);
+        formik.setFieldValue('locationIds', [], false);
+        formik.setFieldValue('locations', [], false);
         setDiscountVendor(selected);
         break;
       case 'tags':
-        formik.setFieldValue('tagIds', value, true);
-        formik.setFieldValue('tags', selected, true);
+        formik.setFieldValue('tagIds', value);
+        formik.setFieldValue('tags', selected);
         break;
       case 'locations':
-        formik.setFieldValue('locationIds', value, true);
-        formik.setFieldValue('locations', selected, true);
+        formik.setFieldValue('locationIds', value);
+        formik.setFieldValue('locations', selected);
         break;
       default:
     }
   };
+
+  const fileChangeHandler = useCallback((file) => formik.setFieldValue('imageUrl', file), [formik]);
 
   const startDateHandler = useCallback((value) => formik.setFieldValue('startDate', value), [formik]);
 
@@ -163,15 +156,6 @@ function CreateDiscount({
 
   return (
     <div className={styles.modalContent}>
-      {isFormSubmitted
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{createDiscountStatus.success}</div>
-        <Button
-          btnText = {t(Vocabulary.OK)}
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
       {createDiscountStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
@@ -189,6 +173,17 @@ function CreateDiscount({
           error = {formik.errors.title}
         />
         <div className={styles.twoColumnsWrapper}>
+          <TextInput
+            placeholder = {t(Vocabulary.PROMO_CODE)}
+            label = {t(Vocabulary.PROMO_CODE)}
+            name = "promocode"
+            type = "text"
+            className={styles.inputContainer}
+            value = {formik.values.promocode}
+            onValueChange = {formik.handleChange}
+            onBlur={formik.handleBlur}
+            error = {formik.errors.promocode}
+          />
           <SelectField
             options = {vendorsTypeaheadOptions}
             initialValue = {initialVendorOptions}
@@ -201,29 +196,7 @@ function CreateDiscount({
             error = {formik.errors.vendorId}
             onBlur = {onVendorSelectBlur}
           />
-          <SelectField
-            options = {categoriesOptions}
-            initialValue = {initialCategoryOptions}
-            label = {t(Vocabulary.CATEGORY)}
-            name = "categoryId"
-            placeholder = {t(Vocabulary.SELECT_CATEGORY)}
-            className={styles.inputContainer}
-            onChange = {onSelectValueChange}
-            error = {formik.errors.categoryId}
-          />
         </div>
-        <SelectField
-          options = {tagsOptions}
-          value = {initialTagsOptions}
-          label = {t(Vocabulary.TAGS)}
-          name = "tags"
-          placeholder = {t(Vocabulary.SELECT_TAGS)}
-          className={styles.inputContainer}
-          isMulti={true}
-          onChange = {onSelectValueChange}
-          error = {formik.errors.tags}
-          onBlur={formik.handleBlur}
-        />
         <SelectField
           options = {locationOptions}
           value={initialLocationsOptions}
@@ -234,27 +207,32 @@ function CreateDiscount({
           onChange = {onSelectValueChange}
           error = {formik.errors.locations}
         />
-        <TextInput
-          placeholder = {t(Vocabulary.IMAGE_URL)}
-          label = {t(Vocabulary.IMAGE_URL)}
-          name = "imageUrl"
-          type = "url"
+        <SelectField
+          options = {categoriesOptions}
+          initialValue = {initialCategoryOptions}
+          label = {t(Vocabulary.CATEGORY)}
+          name = "categoryId"
+          placeholder = {t(Vocabulary.SELECT_CATEGORY)}
           className={styles.inputContainer}
-          value = {formik.values.imageUrl}
-          onValueChange = {formik.handleChange}
-          onBlur={formik.handleBlur}
-          error = {formik.errors.imageUrl}
+          onChange = {onSelectValueChange}
+          error = {formik.errors.categoryId}
         />
-        <TextInput
-          placeholder = {t(Vocabulary.PROMO_CODE)}
-          label = {t(Vocabulary.PROMO_CODE)}
-          name = "promocode"
-          type = "text"
+        <SelectField
+          options = {tagsOptions}
+          value = {initialTagsOptions}
+          label = {t(Vocabulary.TAGS)}
+          name = "tags"
+          placeholder = {t(Vocabulary.SELECT_TAGS)}
           className={styles.inputContainer}
-          value = {formik.values.promocode}
-          onValueChange = {formik.handleChange}
-          onBlur={formik.handleBlur}
-          error = {formik.errors.promocode}
+          isMulti={true}
+          onChange = {onSelectValueChange}
+          error = {formik.errors.tags}
+        />
+        <FileInput
+          image={formik.values.imageUrl}
+          fileChangeHandler={fileChangeHandler}
+          name="imageUrl"
+          error={formik.errors.imageUrl}
         />
         <div className={`${styles.inputContainer} ${styles.textareaWrapper}`}>
           <label htmlFor="description">{t(Vocabulary.FULL_DESCRIPTION)}</label>
@@ -287,7 +265,7 @@ function CreateDiscount({
               placeholder = {t(Vocabulary.DISCOUNT_FLAT)}
               label = {t(Vocabulary.DISCOUNT_FLAT)}
               name = "flatAmount"
-              type = "text"
+              type = "number"
               className={styles.inputContainer}
               value = {formik.values.flatAmount}
               onValueChange = {formik.handleChange}
@@ -298,7 +276,9 @@ function CreateDiscount({
               placeholder = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               label = {t(Vocabulary.DISCOUNT_PERCENTAGE)}
               name = "percentage"
-              type = "text"
+              type = "number"
+              min = "0"
+              max = "100"
               className={styles.inputContainer}
               onValueChange = {formik.handleChange}
               value = {formik.values.percentage}
@@ -318,6 +298,7 @@ function CreateDiscount({
                 value={formik.values.startDate}
                 onChange={startDateHandler}
                 returnValue="start"
+                minDate={new Date(Date.now())}
               />
             </div>
             <div className={`${styles.labelInputRow} ${styles.inputContainer}`}>
@@ -329,6 +310,7 @@ function CreateDiscount({
                 value={formik.values.expirationDate}
                 onChange={expirationDateHandler}
                 returnValue="end"
+                minDate={new Date(new Date().getTime() + (24 * 60 * 60 * 1000))}
               />
             </div>
             {(formik.errors.startDate || formik.errors.expirationDate)

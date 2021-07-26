@@ -35,4 +35,16 @@
       color: $color--primary-white;
     }
   }
+  &.disabled {
+    border-radius: 5px;
+    background-color: $color--gray-dark;
+    color: $color--primary-white;
+    border: none;
+    padding: 5px 10px;
+    cursor: not-allowed;
+    &:hover {
+      background-color: $color--gray-dark;
+      color: $color--primary-white;
+    }
+  }
 }

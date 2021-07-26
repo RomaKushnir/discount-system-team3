@@ -1,4 +1,4 @@
-@import '../../../../variables.scss';
+@import '../../variables.scss';
 
 .modalContent {
   max-width: 400px;
@@ -8,8 +8,8 @@
   &Header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
+    align-items: center;
+    flex-wrap: nowrap;
   }
   &Title {
     font-size: 1.5rem;
@@ -78,4 +78,16 @@
 }
 .like {
   cursor: pointer;
+}
+
+@media (max-width: 375px) {
+  .mapContainer {
+    width: 100%;
+  }
+  .flexWrap {
+    flex-wrap: wrap;
+  }
+  .dates {
+    margin-top: 10px;
+  }
 }

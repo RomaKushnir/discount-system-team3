@@ -9,10 +9,12 @@ import TextInput from '../../../../components/TextInput';
 import Button from '../../../../components/Button';
 import AddNewItemButton from '../../../../components/AddNewItemButton';
 import AddLocationModal from '../AddLocationModal';
+import FileInput from '../../../../components/FileInput';
 import Modal from '../../../../components/Modal';
+import SUPPORTED_IMG_FORMATS from '../../../../utilities/supportedFormats';
 import * as actions from '../../../../store/actions';
 
-function AddVendorModal({ closeModal, selectedVendor }) {
+function AddVendorModal({ selectedVendor }) {
   const dispatch = useDispatch();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -21,8 +23,14 @@ function AddVendorModal({ closeModal, selectedVendor }) {
 
   const validationSchema = useMemo(() => (yup.object().shape({
     title: yup.string().min(3, 'The field needs to be at least 3 characters').required('The field is required'),
-    email: yup.string().email('Please, enter a valid email').required('The field is required'),
-    imageUrl: yup.string().matches(/https?:\/\/.*\./i, 'The link is not correct').required('The field is required'),
+    email: yup.string().nullable().email('Please, enter a valid email'),
+    phoneNumber: yup.number().typeError('Field value should be a number').nullable(),
+    imageUrl: yup.mixed().nullable().test('imageUrl', 'Wrong file type', (file) => {
+      if (file && typeof file === 'object') {
+        return SUPPORTED_IMG_FORMATS.includes(file.type);
+      }
+      return true;
+    }),
     description: yup.string().min(3, 'The field needs to be at least 3 characters')
       .max(500, 'The field needs to be less then 500 characters').required('The field is required'),
     locations: yup.mixed().test('locations', 'At least one location is required', (val) => !val || val.length)
@@ -56,29 +64,17 @@ function AddVendorModal({ closeModal, selectedVendor }) {
     setFieldValue('locations', filteredLocations);
   };
 
+  const fileChangeHandler = (file) => formikAccess.setFieldValue('imageUrl', file);
+
   const onVendorSubmit = (formData) => {
     const { locations, ...dataRequest } = formData;
     dataRequest.locationIds = formData.locations.map((el) => el.id);
+    dataRequest.email = dataRequest.email || null;
     dispatch(actions.vendorActions.addVendor(dataRequest));
-  };
-
-  const onOkClick = () => {
-    closeModal();
-    dispatch(actions.vendorActions.clearAddVendorStatus());
-    dispatch(actions.vendorActions.applyVendorsFilters({ showMore: false, rewriteUrl: false }));
   };
 
   return (
     <div className = {`${styles.container} ${isLocationModalOpen ? styles.hidden : ''}`}>
-      {addVendorStatus.loading === false && addVendorStatus.success
-      && <div className = {styles.successMessageContainer}>
-        <div className = {styles.successMessage}>{addVendorStatus.success}</div>
-        <Button
-          btnText = "OK"
-          onClick = {onOkClick}
-          type = "submit"
-        />
-      </div>}
       {addVendorStatus.loading === true
       && <div className = {styles.loadingContainer}>
         <CircularProgress />
@@ -122,14 +118,19 @@ function AddVendorModal({ closeModal, selectedVendor }) {
                 />
                 <TextInput
                   onValueChange = {handleChange}
-                  placeholder = "Image Url"
-                  label = "Image Url"
-                  name = "imageUrl"
-                  type = "url"
+                  placeholder = "+380*********"
+                  label = "Phone Number"
                   className={styles.inputContainer}
-                  value = {values.imageUrl}
+                  name = "phoneNumber"
+                  type="text"
+                  value = {values.phoneNumber}
                   onBlur={handleBlur}
-                  error = {errors.imageUrl}
+                  error = {errors.phoneNumber}
+                />
+                <FileInput
+                  image={values.imageUrl}
+                  fileChangeHandler={fileChangeHandler}
+                  name="imageUrl"
                 />
                 <div className={styles.locationBlock}>
                   <div className={styles.locationsList}>

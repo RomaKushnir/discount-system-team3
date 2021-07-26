@@ -15,3 +15,7 @@ export const getVendorDiscounts = (params) => axios.get(`/discounts${params}`);
 export const activateDiscount = (data) => axios.post('/user-discount', data);
 
 export const getDiscountInfo = ({ userId, discountId }) => axios.get(`/qrcode/${userId}/${discountId}`);
+
+export const addDiscountToFavourites = (params) => axios.post(`/discounts/favorites${params}`);
+
+export const deleteDiscountFromFavourites = (params) => axios.delete(`/discounts/favorites${params}`);
