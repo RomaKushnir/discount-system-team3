@@ -24,10 +24,20 @@ export function* getStatistics({ payload }) {
 }
 
 export function* getStatisticsExport({ payload }) {
+  const { formattedPeriod, fileName } = payload;
   try {
-    const searchParams = `?dateFrom=${payload.dateFrom}&dateTo=${payload.dateTo}`;
+    const searchParams = `?dateFrom=${formattedPeriod.dateFrom}&dateTo=${formattedPeriod.dateTo}`;
 
     const response = yield call(api.statistics.getStatisticsExport, searchParams);
+
+    const link = document.createElement('a');
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
     yield put(actions.statisticsActions.getStatisticsExportSuccess(response.data));
   } catch (error) {

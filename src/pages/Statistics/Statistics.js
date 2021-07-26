@@ -33,14 +33,12 @@ function Statistics() {
       dateTo: formatDate(period.dateTo)
     };
     dispatch(actions.statisticsActions.getStatistics(formattedPeriod));
-    dispatch(actions.statisticsActions.getStatisticsExport(formattedPeriod));
     // eslint-disable-next-line
   }, []);
 
   const statistics = useSelector((state) => state.statisticsReducer.statistics);
   const getStatistics = useSelector((state) => state.statisticsReducer.getStatisticsStatus);
   const discountById = useSelector((state) => state.discountsReducer.discountById);
-  const statisticsExport = useSelector((state) => state.statisticsReducer.statisticsExport);
 
   const categoryStatistics = statistics?.popularCategoriesStats.map((el, index) => ({
     name: el.title || el.othersTitle,
@@ -68,7 +66,6 @@ function Statistics() {
       dateTo: formatDate(period.dateTo)
     };
     dispatch(actions.statisticsActions.getStatistics(formattedPeriod));
-    dispatch(actions.statisticsActions.getStatisticsExport(formattedPeriod));
   };
 
   const onExcelExport = () => {
@@ -78,18 +75,9 @@ function Statistics() {
     };
 
     const fileName = `Statistics${formattedPeriod.dateFrom.split('.')
-      .join('_')}-${formattedPeriod.dateFrom.split('.').join('_')}.xlsx`;
+      .join('_')}-${formattedPeriod.dateTo.split('.').join('_')}.xlsx`;
 
-    if (statisticsExport) {
-      const link = document.createElement('a');
-      const url = window.URL.createObjectURL(new Blob([statisticsExport]));
-      link.setAttribute('href', url);
-      link.setAttribute('download', fileName);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    dispatch(actions.statisticsActions.getStatisticsExport({ formattedPeriod, fileName }));
   };
   const onCellClick = (vendorId) => {
     if (!vendorId) {
@@ -174,14 +162,14 @@ function Statistics() {
           </div>
         </div>
         <div className = {styles.dataContainers}>
-          { categoryStatistics && <div className = {styles.pieChartContainer}>
+          { categoryStatistics?.length > 0 && <div className = {styles.pieChartContainer}>
           <div className = {styles.chartTitle}>{t(Vocabulary.ACTIVATED_DISCOUNTS_BY_CATEGORY)}</div>
             <PieChartComponent
               data = {categoryStatistics}
               width = "280"
             />
           </div>}
-          { vendorStatistics && <div className = {styles.pieChartContainer}>
+          { vendorStatistics?.length > 0 && <div className = {styles.pieChartContainer}>
           <div className = {styles.chartTitle}>{t(Vocabulary.ACTIVATED_DISCOUNTS_BY_VENDOR)}</div>
             <PieChartComponent
               data = {vendorStatistics}
@@ -190,7 +178,7 @@ function Statistics() {
               cursor = "pointer"
             />
           </div>}
-          { statistics?.popularDiscountsStats && <div className = {styles.list}>
+          { statistics?.popularDiscountsStats?.length > 0 && <div className = {styles.list}>
             <div className = {styles.listTitle}>{t(Vocabulary.MOST_VIEWED_DISCOUNTS_SINCE_INCEPTION)}</div>
             <table className = {styles.listItems}>
               <thead>
@@ -209,7 +197,7 @@ function Statistics() {
               </tbody>
             </table>
           </div>}
-          { statistics?.mostActiveUsersStats && <div className = {styles.list}>
+          { statistics?.mostActiveUsersStats?.length > 0 && <div className = {styles.list}>
             <div className = {styles.listTitle}>{t(Vocabulary.MOST_ACTIVE_USERS)}</div>
             <table className = {styles.listItems}>
               <thead>
