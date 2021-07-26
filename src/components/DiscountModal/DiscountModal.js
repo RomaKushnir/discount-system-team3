@@ -34,13 +34,18 @@ function DiscountModal({
   const [mapZoom, setMapZoom] = useState(null);
   const user = useSelector((state) => state.userReducer.user);
   const favourites = useSelector((state) => state.discountsReducer.favourites);
+  const deleteFavoriteStatus = useSelector((state) => state.discountsReducer.deleteDiscountFromFavouritesStatus);
+  const addFavoriteStatus = useSelector((state) => state.discountsReducer.addDiscountsToFavouritesStatus);
   const [isLike, setIsLike] = useState(null);
 
+  // eslint-disable-next-line consistent-return
   const onFavouriteClick = useCallback((e, id) => {
+    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
     e.stopPropagation();
     const params = {
       discountId: id,
-      userId: user.id
+      userId: user.id,
+      discount
     };
     if (isLike) {
       dispatch(actions.discountsActions.deleteDiscountsFromFavourites(params));
@@ -48,7 +53,7 @@ function DiscountModal({
       dispatch(actions.discountsActions.addDiscountsToFavourites(params));
     }
     setIsLike(!isLike);
-  }, [dispatch, user, isLike]);
+  }, [dispatch, user, isLike, discount, addFavoriteStatus, deleteFavoriteStatus]);
 
   // clean up edit modal state
   useEffect(() => () => {

@@ -315,8 +315,10 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.ADD_DISCOUNTS_TO_FAVOURITES_SUCCESS: {
+      const { payload } = action;
       return {
         ...state,
+        favourites: [...state.favourites, payload],
         addDiscountsToFavouritesStatus: helpers.getSuccessState('Success!')
       };
     }
@@ -340,8 +342,10 @@ const discountsReducer = (state = initialState, action) => {
       };
     }
     case types.DELETE_DISCOUNTS_FROM_FAVOURITES_SUCCESS: {
+      const { payload } = action;
       return {
         ...state,
+        favourites: state.favourites.filter((el) => el.id !== payload),
         deleteDiscountFromFavouritesStatus: helpers.getSuccessState('Success!')
       };
     }

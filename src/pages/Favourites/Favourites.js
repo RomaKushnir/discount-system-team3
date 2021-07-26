@@ -18,8 +18,8 @@ function Favourites() {
   const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
 
   useEffect(() => {
-    dispatch(actions.discountsActions.getFavourites(user.id));
-  }, [dispatch, user.id]);
+    if (!favourites.length) dispatch(actions.discountsActions.getFavourites(user.id));
+  }, [dispatch, user.id, favourites]);
 
   const onCardClick = useCallback((e, id) => {
     dispatch(actions.discountsActions.getDiscountById(id));

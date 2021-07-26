@@ -151,7 +151,8 @@ export function* addDiscountsToFavourites({ payload }) {
   const params = `?userId=${payload.userId}&discountId=${payload.discountId}`;
   try {
     yield call(api.discounts.addDiscountToFavourites, params);
-    yield put(actions.discountsActions.addDiscountsToFavouritesSuccess());
+    yield put(actions.discountsActions.addDiscountsToFavouritesSuccess(payload.discount));
+    toast.success('Successfully added to favorites');
   } catch (error) {
     yield put(actions.discountsActions.addDiscountsToFavouritesFailure(error));
     toast.error(`Error: ${error.response.data.error}`);
@@ -162,7 +163,8 @@ export function* deleteDiscountsFromFavourites({ payload }) {
   const params = `?userId=${payload.userId}&discountId=${payload.discountId}`;
   try {
     yield call(api.discounts.deleteDiscountFromFavourites, params);
-    yield put(actions.discountsActions.deleteDiscountsFromFavouritesSuccess());
+    yield put(actions.discountsActions.deleteDiscountsFromFavouritesSuccess(payload.discountId));
+    toast.success('Successfully deleted from favorites');
   } catch (error) {
     yield put(actions.discountsActions.deleteDiscountsFromFavouritesFailure(error));
     toast.error(`Error: ${error.response.data.error}`);
