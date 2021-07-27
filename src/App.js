@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Router,
@@ -21,11 +22,16 @@ import Vendors from './pages/Vendors';
 import isAdmin from './utilities/isAdmin';
 import InfoPage from './pages/InfoPage';
 import history from './history';
+import ThemeMode from './utilities/theme-context';
 
 function App() {
   const user = useSelector((state) => state.userReducer.user);
+  const [mode, setMode] = useState(ThemeMode);
+  const theme = localStorage.getItem('theme');
+  document.documentElement.setAttribute('theme', theme);
   return (
-    <Router history = {history}>
+    <ThemeMode.Provider value = {[mode, setMode]}>
+      <Router history = {history}>
       <div className="App">
         <Switch>
           <PublicRoute path = {Routes.DISCOUNT_INFO} component = {InfoPage}/>
@@ -46,6 +52,7 @@ function App() {
         <ToastContainer/>
       </div>
     </Router>
+    </ThemeMode.Provider>
   );
 }
 
