@@ -133,21 +133,19 @@ function Vendors() {
         />
       </Modal>
         <div>
-          {getVendorsStatus.loading === true
-            && <div className = {styles.loadingContainer}>
-            <CircularProgress />
-          </div>}
-          {getVendorsStatus.loading === false
-            && <>
+          <>
             <VendorsList
               vendors={vendors}
               onEdit = {onModalOpen}
               onDelete = {onDelete}
             />
+            {getVendorsStatus.loading === true
+              && <div className = {styles.loadingContainer}>
+              <CircularProgress />
+            </div>}
             {vendorsFiltersApplied.pageNumber + 1 < vendorsFiltersApplied.totalPages
               && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)}onShowMoreClick={onShowMoreClick} />}
-            </>
-            }
+          </>
       </div>
     </div>
   </PageWrapper>

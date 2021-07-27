@@ -3,7 +3,7 @@ import VendorListItem from '../VendorListItem';
 
 function VendorsList({ vendors, onEdit, onDelete }) {
   return (
-    <div>
+    <div className={styles.listContainer}>
       {vendors.length
         ? vendors.map(
           (vendor) => <VendorListItem vendor={vendor} key={vendor.id} onEdit = {onEdit} onDelete = {onDelete}/>
