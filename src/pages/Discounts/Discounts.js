@@ -128,7 +128,7 @@ function Discounts() {
       dispatch(actions.discountsActions.applyDiscountsFilters({ showMore: true, rewriteUrl: false }));
     }
   };
-  const onCardClick = useCallback((e, id) => {
+  const onCardClick = useCallback((id) => {
     dispatch(actions.discountsActions.getDiscountById(id));
     setIsDiscountModalShown(true);
   }, [dispatch]);
