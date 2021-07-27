@@ -96,13 +96,22 @@
   display: none;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 500px) {
   .modalContent {
     width: 100%;
-    min-width: 350px;
+    min-width: 92vw;
+    padding: 0;
+    .twoColumnsWrapper {
+      & > div {
+        width: 80%;
+        max-width: 250px;
+      }
+    }
     .discountDateSection {
       flex-direction: column;
-      align-items: flex-start;
+      & > div:first-child {
+        margin-bottom: 10px;
+      }
     }
   }
 }

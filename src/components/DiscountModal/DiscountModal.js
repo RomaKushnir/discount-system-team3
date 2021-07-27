@@ -57,7 +57,10 @@ function DiscountModal({
 
   // clean up edit modal state
   useEffect(() => () => {
-    if (isEditDiscountOpen) setIsEditDiscountOpen(false);
+    if (isEditDiscountOpen) {
+      setIsEditDiscountOpen(false);
+      onClose();
+    }
   });
 
   useEffect(() => {

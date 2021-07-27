@@ -30,7 +30,7 @@
 
       .closeButton {
         border-radius: 5px;
-        position: fixed;
+        position: absolute;
         z-index: 1;
 
           &:hover {
@@ -62,7 +62,7 @@
 @media (max-width: 768px) {
   .overlay {
     .contentContainer {
-      max-width: 95%;
+      max-width: 100%;
     }
   }
 }
