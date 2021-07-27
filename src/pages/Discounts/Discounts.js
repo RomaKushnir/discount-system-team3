@@ -168,12 +168,7 @@ function Discounts() {
               />}
             </div>
             <div className = {styles.discountsContainer}>
-            {getDiscountsStatus.loading === true
-              && <div className = {styles.loadingContainer}>
-              <CircularProgress />
-            </div>}
-            {getDiscountsStatus.loading === false
-              && <>
+            <>
               <DiscountList
                 discounts = {discountsArray}
                 onCardClick = {onCardClick}
@@ -188,10 +183,13 @@ function Discounts() {
                 loadingStatus = {getDiscountByIdStatus.loading}
                 modalContainerClasses = {styles.modalMinSize}
               />
+              {getDiscountsStatus.loading === true
+                && <div className = {styles.loadingContainer}>
+                <CircularProgress />
+              </div>}
               {discountsFiltersApplied.pageNumber + 1 < discountsFiltersApplied.totalPages
                   && <Pagination btnTitle={t(Vocabulary.SHOW_MORE)} onShowMoreClick={onShowMoreClick} />}
-              </>
-            }
+            </>
             </div>
           </div>
         <Modal
