@@ -22,3 +22,10 @@
   margin-left: auto;
   margin-top: 40px;
 }
+
+@media (max-width: 500px) {
+  .addLocationContainer {
+    width: 100%;
+    min-width: 93vw;
+  }
+}

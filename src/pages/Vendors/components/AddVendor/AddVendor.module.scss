@@ -91,19 +91,9 @@
   display: none;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 500px) {
   .container {
-    width: initial;
-    min-width: 385px;
-  }
-}
-@media (max-width: 375px) {
-  .container {
-    min-width: 340px;
-  }
-}
-@media (max-width: 320px) {
-  .container {
-    min-width: 285px;
+    width: 100%;
+    min-width: 93vw;
   }
 }

@@ -4,13 +4,16 @@ import Button from '../../../../components/Button';
 import styles from './DiscountRow.module.scss';
 import getMonthAndDay from '../../../../utilities/getMonthAndDay';
 import DiscountTag from '../../../../components/DiscountTag';
+import noImg from '../../../../assets/images/noImg.png';
 
 function DiscountRow({ discount, onQRCodeClick }) {
   const currentDate = new Date();
   const discountDate = new Date(discount.expirationDate);
   return (
     <div className = {styles.discountContainer}>
-      <div className = {styles.img}><img alt = {discount.title} src = {discount.imageUrl}/></div>
+      <div className = {styles.img}>
+        <img alt = {discount.title} src = {discount.imageUrl || noImg}/>
+      </div>
       <div className = {styles.vendor}><StorefrontRoundedIcon/>{discount.vendor.title}</div>
       <div className = {styles.category}><CategoryRoundedIcon/>{discount.category.title}</div>
       <div className = {styles.title}>{discount.title}</div>
