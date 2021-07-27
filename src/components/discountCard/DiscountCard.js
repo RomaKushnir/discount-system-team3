@@ -33,8 +33,8 @@ function DiscountCard({
   }, [])), [discount]);
   // eslint-disable-next-line consistent-return
   const onFavouriteClick = useCallback((e) => {
-    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
     e.stopPropagation();
+    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
 
     const params = {
       discountId: discount.id,

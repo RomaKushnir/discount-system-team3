@@ -18,8 +18,9 @@ function Favourites() {
   const getDiscountByIdStatus = useSelector((state) => state.discountsReducer.getDiscountByIdStatus);
 
   useEffect(() => {
-    if (!favourites.length) dispatch(actions.discountsActions.getFavourites(user.id));
-  }, [dispatch, user.id, favourites]);
+    dispatch(actions.discountsActions.getFavourites(user.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onCardClick = useCallback((id) => {
     dispatch(actions.discountsActions.getDiscountById(id));

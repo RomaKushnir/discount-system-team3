@@ -40,8 +40,9 @@ function DiscountModal({
 
   // eslint-disable-next-line consistent-return
   const onFavouriteClick = useCallback((e, id) => {
-    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
     e.stopPropagation();
+    if (addFavoriteStatus.loading || deleteFavoriteStatus.loading) return false;
+
     const params = {
       discountId: id,
       userId: user.id,
