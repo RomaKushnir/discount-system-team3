@@ -1,5 +1,12 @@
 @import './variables.scss';
 
+html[theme="dark"] {
+  filter: hue-rotate(180deg) invert(.9);
+}
+body {
+  background: #fff;
+}
+
 .App {
   font-size: 16px;
 }
