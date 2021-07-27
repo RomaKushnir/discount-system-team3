@@ -1,4 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import {
+  useState, useCallback, useEffect, useContext
+} from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -12,6 +14,8 @@ import OutlineButton from '../OutlineButton';
 import isAdmin from '../../utilities/isAdmin';
 import SelectField from '../SelectField';
 import Vocabulary from '../../translations/vocabulary';
+import Switcher from '../Switcher';
+import ThemeMode from '../../utilities/theme-context';
 
 const linkStyles = styles.navItemLink;
 const navItemStyles = styles.navItem;
@@ -50,6 +54,26 @@ function Header() {
   useEffect(() => {
     dispatch(actions.userActions.setMobileNavigation(false));
   }, [dispatch]);
+
+  const [mode, setMode] = useContext(ThemeMode);
+
+  // useEffect for fix bug with themeSwitcher
+  useEffect(() => {
+    if (mode === 'light') {
+      setMode('light');
+    } else {
+      setMode('dark');
+    }
+  }, [mode, setMode]);
+
+  const onSwitchMode = () => {
+    if (mode === 'light') {
+      setMode('dark');
+    } else {
+      setMode('light');
+    }
+    localStorage.setItem('theme', mode);
+  };
 
   return (
     <header className={styles.header}>
@@ -119,6 +143,10 @@ function Header() {
         </ul>
       </nav>
       }
+      <Switcher
+        onSwitchMode = {onSwitchMode}
+        mode = {mode}
+      />
       <div className={styles.switchLang}>
         <SelectField
           value={Languages.find((el) => el.value === lang)}
