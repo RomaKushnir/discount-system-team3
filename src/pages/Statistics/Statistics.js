@@ -141,6 +141,7 @@ function Statistics() {
                   onChange={dateToHandler}
                   returnValue="end"
                   minDate={new Date(period.dateFrom)}
+                  maxDate={new Date(Date.now())}
                 />
               </div>
           </div>
@@ -208,9 +209,9 @@ function Statistics() {
                 </thead>
               <tbody>
                 {statistics?.mostActiveUsersStats.map((el) => (
-                <tr key = {el.id}>
-                  <td>{el.lastName} {el.firstName}, {el.email}</td>
-                  <td className = {styles.quantity}>{el.quantity}</td>
+                <tr key = {el.id || el.othersTitle}>
+                  {el?.email ? <td>{el.lastName} {el.firstName}, {el.email}</td> : <td>{el.othersTitle}</td>}
+                  <td className = {styles.quantity}>{el.quantity || el.othersQuantity}</td>
                 </tr>))}
               </tbody>
             </table>
