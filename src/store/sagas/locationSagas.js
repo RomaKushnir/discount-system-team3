@@ -11,7 +11,7 @@ import * as api from '../../api';
 
 export function* getLocations({ payload }) {
   try {
-    const searchParams = `?query=city:${payload}`;
+    const searchParams = `?query=city:${payload}&size=30`;
 
     const response = yield call(api.locations.getLocations, searchParams);
 

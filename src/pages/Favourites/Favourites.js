@@ -19,6 +19,7 @@ function Favourites() {
 
   useEffect(() => {
     dispatch(actions.discountsActions.getFavourites(user.id));
+    dispatch(actions.discountsActions.getDiscountsByUser(user.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
